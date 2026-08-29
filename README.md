@@ -1,66 +1,121 @@
 # Learn TailwinCSS
 *Day By Day*
 
-## 🚀 Tailwind CSS — Day 2
+# 🚀 Tailwind CSS — Day 3
+
+## 🎨 Color System + Typography
+
+আজ আমরা Tailwind CSS-এর দুটি অত্যন্ত গুরুত্বপূর্ণ বিষয় শিখব:
+
+1. **Color System**
+2. **Typography**
+
+আপনি যেহেতু React/MERN developer, এগুলো ভালোভাবে আয়ত্ত করতে পারলে **Dashboard, E-commerce, Portfolio, Landing Page**—সব ধরনের UI তৈরি করা অনেক সহজ হবে।
 
 
 
-## ⏰ আজকের ১ ঘণ্টার পরিকল্পনা
 
-| সময়      | কাজ                 |
-| -------- | ------------------- |
-| 15 মিনিট | Concept             |
-| 30 মিনিট | Coding Practice     |
-| 15 মিনিট | Homework + Revision |
+# 🟢 Part 1 — Tailwind Color System
 
----
-
-## ১️⃣ Background Color
-
-Tailwind-এ background color দেওয়ার জন্য ব্যবহার করবেন:
+Tailwind-এ color সাধারণত এই pattern অনুসরণ করে:
 
 ```text
-bg-*
+property-color-shade
 ```
 
 যেমন:
 
-```html
-<div class="bg-blue-500">
-  Hello
-</div>
+```text
+bg-blue-500
+text-red-600
+border-green-400
 ```
 
 এখানে:
 
 ```text
-bg → background
-blue → color
-500 → shade
-```
+bg
+ ↓
+Property
 
-### কিছু গুরুত্বপূর্ণ উদাহরণ
+blue
+ ↓
+Color
 
-```html
-<div class="bg-red-500"></div>
-<div class="bg-green-500"></div>
-<div class="bg-blue-500"></div>
-<div class="bg-yellow-400"></div>
-<div class="bg-purple-500"></div>
-<div class="bg-gray-200"></div>
-<div class="bg-black"></div>
-<div class="bg-white"></div>
+500
+ ↓
+Shade
 ```
 
 ---
 
-## 🎨 Color Shade কী?
+# 🎨 1. Background Color
+
+```html
+<div class="bg-blue-500">
+  Blue Background
+</div>
+```
+
+আরও কিছু:
+
+```html
+<div class="bg-red-500">Red</div>
+<div class="bg-green-500">Green</div>
+<div class="bg-yellow-400">Yellow</div>
+<div class="bg-purple-500">Purple</div>
+<div class="bg-pink-500">Pink</div>
+<div class="bg-gray-800">Dark Gray</div>
+```
+
+---
+
+# 🎨 2. Text Color
+
+```html
+<p class="text-blue-600">
+  Blue Text
+</p>
+```
+
+উদাহরণ:
+
+```html
+<p class="text-gray-900">Heading</p>
+
+<p class="text-gray-600">Description</p>
+
+<p class="text-red-500">Error Message</p>
+
+<p class="text-green-600">Success Message</p>
+```
+
+---
+
+# 🎨 3. Border Color
+
+```html
+<div class="border border-blue-500">
+  Content
+</div>
+```
+
+অথবা:
+
+```html
+<input class="border border-gray-300" />
+```
+
+---
+
+# 🔢 Color Shades বুঝুন
 
 একই color-এর বিভিন্ন shade থাকে।
 
 উদাহরণ:
 
 ```text
+blue-50
 blue-100
 blue-200
 blue-300
@@ -70,535 +125,620 @@ blue-600
 blue-700
 blue-800
 blue-900
+950
 ```
 
 সাধারণভাবে:
 
 ```text
-100 → হালকা
-500 → মাঝামাঝি
-900 → গাঢ়
+50
+↓
+সবচেয়ে হালকা
+
+500
+↓
+মাঝারি
+
+900 / 950
+↓
+সবচেয়ে গাঢ়
 ```
+
+উদাহরণ:
+
+```html
+<div class="bg-blue-100">Light</div>
+<div class="bg-blue-500">Medium</div>
+<div class="bg-blue-900">Dark</div>
+```
+
+---
+
+# 🧠 একটি গুরুত্বপূর্ণ Design Pattern
+
+Professional UI-তে সাধারণত background এবং text-এর contrast রাখা হয়।
 
 যেমন:
 
 ```html
-<button class="bg-blue-500">
-  Button 1
-</button>
-
-<button class="bg-blue-700">
-  Button 2
-</button>
+<div class="bg-blue-600 text-white">
+  Welcome
+</div>
 ```
 
-দ্বিতীয় button-টি বেশি গাঢ় হবে।
+আবার light background:
+
+```html
+<div class="bg-blue-50 text-blue-900">
+  Welcome
+</div>
+```
+
+এটি UI design-এ খুব useful pattern।
 
 ---
 
-## ২️⃣ Text Color
+# 🟢 Part 2 — Typography
 
-Text-এর color পরিবর্তন করতে:
+Typography মানে হলো আপনার text-এর:
 
-```text
-text-*
-```
+* Size
+* Weight
+* Line height
+* Letter spacing
+* Alignment
 
-উদাহরণ:
+ইত্যাদি নিয়ন্ত্রণ করা।
 
-```html
-<p class="text-red-500">
-  Error
-</p>
+---
 
-<p class="text-green-500">
-  Success
-</p>
-
-<p class="text-blue-600">
-  Information
-</p>
-
-<p class="text-gray-700">
-  Description
-</p>
-```
-
-######## খুব গুরুত্বপূর্ণ
-
-`text-*` শুধু color-এর জন্য নয়।
+# 1️⃣ Font Size
 
 Tailwind-এ:
 
 ```text
-text-gray-600
-```
-
-মানে **text color**।
-
-কিন্তু:
-
-```text
+text-xs
+text-sm
+text-base
+text-lg
+text-xl
 text-2xl
-```
-
-মানে **font size**।
-
-অর্থাৎ `text-` prefix-এর পরের অংশ দেখে বুঝতে হবে এটি color নাকি size।
-
----
-
-## ৩️⃣ Border
-
-Border দেওয়ার জন্য:
-
-```text
-border
+text-3xl
+text-4xl
+text-5xl
+text-6xl
 ```
 
 উদাহরণ:
 
 ```html
-<div class="border">
-  Content
-</div>
+<p class="text-sm">
+  Small Text
+</p>
+
+<p class="text-base">
+  Normal Text
+</p>
+
+<p class="text-xl">
+  Large Text
+</p>
+
+<h1 class="text-4xl">
+  Big Heading
+</h1>
 ```
 
-### Border-এর color
+---
 
-```html
-<div class="border border-gray-300">
-  Content
-</div>
+# 📌 সাধারণভাবে কখন কোনটা ব্যবহার করবেন?
+
+একটি website-এ আপনি এমন hierarchy রাখতে পারেন:
+
+```text
+Hero Heading
+    ↓
+text-4xl / text-5xl
+
+Section Heading
+    ↓
+text-2xl / text-3xl
+
+Card Heading
+    ↓
+text-xl / text-2xl
+
+Normal Text
+    ↓
+text-base
+
+Small Text
+    ↓
+text-sm
 ```
 
-### Border-এর thickness
+---
 
-```html
-<div class="border-2">
-  Content
-</div>
+# 2️⃣ Font Weight
+
+Font-এর thickness পরিবর্তন করতে:
+
+```text
+font-thin
+font-light
+font-normal
+font-medium
+font-semibold
+font-bold
+font-extrabold
+font-black
 ```
 
+সবচেয়ে বেশি ব্যবহৃত:
+
 ```html
-<div class="border-4">
-  Content
-</div>
+<h1 class="font-bold">
+  Heading
+</h1>
+```
+
+অথবা:
+
+```html
+<h2 class="font-semibold">
+  Product Name
+</h2>
+```
+
+---
+
+# ⭐ `font-medium` বনাম `font-semibold` বনাম `font-bold`
+
+এগুলো UI-তে খুব বেশি ব্যবহার করবেন।
+
+```text
+font-medium
+↓
+সামান্য bold
+
+font-semibold
+↓
+মাঝারি bold
+
+font-bold
+↓
+স্পষ্ট bold
 ```
 
 উদাহরণ:
 
 ```html
-<div class="border-2 border-blue-500">
-  Blue Border
-</div>
+<p class="font-medium">
+  Username
+</p>
+
+<p class="font-semibold">
+  Product Name
+</p>
+
+<h2 class="font-bold">
+  Dashboard
+</h2>
 ```
 
 ---
 
-## ৪️⃣ Border-এর নির্দিষ্ট পাশে Border
+# 3️⃣ Text Alignment
 
-আপনি চাইলে শুধু একটি পাশে border দিতে পারেন।
+Text alignment:
 
 ```text
-border-t → Top
-border-b → Bottom
-border-l → Left
-border-r → Right
+text-left
+text-center
+text-right
+text-justify
 ```
 
 উদাহরণ:
 
 ```html
-<div class="border-b border-gray-300">
-  Navbar
-</div>
+<h1 class="text-center">
+  Welcome
+</h1>
 ```
 
-আরও:
+Card-এর heading center করতে:
 
 ```html
-<div class="border-l-4 border-blue-500">
-  Important content
+<div class="text-center">
+  <h2 class="text-2xl font-bold">
+    Premium Plan
+  </h2>
 </div>
 ```
 
 ---
 
-## ৫️⃣ Border Radius
+# 4️⃣ Line Height
 
-Card বা button-এর corner গোল করতে ব্যবহার করবেন:
+একাধিক লাইনের text-এর মধ্যে vertical spacing নিয়ন্ত্রণ করতে:
 
 ```text
-rounded-*
+leading-none
+leading-tight
+leading-snug
+leading-normal
+leading-relaxed
+leading-loose
 ```
 
 উদাহরণ:
 
 ```html
-<div class="rounded">
-  Card
-</div>
+<p class="leading-relaxed">
+  Tailwind CSS is a utility-first CSS framework
+  for building modern user interfaces.
+</p>
 ```
 
-আরও:
-
-```text
-rounded-sm
-rounded
-rounded-md
-rounded-lg
-rounded-xl
-rounded-2xl
-rounded-3xl
-```
-
-যত বড় value, সাধারণত corner তত বেশি গোল হবে।
+Long paragraph-এর ক্ষেত্রে `leading-relaxed` অনেক useful।
 
 ---
 
-### ⭐ বিশেষভাবে গুরুত্বপূর্ণ
+# 5️⃣ Letter Spacing
+
+Text-এর অক্ষরগুলোর মধ্যে spacing:
 
 ```text
-rounded-full
-```
-
-এটি অনেক বেশি গোল/পূর্ণ radius তৈরি করে।
-
-যেমন profile image:
-
-```html
-<img
-  src="profile.jpg"
-  class="w-20 h-20 rounded-full"
-/>
-```
-
-এভাবে circular image তৈরি করা যায়।
-
----
-
-## ৬️⃣ Shadow
-
-Card-কে depth দেওয়ার জন্য shadow ব্যবহার করা হয়।
-
-```text
-shadow-sm
-shadow
-shadow-md
-shadow-lg
-shadow-xl
-shadow-2xl
+tracking-tighter
+tracking-tight
+tracking-normal
+tracking-wide
+tracking-wider
+tracking-widest
 ```
 
 উদাহরণ:
 
 ```html
-<div class="shadow-lg">
-  Card
-</div>
+<h2 class="tracking-wide">
+  HELLO WORLD
+</h2>
 ```
 
-### সাধারণ UI-তে
+বিশেষ করে:
 
-```html
-<div class="bg-white rounded-xl shadow-md">
-  Product Card
-</div>
-```
+* uppercase heading
+* labels
+* buttons
+* navigation
 
-এটি খুব common pattern।
+এগুলোতে কাজে লাগে।
 
 ---
 
-## ৭️⃣ Opacity
+# 6️⃣ Text Decoration
 
-কোনো element-এর transparency নিয়ন্ত্রণ করতে opacity ব্যবহার করতে পারেন।
+Underline:
+
+```html
+<a class="underline">
+  Read More
+</a>
+```
+
+Underline সরাতে:
+
+```html
+<a class="no-underline">
+  Read More
+</a>
+```
+
+Line-through:
+
+```html
+<p class="line-through">
+  $100
+</p>
+```
+
+এটি e-commerce-এর পুরনো price দেখাতে ব্যবহার করতে পারেন।
+
+---
+
+# 🛒 E-commerce Example
+
+```html
+<div>
+  <h2 class="text-xl font-semibold text-gray-900">
+    Premium Watch
+  </h2>
+
+  <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+    A stylish smartwatch designed for everyday use.
+  </p>
+
+  <div class="mt-4">
+    <span class="text-2xl font-bold text-blue-600">
+      $99
+    </span>
+
+    <span class="ml-2 text-sm text-gray-400 line-through">
+      $129
+    </span>
+  </div>
+</div>
+```
+
+এখানে আপনি একসাথে ব্যবহার করেছেন:
 
 ```text
-opacity-0
-opacity-25
-opacity-50
-opacity-75
-opacity-100
-```
+text-xl
+font-semibold
+text-gray-900
 
-উদাহরণ:
+text-sm
+text-gray-600
+leading-relaxed
 
-```html
-<div class="opacity-50">
-  Semi Transparent
-</div>
+text-2xl
+font-bold
+text-blue-600
+
+line-through
 ```
 
 ---
 
-## ৮️⃣ এখন সব একসাথে ব্যবহার করি
+# 🔥 আজকের Main Practice
 
-এবার আমরা একটি সুন্দর **Product Card** তৈরি করব।
+এখন আমরা একটি **Product Card** বানাব।
 
 ```html
-<div class="w-80 bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+<div class="w-80 bg-white rounded-2xl border border-gray-200 shadow-lg p-6">
 
-  <div class="bg-blue-100 rounded-xl p-8 text-center">
-    Product Image
+  <div class="h-40 bg-blue-100 rounded-xl flex items-center justify-center">
+    <span class="text-blue-700 font-semibold">
+      Product Image
+    </span>
   </div>
 
-  <h2 class="mt-5 text-2xl font-bold text-gray-800">
+  <h2 class="mt-5 text-2xl font-bold text-gray-900">
     Smart Watch
   </h2>
 
-  <p class="mt-2 text-gray-600">
-    A modern smartwatch with useful features.
+  <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+    A modern smartwatch for your everyday lifestyle.
   </p>
 
-  <p class="mt-4 text-xl font-bold text-blue-600">
-    $99
-  </p>
+  <div class="mt-4">
+    <span class="text-2xl font-bold text-blue-600">
+      $99
+    </span>
 
-  <button class="mt-5 w-full bg-blue-600 text-white py-3 rounded-lg shadow-md">
+    <span class="ml-2 text-sm text-gray-400 line-through">
+      $129
+    </span>
+  </div>
+
+  <button class="mt-5 w-full bg-blue-600 text-white font-semibold py-3 rounded-lg">
     Buy Now
   </button>
 
 </div>
 ```
 
-এখানে আমরা ব্যবহার করেছি:
+---
+
+# 🧪 Experiment করুন
+
+এখন শুধু class পরিবর্তন করে দেখুন।
+
+### Experiment 1
 
 ```text
-w-80
-bg-white
-rounded-2xl
-shadow-lg
-p-6
-border
-border-gray-200
-bg-blue-100
-rounded-xl
-text-center
-mt-5
 text-2xl
+```
+
+পরিবর্তন করে:
+
+```text
+text-4xl
+```
+
+কী পরিবর্তন হলো?
+
+---
+
+### Experiment 2
+
+```text
 font-bold
-text-gray-800
+```
+
+পরিবর্তন করে:
+
+```text
+font-light
+```
+
+Text-এর appearance লক্ষ্য করুন।
+
+---
+
+### Experiment 3
+
+```text
 text-gray-600
-text-blue-600
-w-full
-bg-blue-600
-text-white
-py-3
-rounded-lg
 ```
 
-এগুলোকে আলাদা আলাদা class হিসেবে না দেখে **একটি UI তৈরির building blocks** হিসেবে ভাবুন।
+পরিবর্তন করে:
+
+```text
+text-gray-900
+```
 
 ---
 
-## 🧠 একটি গুরুত্বপূর্ণ বিষয়
-
-Tailwind শেখার সময় এমন code দেখে ভয় পাবেন না:
-
-```html
-<div class="w-80 bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
-```
-
-এটি আসলে:
+### Experiment 4
 
 ```text
-w-80
-↓
-Width
-
-bg-white
-↓
-Background
-
-rounded-2xl
-↓
-Corner
-
-shadow-lg
-↓
-Shadow
-
-p-6
-↓
-Padding
-
-border
-↓
-Border
-
-border-gray-200
-↓
-Border Color
+leading-relaxed
 ```
 
-অর্থাৎ প্রতিটি class-এর একটি নির্দিষ্ট দায়িত্ব আছে।
+পরিবর্তন করে:
+
+```text
+leading-tight
+```
+
+Paragraph-এর line spacing লক্ষ্য করুন।
 
 ---
 
-## 💻 আজকের Practice
+# 📝 আজকের Homework
 
-### Task 1 — তিনটি Button
+## Task 1 — Blog Card
 
-এই ধরনের তিনটি button বানান:
+একটি Blog Card তৈরি করুন:
 
 ```text
-[ Primary ]
-
-[ Success ]
-
-[ Danger ]
+┌────────────────────────────┐
+│                            │
+│       Blog Image           │
+│                            │
+├────────────────────────────┤
+│ Web Development            │
+│                            │
+│ Learn Tailwind CSS         │
+│                            │
+│ Tailwind CSS is...         │
+│                            │
+│ Read More →                │
+└────────────────────────────┘
 ```
 
-আপনার নিজের মতো করে:
+ব্যবহার করবেন:
 
-* Background
+* Background color
 * Text color
-* Padding
-* Rounded
-* Shadow
-
-ব্যবহার করুন।
-
----
-
-## Task 2 — User Card
-
-একটি User Card বানান:
-
-```text
-┌─────────────────────────┐
-│                         │
-│       Profile           │
-│                         │
-│     Ariful Islam        │
-│     Web Developer       │
-│                         │
-│  Building modern apps   │
-│                         │
-│       [Follow]          │
-│                         │
-└─────────────────────────┘
-```
-
-অন্তত এগুলো ব্যবহার করবেন:
-
-```text
-bg-*
-text-*
-border
-rounded-*
-shadow-*
-```
-
----
-
-## 🔥 Task 3 — নিজে Experiment করুন
-
-একটি card তৈরি করে শুধু class পরিবর্তন করে দেখুন:
-
-#### প্রথমে:
-
-```html
-<div class="bg-white rounded-lg shadow">
-```
-
-তারপর:
-
-```html
-<div class="bg-gray-100 rounded-2xl shadow-xl">
-```
-
-তারপর:
-
-```html
-<div class="bg-blue-50 rounded-3xl shadow-2xl">
-```
-
-Browser-এ পরিবর্তন লক্ষ্য করুন।
-
-এভাবে practice করলে Tailwind-এর class **মুখস্থ করার প্রয়োজন হবে না**—চোখেই চিনতে শুরু করবেন।
-
----
-
-## 📝 Day 2 Homework
-
-আজকের homework হিসেবে একটি **Pricing Card** বানান।
-
-এতে থাকবে:
-
-```text
-┌─────────────────────────┐
-│       BASIC PLAN        │
-│                         │
-│         $19             │
-│                         │
-│  ✓ 5 Projects           │
-│  ✓ 10 GB Storage        │
-│  ✓ Email Support        │
-│                         │
-│    [Get Started]        │
-└─────────────────────────┘
-```
-
-#### শর্ত
-
-শুধু Tailwind utility ব্যবহার করে তৈরি করার চেষ্টা করবেন।
-
-অবশ্যই ব্যবহার করবেন:
-
-* Background
-* Text color
+* Font size
+* Font weight
+* Line height
 * Border
 * Rounded
 * Shadow
-* Padding
-* Margin
 
 ---
 
-## ✅ Day 2 শেষে আপনার যা জানা উচিত
+## Task 2 — Color Experiment
 
-আজ শেষে আপনি বুঝতে পারবেন:
+একটি card তৈরি করে নিচেরগুলো ব্যবহার করুন:
+
+```text
+bg-blue-50
+text-blue-900
+border-blue-200
+```
+
+তারপর পরিবর্তন করুন:
+
+```text
+bg-green-50
+text-green-900
+border-green-200
+```
+
+এরপর:
+
+```text
+bg-red-50
+text-red-900
+border-red-200
+```
+
+লক্ষ্য করুন কীভাবে একই UI-এর **color theme** পরিবর্তন হয়ে যাচ্ছে।
+
+---
+
+# 🧠 Day 3 Cheat Sheet
+
+### 🎨 Colors
 
 ```text
 bg-blue-500
-      ↓
-Background
-
-text-gray-700
-      ↓
-Text Color
-
-border
-      ↓
-Border
-
-rounded-xl
-      ↓
-Border Radius
-
-shadow-lg
-      ↓
-Shadow
-
-opacity-50
-      ↓
-Transparency
+text-blue-600
+border-blue-300
 ```
 
-#### 🎯 আজকের মূল শিক্ষা
-
-**Tailwind-এর class মুখস্থ করবেন না। Prefix চিনুন।**
+### 🔤 Font Size
 
 ```text
-bg-      → Background
-text-    → Text
-border-  → Border
-rounded- → Radius
-shadow-  → Shadow
-opacity- → Transparency
+text-sm
+text-base
+text-lg
+text-xl
+text-2xl
+text-3xl
+text-4xl
 ```
 
+### 💪 Font Weight
+
+```text
+font-normal
+font-medium
+font-semibold
+font-bold
+```
+
+### 📏 Line Height
+
+```text
+leading-tight
+leading-normal
+leading-relaxed
+```
+
+### 🔠 Letter Spacing
+
+```text
+tracking-tight
+tracking-normal
+tracking-wide
+```
+
+### 📐 Alignment
+
+```text
+text-left
+text-center
+text-right
+```
+
+### ✏️ Decoration
+
+```text
+underline
+no-underline
+line-through
+```
+
+---
+
+# ✅ Day 3-এর মূল শিক্ষা
+
+আজ আপনাকে এই pattern বুঝতে হবে:
+
+```text
+bg-*       → Background
+text-*     → Text Color / Font Size
+border-*   → Border
+font-*     → Font Weight
+leading-*  → Line Height
+tracking-* → Letter Spacing
+```
+
+**আজকের সবচেয়ে গুরুত্বপূর্ণ practice হলো নিজের হাতে অন্তত ২টি Card এবং ২টি Button তৈরি করা।**
 
