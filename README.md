@@ -1,537 +1,689 @@
 # Learn TailwinCSS
 *Day By Day*
 
-## 🚀 Tailwind CSS — Day 4
+# 🚀 Tailwind CSS — Day 5
 
-#### 📐 Spacing System: Margin, Padding, Gap
+## 📏 Width, Height, `max-w`, `min-h` এবং Container
 
-আজ আমরা Tailwind CSS-এর **সবচেয়ে গুরুত্বপূর্ণ বিষয়গুলোর একটি—Spacing** শিখব।
+আজ আমরা Tailwind CSS-এর **Width & Height System** শিখব। Responsive website বানানোর জন্য এই বিষয়গুলো খুবই গুরুত্বপূর্ণ।
 
-Professional UI বানাতে শুধু color বা font জানলেই হবে না। কোন element-এর **ভেতরে কতটুকু জায়গা**, **বাইরে কতটুকু জায়গা**, এবং **দুটি element-এর মাঝে কতটুকু gap** থাকবে—এগুলো নিয়ন্ত্রণ করতে জানতে হবে।
+আপনি আজ শিখবেন কীভাবে:
 
+* Element-এর width নির্ধারণ করবেন
+* Height নির্ধারণ করবেন
+* Full width/height করবেন
+* Maximum width নির্ধারণ করবেন
+* Minimum height নির্ধারণ করবেন
+* Screen-এর পুরো height ব্যবহার করবেন
+* Responsive container তৈরি করবেন
 
-## 1️⃣ Padding কী?
+---
 
-**Padding হলো একটি element-এর ভেতরের জায়গা।**
+# 🎯 আজকের Learning Goal
 
-সহজভাবে:
+আজকের শেষে আপনি যেন বুঝতে পারেন:
 
 ```text
-┌───────────────────────────┐
-│      Padding              │
-│   ┌───────────────────┐   │
-│   │                   │   │
-│   │     Content       │   │
-│   │                   │   │
-│   └───────────────────┘   │
-│      Padding              │
-└───────────────────────────┘
+w-*       → Width
+h-*       → Height
+max-w-*   → Maximum Width
+min-w-*   → Minimum Width
+max-h-*   → Maximum Height
+min-h-*   → Minimum Height
+w-full    → 100% Width
+h-full    → Parent-এর height অনুযায়ী
+h-screen  → Viewport height
 ```
 
-Tailwind-এ:
+---
 
-```text id="p4p0c3"
-p-4
+
+# 1️⃣ Width — `w-*`
+
+Tailwind-এ width দেওয়ার জন্য ব্যবহার করি:
+
+```text id="8m4f1a"
+w-*
 ```
-
-মানে চারপাশে padding।
 
 উদাহরণ:
 
-```html id="x9k21p"
-<div class="p-4">
-  Hello Tailwind
+```html
+<div class="w-40 bg-blue-500">
+  Width 40
+</div>
+```
+
+আরও:
+
+```text id="2n9f4s"
+w-10
+w-20
+w-32
+w-40
+w-48
+w-64
+w-80
+w-96
+```
+
+এগুলো Tailwind-এর predefined width scale-এর অংশ।
+
+---
+
+# 2️⃣ `w-full`
+
+এটি খুব গুরুত্বপূর্ণ।
+
+```html
+<div class="w-full bg-blue-500">
+  Full Width
+</div>
+```
+
+এর অর্থ:
+
+```text
+width: 100%;
+```
+
+অর্থাৎ parent-এর available width পুরোটা ব্যবহার করবে।
+
+---
+
+# 3️⃣ `w-screen`
+
+```html
+<div class="w-screen">
+  Full viewport width
+</div>
+```
+
+এটি viewport-এর width ব্যবহার করে।
+
+### `w-full` বনাম `w-screen`
+
+```text id="0e7kqy"
+w-full
+↓
+Parent-এর 100% width
+
+
+w-screen
+↓
+Viewport-এর width
+```
+
+সাধারণ component/card layout-এ **`w-full` বেশি ব্যবহার করবেন**।
+
+---
+
+# 4️⃣ Fractional Width
+
+Tailwind-এ fraction ব্যবহার করেও width দিতে পারবেন।
+
+যেমন:
+
+```text id="d5lq4s"
+w-1/2
+w-1/3
+w-2/3
+w-1/4
+w-3/4
+```
+
+উদাহরণ:
+
+```html
+<div class="w-1/2 bg-blue-500">
+  50%
+</div>
+```
+
+এখানে:
+
+```text
+w-1/2
+↓
+50%
+```
+
+আর:
+
+```html
+<div class="w-1/3 bg-green-500">
+  33.33%
 </div>
 ```
 
 ---
 
-## 2️⃣ `p-*` বুঝুন
+# 5️⃣ Grid-এর মতো Layout তৈরি
 
-```text id="q6f3da"
-p-1
-p-2
-p-3
-p-4
-p-5
-p-6
-p-8
-p-10
-p-12
+ধরুন দুইটি section পাশাপাশি থাকবে:
+
+```html
+<div class="flex">
+  <div class="w-1/2 bg-blue-500">
+    Left
+  </div>
+
+  <div class="w-1/2 bg-green-500">
+    Right
+  </div>
+</div>
+```
+
+ফলাফল:
+
+```text
+┌─────────────────────────────────┐
+│       Left       │     Right    │
+│        50%       │      50%     │
+└─────────────────────────────────┘
+```
+
+---
+
+# 6️⃣ Height — `h-*`
+
+Height-এর জন্য:
+
+```text id="d7x9q1"
+h-*
+```
+
+উদাহরণ:
+
+```html
+<div class="h-40 bg-blue-500">
+  Height
+</div>
+```
+
+আরও:
+
+```text id="z2j5xp"
+h-10
+h-20
+h-32
+h-40
+h-48
+h-64
+h-80
+h-96
+```
+
+---
+
+# 7️⃣ `h-full`
+
+```html
+<div class="h-full">
+  Content
+</div>
+```
+
+এর অর্থ:
+
+```text
+height: 100%;
+```
+
+তবে মনে রাখবেন, `h-full` সঠিকভাবে কাজ করার জন্য parent-এর height নির্ধারিত থাকা অনেক সময় প্রয়োজন হয়।
+
+---
+
+# 8️⃣ `h-screen`
+
+এটি খুব গুরুত্বপূর্ণ।
+
+```html
+<div class="h-screen">
+  Full Screen
+</div>
+```
+
+এর অর্থ viewport-এর height ব্যবহার করা।
+
+সাধারণত:
+
+```text
+100vh
+```
+
+এর মতো আচরণ করে।
+
+### কোথায় ব্যবহার করবেন?
+
+* Login page
+* Full-screen hero
+* Dashboard layout
+* Landing page section
+
+উদাহরণ:
+
+```html
+<div class="h-screen flex items-center justify-center">
+  <h1 class="text-4xl font-bold">
+    Welcome
+  </h1>
+</div>
+```
+
+এতে পুরো viewport-এর height নিয়ে content center করা যায়।
+
+---
+
+# 9️⃣ `min-h-screen`
+
+এটি খুব গুরুত্বপূর্ণ এবং real project-এ অনেক ব্যবহার করবেন।
+
+```html
+<div class="min-h-screen">
+  Content
+</div>
+```
+
+এর অর্থ:
+
+> অন্তত viewport-এর height হবে, কিন্তু content বেশি হলে element আরও বড় হতে পারবে।
+
+### `h-screen` বনাম `min-h-screen`
+
+```text id="5r9d7n"
+h-screen
+↓
+Height নির্দিষ্ট viewport height
+
+
+min-h-screen
+↓
+Minimum height viewport height
+↓
+Content বেশি হলে আরও বড় হতে পারে
+```
+
+সাধারণ page wrapper-এর ক্ষেত্রে:
+
+```html
+<div class="min-h-screen">
+```
+
+অনেক সময় `h-screen`-এর চেয়ে বেশি উপযুক্ত।
+
+---
+
+# 🔟 `max-w-*`
+
+এখন আসি খুব গুরুত্বপূর্ণ একটি বিষয়—**Maximum Width**।
+
+ধরুন আপনার website desktop-এ 1920px wide।
+
+আপনি চান না content পুরো 1920px জুড়ে ছড়িয়ে যাক।
+
+তখন:
+
+```html
+<div class="max-w-6xl mx-auto">
+  Content
+</div>
+```
+
+ব্যবহার করতে পারেন।
+
+---
+
+# ⭐ `max-w` কেন গুরুত্বপূর্ণ?
+
+ধরুন:
+
+```html
+<div class="w-full">
+```
+
+এটি available পুরো width নিতে পারে।
+
+কিন্তু:
+
+```html
+<div class="w-full max-w-6xl mx-auto">
+```
+
+এখানে:
+
+```text
+w-full
+↓
+ছোট screen-এ available width ব্যবহার করবে
+
+max-w-6xl
+↓
+বড় screen-এ maximum width সীমাবদ্ধ করবে
+
+mx-auto
+↓
+Center করবে
+```
+
+এটি modern website layout-এর খুব common pattern।
+
+---
+
+# 1️⃣1️⃣ Responsive Container
+
+এটি খুব ভালোভাবে বুঝুন।
+
+```html
+<div class="w-full max-w-7xl mx-auto px-4">
+  Content
+</div>
+```
+
+এখানে:
+
+```text id="pj5l0n"
+w-full
+↓
+Full available width
+
+max-w-7xl
+↓
+Content অতিরিক্ত বড় হবে না
+
+mx-auto
+↓
+Center
+
+px-4
+↓
+Left/right breathing space
+```
+
+এটি আপনি প্রায় সব project-এ ব্যবহার করতে পারবেন।
+
+---
+
+# 🏗️ Real Website Example
+
+```html
+<div class="min-h-screen bg-gray-100">
+
+  <main class="w-full max-w-7xl mx-auto px-4">
+
+    <h1 class="text-3xl font-bold">
+      Dashboard
+    </h1>
+
+  </main>
+
+</div>
+```
+
+এখানে outer wrapper পুরো screen-এর minimum height নেবে এবং ভিতরের content responsive maximum width-এর মধ্যে থাকবে।
+
+---
+
+# 1️⃣2️⃣ `min-w-*`
+
+Minimum width নির্ধারণ করতে:
+
+```text id="z7x4v8"
+min-w-*
+```
+
+উদাহরণ:
+
+```html
+<div class="min-w-40">
+  Content
+</div>
+```
+
+তবে সাধারণ application UI-তে `min-w` তুলনামূলকভাবে কম ব্যবহার করবেন।
+
+---
+
+# 1️⃣3️⃣ `max-h-*`
+
+Maximum height:
+
+```text id="1l4c0y"
+max-h-*
 ```
 
 যেমন:
 
-```html id="g4xv7m"
-<div class="p-4 bg-gray-100">
-  Content
+```html
+<div class="max-h-96 overflow-auto">
+  Long content...
 </div>
 ```
 
-তারপর:
+এখানে content নির্দিষ্ট maximum height অতিক্রম করলে `overflow-auto` ব্যবহার করে scroll করা যাবে।
 
-```html id="r7d3sy"
-<div class="p-8 bg-gray-100">
-  Content
+---
+
+# 🧠 Width + Height একসাথে
+
+একটি square তৈরি করুন:
+
+```html
+<div class="w-40 h-40 bg-blue-500">
 </div>
 ```
 
-দ্বিতীয়টির ভেতরে বেশি জায়গা থাকবে।
+অর্থাৎ:
 
----
-
-## 3️⃣ Horizontal এবং Vertical Padding
-
-এটি খুব গুরুত্বপূর্ণ।
-
-#### `px-*`
-
-`x` মানে horizontal:
-
-```text id="c1n8vb"
-Left + Right
-```
-
-```html id="x5e0pj"
-<button class="px-6">
-  Buy Now
-</button>
+```text
+Width  → 40
+Height → 40
 ```
 
 ---
 
-#### `py-*`
+# 🟣 Circle তৈরি
 
-`y` মানে vertical:
+Day 2-এর `rounded-full` মনে আছে?
 
-```text id="z4s1kp"
-Top + Bottom
-```
+এখন Width + Height + Rounded একসাথে:
 
-```html id="v8c3na"
-<button class="py-3">
-  Buy Now
-</button>
-```
-
-দুটো একসাথে:
-
-```html id="n0km0z"
-<button class="px-6 py-3">
-  Buy Now
-</button>
-```
-
-এটি Button-এর জন্য খুব common pattern।
-
----
-
-## 4️⃣ নির্দিষ্ট দিকে Padding
-
-প্রয়োজনে চারদিকের বদলে নির্দিষ্ট side নিয়ন্ত্রণ করতে পারবেন।
-
-```text id="x8f5a0"
-pt-4 → padding-top
-pb-4 → padding-bottom
-pl-4 → padding-left
-pr-4 → padding-right
-```
-
-উদাহরণ:
-
-```html id="6d6y6w"
-<div class="pt-8">
-  Content
+```html
+<div class="w-20 h-20 bg-blue-500 rounded-full">
 </div>
 ```
 
----
-
-## 5️⃣ Margin কী?
-
-**Margin হলো element-এর বাইরের জায়গা।**
-
-```text id="zv9f8n"
-┌─────────────────────────────┐
-│         Margin              │
-│   ┌─────────────────────┐   │
-│   │      Content        │   │
-│   └─────────────────────┘   │
-│         Margin              │
-└─────────────────────────────┘
-```
-
-Tailwind:
-
-```text id="2sl4eh"
-m-4
-```
-
-উদাহরণ:
-
-```html id="3hlqg5"
-<div class="m-4">
-  Content
-</div>
-```
+ফলে একটি circular element হবে।
 
 ---
 
-## 6️⃣ Margin Direction
-
-Padding-এর মতো Margin-এরও direction আছে।
-
-```text id="phl9qk"
-mt-4 → margin-top
-mb-4 → margin-bottom
-ml-4 → margin-left
-mr-4 → margin-right
-```
-
----
-
-## ⭐ `mt-*` সবচেয়ে বেশি ব্যবহার করবেন
-
-উদাহরণ:
-
-```html id="69e8uc"
-<h1>Product</h1>
-
-<p class="mt-3">
-  Product description
-</p>
-```
-
-এখানে paragraph-এর উপরে margin দেওয়া হয়েছে।
-
-আর:
-
-```html id="3o2cnd"
-<button class="mt-6">
-  Buy Now
-</button>
-```
-
-Button-এর উপরে space তৈরি হবে।
-
----
-
-## 7️⃣ `mx-*` এবং `my-*`
-
-#### `mx-*`
-
-Horizontal margin:
-
-```text id="j3j1c7"
-Left + Right
-```
-
-```html id="7r2p2m"
-<div class="mx-4">
-  Content
-</div>
-```
-
-#### `my-*`
-
-Vertical margin:
-
-```text id="q1kh6e"
-Top + Bottom
-```
-
-```html id="7zv4yu"
-<div class="my-6">
-  Content
-</div>
-```
-
----
-
-## ⭐ `mx-auto`
-
-এটি অত্যন্ত গুরুত্বপূর্ণ।
-
-কোনো fixed/max-width element horizontally center করতে:
-
-```html id="axf4zy"
-<div class="max-w-md mx-auto">
-  Content
-</div>
-```
-
-এটি React project এবং website layout-এ নিয়মিত ব্যবহার করবেন।
-
----
-
-## 8️⃣ Gap
-
-এখন আসি **Gap**-এ।
-
-Flex অথবা Grid-এর child elements-এর মধ্যে gap তৈরি করতে:
-
-```text id="h7n4c8"
-gap-*
-```
-
-উদাহরণ:
-
-```html id="8m6t8r"
-<div class="flex gap-4">
-  <button>One</button>
-  <button>Two</button>
-  <button>Three</button>
-</div>
-```
-
-এখানে তিনটি button-এর মধ্যে gap থাকবে।
-
----
-
-## 9️⃣ `gap-x-*` এবং `gap-y-*`
-
-Horizontal gap:
-
-```html id="3f7h9j"
-<div class="flex gap-x-6">
-```
-
-Vertical gap:
-
-```html id="y2m7av"
-<div class="flex flex-col gap-y-4">
-```
-
-দুটো আলাদা করে:
-
-```html id="h5z0ef"
-<div class="grid gap-x-6 gap-y-4">
-```
-
----
-
-## 🔟 `space-x-*`
-
-এটিও child elements-এর মধ্যে horizontal space দিতে ব্যবহৃত হয়।
-
-```html id="xk4n7v"
-<div class="flex space-x-4">
-  <button>Home</button>
-  <button>About</button>
-  <button>Contact</button>
-</div>
-```
-
----
-
-## 1️⃣1️⃣ `space-y-*`
-
-Vertical elements-এর মধ্যে space:
-
-```html id="6hj7aa"
-<div class="space-y-4">
-  <input />
-  <input />
-  <input />
-</div>
-```
-
-Form-এর ক্ষেত্রে এটি খুব useful।
-
----
-
-## 🧠 `gap` বনাম `space`
-
-এখন গুরুত্বপূর্ণ পার্থক্য:
-
-###### `gap`
-
-Flex/Grid layout-এ সাধারণত ব্যবহার করবেন:
-
-```html id="7j6qzy"
-<div class="flex gap-4">
-```
-
-###### `space-y`
-
-একটির নিচে আরেকটি element থাকলে:
-
-```html id="u1sqh8"
-<div class="space-y-4">
-```
-
-###### Professional recommendation
-
-আপনি যখন Flex/Grid ব্যবহার করছেন, সাধারণত **`gap-*` দিয়ে শুরু করুন**।
-
----
-
-## 🛒 Real Project Example
-
-একটি Product Card:
-
-```html id="t8w0pw"
-<div class="w-80 p-6 bg-white rounded-xl shadow-lg">
-
-  <h2 class="text-2xl font-bold">
-    Smart Watch
-  </h2>
-
-  <p class="mt-3 text-gray-600">
-    Modern smartwatch for everyday use.
-  </p>
-
-  <p class="mt-4 text-xl font-bold text-blue-600">
-    $99
-  </p>
-
-  <button class="mt-6 w-full px-6 py-3 bg-blue-600 text-white rounded-lg">
-    Buy Now
-  </button>
-
+# 🧑‍💻 Profile Avatar
+
+```html
+<div class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center">
+  <span class="text-xl font-bold">
+    AI
+  </span>
 </div>
 ```
 
 এখানে:
 
-```text id="h58v9j"
-p-6
+```text id="f5z9d3"
+w-20
+h-20
 ↓
-Card-এর ভিতরের জায়গা
+Same width & height
 
-mt-3
+rounded-full
 ↓
-Description-এর উপরের জায়গা
+Circle
 
-mt-4
+flex
+items-center
+justify-center
 ↓
-Price-এর উপরের জায়গা
-
-mt-6
-↓
-Button-এর উপরের জায়গা
-
-px-6
-↓
-Button-এর left/right padding
-
-py-3
-↓
-Button-এর top/bottom padding
+Text center
 ```
 
 ---
 
-## 🧩 Real-world Layout Example
+# 🔥 আজকের Main Practice
 
-ধরুন Navbar:
-
-```html id="4y0o9q"
-<nav class="flex items-center justify-between px-6 py-4">
-  <h1 class="text-xl font-bold">
-    My Website
-  </h1>
-
-  <div class="flex gap-6">
-    <a href="##">Home</a>
-    <a href="##">About</a>
-    <a href="##">Contact</a>
-  </div>
-</nav>
-```
-
-এখানে:
-
-```text id="k1h3r7"
-px-6
-↓
-Navbar left/right padding
-
-py-4
-↓
-Navbar top/bottom padding
-
-gap-6
-↓
-Navigation links-এর মাঝের gap
-```
-
----
-
-## 🔥 আজকের Main Practice
-
-এখন নিজে একটি **Pricing Card** তৈরি করুন।
+## একটি Responsive Profile Section তৈরি করুন
 
 Structure:
 
-```text id="x7p8za"
-┌────────────────────────────┐
-│                            │
-│        PRO PLAN            │
-│                            │
-│          $29               │
-│                            │
-│     Best for developers    │
-│                            │
-│   ✓ 10 Projects            │
-│   ✓ 50 GB Storage          │
-│   ✓ Priority Support       │
-│                            │
-│      [ Get Started ]       │
-│                            │
-└────────────────────────────┘
+```text
+┌──────────────────────────────────────┐
+│                                      │
+│           [ Avatar ]                 │
+│                                      │
+│          Ariful Islam                │
+│          Web Developer               │
+│                                      │
+│     Building modern web apps.        │
+│                                      │
+│          [ Contact Me ]              │
+│                                      │
+└──────────────────────────────────────┘
 ```
 
-###### অবশ্যই ব্যবহার করবেন:
+### Outer section:
 
-```text id="q6u2rj"
-p-*
-px-*
-py-*
-mt-*
-mb-*
-gap-*
-rounded-*
-shadow-*
+```text
+min-h-screen
+```
+
+### Content:
+
+```text
+w-full
+max-w-md
+mx-auto
+```
+
+### Avatar:
+
+```text
+w-24
+h-24
+rounded-full
 ```
 
 ---
 
-## 🧪 Experiment
+# 💻 Challenge
 
-একটি card নিয়ে শুধু spacing পরিবর্তন করুন।
+নিজে এই structure তৈরি করার চেষ্টা করুন:
 
-প্রথমে:
+```html
+<div class="min-h-screen bg-gray-100">
 
-```html id="tah3b0"
-<div class="p-4">
+  <div class="w-full max-w-md mx-auto">
+    
+    <!-- Avatar -->
+
+    <!-- Name -->
+
+    <!-- Profession -->
+
+    <!-- Description -->
+
+    <!-- Button -->
+
+  </div>
+
+</div>
 ```
 
-তারপর:
-
-```html id="g7s1wx"
-<div class="p-8">
-```
-
-তারপর:
-
-```html id="b9f5hp"
-<div class="p-12">
-```
-
-Browser-এ লক্ষ্য করুন card-এর content কীভাবে পরিবর্তিত হচ্ছে।
+তারপর নিজের মতো করে styling করুন।
 
 ---
 
-## 📝 আজকের Homework
+# 🧪 Experiment Time
 
-#### Task 1 — Login Form
+## Experiment 1
 
-Tailwind দিয়ে একটি Login Form তৈরি করুন:
+```text
+w-40
+```
 
-```text id="n4k9fr"
+পরিবর্তন করে:
+
+```text
+w-64
+```
+
+দেখুন width কীভাবে পরিবর্তিত হয়।
+
+---
+
+## Experiment 2
+
+```text
+max-w-md
+```
+
+পরিবর্তন করে:
+
+```text
+max-w-xl
+```
+
+দেখুন desktop screen-এ content width কীভাবে পরিবর্তিত হয়।
+
+---
+
+## Experiment 3
+
+```text
+h-screen
+```
+
+পরিবর্তন করে:
+
+```text
+min-h-screen
+```
+
+তারপর content অনেক বেশি করে দিন।
+
+দেখুন দুটির আচরণের পার্থক্য।
+
+---
+
+# 📝 আজকের Homework
+
+## Task 1 — Login Page
+
+একটি সম্পূর্ণ Login Page তৈরি করুন।
+
+Requirements:
+
+```text
+min-h-screen
+↓
+Full page
+
+max-w-md
+↓
+Login box সীমাবদ্ধ
+
+w-full
+↓
+Responsive
+
+mx-auto
+↓
+Center
+```
+
+UI:
+
+```text
 ┌─────────────────────────┐
-│        Login            │
+│         Login           │
 │                         │
 │ Email                   │
 │ [___________________]   │
@@ -543,140 +695,115 @@ Tailwind দিয়ে একটি Login Form তৈরি করুন:
 └─────────────────────────┘
 ```
 
-এখানে বিশেষভাবে ব্যবহার করুন:
-
-```text id="w5e3dz"
-p-*
-space-y-*
-mt-*
-px-*
-py-*
-```
-
 ---
 
-#### Task 2 — Navbar
+## Task 2 — Two Column Layout
 
-তৈরি করুন:
-
-```text id="d7m6xk"
-Logo          Home About Contact
-```
-
-ব্যবহার করবেন:
-
-```text id="7f6r4a"
-flex
-justify-between
-items-center
-px-*
-py-*
-gap-*
-```
-
----
-
-## 🧠 Day 4 Cheat Sheet
-
-```text
-p-4
-↓
-চারদিকে Padding
-
-px-4
-↓
-Left + Right Padding
-
-py-4
-↓
-Top + Bottom Padding
-
-pt-4
-↓
-Top Padding
-
-pb-4
-↓
-Bottom Padding
-```
-
-```text
-m-4
-↓
-চারদিকে Margin
-
-mx-4
-↓
-Left + Right Margin
-
-my-4
-↓
-Top + Bottom Margin
-
-mt-4
-↓
-Top Margin
-
-mb-4
-↓
-Bottom Margin
-```
-
-```text
-gap-4
-↓
-Flex/Grid children-এর মধ্যে gap
-
-gap-x-4
-↓
-Horizontal gap
-
-gap-y-4
-↓
-Vertical gap
-
-space-y-4
-↓
-Vertical child spacing
-
-space-x-4
-↓
-Horizontal child spacing
-```
-
----
-
-## 🎯 আজকের সবচেয়ে গুরুত্বপূর্ণ বিষয়
-
-এই তিনটির পার্থক্য **ভালোভাবে বুঝুন**:
-
-```text
-Padding
-   ↓
-Element-এর ভিতরের জায়গা
-
-
-Margin
-   ↓
-Element-এর বাইরের জায়গা
-
-
-Gap
-   ↓
-Flex/Grid-এর children-এর মাঝের জায়গা
-```
-
-একটি সহজ উদাহরণ:
+এটি তৈরি করুন:
 
 ```text
 ┌────────────────────────────────┐
-│            Margin              │
-│   ┌────────────────────────┐   │
-│   │        Padding         │   │
-│   │   ┌────────────────┐   │   │
-│   │   │    Content     │   │   │
-│   │   └────────────────┘   │   │
-│   └────────────────────────┘   │
+│                                │
+│      Left      │      Right    │
+│       50%      │       50%     │
+│                                │
 └────────────────────────────────┘
 ```
+
+ব্যবহার করুন:
+
+```text
+flex
+w-1/2
+h-*
+```
+
+---
+
+# 🧠 Day 5 Cheat Sheet
+
+```text
+WIDTH
+
+w-40       → নির্দিষ্ট width
+w-full     → 100%
+w-screen   → viewport width
+
+w-1/2      → 50%
+w-1/3      → 33.33%
+w-2/3      → 66.66%
+w-1/4      → 25%
+```
+
+```text
+HEIGHT
+
+h-40
+h-64
+h-full
+h-screen
+```
+
+```text
+MIN / MAX
+
+min-w-*
+max-w-*
+
+min-h-*
+max-h-*
+```
+
+সবচেয়ে গুরুত্বপূর্ণ:
+
+```text
+max-w-md
+max-w-lg
+max-w-xl
+max-w-2xl
+max-w-4xl
+max-w-6xl
+max-w-7xl
+```
+
+---
+
+# ⭐ Professional Pattern
+
+এই pattern-টি মনে রাখুন:
+
+```html
+<div class="w-full max-w-7xl mx-auto px-4">
+```
+
+এর অর্থ:
+
+```text
+w-full
+   ↓
+Responsive width
+
+max-w-7xl
+   ↓
+Maximum content width
+
+mx-auto
+   ↓
+Center
+
+px-4
+   ↓
+Side spacing
+```
+
+আর page wrapper-এর জন্য:
+
+```html
+<div class="min-h-screen">
+```
+
+### 🎯 Day 5-এর মূল শিক্ষা
+
+**Width + Height + Max Width + Responsive Container**—এই চারটি ভালোভাবে বুঝতে পারলে আপনি professional website-এর basic layout তৈরি করতে পারবেন।
+
 

@@ -1,43 +1,42 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body class="px-5">
-      <div class="p-8 bg-gray-100">
-            Hello Tailwind
-        </div>
 
-        <button class="px-6 py-3 bg-green-600">Buy Now</button>
-        <div class="pt-8">Content</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
 
-        <!-- margin -->
-         <div class="m-4">Content</div>
+<body class="px-5">
+  <div class="w-3/4 bg-blue-500">
+    Width 40
+  </div>
 
-         <h1>Product</h1>
-         <p class="mt-3">
-          Product Description
-         </p>
-         <button class="mt-6 bg-red-500 py-3 px-5 space-y-4">Buy Now</button>
+  <!-- Layout -->
+  <div class="flex">
+    <div class="w-1/2 bg-orange-500">
+      Left
+    </div>
+    <div class="w-1/2 bg-green-500">
+      Right
+    </div>
+  </div>
 
-         <div class="mx-4 my-6 bg-gray-500">Content</div>
+  <!-- height  -->
+   <div class="min-h-screen flex items-center justify-center bg-red-500">
+    <h1 class="text-4xl font-bold">
+      Welcome
+    </h1>
+   </div>
 
-         <!-- Gap -->
-          <div class="flex gap-x-6 flex-col">
-            <button>One</button>
-            <button class="space-x-4">Two</button>
-            <button>Three</button>
-          </div>
+   <!-- max-w  -->
+    <div class="max-w-6xl mx-auto w-full bg-cyan-500">
+      Content
+    </div>
+    <div class="w-full max-w-7xl mx-auto px-4">
+      Content
+    </div>
 
-          <!-- // space  -->
+</body>
 
-           <div class="space-y-4 space-x-4">
-            <input type="text" class="border">
-            <input type="text"class="border">
-            <input type="text"class="border">
-           </div>
-  
-  </body>
 </html>
