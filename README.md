@@ -1,712 +1,1071 @@
 # Learn TailwinCSS
 *Day By Day*
 
-## 🎯 Tailwind CSS — Day 8
+## 🎯 Tailwind CSS — Day 9
 
-#### Responsive Design + Mobile-First Approach
+#### Positioning + Display + Overflow
 
-আজকের lesson খুবই গুরুত্বপূর্ণ। কারণ একজন **professional frontend/React developer** হিসেবে শুধু সুন্দর UI বানালেই হবে না—সেটি **Mobile, Tablet এবং Desktop সব screen-এ সুন্দরভাবে কাজ করতে হবে।**
+আজ আমরা Tailwind CSS-এর এমন কিছু বিষয় শিখব যেগুলো **Navbar, Dropdown, Modal, Badge, Notification, Sticky Header, Image Overlay, Sidebar** ইত্যাদি বানাতে প্রতিদিন ব্যবহার করবে।
 
-আজ আমরা শিখব কীভাবে Tailwind CSS দিয়ে responsive website তৈরি করতে হয়।
-
-
-
-
-
-## 1️⃣ Responsive Design কী?
-
-ধরো তুমি একটি website তৈরি করলে।
-
-Desktop:
+আজকের ৩টি মূল বিষয়:
 
 ```text
-┌──────────────────────────────────────────┐
-│ Logo       Home About Contact    Login   │
-├──────────────────────────────────────────┤
-│                                          │
-│       Welcome to Our Website             │
-│                                          │
-└──────────────────────────────────────────┘
+1. Position
+2. Display
+3. Overflow
 ```
-
-কিন্তু Mobile-এ একই layout রাখলে:
-
-```text
-┌──────────────────┐
-│ Logo       ☰     │
-├──────────────────┤
-│                  │
-│    Welcome       │
-│                  │
-│     Button       │
-│                  │
-└──────────────────┘
-```
-
-অর্থাৎ screen size অনুযায়ী UI পরিবর্তন হবে।
-
-এটাই **Responsive Design**।
 
 ---
 
-## 2️⃣ Tailwind Breakpoints
+## 🧠 আজকের Learning Goal
 
-Tailwind-এ সাধারণত আমরা এই responsive prefixes ব্যবহার করি:
 
-| Prefix | সাধারণত ব্যবহৃত screen |
-| ------ | ---------------------- |
-| `sm:`  | Small                  |
-| `md:`  | Medium                 |
-| `lg:`  | Large                  |
-| `xl:`  | Extra Large            |
-| `2xl:` | Extra Extra Large      |
+* `relative`
+* `absolute`
+* `fixed`
+* `sticky`
+* `static`
+* `top-*`, `right-*`, `bottom-*`, `left-*`
+* `inset-*`
+* `z-*`
+* `hidden`
+* `block`
+* `inline-block`
+* `flex`
+* `grid`
+* `overflow-hidden`
+* `overflow-auto`
+* `overflow-y-auto`
+* `overflow-x-auto`
 
-সবচেয়ে গুরুত্বপূর্ণ বিষয়:
 
-> Tailwind **Mobile-First**।
+
+
+## 1️⃣ Position কী?
+
+CSS-এর `position` ব্যবহার করে আমরা কোনো element-কে নির্দিষ্ট জায়গায় রাখতে পারি।
+
+Tailwind-এ:
+
+```text
+static
+relative
+absolute
+fixed
+sticky
+```
 
 ---
 
-## 3️⃣ Mobile-First Approach কী?
-
-ধরো তুমি লিখলে:
+## 2️⃣ `relative`
 
 ```html
-<h1 class="text-2xl md:text-4xl lg:text-6xl">
-  Hello World
-</h1>
+<div class="relative">
 ```
 
-এর অর্থ:
+`relative` সাধারণত নিজে থেকে খুব বেশি পরিবর্তন করে না।
 
-```text
-Mobile
-↓
-text-2xl
+কিন্তু এটি সবচেয়ে বেশি গুরুত্বপূর্ণ হয় যখন এর ভিতরের কোনো element-এ `absolute` ব্যবহার করি।
 
-Medium
-↓
-text-4xl
-
-Large
-↓
-text-6xl
-```
-
-অর্থাৎ প্রথমে mobile-এর জন্য style লিখবে।
-
-তারপর বড় screen-এর জন্য পরিবর্তন করবে।
-
----
-
-## 🔥 4️⃣ `sm:` কীভাবে কাজ করে?
+উদাহরণ:
 
 ```html
-<div class="text-center sm:text-left">
-  Hello
+<div class="relative">
+  <div class="absolute top-0 right-0">
+    Badge
+  </div>
 </div>
 ```
 
-এর অর্থ:
+এখানে parent:
 
 ```text
-Mobile
-→ text-center
+relative
+```
 
-sm এবং তার উপরে
-→ text-left
+এবং child:
+
+```text
+absolute
 ```
 
 ---
 
-## 5️⃣ `md:` Example
+## 3️⃣ `absolute`
 
 ```html
-<div class="text-center md:text-left">
-  Hello World
+<div class="absolute">
+```
+
+`absolute` element-কে নির্দিষ্ট position-এ বসাতে সাহায্য করে।
+
+সাধারণত `absolute` element-এর parent-এ:
+
+```html
+relative
+```
+
+দেওয়া হয়।
+
+---
+
+## 🔥 4️⃣ Relative + Absolute
+
+এটি খুব ভালোভাবে বুঝতে হবে।
+
+```html
+<div class="relative h-40 w-40 bg-gray-200">
+
+  <div class="absolute right-2 top-2 rounded bg-red-500 px-2 py-1 text-white">
+    Sale
+  </div>
+
 </div>
 ```
 
-Mobile:
+Visual:
 
 ```text
-        Hello World
-```
-
-Medium/Desktop:
-
-```text
-Hello World
-```
-
----
-
-## 6️⃣ Responsive Font Size
-
-এটি খুব বেশি ব্যবহার করবে।
-
-```html
-<h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl">
-  Build Your Future
-</h1>
+┌────────────────────┐
+│              Sale  │
+│                    │
+│                    │
+│                    │
+└────────────────────┘
 ```
 
 এখানে:
 
 ```text
-Mobile → 2xl
-sm     → 3xl
-md     → 4xl
-lg     → 6xl
+Parent
+↓
+relative
+
+Child
+↓
+absolute
 ```
 
-এতে বড় screen-এ heading বড় হবে।
-
----
-
-## 7️⃣ Responsive Padding
-
-ধরো mobile-এ কম padding এবং desktop-এ বেশি padding দরকার।
-
-```html
-<section class="px-4 md:px-8 lg:px-16">
-```
-
-অর্থাৎ:
+আর:
 
 ```text
-Mobile
-→ px-4
+top-2
+→ উপর থেকে 2
 
-Medium
-→ px-8
-
-Large
-→ px-16
+right-2
+→ ডান থেকে 2
 ```
 
 ---
 
-## 8️⃣ Responsive Margin
+## 5️⃣ `top`, `right`, `bottom`, `left`
 
-একইভাবে:
+Absolute element-এর position পরিবর্তন করতে:
 
 ```html
-<div class="mt-4 md:mt-8 lg:mt-12">
+top-0
+top-2
+top-4
 ```
 
-Mobile:
-
-```text
-mt-4
+```html
+right-0
+right-2
+right-4
 ```
 
-Medium:
-
-```text
-mt-8
+```html
+bottom-0
+bottom-2
+bottom-4
 ```
 
-Large:
+```html
+left-0
+left-2
+left-4
+```
+
+উদাহরণ:
+
+```html
+<div class="absolute bottom-4 left-4">
+  Hello
+</div>
+```
+
+মানে:
 
 ```text
-mt-12
+Bottom → 4
+Left   → 4
 ```
 
 ---
 
-## 9️⃣ Responsive Width
+## 6️⃣ `inset-*`
+
+চারদিক থেকে position একসাথে দিতে পারো।
 
 ```html
-<div class="w-full md:w-1/2 lg:w-1/3">
+inset-0
+```
+
+এর অর্থ:
+
+```text
+top: 0
+right: 0
+bottom: 0
+left: 0
+```
+
+উদাহরণ:
+
+```html
+<div class="relative h-64">
+
+  <div class="absolute inset-0 bg-black/50">
+  </div>
+
+</div>
+```
+
+এটি parent-এর পুরো জায়গা cover করবে।
+
+---
+
+## 🔥 7️⃣ Image Overlay
+
+এখন একটি real-world example দেখি।
+
+```html
+<div class="relative h-64 overflow-hidden rounded-xl">
+
+  <div class="h-full bg-gray-400">
+    Image
+  </div>
+
+  <div class="absolute inset-0 flex items-center justify-center bg-black/40">
+
+    <h2 class="text-3xl font-bold text-white">
+      Beautiful Nature
+    </h2>
+
+  </div>
+
+</div>
+```
+
+এখানে:
+
+```text
+Parent
+relative
+
+Overlay
+absolute inset-0
+```
+
+Visual:
+
+```text
+┌──────────────────────────────┐
+│                              │
+│      Beautiful Nature        │
+│                              │
+└──────────────────────────────┘
+```
+
+এ ধরনের UI **hero section, banner, product image, portfolio**-তে প্রচুর ব্যবহার হয়।
+
+---
+
+## 8️⃣ Product Badge
+
+E-commerce website-এ:
+
+```html
+<div class="relative">
+
+  <div class="h-64 bg-gray-200">
+    Product Image
+  </div>
+
+  <span class="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-sm text-white">
+    -20%
+  </span>
+
+</div>
+```
+
+Visual:
+
+```text
+┌─────────────────────────┐
+│ -20%                    │
+│                         │
+│      Product Image      │
+│                         │
+└─────────────────────────┘
+```
+
+🔥 এটি খুব common pattern।
+
+---
+
+## 9️⃣ `z-*`
+
+কখনো দুটি element একে অপরের উপর চলে আসে।
+
+তখন কোনটি সামনে থাকবে সেটি নিয়ন্ত্রণ করতে:
+
+```html
+z-10
+z-20
+z-30
+z-40
+z-50
+```
+
+ব্যবহার করা যায়।
+
+উদাহরণ:
+
+```html
+<div class="relative">
+
+  <div class="absolute z-10">
+    Background
+  </div>
+
+  <div class="absolute z-20">
+    Content
+  </div>
+
+</div>
+```
+
+এখানে:
+
+```text
+z-20
+```
+
+element সামনে থাকবে।
+
+---
+
+## 🔟 `fixed`
+
+`fixed` element browser viewport-এর সাথে fixed থাকে।
+
+উদাহরণ:
+
+```html
+<button class="fixed bottom-6 right-6 rounded-full bg-blue-600 px-5 py-3 text-white">
+  Help
+</button>
+```
+
+এটি screen-এর নিচের ডানদিকে থাকবে।
+
+Visual:
+
+```text
+┌──────────────────────────────┐
+│                              │
+│          Website             │
+│                              │
+│                              │
+│                        Help  │
+└──────────────────────────────┘
+```
+
+Page scroll করলেও এটি একই জায়গায় থাকবে।
+
+---
+
+## 1️⃣1️⃣ Fixed Button — Real Example
+
+ধরো তুমি একটি website-এ floating button দিতে চাও:
+
+```html
+<button
+  class="fixed bottom-5 right-5 rounded-full bg-green-600 px-5 py-3 text-white shadow-lg"
+>
+  Chat
+</button>
+```
+
+এটি:
+
+```text
+bottom-5
+right-5
+```
+
+এর কারণে নিচের ডানদিকে থাকবে।
+
+---
+
+## 1️⃣2️⃣ `sticky`
+
+`sticky` একটু আলাদা।
+
+```html
+<div class="sticky top-0">
+```
+
+এটি scrolling-এর সময় নির্দিষ্ট position-এ আটকে থাকতে পারে।
+
+উদাহরণ:
+
+```html
+<header class="sticky top-0 z-50 bg-white shadow">
+  Navbar
+</header>
+```
+
+এটি **sticky navbar/header** তৈরিতে খুব useful।
+
+---
+
+## 🔥 Sticky Navbar
+
+```html
+<header class="sticky top-0 z-50 border-b bg-white">
+
+  <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+
+    <h1 class="text-xl font-bold">
+      My Website
+    </h1>
+
+    <div class="hidden gap-6 md:flex">
+      <a href="##">Home</a>
+      <a href="##">About</a>
+      <a href="##">Services</a>
+      <a href="##">Contact</a>
+    </div>
+
+  </nav>
+
+</header>
+```
+
+এখানে:
+
+```text
+sticky
+↓
+Navbar scrolling-এর সময় আটকে থাকবে
+
+top-0
+↓
+একদম উপরে থাকবে
+
+z-50
+↓
+অন্য element-এর উপরে থাকবে
+```
+
+---
+
+## 🧠 `absolute` vs `fixed` vs `sticky`
+
+| Position   | কোথায় ব্যবহার করবে                          |
+| ---------- | ------------------------------------------- |
+| `relative` | Absolute child-এর reference                 |
+| `absolute` | Parent-এর ভিতরে নির্দিষ্ট জায়গায়            |
+| `fixed`    | Screen-এর নির্দিষ্ট জায়গায়                  |
+| `sticky`   | Scroll করার সময় নির্দিষ্ট জায়গায় আটকে রাখতে |
+
+সহজভাবে:
+
+```text
+relative
+→ Parent reference
+
+absolute
+→ Parent-এর ভিতরে position
+
+fixed
+→ Screen-এর সাথে fixed
+
+sticky
+→ Scroll করলে আটকে যায়
+```
+
+---
+
+## 1️⃣3️⃣ Display
+
+Tailwind-এ element-এর display পরিবর্তন করতে পারো।
+
+সবচেয়ে গুরুত্বপূর্ণ:
+
+```text
+block
+inline
+inline-block
+flex
+inline-flex
+grid
+hidden
+```
+
+---
+
+## 1️⃣4️⃣ `hidden`
+
+Element hide করতে:
+
+```html
+<div class="hidden">
+  Hello
+</div>
+```
+
+Responsive design-এ খুব গুরুত্বপূর্ণ।
+
+যেমন:
+
+```html
+<div class="hidden md:block">
+  Desktop Content
+</div>
 ```
 
 মানে:
 
 ```text
 Mobile
-→ 100%
+→ hidden
 
-Medium
-→ 50%
-
-Large
-→ 33.33%
-```
-
-এটি খুব useful।
-
----
-
-## 🔥 10️⃣ Responsive Flexbox
-
-Day 6-এ আমরা শিখেছিলাম:
-
-```html
-flex
-flex-row
-flex-col
-```
-
-এখন responsive করে ফেলি।
-
-```html
-<div class="flex flex-col md:flex-row">
-```
-
-অর্থাৎ:
-
-###### Mobile
-
-```text
-┌─────────────┐
-│   Item 1    │
-├─────────────┤
-│   Item 2    │
-└─────────────┘
-```
-
-###### Desktop
-
-```text
-┌─────────────┬─────────────┐
-│   Item 1    │   Item 2    │
-└─────────────┴─────────────┘
+md এবং তার উপরে
+→ block
 ```
 
 ---
 
-## 1️⃣1️⃣ Responsive Grid
-
-Day 7-এ আমরা শিখেছি:
+## 1️⃣5️⃣ `block`
 
 ```html
-grid-cols-1
-sm:grid-cols-2
-md:grid-cols-3
-lg:grid-cols-4
+<div class="block">
 ```
 
-Example:
+Element block হিসেবে থাকবে।
+
+---
+
+## 1️⃣6️⃣ `inline-block`
 
 ```html
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<span class="inline-block">
+  Badge
+</span>
 ```
 
-এটি একটি অত্যন্ত গুরুত্বপূর্ণ real-world pattern।
+এটি ছোট label, badge, button-like element ইত্যাদিতে কাজে লাগে।
+
+---
+
+## 1️⃣7️⃣ `flex`
+
+Day 6-এ শিখেছ:
+
+```html
+<div class="flex">
+```
+
+এটি:
+
+```css
+display: flex;
+```
+
+এর equivalent।
+
+---
+
+## 1️⃣8️⃣ `grid`
+
+Day 7-এ শিখেছ:
+
+```html
+<div class="grid">
+```
+
+এটি:
+
+```css
+display: grid;
+```
+
+এর equivalent।
+
+---
+
+## 🔥 1️⃣9️⃣ Overflow
+
+এখন খুব গুরুত্বপূর্ণ একটি বিষয়:
 
 ```text
-Mobile
-1 column
-
-Tablet
-2 columns
-
-Medium
-3 columns
-
-Desktop
-4 columns
+overflow-hidden
+overflow-auto
+overflow-scroll
+overflow-visible
 ```
 
 ---
 
-## 1️⃣2️⃣ Responsive Navbar
+## 2️⃣0️⃣ `overflow-hidden`
 
-এখন একটি বাস্তব example দেখি।
+কোনো content container-এর বাইরে চলে গেলে সেটি hide করতে:
 
 ```html
-<nav class="flex items-center justify-between p-4">
+<div class="overflow-hidden">
+```
 
-  <div class="text-2xl font-bold">
-    Logo
+সবচেয়ে common use:
+
+```html
+<div class="overflow-hidden rounded-xl">
+```
+
+Image-এর rounded corner ঠিক রাখতে এটি অনেক ব্যবহার হয়।
+
+---
+
+## 🔥 Image Card Example
+
+```html
+<div class="overflow-hidden rounded-xl border">
+
+  <div class="h-48 bg-gray-300">
+    Image
   </div>
 
-  <div class="hidden md:flex gap-6">
-    <a href="##">Home</a>
-    <a href="##">About</a>
-    <a href="##">Services</a>
-    <a href="##">Contact</a>
+  <div class="p-4">
+    <h2 class="font-bold">
+      Product
+    </h2>
   </div>
 
-  <button class="md:hidden">
-    ☰
-  </button>
-
-</nav>
+</div>
 ```
-
-এখানে:
-
-```text
-hidden
-→ element hidden
-
-md:flex
-→ md screen থেকে visible
-
-md:hidden
-→ md screen থেকে hidden
-```
-
-###### Mobile:
-
-```text
-Logo                    ☰
-```
-
-###### Desktop:
-
-```text
-Logo     Home About Services Contact
-```
-
-🔥 এই pattern React project-এ অনেক ব্যবহার করবে।
 
 ---
 
-## 1️⃣3️⃣ Responsive Hero Section
+## 2️⃣1️⃣ `overflow-auto`
 
-এবার একটি real-world Hero Section তৈরি করি।
+Content বেশি হয়ে গেলে প্রয়োজন অনুযায়ী scrollbar দেখাবে।
 
 ```html
-<section class="px-4 py-16 md:px-8 lg:px-16 lg:py-24">
+<div class="h-64 overflow-auto">
+  Long Content...
+</div>
+```
 
-  <div class="mx-auto max-w-7xl">
+এটি dashboard, sidebar, chat area ইত্যাদিতে useful।
 
-    <div class="flex flex-col items-center gap-10 lg:flex-row">
+---
 
-      <!-- Content -->
-      <div class="w-full text-center lg:w-1/2 lg:text-left">
+## 2️⃣2️⃣ `overflow-y-auto`
 
-        <h1 class="text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
-          Build Modern Websites
-        </h1>
+শুধু vertical direction:
 
-        <p class="mt-6 text-gray-600 md:text-lg">
-          Create beautiful and responsive websites
-          using modern web technologies.
-        </p>
+```html
+<div class="h-96 overflow-y-auto">
+  Long Content
+</div>
+```
 
-        <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
+---
 
-          <button class="rounded-lg bg-blue-600 px-6 py-3 text-white">
-            Get Started
-          </button>
+## 2️⃣3️⃣ `overflow-x-auto`
 
-          <button class="rounded-lg border px-6 py-3">
-            Learn More
-          </button>
+Horizontal scrolling:
 
-        </div>
+```html
+<div class="overflow-x-auto">
+  Wide Content
+</div>
+```
 
-      </div>
+Responsive table-এর ক্ষেত্রে খুব useful।
+
+উদাহরণ:
+
+```html
+<div class="overflow-x-auto">
+
+  <table class="min-w-[700px]">
+    ...
+  </table>
+
+</div>
+```
+
+Mobile screen-এ table horizontal scroll করা যাবে।
+
+---
+
+## 🚀 2️⃣4️⃣ Real Project — Product Card
+
+এখন আজকের সব concept একসাথে ব্যবহার করি।
+
+```html
+<div class="relative overflow-hidden rounded-xl border bg-white shadow">
+
+  <!-- Product Image -->
+  <div class="relative h-64 bg-gray-200">
+
+    <!-- Badge -->
+    <span
+      class="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-sm text-white"
+    >
+      Sale
+    </span>
+
+    <!-- Favorite -->
+    <button
+      class="absolute right-3 top-3 rounded-full bg-white p-2 shadow"
+    >
+      ♥
+    </button>
+
+  </div>
 
 
-      <!-- Image -->
-      <div class="w-full lg:w-1/2">
+  <!-- Content -->
+  <div class="p-5">
 
-        <div class="h-64 rounded-xl bg-gray-200 md:h-80 lg:h-96">
-        </div>
+    <h2 class="text-xl font-bold">
+      Wireless Headphone
+    </h2>
 
-      </div>
+    <p class="mt-2 text-gray-500">
+      Premium wireless headphone.
+    </p>
+
+    <div class="mt-4 flex items-center justify-between">
+
+      <span class="text-xl font-bold">
+        $59
+      </span>
+
+      <button class="rounded-lg bg-blue-600 px-4 py-2 text-white">
+        Buy
+      </button>
 
     </div>
 
   </div>
 
-</section>
+</div>
 ```
+
+এখানে আমরা ব্যবহার করেছি:
+
+```text
+relative
+absolute
+top-3
+left-3
+right-3
+overflow-hidden
+flex
+justify-between
+```
+
+🔥 এই ধরনের combination বাস্তব project-এ অনেক দেখতে পাবে।
 
 ---
 
-## 🧠 এই Code কীভাবে Responsive হলো?
+## ⚛️ 2️⃣5️⃣ React Example
 
-সবচেয়ে গুরুত্বপূর্ণ অংশ:
-
-```html
-flex-col lg:flex-row
-```
-
-Mobile:
-
-```text
-Content
-   ↓
-Image
-```
-
-Desktop:
-
-```text
-Content | Image
-```
-
----
-
-আর:
-
-```html
-text-center lg:text-left
-```
-
-Mobile:
-
-```text
-       Heading
-       Paragraph
-```
-
-Desktop:
-
-```text
-Heading
-Paragraph
-```
-
----
-
-আর:
-
-```html
-flex-col sm:flex-row
-```
-
-Mobile:
-
-```text
-┌──────────────┐
-│ Get Started  │
-├──────────────┤
-│ Learn More   │
-└──────────────┘
-```
-
-Small screen থেকে:
-
-```text
-┌──────────────┐ ┌────────────┐
-│ Get Started  │ │ Learn More │
-└──────────────┘ └────────────┘
-```
-
----
-
-## ⚛️ React-এ একই কাজ
-
-React JSX-এ:
+React JSX:
 
 ```jsx
-<section className="px-4 py-16 md:px-8 lg:px-16 lg:py-24">
-  <div className="mx-auto max-w-7xl">
+<div className="relative overflow-hidden rounded-xl border shadow">
 
-    <div className="flex flex-col items-center gap-10 lg:flex-row">
+  <div className="relative h-64 bg-gray-200">
 
-      <div className="w-full text-center lg:w-1/2 lg:text-left">
+    <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-white">
+      Sale
+    </span>
 
-        <h1 className="text-4xl font-bold md:text-5xl lg:text-6xl">
-          Build Modern Websites
-        </h1>
+    <button className="absolute right-3 top-3 rounded-full bg-white p-2 shadow">
+      ♥
+    </button>
 
-        <p className="mt-6 text-gray-600 md:text-lg">
-          Create beautiful responsive websites.
-        </p>
+  </div>
 
-        <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-          <button className="rounded-lg bg-blue-600 px-6 py-3 text-white">
-            Get Started
-          </button>
+  <div className="p-5">
 
-          <button className="rounded-lg border px-6 py-3">
-            Learn More
-          </button>
-        </div>
+    <h2 className="text-xl font-bold">
+      Wireless Headphone
+    </h2>
 
-      </div>
+    <p className="mt-2 text-gray-500">
+      Premium wireless headphone.
+    </p>
 
-      <div className="w-full lg:w-1/2">
-        <div className="h-64 rounded-xl bg-gray-200 md:h-80 lg:h-96" />
-      </div>
+    <div className="mt-4 flex items-center justify-between">
+
+      <span className="font-bold">
+        $59
+      </span>
+
+      <button className="rounded-lg bg-blue-600 px-4 py-2 text-white">
+        Buy
+      </button>
 
     </div>
 
   </div>
-</section>
+
+</div>
 ```
 
 ---
 
-## 🚨 একটি গুরুত্বপূর্ণ বিষয়
+## 📌 Day 9 Cheat Sheet
 
-অনেকে Tailwind-এ ভুলভাবে responsive class লেখে।
-
-❌ এভাবে ভাববে না:
-
-```text
-Mobile → আলাদা CSS
-Tablet → আলাদা CSS
-Desktop → আলাদা CSS
-```
-
-বরং ভাববে:
-
-```text
-Base style
-      ↓
-Mobile
-      ↓
-sm:
-      ↓
-md:
-      ↓
-lg:
-      ↓
-xl:
-```
-
-অর্থাৎ:
+###### Position
 
 ```html
-text-2xl md:text-4xl lg:text-6xl
+relative
+absolute
+fixed
+sticky
+static
 ```
 
-Base:
-
-```text
-text-2xl
-```
-
-তারপর বড় screen-এ override হচ্ছে।
-
----
-
-## 📌 আজকের Cheat Sheet
+###### Position Direction
 
 ```html
-<!-- Typography -->
-text-2xl md:text-4xl lg:text-6xl
+top-0
+right-0
+bottom-0
+left-0
+inset-0
+```
 
-<!-- Width -->
-w-full md:w-1/2 lg:w-1/3
+###### Layer
 
-<!-- Padding -->
-px-4 md:px-8 lg:px-16
+```html
+z-10
+z-20
+z-30
+z-40
+z-50
+```
 
-<!-- Margin -->
-mt-4 md:mt-8 lg:mt-12
+###### Display
 
-<!-- Flex -->
-flex flex-col md:flex-row
+```html
+block
+inline
+inline-block
+flex
+grid
+hidden
+```
 
-<!-- Grid -->
-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4
+###### Overflow
 
-<!-- Visibility -->
-hidden md:flex
+```html
+overflow-hidden
+overflow-auto
+overflow-scroll
+overflow-visible
 
-md:hidden
+overflow-x-auto
+overflow-y-auto
 ```
 
 ---
 
 ## 📝 আজকের Homework
 
-#### Task 1 — Responsive Navbar
+#### Task 1 — Product Card
+
+একটি Product Card বানাও যেখানে:
+
+```text
+┌────────────────────────┐
+│ Sale              ♥    │
+│                        │
+│       Product          │
+│        Image           │
+│                        │
+├────────────────────────┤
+│ Product Name           │
+│ Description            │
+│ $59             Buy    │
+└────────────────────────┘
+```
+
+অবশ্যই ব্যবহার করবে:
+
+```text
+relative
+absolute
+top-*
+left-*
+right-*
+overflow-hidden
+flex
+```
+
+---
+
+#### Task 2 — Sticky Navbar
 
 তৈরি করো:
 
-```text
-Mobile:
-Logo                 ☰
-
-Desktop:
-Logo    Home About Services Contact    Login
+```html
+<header class="sticky top-0 z-50">
 ```
 
-ব্যবহার করবে:
+Navbar-এ থাকবে:
 
-```html
-hidden
-flex
-md:flex
-md:hidden
-justify-between
-items-center
+```text
+Logo
+Home
+About
+Services
+Contact
+```
+
+Mobile-এ:
+
+```text
+Logo              ☰
+```
+
+Desktop-এ:
+
+```text
+Logo    Home About Services Contact
 ```
 
 ---
 
-#### Task 2 — Responsive Product Grid
+#### Task 3 — Floating Button
 
-৮টি Product Card তৈরি করো।
+Screen-এর নিচে ডানদিকে একটি button রাখো:
 
 ```html
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<button class="fixed bottom-5 right-5">
+  Help
+</button>
 ```
 
 ---
 
-#### Task 3 — Responsive Hero
+#### Task 4 — Scrollable Sidebar
 
-Hero Section-এ থাকবে:
+একটি sidebar বানাও:
 
-```text
-Heading
-Paragraph
-2 Buttons
-Image
+```html
+<aside class="h-screen overflow-y-auto">
 ```
 
-Mobile:
-
-```text
-Heading
-Paragraph
-Buttons
-Image
-```
-
-Desktop:
-
-```text
-Heading + Image
-Paragraph
-Buttons
-```
+এর ভিতরে অনেকগুলো menu item রাখো।
 
 ---
 
-## 🎯 Day 8-এর সবচেয়ে গুরুত্বপূর্ণ বিষয়
+## 🎯 আজকের Challenge
 
-আজ শুধু এই patternগুলো ভালোভাবে আয়ত্ত করো:
+একটি **E-commerce Product Grid** বানাও যেখানে প্রতিটি card-এ থাকবে:
 
-```html
-flex flex-col md:flex-row
+```text
+Product Image
+       ↓
+Sale Badge
+       ↓
+Favorite Button
+       ↓
+Product Name
+       ↓
+Price + Buy Button
 ```
 
-```html
-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4
-```
+Product grid:
 
 ```html
-text-2xl md:text-4xl lg:text-6xl
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 ```
+
+প্রতিটি card-এ:
 
 ```html
-w-full md:w-1/2
+relative
+overflow-hidden
+absolute
 ```
+
+ব্যবহার করবে।
+
+---
+
+## 🧠 Day 9-এর মূল শিক্ষা
+
+আজকের সবচেয়ে গুরুত্বপূর্ণ concept:
+
+```text
+relative
+   ↓
+absolute child-এর reference
+```
+
+```text
+absolute
+   ↓
+Parent-এর ভিতরে নির্দিষ্ট position
+```
+
+```text
+fixed
+   ↓
+Screen-এর সাথে fixed
+```
+
+```text
+sticky
+   ↓
+Scroll করার সময় আটকে থাকে
+```
+
+```text
+overflow-hidden
+   ↓
+বাইরে চলে যাওয়া content hide
+```
+
+```text
+overflow-y-auto
+   ↓
+Vertical scrolling
+```
+
+আর একটি গুরুত্বপূর্ণ real-world pattern মনে রাখবে:
 
 ```html
-hidden md:flex
+<div class="relative overflow-hidden">
+    
+    <img />
+
+    <span class="absolute left-3 top-3">
+        Sale
+    </span>
+
+</div>
 ```
 
-```html
-md:hidden
-```
-
-###### 🧠 মনে রাখবে:
-
-> **Tailwind = Mobile First**
-
-অর্থাৎ প্রথমে mobile-এর design লিখবে, তারপর `sm:`, `md:`, `lg:` ইত্যাদি ব্যবহার করে বড় screen-এর design তৈরি করবে।
+এটি **Product Card, Image Badge, Hero Banner, Notification, Avatar Badge**—সব জায়গায় কাজে লাগবে।
 

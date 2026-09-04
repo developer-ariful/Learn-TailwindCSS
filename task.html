@@ -8,19 +8,30 @@
 </head>
 
 <body>
-    <header class="mt-2 flex justify-between items-center">
-        <h2 class="text-4xl font-bold">Logo</h2>
-        <div class="hidden sm:w-1/2 lg:w-1/2 md:flex justify-between items-center">
-            <nav class="flex gap-6">
-                <a href="#">Home</a>
-                <a href="#">About</a>
-                <a href="#">Service</a>
-                <a href="#">Contact</a>
-            </nav>
-            <button class="bg-green-600 px-5 py-2 rounded text-white">Login</button>
+   <div class="relative bg-white border shadow rounded-xl overflow-hidden">
+    <!-- product Image  -->
+     <div class="relative h-64 bg-gray-200">
+      <!-- badge  -->
+       <span class="absolute left-3 top-3 bg-red-500 text-sm text-white px-3 py-1 rounded-full">Sale</span>
+       <!-- favorite -->
+        <button class="absolute right-3 top-3 rounded-full bg-white p-2 shadow">❤</button>
+     </div>
+     <!-- content  -->
+      <div class="p-5">
+        <h2 class="text-xl font-bold">
+          Wireless Headphone
+        </h2>
+        <p class="mt-2 text-gray-500">
+          Premium Wireless Headphone
+        </p>
+        <div class="mt-4 flex items-center justify-between">
+          <span class="text-xl font-bold">$59</span>
+          <button class="rounded-lg bg-blue-600 px-4 py-2 text-white">
+            Buy
+          </button>
         </div>
-        <button class="md:hidden border px-3 py-1 text-green-600 text-2xl ">☰</button>
-    </header>
+      </div>
+  </div>
 </body>
 
 </html>
