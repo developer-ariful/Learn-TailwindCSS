@@ -1,42 +1,58 @@
 <!doctype html>
-<html>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
+<body>
 
-<body class="px-5">
-  <div class="w-3/4 bg-blue-500">
-    Width 40
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
 
-  <!-- Layout -->
-  <div class="flex">
-    <div class="w-1/2 bg-orange-500">
-      Left
-    </div>
-    <div class="w-1/2 bg-green-500">
-      Right
-    </div>
-  </div>
-
-  <!-- height  -->
-   <div class="min-h-screen flex items-center justify-center bg-red-500">
-    <h1 class="text-4xl font-bold">
-      Welcome
+  <body class="px-5">
+    <h1 class="text-2xl md:text-4xl lg:text-6xl">
+      Hello world
     </h1>
-   </div>
 
-   <!-- max-w  -->
-    <div class="max-w-6xl mx-auto w-full bg-cyan-500">
-      Content
+    <div class="text-center sm:text-left">
+      Hello
     </div>
-    <div class="w-full max-w-7xl mx-auto px-4">
-      Content
+    <br><br><br>
+    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl">
+      Build Your Future
+    </h1>
+
+    <br><br><br>
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="bg-green-600 text-white p-4 text-center">Items-1</div>
+      <div class="bg-green-600 text-white p-4 text-center">Items-2</div>
     </div>
 
-</body>
+    <br><br><br>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-center">
+      <div class="bg-cyan-500 text-white rounded-md shadow p-4 shadow-gray-700">
+        Column-1
+      </div>
+      <div class="bg-cyan-500 text-white rounded-md shadow p-4 shadow-gray-700">
+        Column-2
+      </div>
+      <div class="bg-cyan-500 text-white rounded-md shadow p-4 shadow-gray-700">
+        Column-3
+      </div>
+      <div class="bg-cyan-500 text-white rounded-md shadow p-4 shadow-gray-700">
+        Column-4
+      </div>
+    </div>
+    <br><br><br>
+    <nav class="flex items-center justify-between p-4">
+      <div class="text-2xl font-bold">Logo</div>
+      <div class="hidden md:flex gap-6">
+        <a href="#">Link-1</a>
+        <a href="#">Link-2</a>
+        <a href="#">Link-3</a>
+        <a href="#">Link-4</a>
+      </div>
+      <button class="md:hidden text-2xl border rounded-md px-2">☰</button>
+    </nav>
+  </body>
 
-</html>
+  </html>
