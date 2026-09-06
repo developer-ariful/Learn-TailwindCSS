@@ -1,347 +1,259 @@
 # Learn TailwinCSS
 *Day By Day*
 
-## 🎯 Tailwind CSS — Day 9
+# 🎯 Tailwind CSS — Day 10
 
-#### Positioning + Display + Overflow
+## Borders, Shadows, Rings, Dividers & Effects
 
-আজ আমরা Tailwind CSS-এর এমন কিছু বিষয় শিখব যেগুলো **Navbar, Dropdown, Modal, Badge, Notification, Sticky Header, Image Overlay, Sidebar** ইত্যাদি বানাতে প্রতিদিন ব্যবহার করবে।
+আজ আমরা Tailwind CSS-এর এমন কিছু utility শিখব যেগুলো ব্যবহার করে সাধারণ UI-কে **professional এবং polished** করা যায়।
 
-আজকের ৩টি মূল বিষয়:
-
-```text
-1. Position
-2. Display
-3. Overflow
-```
-
----
-
-## 🧠 আজকের Learning Goal
-
-
-* `relative`
-* `absolute`
-* `fixed`
-* `sticky`
-* `static`
-* `top-*`, `right-*`, `bottom-*`, `left-*`
-* `inset-*`
-* `z-*`
-* `hidden`
-* `block`
-* `inline-block`
-* `flex`
-* `grid`
-* `overflow-hidden`
-* `overflow-auto`
-* `overflow-y-auto`
-* `overflow-x-auto`
+আজকের বিষয়গুলো React project-এ প্রতিদিনই কাজে লাগবে—বিশেষ করে **Card, Button, Form, Dashboard, Navbar, E-commerce UI** তৈরির সময়।
 
 
 
+# 1️⃣ Border
 
-## 1️⃣ Position কী?
-
-CSS-এর `position` ব্যবহার করে আমরা কোনো element-কে নির্দিষ্ট জায়গায় রাখতে পারি।
-
-Tailwind-এ:
-
-```text
-static
-relative
-absolute
-fixed
-sticky
-```
-
----
-
-## 2️⃣ `relative`
+Tailwind-এ সবচেয়ে basic border:
 
 ```html
-<div class="relative">
-```
-
-`relative` সাধারণত নিজে থেকে খুব বেশি পরিবর্তন করে না।
-
-কিন্তু এটি সবচেয়ে বেশি গুরুত্বপূর্ণ হয় যখন এর ভিতরের কোনো element-এ `absolute` ব্যবহার করি।
-
-উদাহরণ:
-
-```html
-<div class="relative">
-  <div class="absolute top-0 right-0">
-    Badge
-  </div>
+<div class="border">
+  Content
 </div>
 ```
 
-এখানে parent:
+এটি সাধারণত `1px` border তৈরি করে।
 
-```text
-relative
-```
+### Border thickness
 
-এবং child:
+```html
+<div class="border">1px</div>
 
-```text
-absolute
+<div class="border-2">2px</div>
+
+<div class="border-4">4px</div>
+
+<div class="border-8">8px</div>
 ```
 
 ---
 
-## 3️⃣ `absolute`
+# 2️⃣ Border Color
+
+Border-এর color পরিবর্তন:
 
 ```html
-<div class="absolute">
-```
-
-`absolute` element-কে নির্দিষ্ট position-এ বসাতে সাহায্য করে।
-
-সাধারণত `absolute` element-এর parent-এ:
-
-```html
-relative
-```
-
-দেওয়া হয়।
-
----
-
-## 🔥 4️⃣ Relative + Absolute
-
-এটি খুব ভালোভাবে বুঝতে হবে।
-
-```html
-<div class="relative h-40 w-40 bg-gray-200">
-
-  <div class="absolute right-2 top-2 rounded bg-red-500 px-2 py-1 text-white">
-    Sale
-  </div>
-
+<div class="border border-gray-300">
+  Card
 </div>
 ```
 
-Visual:
-
-```text
-┌────────────────────┐
-│              Sale  │
-│                    │
-│                    │
-│                    │
-└────────────────────┘
-```
-
-এখানে:
-
-```text
-Parent
-↓
-relative
-
-Child
-↓
-absolute
-```
-
-আর:
-
-```text
-top-2
-→ উপর থেকে 2
-
-right-2
-→ ডান থেকে 2
-```
-
----
-
-## 5️⃣ `top`, `right`, `bottom`, `left`
-
-Absolute element-এর position পরিবর্তন করতে:
+আরও:
 
 ```html
-top-0
-top-2
-top-4
+border-red-500
+border-blue-500
+border-green-500
+border-yellow-500
+border-purple-500
 ```
 
-```html
-right-0
-right-2
-right-4
-```
+### উদাহরণ
 
 ```html
-bottom-0
-bottom-2
-bottom-4
-```
-
-```html
-left-0
-left-2
-left-4
-```
-
-উদাহরণ:
-
-```html
-<div class="absolute bottom-4 left-4">
-  Hello
+<div class="border-2 border-blue-500 p-5">
+  Blue Border
 </div>
 ```
 
-মানে:
-
-```text
-Bottom → 4
-Left   → 4
-```
-
 ---
 
-## 6️⃣ `inset-*`
+# 3️⃣ নির্দিষ্ট Side-এ Border
 
-চারদিক থেকে position একসাথে দিতে পারো।
+সবদিকে border না দিয়ে নির্দিষ্ট পাশে দিতে পারো।
 
-```html
-inset-0
-```
-
-এর অর্থ:
-
-```text
-top: 0
-right: 0
-bottom: 0
-left: 0
-```
-
-উদাহরণ:
+### Top
 
 ```html
-<div class="relative h-64">
+<div class="border-t">
+```
 
-  <div class="absolute inset-0 bg-black/50">
-  </div>
+### Bottom
 
+```html
+<div class="border-b">
+```
+
+### Left
+
+```html
+<div class="border-l">
+```
+
+### Right
+
+```html
+<div class="border-r">
+```
+
+### Example
+
+```html
+<div class="border-b border-gray-200 p-4">
+  Navigation Item
 </div>
 ```
 
-এটি parent-এর পুরো জায়গা cover করবে।
+এটি Navbar বা List item-এ অনেক কাজে লাগে।
 
 ---
 
-## 🔥 7️⃣ Image Overlay
+# 4️⃣ Border Style
 
-এখন একটি real-world example দেখি।
+Solid:
 
 ```html
-<div class="relative h-64 overflow-hidden rounded-xl">
+<div class="border">
+```
 
-  <div class="h-full bg-gray-400">
-    Image
-  </div>
+Dashed:
 
-  <div class="absolute inset-0 flex items-center justify-center bg-black/40">
+```html
+<div class="border border-dashed">
+```
 
-    <h2 class="text-3xl font-bold text-white">
-      Beautiful Nature
-    </h2>
+Dotted:
 
-  </div>
+```html
+<div class="border border-dotted">
+```
 
+Double:
+
+```html
+<div class="border border-double">
+```
+
+None:
+
+```html
+<div class="border-none">
+```
+
+---
+
+# 5️⃣ Dashed Border Example
+
+Upload component-এর মতো UI:
+
+```html
+<div class="rounded-xl border-2 border-dashed border-gray-300 p-10 text-center">
+  <p class="text-gray-500">
+    Drag & Drop your file here
+  </p>
 </div>
 ```
 
-এখানে:
-
-```text
-Parent
-relative
-
-Overlay
-absolute inset-0
-```
-
-Visual:
-
-```text
-┌──────────────────────────────┐
-│                              │
-│      Beautiful Nature        │
-│                              │
-└──────────────────────────────┘
-```
-
-এ ধরনের UI **hero section, banner, product image, portfolio**-তে প্রচুর ব্যবহার হয়।
+এ ধরনের UI dashboard এবং admin panel-এ খুব common।
 
 ---
 
-## 8️⃣ Product Badge
+# 6️⃣ Border + Rounded
 
-E-commerce website-এ:
+আগের দিনের `rounded`-এর সাথে border ব্যবহার করলে সুন্দর card তৈরি করা যায়।
 
 ```html
-<div class="relative">
-
-  <div class="h-64 bg-gray-200">
-    Product Image
-  </div>
-
-  <span class="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-sm text-white">
-    -20%
-  </span>
-
+<div class="rounded-xl border border-gray-200 p-6">
+  <h2 class="text-xl font-bold">
+    Product
+  </h2>
 </div>
 ```
 
-Visual:
+আরও:
 
 ```text
-┌─────────────────────────┐
-│ -20%                    │
-│                         │
-│      Product Image      │
-│                         │
-└─────────────────────────┘
+rounded
+rounded-sm
+rounded-md
+rounded-lg
+rounded-xl
+rounded-2xl
+rounded-3xl
+rounded-full
 ```
-
-🔥 এটি খুব common pattern।
 
 ---
 
-## 9️⃣ `z-*`
+# 7️⃣ Shadow
 
-কখনো দুটি element একে অপরের উপর চলে আসে।
+এখন আসি **Shadow**-এ।
 
-তখন কোনটি সামনে থাকবে সেটি নিয়ন্ত্রণ করতে:
+Card বা button-কে page থেকে visually আলাদা করার জন্য shadow ব্যবহার করি।
 
 ```html
-z-10
-z-20
-z-30
-z-40
-z-50
+<div class="shadow">
+  Card
+</div>
 ```
 
-ব্যবহার করা যায়।
+Tailwind-এর সাধারণ shadow scale:
 
-উদাহরণ:
+```text
+shadow-sm
+shadow
+shadow-md
+shadow-lg
+shadow-xl
+shadow-2xl
+```
+
+---
+
+## Shadow Comparison
 
 ```html
-<div class="relative">
+<div class="shadow-sm p-5">
+  Small Shadow
+</div>
 
-  <div class="absolute z-10">
-    Background
-  </div>
+<div class="shadow-md p-5">
+  Medium Shadow
+</div>
 
-  <div class="absolute z-20">
-    Content
-  </div>
+<div class="shadow-xl p-5">
+  Large Shadow
+</div>
+```
+
+সাধারণভাবে:
+
+```text
+shadow-sm → খুব হালকা
+shadow    → সাধারণ
+shadow-md → মাঝারি
+shadow-lg → বড়
+shadow-xl → আরও বড়
+shadow-2xl → সবচেয়ে prominent
+```
+
+---
+
+# 8️⃣ Professional Card
+
+```html
+<div class="rounded-xl border border-gray-200 bg-white p-6 shadow-md">
+  
+  <h2 class="text-xl font-bold">
+    Wireless Headphone
+  </h2>
+
+  <p class="mt-2 text-gray-500">
+    Premium wireless headphone.
+  </p>
+
+  <button class="mt-5 rounded-lg bg-blue-600 px-5 py-2 text-white">
+    Buy Now
+  </button>
 
 </div>
 ```
@@ -349,723 +261,720 @@ z-50
 এখানে:
 
 ```text
-z-20
+border
+rounded
+bg
+p
+shadow
+text
+button
 ```
 
-element সামনে থাকবে।
+সব একসাথে কাজ করছে।
 
 ---
 
-## 🔟 `fixed`
+# 9️⃣ Shadow Hover Effect
 
-`fixed` element browser viewport-এর সাথে fixed থাকে।
-
-উদাহরণ:
+Mouse hover করলে shadow বাড়ানো যায়।
 
 ```html
-<button class="fixed bottom-6 right-6 rounded-full bg-blue-600 px-5 py-3 text-white">
-  Help
-</button>
-```
-
-এটি screen-এর নিচের ডানদিকে থাকবে।
-
-Visual:
-
-```text
-┌──────────────────────────────┐
-│                              │
-│          Website             │
-│                              │
-│                              │
-│                        Help  │
-└──────────────────────────────┘
-```
-
-Page scroll করলেও এটি একই জায়গায় থাকবে।
-
----
-
-## 1️⃣1️⃣ Fixed Button — Real Example
-
-ধরো তুমি একটি website-এ floating button দিতে চাও:
-
-```html
-<button
-  class="fixed bottom-5 right-5 rounded-full bg-green-600 px-5 py-3 text-white shadow-lg"
->
-  Chat
-</button>
-```
-
-এটি:
-
-```text
-bottom-5
-right-5
-```
-
-এর কারণে নিচের ডানদিকে থাকবে।
-
----
-
-## 1️⃣2️⃣ `sticky`
-
-`sticky` একটু আলাদা।
-
-```html
-<div class="sticky top-0">
-```
-
-এটি scrolling-এর সময় নির্দিষ্ট position-এ আটকে থাকতে পারে।
-
-উদাহরণ:
-
-```html
-<header class="sticky top-0 z-50 bg-white shadow">
-  Navbar
-</header>
-```
-
-এটি **sticky navbar/header** তৈরিতে খুব useful।
-
----
-
-## 🔥 Sticky Navbar
-
-```html
-<header class="sticky top-0 z-50 border-b bg-white">
-
-  <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-
-    <h1 class="text-xl font-bold">
-      My Website
-    </h1>
-
-    <div class="hidden gap-6 md:flex">
-      <a href="##">Home</a>
-      <a href="##">About</a>
-      <a href="##">Services</a>
-      <a href="##">Contact</a>
-    </div>
-
-  </nav>
-
-</header>
+<div class="rounded-xl border p-6 shadow-sm hover:shadow-lg">
+  Product Card
+</div>
 ```
 
 এখানে:
 
 ```text
-sticky
-↓
-Navbar scrolling-এর সময় আটকে থাকবে
+Normal → shadow-sm
+Hover  → shadow-lg
+```
 
-top-0
-↓
-একদম উপরে থাকবে
+এটি card UI-তে খুব জনপ্রিয় pattern।
 
-z-50
-↓
-অন্য element-এর উপরে থাকবে
+---
+
+# 🔟 `shadow-none`
+
+Shadow সম্পূর্ণ remove করতে:
+
+```html
+<div class="shadow-none">
+```
+
+Responsive বা hover state-এও ব্যবহার করা যায়।
+
+---
+
+# 1️⃣1️⃣ Ring কী?
+
+`ring` দেখতে border-এর মতো হলেও এটি **border-এর বাইরে একটি visual outline** তৈরি করে।
+
+```html
+<div class="ring-2">
+  Content
+</div>
+```
+
+### Ring size
+
+```text
+ring-1
+ring-2
+ring-4
+ring-8
 ```
 
 ---
 
-## 🧠 `absolute` vs `fixed` vs `sticky`
+# 1️⃣2️⃣ Ring Color
 
-| Position   | কোথায় ব্যবহার করবে                          |
-| ---------- | ------------------------------------------- |
-| `relative` | Absolute child-এর reference                 |
-| `absolute` | Parent-এর ভিতরে নির্দিষ্ট জায়গায়            |
-| `fixed`    | Screen-এর নির্দিষ্ট জায়গায়                  |
-| `sticky`   | Scroll করার সময় নির্দিষ্ট জায়গায় আটকে রাখতে |
+```html
+<div class="ring-2 ring-blue-500">
+  Content
+</div>
+```
+
+উদাহরণ:
+
+```html
+ring-blue-500
+ring-red-500
+ring-green-500
+ring-purple-500
+```
+
+---
+
+# 1️⃣3️⃣ Ring vs Border
+
+এটা খুব গুরুত্বপূর্ণ।
+
+```text
+Border
+┌───────────────────┐
+│     Content       │
+└───────────────────┘
+```
+
+Ring:
+
+```text
+   Ring
+╔═══════════════════╗
+║ ┌───────────────┐ ║
+║ │    Content    │ ║
+║ └───────────────┘ ║
+╚═══════════════════╝
+```
 
 সহজভাবে:
 
-```text
-relative
-→ Parent reference
-
-absolute
-→ Parent-এর ভিতরে position
-
-fixed
-→ Screen-এর সাথে fixed
-
-sticky
-→ Scroll করলে আটকে যায়
-```
+* `border` → element-এর border
+* `ring` → element-এর বাইরে outline effect
 
 ---
 
-## 1️⃣3️⃣ Display
+# 1️⃣4️⃣ Form Input + Ring
 
-Tailwind-এ element-এর display পরিবর্তন করতে পারো।
+Form-এর ক্ষেত্রে `ring` খুব গুরুত্বপূর্ণ।
 
-সবচেয়ে গুরুত্বপূর্ণ:
+```html
+<input
+  type="text"
+  placeholder="Enter your name"
+  class="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+/>
+```
+
+এখানে:
 
 ```text
-block
-inline
-inline-block
-flex
-inline-flex
-grid
-hidden
+focus:
+    ↓
+ring-2
+    ↓
+blue ring
 ```
+
+User input field-এ click করলে focus ring দেখা যাবে।
 
 ---
 
-## 1️⃣4️⃣ `hidden`
+# 1️⃣5️⃣ `ring-offset`
 
-Element hide করতে:
+Ring এবং element-এর মধ্যে কিছু space দিতে পারো।
 
 ```html
-<div class="hidden">
-  Hello
+<div class="ring-2 ring-blue-500 ring-offset-2">
+  Content
 </div>
 ```
 
-Responsive design-এ খুব গুরুত্বপূর্ণ।
-
-যেমন:
-
-```html
-<div class="hidden md:block">
-  Desktop Content
-</div>
-```
-
-মানে:
+এখানে:
 
 ```text
-Mobile
-→ hidden
-
-md এবং তার উপরে
-→ block
+ring-offset-2
 ```
+
+ring-এর চারপাশে additional gap তৈরি করে।
 
 ---
 
-## 1️⃣5️⃣ `block`
+# 1️⃣6️⃣ Focus State
+
+Forms-এর জন্য এই pattern মনে রাখবে:
 
 ```html
-<div class="block">
+<input
+  class="border border-gray-300 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+/>
 ```
 
-Element block হিসেবে থাকবে।
-
----
-
-## 1️⃣6️⃣ `inline-block`
-
-```html
-<span class="inline-block">
-  Badge
-</span>
-```
-
-এটি ছোট label, badge, button-like element ইত্যাদিতে কাজে লাগে।
-
----
-
-## 1️⃣7️⃣ `flex`
-
-Day 6-এ শিখেছ:
-
-```html
-<div class="flex">
-```
-
-এটি:
-
-```css
-display: flex;
-```
-
-এর equivalent।
-
----
-
-## 1️⃣8️⃣ `grid`
-
-Day 7-এ শিখেছ:
-
-```html
-<div class="grid">
-```
-
-এটি:
-
-```css
-display: grid;
-```
-
-এর equivalent।
-
----
-
-## 🔥 1️⃣9️⃣ Overflow
-
-এখন খুব গুরুত্বপূর্ণ একটি বিষয়:
+Normal:
 
 ```text
-overflow-hidden
-overflow-auto
-overflow-scroll
-overflow-visible
+Gray Border
 ```
+
+Focus:
+
+```text
+Blue Border
++
+Blue Ring
+```
+
+Professional form design-এর জন্য খুব useful।
 
 ---
 
-## 2️⃣0️⃣ `overflow-hidden`
+# 1️⃣7️⃣ Divider
 
-কোনো content container-এর বাইরে চলে গেলে সেটি hide করতে:
+ধরো তোমার কাছে একটি list আছে:
 
-```html
-<div class="overflow-hidden">
+```text
+User 1
+────────────
+User 2
+────────────
+User 3
+────────────
+User 4
 ```
 
-সবচেয়ে common use:
+প্রতিটি item-এর মধ্যে divider তৈরি করতে:
 
 ```html
-<div class="overflow-hidden rounded-xl">
-```
-
-Image-এর rounded corner ঠিক রাখতে এটি অনেক ব্যবহার হয়।
-
----
-
-## 🔥 Image Card Example
-
-```html
-<div class="overflow-hidden rounded-xl border">
-
-  <div class="h-48 bg-gray-300">
-    Image
-  </div>
-
-  <div class="p-4">
-    <h2 class="font-bold">
-      Product
-    </h2>
-  </div>
-
+<div class="divide-y">
+  <div class="p-4">User 1</div>
+  <div class="p-4">User 2</div>
+  <div class="p-4">User 3</div>
+  <div class="p-4">User 4</div>
 </div>
 ```
 
+`divide-y` child elements-এর মধ্যে horizontal divider তৈরি করে।
+
 ---
 
-## 2️⃣1️⃣ `overflow-auto`
-
-Content বেশি হয়ে গেলে প্রয়োজন অনুযায়ী scrollbar দেখাবে।
+# 1️⃣8️⃣ Divider Color
 
 ```html
-<div class="h-64 overflow-auto">
-  Long Content...
-</div>
+<div class="divide-y divide-gray-200">
 ```
 
-এটি dashboard, sidebar, chat area ইত্যাদিতে useful।
-
----
-
-## 2️⃣2️⃣ `overflow-y-auto`
-
-শুধু vertical direction:
+আরও:
 
 ```html
-<div class="h-96 overflow-y-auto">
-  Long Content
-</div>
+divide-gray-100
+divide-gray-200
+divide-gray-300
 ```
 
 ---
 
-## 2️⃣3️⃣ `overflow-x-auto`
+# 1️⃣9️⃣ Vertical Divider
 
-Horizontal scrolling:
+Horizontal-এর পরিবর্তে vertical divider:
 
 ```html
-<div class="overflow-x-auto">
-  Wide Content
+<div class="flex divide-x">
+  <div class="p-4">Home</div>
+  <div class="p-4">About</div>
+  <div class="p-4">Contact</div>
 </div>
 ```
 
-Responsive table-এর ক্ষেত্রে খুব useful।
+এখানে:
+
+```text
+Home | About | Contact
+```
+
+---
+
+# 2️⃣0️⃣ Divider Pattern
+
+মনে রাখো:
+
+```text
+divide-y → vertical list-এর মধ্যে horizontal line
+
+divide-x → horizontal layout-এর মধ্যে vertical line
+```
+
+Example:
+
+```html
+<div class="divide-y divide-gray-200">
+```
+
+এবং:
+
+```html
+<div class="flex divide-x divide-gray-200">
+```
+
+---
+
+# 2️⃣1️⃣ Opacity
+
+Element কতটা transparent হবে:
+
+```html
+<div class="opacity-50">
+  Content
+</div>
+```
+
+Common values:
+
+```text
+opacity-0
+opacity-10
+opacity-25
+opacity-50
+opacity-75
+opacity-100
+```
 
 উদাহরণ:
 
 ```html
-<div class="overflow-x-auto">
-
-  <table class="min-w-[700px]">
-    ...
-  </table>
-
-</div>
+<p class="opacity-50">
+  Secondary text
+</p>
 ```
-
-Mobile screen-এ table horizontal scroll করা যাবে।
 
 ---
 
-## 🚀 2️⃣4️⃣ Real Project — Product Card
-
-এখন আজকের সব concept একসাথে ব্যবহার করি।
+# 2️⃣2️⃣ Hover Opacity
 
 ```html
-<div class="relative overflow-hidden rounded-xl border bg-white shadow">
+<button class="opacity-80 hover:opacity-100">
+  Buy Now
+</button>
+```
 
-  <!-- Product Image -->
-  <div class="relative h-64 bg-gray-200">
+Normal:
 
-    <!-- Badge -->
-    <span
-      class="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-sm text-white"
-    >
-      Sale
-    </span>
+```text
+80% opacity
+```
 
-    <!-- Favorite -->
-    <button
-      class="absolute right-3 top-3 rounded-full bg-white p-2 shadow"
-    >
-      ♥
-    </button>
+Hover:
 
+```text
+100% opacity
+```
+
+---
+
+# 2️⃣3️⃣ Transition
+
+Hover effect smooth করার জন্য `transition` ব্যবহার করতে পারো।
+
+```html
+<button class="transition hover:shadow-lg">
+  Buy Now
+</button>
+```
+
+আরও সুন্দর:
+
+```html
+<button class="transition duration-300 hover:shadow-lg">
+  Buy Now
+</button>
+```
+
+এখানে:
+
+```text
+transition
+    +
+duration-300
+    +
+hover:shadow-lg
+```
+
+একটি smooth effect তৈরি করে।
+
+---
+
+# 2️⃣4️⃣ Real-world Product Card 🚀
+
+এখন সব concept একসাথে ব্যবহার করি:
+
+```html
+<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition duration-300 hover:shadow-xl">
+
+  <div class="h-52 rounded-xl bg-gray-100">
+    <!-- Product Image -->
   </div>
 
+  <div class="mt-5">
 
-  <!-- Content -->
-  <div class="p-5">
-
-    <h2 class="text-xl font-bold">
+    <h2 class="text-xl font-bold text-gray-900">
       Wireless Headphone
     </h2>
 
     <p class="mt-2 text-gray-500">
-      Premium wireless headphone.
+      Premium quality wireless headphone.
     </p>
 
-    <div class="mt-4 flex items-center justify-between">
+    <div class="mt-5 flex items-center justify-between">
 
-      <span class="text-xl font-bold">
+      <span class="text-2xl font-bold">
         $59
       </span>
 
-      <button class="rounded-lg bg-blue-600 px-4 py-2 text-white">
-        Buy
+      <button
+        class="rounded-lg bg-blue-600 px-5 py-2 text-white transition duration-300 hover:bg-blue-700 hover:shadow-md"
+      >
+        Buy Now
       </button>
 
     </div>
 
   </div>
-
 </div>
 ```
 
-এখানে আমরা ব্যবহার করেছি:
+### এখানে কী কী ব্যবহার হয়েছে?
 
 ```text
-relative
-absolute
-top-3
-left-3
-right-3
-overflow-hidden
+border
+rounded
+shadow
+hover:shadow
+transition
+duration
+bg
+padding
 flex
-justify-between
+text
 ```
 
-🔥 এই ধরনের combination বাস্তব project-এ অনেক দেখতে পাবে।
+এটাই Tailwind শেখার আসল উদ্দেশ্য—**অনেক utility একসাথে ব্যবহার করে বাস্তব UI তৈরি করা।**
 
 ---
 
-## ⚛️ 2️⃣5️⃣ React Example
+# 2️⃣5️⃣ React JSX Version
 
-React JSX:
+React-এ অবশ্যই `className` ব্যবহার করবে:
 
 ```jsx
-<div className="relative overflow-hidden rounded-xl border shadow">
+function ProductCard() {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition duration-300 hover:shadow-xl">
+      
+      <div className="h-52 rounded-xl bg-gray-100">
+        {/* Product Image */}
+      </div>
 
-  <div className="relative h-64 bg-gray-200">
+      <div className="mt-5">
+        <h2 className="text-xl font-bold text-gray-900">
+          Wireless Headphone
+        </h2>
 
-    <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-white">
-      Sale
-    </span>
+        <p className="mt-2 text-gray-500">
+          Premium quality wireless headphone.
+        </p>
 
-    <button className="absolute right-3 top-3 rounded-full bg-white p-2 shadow">
-      ♥
-    </button>
+        <div className="mt-5 flex items-center justify-between">
+          <span className="text-2xl font-bold">
+            $59
+          </span>
 
-  </div>
-
-  <div className="p-5">
-
-    <h2 className="text-xl font-bold">
-      Wireless Headphone
-    </h2>
-
-    <p className="mt-2 text-gray-500">
-      Premium wireless headphone.
-    </p>
-
-    <div className="mt-4 flex items-center justify-between">
-
-      <span className="font-bold">
-        $59
-      </span>
-
-      <button className="rounded-lg bg-blue-600 px-4 py-2 text-white">
-        Buy
-      </button>
+          <button
+            className="rounded-lg bg-blue-600 px-5 py-2 text-white transition duration-300 hover:bg-blue-700 hover:shadow-md"
+          >
+            Buy Now
+          </button>
+        </div>
+      </div>
 
     </div>
+  );
+}
 
-  </div>
-
-</div>
+export default ProductCard;
 ```
 
 ---
 
-## 📌 Day 9 Cheat Sheet
+# 🧩 2️⃣6️⃣ আজকের গুরুত্বপূর্ণ Combination
 
-###### Position
+Professional UI-তে এই ধরনের combination খুব বেশি ব্যবহার করবে:
+
+### Card
 
 ```html
-relative
-absolute
-fixed
-sticky
-static
+border
+rounded-xl
+shadow-md
 ```
 
-###### Position Direction
+### Interactive Card
 
 ```html
-top-0
-right-0
-bottom-0
-left-0
-inset-0
+shadow-sm
+transition
+hover:shadow-lg
 ```
 
-###### Layer
+### Input
 
 ```html
-z-10
-z-20
-z-30
-z-40
-z-50
+border
+outline-none
+focus:ring-2
+focus:ring-blue-500
 ```
 
-###### Display
+### List
 
 ```html
-block
-inline
-inline-block
-flex
-grid
-hidden
+divide-y
+divide-gray-200
 ```
 
-###### Overflow
+### Button
 
 ```html
-overflow-hidden
-overflow-auto
-overflow-scroll
-overflow-visible
-
-overflow-x-auto
-overflow-y-auto
+shadow-sm
+transition
+hover:shadow-md
 ```
 
 ---
 
-## 📝 আজকের Homework
+# 🧪 আজকের Practice
 
-#### Task 1 — Product Card
-
-একটি Product Card বানাও যেখানে:
-
-```text
-┌────────────────────────┐
-│ Sale              ♥    │
-│                        │
-│       Product          │
-│        Image           │
-│                        │
-├────────────────────────┤
-│ Product Name           │
-│ Description            │
-│ $59             Buy    │
-└────────────────────────┘
-```
-
-অবশ্যই ব্যবহার করবে:
-
-```text
-relative
-absolute
-top-*
-left-*
-right-*
-overflow-hidden
-flex
-```
-
----
-
-#### Task 2 — Sticky Navbar
+## Task 1 — Pricing Card
 
 তৈরি করো:
 
-```html
-<header class="sticky top-0 z-50">
+```text
+┌─────────────────────────┐
+│       PRO PLAN          │
+│                         │
+│        $29/month        │
+│                         │
+│ ✓ Feature One           │
+│ ✓ Feature Two           │
+│ ✓ Feature Three         │
+│                         │
+│     [ Get Started ]     │
+└─────────────────────────┘
 ```
 
-Navbar-এ থাকবে:
+ব্যবহার করবে:
 
 ```text
-Logo
-Home
-About
-Services
-Contact
-```
-
-Mobile-এ:
-
-```text
-Logo              ☰
-```
-
-Desktop-এ:
-
-```text
-Logo    Home About Services Contact
+border
+rounded
+shadow
+divide-y
+hover
+transition
 ```
 
 ---
 
-#### Task 3 — Floating Button
+## Task 2 — Login Form
 
-Screen-এর নিচে ডানদিকে একটি button রাখো:
+তৈরি করো:
+
+```text
+┌──────────────────────────┐
+│       Login              │
+│                          │
+│ Email                    │
+│ [____________________]   │
+│                          │
+│ Password                 │
+│ [____________________]   │
+│                          │
+│      [ Login ]           │
+└──────────────────────────┘
+```
+
+Input-এ অবশ্যই ব্যবহার করবে:
 
 ```html
-<button class="fixed bottom-5 right-5">
-  Help
-</button>
+focus:border-blue-500
+focus:ring-2
+focus:ring-blue-500
 ```
 
 ---
 
-#### Task 4 — Scrollable Sidebar
+## Task 3 — User List
 
-একটি sidebar বানাও:
-
-```html
-<aside class="h-screen overflow-y-auto">
+```text
+User 1
+──────────────────
+User 2
+──────────────────
+User 3
+──────────────────
+User 4
 ```
 
-এর ভিতরে অনেকগুলো menu item রাখো।
+Hint:
+
+```html
+<div class="divide-y divide-gray-200">
+```
 
 ---
 
-## 🎯 আজকের Challenge
-
-একটি **E-commerce Product Grid** বানাও যেখানে প্রতিটি card-এ থাকবে:
+# 🧠 Day 10 Cheat Sheet
 
 ```text
-Product Image
-       ↓
-Sale Badge
-       ↓
-Favorite Button
-       ↓
-Product Name
-       ↓
-Price + Buy Button
+BORDER
+────────────────────────
+
+border
+border-2
+border-4
+border-8
+
+border-gray-300
+border-blue-500
+
+border-t
+border-r
+border-b
+border-l
+
+border-dashed
+border-dotted
+border-double
+border-none
+
+
+SHADOW
+────────────────────────
+
+shadow-sm
+shadow
+shadow-md
+shadow-lg
+shadow-xl
+shadow-2xl
+shadow-none
+
+
+RING
+────────────────────────
+
+ring
+ring-1
+ring-2
+ring-4
+ring-8
+
+ring-blue-500
+ring-offset-2
+
+focus:ring-2
+focus:ring-blue-500
+
+
+DIVIDER
+────────────────────────
+
+divide-y
+divide-x
+divide-gray-200
+
+
+OPACITY
+────────────────────────
+
+opacity-0
+opacity-50
+opacity-75
+opacity-100
+
+
+EFFECT
+────────────────────────
+
+transition
+duration-300
+hover:shadow-lg
+hover:opacity-100
 ```
-
-Product grid:
-
-```html
-<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-```
-
-প্রতিটি card-এ:
-
-```html
-relative
-overflow-hidden
-absolute
-```
-
-ব্যবহার করবে।
 
 ---
 
-## 🧠 Day 9-এর মূল শিক্ষা
+# 🎯 আজকের Key Takeaway
 
-আজকের সবচেয়ে গুরুত্বপূর্ণ concept:
-
-```text
-relative
-   ↓
-absolute child-এর reference
-```
+আজকের সবচেয়ে গুরুত্বপূর্ণ বিষয়গুলো:
 
 ```text
-absolute
-   ↓
-Parent-এর ভিতরে নির্দিষ্ট position
+border  → element-এর চারপাশে line
+
+shadow  → depth / elevation
+
+ring    → element-এর বাইরের outline
+
+divide  → child elements-এর মধ্যে separator
+
+opacity → transparency
+
+transition → smooth animation
 ```
 
-```text
-fixed
-   ↓
-Screen-এর সাথে fixed
-```
-
-```text
-sticky
-   ↓
-Scroll করার সময় আটকে থাকে
-```
-
-```text
-overflow-hidden
-   ↓
-বাইরে চলে যাওয়া content hide
-```
-
-```text
-overflow-y-auto
-   ↓
-Vertical scrolling
-```
-
-আর একটি গুরুত্বপূর্ণ real-world pattern মনে রাখবে:
+একটি খুব গুরুত্বপূর্ণ UI pattern:
 
 ```html
-<div class="relative overflow-hidden">
-    
-    <img />
-
-    <span class="absolute left-3 top-3">
-        Sale
-    </span>
-
-</div>
+<div
+  class="rounded-xl border border-gray-200
+         shadow-sm transition duration-300
+         hover:shadow-lg"
+>
 ```
 
-এটি **Product Card, Image Badge, Hero Banner, Notification, Avatar Badge**—সব জায়গায় কাজে লাগবে।
+আর Form-এর জন্য:
+
+```html
+<input
+  class="rounded-lg border border-gray-300
+         outline-none
+         focus:border-blue-500
+         focus:ring-2
+         focus:ring-blue-500"
+/>
+```
+
+**এই দুই pattern ভালোভাবে আয়ত্ত করো।** এগুলো React + Tailwind দিয়ে professional UI বানানোর সময় বারবার কাজে লাগবে।
+
+---
 
