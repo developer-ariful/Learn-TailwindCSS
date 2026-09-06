@@ -1,980 +1,735 @@
 # Learn TailwinCSS
 *Day By Day*
 
-# 🎯 Tailwind CSS — Day 10
+## 🎯 Tailwind CSS — Day 11
 
-## Borders, Shadows, Rings, Dividers & Effects
+#### Backgrounds, Gradients & Background Images
 
-আজ আমরা Tailwind CSS-এর এমন কিছু utility শিখব যেগুলো ব্যবহার করে সাধারণ UI-কে **professional এবং polished** করা যায়।
-
-আজকের বিষয়গুলো React project-এ প্রতিদিনই কাজে লাগবে—বিশেষ করে **Card, Button, Form, Dashboard, Navbar, E-commerce UI** তৈরির সময়।
+আজ আমরা Tailwind CSS-এর **Background System** শিখব। বিশেষ করে modern website, landing page, hero section, card এবং dashboard UI বানানোর জন্য এগুলো খুব গুরুত্বপূর্ণ।
 
 
+## 1️⃣ Background Color
 
-# 1️⃣ Border
-
-Tailwind-এ সবচেয়ে basic border:
+Tailwind-এ background color দেওয়ার জন্য ব্যবহার করি:
 
 ```html
-<div class="border">
-  Content
-</div>
-```
-
-এটি সাধারণত `1px` border তৈরি করে।
-
-### Border thickness
-
-```html
-<div class="border">1px</div>
-
-<div class="border-2">2px</div>
-
-<div class="border-4">4px</div>
-
-<div class="border-8">8px</div>
-```
-
----
-
-# 2️⃣ Border Color
-
-Border-এর color পরিবর্তন:
-
-```html
-<div class="border border-gray-300">
-  Card
-</div>
-```
-
-আরও:
-
-```html
-border-red-500
-border-blue-500
-border-green-500
-border-yellow-500
-border-purple-500
-```
-
-### উদাহরণ
-
-```html
-<div class="border-2 border-blue-500 p-5">
-  Blue Border
-</div>
-```
-
----
-
-# 3️⃣ নির্দিষ্ট Side-এ Border
-
-সবদিকে border না দিয়ে নির্দিষ্ট পাশে দিতে পারো।
-
-### Top
-
-```html
-<div class="border-t">
-```
-
-### Bottom
-
-```html
-<div class="border-b">
-```
-
-### Left
-
-```html
-<div class="border-l">
-```
-
-### Right
-
-```html
-<div class="border-r">
-```
-
-### Example
-
-```html
-<div class="border-b border-gray-200 p-4">
-  Navigation Item
-</div>
-```
-
-এটি Navbar বা List item-এ অনেক কাজে লাগে।
-
----
-
-# 4️⃣ Border Style
-
-Solid:
-
-```html
-<div class="border">
-```
-
-Dashed:
-
-```html
-<div class="border border-dashed">
-```
-
-Dotted:
-
-```html
-<div class="border border-dotted">
-```
-
-Double:
-
-```html
-<div class="border border-double">
-```
-
-None:
-
-```html
-<div class="border-none">
-```
-
----
-
-# 5️⃣ Dashed Border Example
-
-Upload component-এর মতো UI:
-
-```html
-<div class="rounded-xl border-2 border-dashed border-gray-300 p-10 text-center">
-  <p class="text-gray-500">
-    Drag & Drop your file here
-  </p>
-</div>
-```
-
-এ ধরনের UI dashboard এবং admin panel-এ খুব common।
-
----
-
-# 6️⃣ Border + Rounded
-
-আগের দিনের `rounded`-এর সাথে border ব্যবহার করলে সুন্দর card তৈরি করা যায়।
-
-```html
-<div class="rounded-xl border border-gray-200 p-6">
-  <h2 class="text-xl font-bold">
-    Product
-  </h2>
-</div>
-```
-
-আরও:
-
-```text
-rounded
-rounded-sm
-rounded-md
-rounded-lg
-rounded-xl
-rounded-2xl
-rounded-3xl
-rounded-full
-```
-
----
-
-# 7️⃣ Shadow
-
-এখন আসি **Shadow**-এ।
-
-Card বা button-কে page থেকে visually আলাদা করার জন্য shadow ব্যবহার করি।
-
-```html
-<div class="shadow">
-  Card
-</div>
-```
-
-Tailwind-এর সাধারণ shadow scale:
-
-```text
-shadow-sm
-shadow
-shadow-md
-shadow-lg
-shadow-xl
-shadow-2xl
-```
-
----
-
-## Shadow Comparison
-
-```html
-<div class="shadow-sm p-5">
-  Small Shadow
-</div>
-
-<div class="shadow-md p-5">
-  Medium Shadow
-</div>
-
-<div class="shadow-xl p-5">
-  Large Shadow
-</div>
-```
-
-সাধারণভাবে:
-
-```text
-shadow-sm → খুব হালকা
-shadow    → সাধারণ
-shadow-md → মাঝারি
-shadow-lg → বড়
-shadow-xl → আরও বড়
-shadow-2xl → সবচেয়ে prominent
-```
-
----
-
-# 8️⃣ Professional Card
-
-```html
-<div class="rounded-xl border border-gray-200 bg-white p-6 shadow-md">
-  
-  <h2 class="text-xl font-bold">
-    Wireless Headphone
-  </h2>
-
-  <p class="mt-2 text-gray-500">
-    Premium wireless headphone.
-  </p>
-
-  <button class="mt-5 rounded-lg bg-blue-600 px-5 py-2 text-white">
-    Buy Now
-  </button>
-
-</div>
-```
-
-এখানে:
-
-```text
-border
-rounded
-bg
-p
-shadow
-text
-button
-```
-
-সব একসাথে কাজ করছে।
-
----
-
-# 9️⃣ Shadow Hover Effect
-
-Mouse hover করলে shadow বাড়ানো যায়।
-
-```html
-<div class="rounded-xl border p-6 shadow-sm hover:shadow-lg">
-  Product Card
-</div>
-```
-
-এখানে:
-
-```text
-Normal → shadow-sm
-Hover  → shadow-lg
-```
-
-এটি card UI-তে খুব জনপ্রিয় pattern।
-
----
-
-# 🔟 `shadow-none`
-
-Shadow সম্পূর্ণ remove করতে:
-
-```html
-<div class="shadow-none">
-```
-
-Responsive বা hover state-এও ব্যবহার করা যায়।
-
----
-
-# 1️⃣1️⃣ Ring কী?
-
-`ring` দেখতে border-এর মতো হলেও এটি **border-এর বাইরে একটি visual outline** তৈরি করে।
-
-```html
-<div class="ring-2">
-  Content
-</div>
-```
-
-### Ring size
-
-```text
-ring-1
-ring-2
-ring-4
-ring-8
-```
-
----
-
-# 1️⃣2️⃣ Ring Color
-
-```html
-<div class="ring-2 ring-blue-500">
-  Content
-</div>
+bg-{color}-{shade}
 ```
 
 উদাহরণ:
 
 ```html
-ring-blue-500
-ring-red-500
-ring-green-500
-ring-purple-500
-```
-
----
-
-# 1️⃣3️⃣ Ring vs Border
-
-এটা খুব গুরুত্বপূর্ণ।
-
-```text
-Border
-┌───────────────────┐
-│     Content       │
-└───────────────────┘
-```
-
-Ring:
-
-```text
-   Ring
-╔═══════════════════╗
-║ ┌───────────────┐ ║
-║ │    Content    │ ║
-║ └───────────────┘ ║
-╚═══════════════════╝
-```
-
-সহজভাবে:
-
-* `border` → element-এর border
-* `ring` → element-এর বাইরে outline effect
-
----
-
-# 1️⃣4️⃣ Form Input + Ring
-
-Form-এর ক্ষেত্রে `ring` খুব গুরুত্বপূর্ণ।
-
-```html
-<input
-  type="text"
-  placeholder="Enter your name"
-  class="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-/>
-```
-
-এখানে:
-
-```text
-focus:
-    ↓
-ring-2
-    ↓
-blue ring
-```
-
-User input field-এ click করলে focus ring দেখা যাবে।
-
----
-
-# 1️⃣5️⃣ `ring-offset`
-
-Ring এবং element-এর মধ্যে কিছু space দিতে পারো।
-
-```html
-<div class="ring-2 ring-blue-500 ring-offset-2">
-  Content
+<div class="bg-blue-500">
+  Hello World
 </div>
 ```
 
-এখানে:
+আরও কিছু:
+
+```html
+<div class="bg-red-500">Red</div>
+<div class="bg-green-500">Green</div>
+<div class="bg-yellow-400">Yellow</div>
+<div class="bg-gray-100">Light Gray</div>
+<div class="bg-gray-900">Dark Gray</div>
+<div class="bg-black">Black</div>
+<div class="bg-white">White</div>
+```
+
+###### Shade
 
 ```text
-ring-offset-2
-```
-
-ring-এর চারপাশে additional gap তৈরি করে।
-
----
-
-# 1️⃣6️⃣ Focus State
-
-Forms-এর জন্য এই pattern মনে রাখবে:
-
-```html
-<input
-  class="border border-gray-300 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-/>
-```
-
-Normal:
-
-```text
-Gray Border
-```
-
-Focus:
-
-```text
-Blue Border
-+
-Blue Ring
-```
-
-Professional form design-এর জন্য খুব useful।
-
----
-
-# 1️⃣7️⃣ Divider
-
-ধরো তোমার কাছে একটি list আছে:
-
-```text
-User 1
-────────────
-User 2
-────────────
-User 3
-────────────
-User 4
-```
-
-প্রতিটি item-এর মধ্যে divider তৈরি করতে:
-
-```html
-<div class="divide-y">
-  <div class="p-4">User 1</div>
-  <div class="p-4">User 2</div>
-  <div class="p-4">User 3</div>
-  <div class="p-4">User 4</div>
-</div>
-```
-
-`divide-y` child elements-এর মধ্যে horizontal divider তৈরি করে।
-
----
-
-# 1️⃣8️⃣ Divider Color
-
-```html
-<div class="divide-y divide-gray-200">
-```
-
-আরও:
-
-```html
-divide-gray-100
-divide-gray-200
-divide-gray-300
-```
-
----
-
-# 1️⃣9️⃣ Vertical Divider
-
-Horizontal-এর পরিবর্তে vertical divider:
-
-```html
-<div class="flex divide-x">
-  <div class="p-4">Home</div>
-  <div class="p-4">About</div>
-  <div class="p-4">Contact</div>
-</div>
-```
-
-এখানে:
-
-```text
-Home | About | Contact
-```
-
----
-
-# 2️⃣0️⃣ Divider Pattern
-
-মনে রাখো:
-
-```text
-divide-y → vertical list-এর মধ্যে horizontal line
-
-divide-x → horizontal layout-এর মধ্যে vertical line
-```
-
-Example:
-
-```html
-<div class="divide-y divide-gray-200">
-```
-
-এবং:
-
-```html
-<div class="flex divide-x divide-gray-200">
-```
-
----
-
-# 2️⃣1️⃣ Opacity
-
-Element কতটা transparent হবে:
-
-```html
-<div class="opacity-50">
-  Content
-</div>
-```
-
-Common values:
-
-```text
-opacity-0
-opacity-10
-opacity-25
-opacity-50
-opacity-75
-opacity-100
+50 → খুব হালকা
+100
+200
+300
+400
+500 → মাঝামাঝি
+600
+700
+800
+900
+950 → খুব গাঢ়
 ```
 
 উদাহরণ:
 
 ```html
-<p class="opacity-50">
-  Secondary text
-</p>
+<div class="bg-blue-100">Light</div>
+<div class="bg-blue-500">Medium</div>
+<div class="bg-blue-900">Dark</div>
 ```
 
 ---
 
-# 2️⃣2️⃣ Hover Opacity
+## 2️⃣ Background Opacity
+
+Background-এর সাথে transparency দিতে পারো।
 
 ```html
-<button class="opacity-80 hover:opacity-100">
-  Buy Now
-</button>
-```
-
-Normal:
-
-```text
-80% opacity
-```
-
-Hover:
-
-```text
-100% opacity
-```
-
----
-
-# 2️⃣3️⃣ Transition
-
-Hover effect smooth করার জন্য `transition` ব্যবহার করতে পারো।
-
-```html
-<button class="transition hover:shadow-lg">
-  Buy Now
-</button>
-```
-
-আরও সুন্দর:
-
-```html
-<button class="transition duration-300 hover:shadow-lg">
-  Buy Now
-</button>
+<div class="bg-black/50">
+  Content
+</div>
 ```
 
 এখানে:
 
 ```text
-transition
-    +
-duration-300
-    +
-hover:shadow-lg
+black/20 → 20% opacity
+black/40 → 40%
+black/50 → 50%
+black/70 → 70%
+black/80 → 80%
 ```
 
-একটি smooth effect তৈরি করে।
+###### Overlay তৈরিতে খুব গুরুত্বপূর্ণ
+
+```html
+<div class="bg-black/50">
+  <h1 class="text-white">
+    Welcome
+  </h1>
+</div>
+```
+
+Hero image-এর উপর dark overlay দিতে এটি অনেক ব্যবহার করা হয়।
 
 ---
 
-# 2️⃣4️⃣ Real-world Product Card 🚀
+## 3️⃣ Gradient কী?
 
-এখন সব concept একসাথে ব্যবহার করি:
+Gradient হলো এক color থেকে অন্য color-এ smooth transition।
+
+যেমন:
+
+```text
+Blue ───────────────→ Purple
+```
+
+Tailwind-এ:
 
 ```html
-<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition duration-300 hover:shadow-xl">
+bg-gradient-to-r
+```
 
-  <div class="h-52 rounded-xl bg-gray-100">
-    <!-- Product Image -->
-  </div>
+তারপর শুরু এবং শেষের color:
 
-  <div class="mt-5">
+```html
+from-blue-500
+to-purple-600
+```
 
-    <h2 class="text-xl font-bold text-gray-900">
-      Wireless Headphone
-    </h2>
+সম্পূর্ণ:
 
-    <p class="mt-2 text-gray-500">
-      Premium quality wireless headphone.
+```html
+<div class="bg-gradient-to-r from-blue-500 to-purple-600">
+  Gradient
+</div>
+```
+
+---
+
+## 4️⃣ Gradient Direction
+
+Tailwind-এ gradient-এর direction পরিবর্তন করতে পারো।
+
+###### Left → Right
+
+```html
+bg-gradient-to-r
+```
+
+###### Right → Left
+
+```html
+bg-gradient-to-l
+```
+
+###### Top → Bottom
+
+```html
+bg-gradient-to-b
+```
+
+###### Bottom → Top
+
+```html
+bg-gradient-to-t
+```
+
+###### Top-left → Bottom-right
+
+```html
+bg-gradient-to-br
+```
+
+###### Top-right → Bottom-left
+
+```html
+bg-gradient-to-bl
+```
+
+###### Example
+
+```html
+<div class="bg-gradient-to-br from-blue-500 to-purple-700 p-10 text-white">
+  <h1 class="text-4xl font-bold">
+    Welcome
+  </h1>
+</div>
+```
+
+---
+
+## 5️⃣ Three Color Gradient
+
+শুধু `from` এবং `to` নয়, মাঝখানে `via` ব্যবহার করা যায়।
+
+```html
+<div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-10">
+  Gradient
+</div>
+```
+
+এখানে:
+
+```text
+Blue → Purple → Pink
+```
+
+Pattern:
+
+```html
+from-{color}
+via-{color}
+to-{color}
+```
+
+---
+
+## 6️⃣ Real-world Hero Section
+
+একটি modern landing page-এর hero section:
+
+```html
+<section class="bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-24 text-white">
+  <div class="mx-auto max-w-6xl text-center">
+
+    <h1 class="text-4xl font-bold md:text-6xl">
+      Build Your Future
+    </h1>
+
+    <p class="mx-auto mt-6 max-w-2xl text-lg text-blue-100">
+      Learn modern web development and build amazing applications.
     </p>
 
-    <div class="mt-5 flex items-center justify-between">
-
-      <span class="text-2xl font-bold">
-        $59
-      </span>
-
-      <button
-        class="rounded-lg bg-blue-600 px-5 py-2 text-white transition duration-300 hover:bg-blue-700 hover:shadow-md"
-      >
-        Buy Now
-      </button>
-
-    </div>
+    <button class="mt-8 rounded-lg bg-white px-6 py-3 font-semibold text-blue-600">
+      Get Started
+    </button>
 
   </div>
+</section>
+```
+
+এখানে আমরা আগের দিনের অনেক concept একসাথে ব্যবহার করেছি:
+
+```text
+max-w
+mx-auto
+text
+font
+responsive
+padding
+rounded
+background
+gradient
+```
+
+---
+
+## 7️⃣ Background Image
+
+Tailwind-এ arbitrary value ব্যবহার করে background image দিতে পারো।
+
+```html
+<div class="bg-[url('/images/hero.jpg')]">
+  Content
 </div>
 ```
 
-### এখানে কী কী ব্যবহার হয়েছে?
-
-```text
-border
-rounded
-shadow
-hover:shadow
-transition
-duration
-bg
-padding
-flex
-text
-```
-
-এটাই Tailwind শেখার আসল উদ্দেশ্য—**অনেক utility একসাথে ব্যবহার করে বাস্তব UI তৈরি করা।**
+React project-এ image location অনুযায়ী path পরিবর্তন করতে হবে।
 
 ---
 
-# 2️⃣5️⃣ React JSX Version
+## 8️⃣ Background Size
 
-React-এ অবশ্যই `className` ব্যবহার করবে:
+Background image কতটুকু জায়গা নেবে সেটা নিয়ন্ত্রণ করা যায়।
+
+###### Cover
+
+```html
+bg-cover
+```
+
+সবচেয়ে বেশি ব্যবহৃত।
+
+```html
+<div class="bg-cover bg-[url('/images/hero.jpg')]">
+```
+
+Image পুরো container cover করবে।
+
+---
+
+###### Contain
+
+```html
+bg-contain
+```
+
+Image পুরোটা দেখা যাবে।
+
+```html
+<div class="bg-contain bg-[url('/images/product.png')]">
+```
+
+---
+
+###### Auto
+
+```html
+bg-auto
+```
+
+---
+
+## 9️⃣ Background Position
+
+Image কোথায় অবস্থান করবে:
+
+```html
+bg-center
+```
+
+সবচেয়ে বেশি ব্যবহৃত।
+
+আরও:
+
+```html
+bg-top
+bg-bottom
+bg-left
+bg-right
+bg-left-top
+bg-right-top
+bg-left-bottom
+bg-right-bottom
+```
+
+সাধারণ Hero:
+
+```html
+<div class="bg-center bg-cover">
+```
+
+---
+
+## 🔟 Hero Background Image + Overlay
+
+এটি খুব গুরুত্বপূর্ণ একটি বাস্তব pattern।
+
+```html
+<section
+  class="relative bg-cover bg-center bg-[url('/images/hero.jpg')]"
+>
+  <div class="absolute inset-0 bg-black/60"></div>
+
+  <div class="relative z-10 px-6 py-32 text-center text-white">
+
+    <h1 class="text-4xl font-bold md:text-6xl">
+      Welcome to Our Website
+    </h1>
+
+    <p class="mx-auto mt-6 max-w-2xl text-lg">
+      Create powerful and modern web applications.
+    </p>
+
+    <button class="mt-8 rounded-lg bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700">
+      Explore Now
+    </button>
+
+  </div>
+</section>
+```
+
+###### এখানে কী হচ্ছে?
+
+```text
+Hero Section
+    │
+    ├── Background Image
+    │
+    ├── Black Overlay
+    │
+    └── Content
+          │
+          ├── Heading
+          ├── Paragraph
+          └── Button
+```
+
+এখানে Day 9-এর:
+
+```html
+relative
+absolute
+inset-0
+z-10
+```
+
+আবার ব্যবহার হয়েছে।
+
+---
+
+## 1️⃣1️⃣ Background Repeat
+
+Background image repeat করা নিয়ন্ত্রণ করতে পারো।
+
+```html
+bg-repeat
+```
+
+```html
+bg-no-repeat
+```
+
+```html
+bg-repeat-x
+```
+
+```html
+bg-repeat-y
+```
+
+সাধারণ website hero-তে:
+
+```html
+bg-no-repeat
+```
+
+ব্যবহার করা হয়।
+
+---
+
+## 1️⃣2️⃣ Gradient + Image Overlay
+
+আরও professional Hero তৈরি করা যায় gradient overlay দিয়ে।
+
+```html
+<section class="relative overflow-hidden">
+  
+  <div
+    class="absolute inset-0 bg-cover bg-center"
+    style="background-image: url('/images/hero.jpg');"
+  ></div>
+
+  <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
+
+  <div class="relative z-10 px-6 py-32 text-white">
+    <h1 class="text-5xl font-bold">
+      Modern Web Development
+    </h1>
+
+    <p class="mt-5 max-w-xl text-lg text-gray-200">
+      Build beautiful and scalable applications.
+    </p>
+  </div>
+
+</section>
+```
+
+এই ধরনের technique professional landing page-এ অনেক দেখা যায়।
+
+---
+
+## 1️⃣3️⃣ React Example
+
+React-এ:
 
 ```jsx
-function ProductCard() {
+export default function Hero() {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition duration-300 hover:shadow-xl">
+    <section className="relative overflow-hidden">
       
-      <div className="h-52 rounded-xl bg-gray-100">
-        {/* Product Image */}
-      </div>
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/images/hero.jpg')",
+        }}
+      />
 
-      <div className="mt-5">
-        <h2 className="text-xl font-bold text-gray-900">
-          Wireless Headphone
-        </h2>
+      <div className="absolute inset-0 bg-black/60" />
 
-        <p className="mt-2 text-gray-500">
-          Premium quality wireless headphone.
+      <div className="relative z-10 px-6 py-32 text-center text-white">
+        <h1 className="text-4xl font-bold md:text-6xl">
+          Build Amazing Products
+        </h1>
+
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-200">
+          Create modern applications with React and Tailwind CSS.
         </p>
 
-        <div className="mt-5 flex items-center justify-between">
-          <span className="text-2xl font-bold">
-            $59
-          </span>
-
-          <button
-            className="rounded-lg bg-blue-600 px-5 py-2 text-white transition duration-300 hover:bg-blue-700 hover:shadow-md"
-          >
-            Buy Now
-          </button>
-        </div>
+        <button className="mt-8 rounded-lg bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700">
+          Get Started
+        </button>
       </div>
 
-    </div>
+    </section>
   );
 }
-
-export default ProductCard;
 ```
 
 ---
 
-# 🧩 2️⃣6️⃣ আজকের গুরুত্বপূর্ণ Combination
+## 1️⃣4️⃣ Background নিয়ে গুরুত্বপূর্ণ Classes
 
-Professional UI-তে এই ধরনের combination খুব বেশি ব্যবহার করবে:
-
-### Card
-
-```html
-border
-rounded-xl
-shadow-md
-```
-
-### Interactive Card
-
-```html
-shadow-sm
-transition
-hover:shadow-lg
-```
-
-### Input
-
-```html
-border
-outline-none
-focus:ring-2
-focus:ring-blue-500
-```
-
-### List
-
-```html
-divide-y
-divide-gray-200
-```
-
-### Button
-
-```html
-shadow-sm
-transition
-hover:shadow-md
-```
+| কাজ                    | Tailwind           |
+| ---------------------- | ------------------ |
+| Background color       | `bg-blue-500`      |
+| Transparent background | `bg-transparent`   |
+| Black opacity          | `bg-black/50`      |
+| Gradient               | `bg-gradient-to-r` |
+| Gradient start         | `from-blue-500`    |
+| Gradient middle        | `via-purple-500`   |
+| Gradient end           | `to-pink-500`      |
+| Background image       | `bg-[url(...)]`    |
+| Cover                  | `bg-cover`         |
+| Contain                | `bg-contain`       |
+| Center                 | `bg-center`        |
+| Top                    | `bg-top`           |
+| Bottom                 | `bg-bottom`        |
+| No repeat              | `bg-no-repeat`     |
 
 ---
 
-# 🧪 আজকের Practice
+## 🧠 আজকের সবচেয়ে গুরুত্বপূর্ণ Pattern
 
-## Task 1 — Pricing Card
+একটি professional Hero section-এর জন্য এই pattern মনে রাখো:
 
-তৈরি করো:
+```html
+<section class="relative overflow-hidden">
+
+  <!-- Background -->
+  <div class="absolute inset-0 bg-cover bg-center">
+  </div>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/50">
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10">
+    Content
+  </div>
+
+</section>
+```
+
+এটা ভালোভাবে আয়ত্ত করতে পারলে তুমি অনেক ধরনের:
+
+* Landing Page
+* Portfolio
+* E-commerce Hero
+* SaaS Website
+* Agency Website
+* Product Website
+
+এর Hero Section তৈরি করতে পারবে।
+
+---
+
+## 🧪 আজকের Practice
+
+###### Task 1 — Gradient Card
+
+একটি card তৈরি করো:
 
 ```text
-┌─────────────────────────┐
-│       PRO PLAN          │
-│                         │
-│        $29/month        │
-│                         │
-│ ✓ Feature One           │
-│ ✓ Feature Two           │
-│ ✓ Feature Three         │
-│                         │
-│     [ Get Started ]     │
-└─────────────────────────┘
+┌─────────────────────────────┐
+│                             │
+│       PREMIUM PLAN          │
+│                             │
+│          $29                │
+│                             │
+│       Get Started           │
+│                             │
+└─────────────────────────────┘
 ```
 
 ব্যবহার করবে:
 
 ```text
-border
+bg-gradient-to-*
+from-*
+via-*
+to-*
 rounded
 shadow
-divide-y
-hover
-transition
+text
 ```
 
 ---
 
-## Task 2 — Login Form
+###### Task 2 — Hero Section
 
-তৈরি করো:
+একটি responsive Hero তৈরি করো:
 
 ```text
-┌──────────────────────────┐
-│       Login              │
-│                          │
-│ Email                    │
-│ [____________________]   │
-│                          │
-│ Password                 │
-│ [____________________]   │
-│                          │
-│      [ Login ]           │
-└──────────────────────────┘
+Desktop:
+
+┌─────────────────────────────────────────┐
+│                                         │
+│       Build Your Future                 │
+│       with Web Development              │
+│                                         │
+│       [ Get Started ]                   │
+│                                         │
+└─────────────────────────────────────────┘
 ```
 
-Input-এ অবশ্যই ব্যবহার করবে:
+ব্যবহার করবে:
 
-```html
-focus:border-blue-500
-focus:ring-2
-focus:ring-blue-500
+```text
+background image
+bg-cover
+bg-center
+overlay
+relative
+absolute
+z-index
+responsive typography
 ```
 
 ---
 
-## Task 3 — User List
+###### Task 3 — React Challenge 🚀
+
+একটি `Hero.jsx` component তৈরি করো।
+
+Requirements:
 
 ```text
-User 1
-──────────────────
-User 2
-──────────────────
-User 3
-──────────────────
-User 4
+✓ Background Image
+✓ Dark Overlay
+✓ Gradient Overlay
+✓ Responsive Heading
+✓ Paragraph
+✓ Two Buttons
+✓ Mobile Responsive
 ```
 
-Hint:
+Structure:
 
-```html
-<div class="divide-y divide-gray-200">
+```jsx
+function Hero() {
+  return (
+    <section>
+      {/* Background */}
+
+      {/* Overlay */}
+
+      {/* Content */}
+
+    </section>
+  );
+}
 ```
 
 ---
 
-# 🧠 Day 10 Cheat Sheet
+## 📌 Day 11 Cheat Sheet
 
 ```text
-BORDER
+BACKGROUND
 ────────────────────────
 
-border
-border-2
-border-4
-border-8
-
-border-gray-300
-border-blue-500
-
-border-t
-border-r
-border-b
-border-l
-
-border-dashed
-border-dotted
-border-double
-border-none
-
-
-SHADOW
-────────────────────────
-
-shadow-sm
-shadow
-shadow-md
-shadow-lg
-shadow-xl
-shadow-2xl
-shadow-none
-
-
-RING
-────────────────────────
-
-ring
-ring-1
-ring-2
-ring-4
-ring-8
-
-ring-blue-500
-ring-offset-2
-
-focus:ring-2
-focus:ring-blue-500
-
-
-DIVIDER
-────────────────────────
-
-divide-y
-divide-x
-divide-gray-200
-
+bg-blue-500
+bg-gray-100
+bg-black
+bg-white
 
 OPACITY
 ────────────────────────
 
-opacity-0
-opacity-50
-opacity-75
-opacity-100
+bg-black/50
+bg-white/80
 
-
-EFFECT
+GRADIENT
 ────────────────────────
 
-transition
-duration-300
-hover:shadow-lg
-hover:opacity-100
+bg-gradient-to-r
+bg-gradient-to-l
+bg-gradient-to-t
+bg-gradient-to-b
+bg-gradient-to-br
+
+from-blue-500
+via-purple-500
+to-pink-500
+
+IMAGE
+────────────────────────
+
+bg-[url('/image.jpg')]
+
+SIZE
+────────────────────────
+
+bg-cover
+bg-contain
+bg-auto
+
+POSITION
+────────────────────────
+
+bg-center
+bg-top
+bg-bottom
+bg-left
+bg-right
+
+REPEAT
+────────────────────────
+
+bg-repeat
+bg-no-repeat
+bg-repeat-x
+bg-repeat-y
 ```
 
 ---
 
-# 🎯 আজকের Key Takeaway
+## 🎯 Day 11-এর Key Takeaway
 
-আজকের সবচেয়ে গুরুত্বপূর্ণ বিষয়গুলো:
+আজকের ৫টি জিনিস অবশ্যই ভালোভাবে শিখবে:
 
 ```text
-border  → element-এর চারপাশে line
-
-shadow  → depth / elevation
-
-ring    → element-এর বাইরের outline
-
-divide  → child elements-এর মধ্যে separator
-
-opacity → transparency
-
-transition → smooth animation
+1. bg-{color}-{shade}
+2. bg-black/50
+3. bg-gradient-to-r + from/via/to
+4. bg-cover + bg-center
+5. Background + Overlay + Content pattern
 ```
 
-একটি খুব গুরুত্বপূর্ণ UI pattern:
+বিশেষ করে এই pattern:
 
 ```html
-<div
-  class="rounded-xl border border-gray-200
-         shadow-sm transition duration-300
-         hover:shadow-lg"
->
+relative
+   │
+   ├── absolute → Background
+   │
+   ├── absolute → Overlay
+   │
+   └── relative z-10 → Content
 ```
-
-আর Form-এর জন্য:
-
-```html
-<input
-  class="rounded-lg border border-gray-300
-         outline-none
-         focus:border-blue-500
-         focus:ring-2
-         focus:ring-blue-500"
-/>
-```
-
-**এই দুই pattern ভালোভাবে আয়ত্ত করো।** এগুলো React + Tailwind দিয়ে professional UI বানানোর সময় বারবার কাজে লাগবে।
-
----
 
