@@ -7,13 +7,20 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body class="px-5">
-  <section class="relative bg-[url('https://static.vecteezy.com/system/resources/thumbnails/046/831/180/small/illuminated-blue-stone-wall-texture-with-warm-glowing-lights-background-free-photo.jpg')] bg-cover bg-center">
-    <div class="absolute bg-black/60 inset-0"></div>
-    <div class="relative z-10 px-6 py-32 text-center text-white">
-      <h1 class="text-4xl font-bold md:text-6xl">Welcome to Our Website</h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg">Create powerful and modern web applications</p>
-      <button class="mt-8 rounded-lg bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700">Explore Now</button>
-    </div>
-  </section>
+<body class="px-5 mt-2">
+  <div class="rounded-2xl border bg-white shadow-sm overflow-hidden">
+    <!-- image  -->
+     <div class="group aspect-square overflow-hidden">
+      <img src="bg-image.jpg" alt="Product" class="h-full w-full object-cover trasition duration-300 group-hover:scale-110">
+     </div>
+     <!-- content  -->
+      <div class="p-5">
+        <h2 class="text-xl fong-bold">Wireless Headphone</h2>
+        <p class="mt-2 text-gray-500">Premium Wireless Headphone</p>
+        <div class="mt-4 flex items-center justify-between">
+          <span class="text-2xl font-bold">$59</span>
+          <button class="rounded-lg bg-blue-600 px-4 py-2 text-white">Buy</button>
+        </div>
+      </div>
+  </div>
 </body>

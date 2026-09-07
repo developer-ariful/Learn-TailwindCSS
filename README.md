@@ -1,735 +1,905 @@
 # Learn TailwinCSS
 *Day By Day*
 
-## 🎯 Tailwind CSS — Day 11
+## 🎯 Tailwind CSS — Day 12
 
-#### Backgrounds, Gradients & Background Images
+#### Images, Aspect Ratio & Object Fit
 
-আজ আমরা Tailwind CSS-এর **Background System** শিখব। বিশেষ করে modern website, landing page, hero section, card এবং dashboard UI বানানোর জন্য এগুলো খুব গুরুত্বপূর্ণ।
+আজ আমরা Tailwind CSS-এর **Image Handling** শিখব। বিশেষ করে তুমি যেহেতু React.js/MERN developer, তাই আজকের বিষয়গুলো **E-commerce, Portfolio, Blog, Dashboard এবং Landing Page**-এ সরাসরি কাজে লাগবে।
 
 
-## 1️⃣ Background Color
 
-Tailwind-এ background color দেওয়ার জন্য ব্যবহার করি:
 
-```html
-bg-{color}-{shade}
-```
 
-উদাহরণ:
+## 1️⃣ Image-এর Basic Structure
+
+সাধারণ HTML:
 
 ```html
-<div class="bg-blue-500">
-  Hello World
-</div>
+<img src="/images/product.jpg" alt="Product" />
 ```
 
-আরও কিছু:
+Tailwind:
 
 ```html
-<div class="bg-red-500">Red</div>
-<div class="bg-green-500">Green</div>
-<div class="bg-yellow-400">Yellow</div>
-<div class="bg-gray-100">Light Gray</div>
-<div class="bg-gray-900">Dark Gray</div>
-<div class="bg-black">Black</div>
-<div class="bg-white">White</div>
-```
-
-###### Shade
-
-```text
-50 → খুব হালকা
-100
-200
-300
-400
-500 → মাঝামাঝি
-600
-700
-800
-900
-950 → খুব গাঢ়
-```
-
-উদাহরণ:
-
-```html
-<div class="bg-blue-100">Light</div>
-<div class="bg-blue-500">Medium</div>
-<div class="bg-blue-900">Dark</div>
-```
-
----
-
-## 2️⃣ Background Opacity
-
-Background-এর সাথে transparency দিতে পারো।
-
-```html
-<div class="bg-black/50">
-  Content
-</div>
+<img
+  src="/images/product.jpg"
+  alt="Product"
+  class="h-64 w-full"
+/>
 ```
 
 এখানে:
 
 ```text
-black/20 → 20% opacity
-black/40 → 40%
-black/50 → 50%
-black/70 → 70%
-black/80 → 80%
+w-full → পুরো width
+h-64   → নির্দিষ্ট height
 ```
 
-###### Overlay তৈরিতে খুব গুরুত্বপূর্ণ
+কিন্তু একটি সমস্যা হতে পারে।
 
-```html
-<div class="bg-black/50">
-  <h1 class="text-white">
-    Welcome
-  </h1>
-</div>
-```
+Image-এর original ratio যদি container-এর সাথে না মিলে, তাহলে image **stretch/distort** হতে পারে।
 
-Hero image-এর উপর dark overlay দিতে এটি অনেক ব্যবহার করা হয়।
+এখানেই `object-fit` কাজে আসে।
 
 ---
 
-## 3️⃣ Gradient কী?
+## 2️⃣ `object-cover`
 
-Gradient হলো এক color থেকে অন্য color-এ smooth transition।
+সবচেয়ে গুরুত্বপূর্ণ image utility:
 
-যেমন:
+```html
+class="object-cover"
+```
+
+উদাহরণ:
+
+```html
+<img
+  src="/images/product.jpg"
+  alt="Product"
+  class="h-64 w-full object-cover"
+/>
+```
+
+###### কী করে?
+
+Image container-এর পুরো জায়গা cover করবে।
+
+প্রয়োজনে image-এর কিছু অংশ crop হবে।
 
 ```text
-Blue ───────────────→ Purple
+Container
+┌────────────────────────────┐
+│       ┌────────────┐       │
+│       │   IMAGE    │       │
+│       │   CROPPED  │       │
+│       └────────────┘       │
+└────────────────────────────┘
+```
+
+###### কোথায় ব্যবহার করবে?
+
+* Product images
+* Hero images
+* Blog thumbnails
+* Profile cover
+* Gallery
+
+---
+
+## 3️⃣ `object-contain`
+
+```html
+<img
+  src="/images/product.png"
+  class="h-64 w-full object-contain"
+/>
+```
+
+এখানে image পুরোটা দেখা যাবে।
+
+Image crop হবে না।
+
+```text
+┌────────────────────────────┐
+│                            │
+│       ┌──────────┐         │
+│       │  IMAGE   │         │
+│       └──────────┘         │
+│                            │
+└────────────────────────────┘
+```
+
+###### কোথায় ভালো?
+
+বিশেষ করে:
+
+* Product PNG
+* Logo
+* Shoes
+* Electronics
+* Product catalog
+
+যেখানে পুরো product image দেখা গুরুত্বপূর্ণ।
+
+---
+
+## 4️⃣ `object-fill`
+
+```html
+class="object-fill"
+```
+
+Image container-এর width/height অনুযায়ী stretch হবে।
+
+ফলে image distorted হতে পারে।
+
+তাই সাধারণ UI-তে `object-cover` বা `object-contain` বেশি ব্যবহার করবে।
+
+---
+
+## 5️⃣ `object-none`
+
+```html
+class="object-none"
+```
+
+Image নিজস্ব size বজায় রাখে এবং container-এর মধ্যে object-fit অনুযায়ী stretch/crop করে না।
+
+এটি সাধারণ product card-এর জন্য খুব বেশি প্রয়োজন হয় না।
+
+---
+
+## 6️⃣ `object-center`
+
+Image-এর positioning:
+
+```html
+class="object-center"
+```
+
+এটি default-এর মতো center positioning দেয়।
+
+আরও আছে:
+
+```text
+object-top
+object-bottom
+object-left
+object-right
+
+object-left-top
+object-right-top
+object-left-bottom
+object-right-bottom
+```
+
+---
+
+## 7️⃣ `object-cover` + Position
+
+ধরো ছবির গুরুত্বপূর্ণ অংশ উপরের দিকে।
+
+তাহলে:
+
+```html
+<img
+  src="/images/person.jpg"
+  class="h-80 w-full object-cover object-top"
+/>
+```
+
+এখানে:
+
+```text
+object-cover → image cover করবে
+object-top   → উপরের অংশকে priority দেবে
+```
+
+---
+
+## 8️⃣ Aspect Ratio কী?
+
+ধরো একটি video:
+
+```text
+16 : 9
+```
+
+অর্থাৎ:
+
+```text
+Width = 16
+Height = 9
 ```
 
 Tailwind-এ:
 
 ```html
-bg-gradient-to-r
+aspect-video
 ```
 
-তারপর শুরু এবং শেষের color:
+ব্যবহার করতে পারো।
 
 ```html
-from-blue-500
-to-purple-600
-```
-
-সম্পূর্ণ:
-
-```html
-<div class="bg-gradient-to-r from-blue-500 to-purple-600">
-  Gradient
+<div class="aspect-video">
+  Video
 </div>
 ```
 
 ---
 
-## 4️⃣ Gradient Direction
+## 9️⃣ `aspect-square`
 
-Tailwind-এ gradient-এর direction পরিবর্তন করতে পারো।
-
-###### Left → Right
+একটি perfect square:
 
 ```html
-bg-gradient-to-r
+<div class="aspect-square">
+  Image
+</div>
 ```
 
-###### Right → Left
+অর্থাৎ:
 
-```html
-bg-gradient-to-l
+```text
+Width = Height
 ```
 
-###### Top → Bottom
+Product thumbnail বা profile image-এর জন্য useful।
+
+---
+
+## 🔟 `aspect-video`
 
 ```html
-bg-gradient-to-b
+<div class="aspect-video">
+  Video Thumbnail
+</div>
 ```
 
-###### Bottom → Top
+এটি সাধারণত 16:9 ধরনের video layout-এর জন্য ব্যবহৃত হয়।
 
-```html
-bg-gradient-to-t
+YouTube thumbnail-এর মতো:
+
+```text
+┌──────────────────────────┐
+│                          │
+│      VIDEO THUMBNAIL     │
+│                          │
+└──────────────────────────┘
 ```
 
-###### Top-left → Bottom-right
+---
+
+## 1️⃣1️⃣ Custom Aspect Ratio
+
+নিজের ratio দিতে পারো:
 
 ```html
-bg-gradient-to-br
+<div class="aspect-[4/3]">
 ```
 
-###### Top-right → Bottom-left
+অথবা:
 
 ```html
-bg-gradient-to-bl
+<div class="aspect-[3/2]">
+```
+
+অথবা:
+
+```html
+<div class="aspect-[21/9]">
 ```
 
 ###### Example
 
 ```html
-<div class="bg-gradient-to-br from-blue-500 to-purple-700 p-10 text-white">
-  <h1 class="text-4xl font-bold">
-    Welcome
-  </h1>
+<div class="aspect-[4/3] overflow-hidden rounded-xl">
+  <img
+    src="/images/product.jpg"
+    alt="Product"
+    class="h-full w-full object-cover"
+  />
 </div>
 ```
 
 ---
 
-## 5️⃣ Three Color Gradient
+## 1️⃣2️⃣ কেন Aspect Ratio গুরুত্বপূর্ণ?
 
-শুধু `from` এবং `to` নয়, মাঝখানে `via` ব্যবহার করা যায়।
+ধরো তোমার E-commerce site-এ ১০টি product আছে।
+
+যদি প্রতিটি image-এর height আলাদা হয়:
+
+```text
+Product 1 ┌────────┐
+          │        │
+          │        │
+          └────────┘
+
+Product 2 ┌──────────────┐
+          │              │
+          └──────────────┘
+
+Product 3 ┌───────┐
+          │       │
+          │       │
+          │       │
+          └───────┘
+```
+
+UI অসমান দেখাবে।
+
+কিন্তু:
 
 ```html
-<div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-10">
-  Gradient
+aspect-square
+```
+
+ব্যবহার করলে:
+
+```text
+┌─────────┐  ┌─────────┐  ┌─────────┐
+│         │  │         │  │         │
+│ Product │  │ Product │  │ Product │
+│         │  │         │  │         │
+└─────────┘  └─────────┘  └─────────┘
+```
+
+সব image একই ratio-এর হবে।
+
+---
+
+## 1️⃣3️⃣ Best Product Image Pattern ⭐
+
+এটি খুব ভালোভাবে মনে রাখো:
+
+```html
+<div class="aspect-square overflow-hidden rounded-xl">
+  <img
+    src="/images/product.jpg"
+    alt="Product"
+    class="h-full w-full object-cover"
+  />
 </div>
 ```
 
 এখানে:
 
 ```text
-Blue → Purple → Pink
-```
-
-Pattern:
-
-```html
-from-{color}
-via-{color}
-to-{color}
-```
-
----
-
-## 6️⃣ Real-world Hero Section
-
-একটি modern landing page-এর hero section:
-
-```html
-<section class="bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-24 text-white">
-  <div class="mx-auto max-w-6xl text-center">
-
-    <h1 class="text-4xl font-bold md:text-6xl">
-      Build Your Future
-    </h1>
-
-    <p class="mx-auto mt-6 max-w-2xl text-lg text-blue-100">
-      Learn modern web development and build amazing applications.
-    </p>
-
-    <button class="mt-8 rounded-lg bg-white px-6 py-3 font-semibold text-blue-600">
-      Get Started
-    </button>
-
-  </div>
-</section>
-```
-
-এখানে আমরা আগের দিনের অনেক concept একসাথে ব্যবহার করেছি:
-
-```text
-max-w
-mx-auto
-text
-font
-responsive
-padding
-rounded
-background
-gradient
+aspect-square
+      ↓
+একই ratio
+      ↓
+overflow-hidden
+      ↓
+বাইরের অংশ hide
+      ↓
+object-cover
+      ↓
+image পুরো area cover
 ```
 
 ---
 
-## 7️⃣ Background Image
+## 1️⃣4️⃣ Hover করলে Image Zoom
 
-Tailwind-এ arbitrary value ব্যবহার করে background image দিতে পারো।
+E-commerce site-এ খুব সুন্দর effect:
 
 ```html
-<div class="bg-[url('/images/hero.jpg')]">
-  Content
+<div class="group aspect-square overflow-hidden rounded-xl">
+  <img
+    src="/images/product.jpg"
+    alt="Product"
+    class="h-full w-full object-cover transition duration-300 group-hover:scale-110"
+  />
 </div>
 ```
 
-React project-এ image location অনুযায়ী path পরিবর্তন করতে হবে।
-
----
-
-## 8️⃣ Background Size
-
-Background image কতটুকু জায়গা নেবে সেটা নিয়ন্ত্রণ করা যায়।
-
-###### Cover
-
-```html
-bg-cover
-```
-
-সবচেয়ে বেশি ব্যবহৃত।
-
-```html
-<div class="bg-cover bg-[url('/images/hero.jpg')]">
-```
-
-Image পুরো container cover করবে।
-
----
-
-###### Contain
-
-```html
-bg-contain
-```
-
-Image পুরোটা দেখা যাবে।
-
-```html
-<div class="bg-contain bg-[url('/images/product.png')]">
-```
-
----
-
-###### Auto
-
-```html
-bg-auto
-```
-
----
-
-## 9️⃣ Background Position
-
-Image কোথায় অবস্থান করবে:
-
-```html
-bg-center
-```
-
-সবচেয়ে বেশি ব্যবহৃত।
-
-আরও:
-
-```html
-bg-top
-bg-bottom
-bg-left
-bg-right
-bg-left-top
-bg-right-top
-bg-left-bottom
-bg-right-bottom
-```
-
-সাধারণ Hero:
-
-```html
-<div class="bg-center bg-cover">
-```
-
----
-
-## 🔟 Hero Background Image + Overlay
-
-এটি খুব গুরুত্বপূর্ণ একটি বাস্তব pattern।
-
-```html
-<section
-  class="relative bg-cover bg-center bg-[url('/images/hero.jpg')]"
->
-  <div class="absolute inset-0 bg-black/60"></div>
-
-  <div class="relative z-10 px-6 py-32 text-center text-white">
-
-    <h1 class="text-4xl font-bold md:text-6xl">
-      Welcome to Our Website
-    </h1>
-
-    <p class="mx-auto mt-6 max-w-2xl text-lg">
-      Create powerful and modern web applications.
-    </p>
-
-    <button class="mt-8 rounded-lg bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700">
-      Explore Now
-    </button>
-
-  </div>
-</section>
-```
-
-###### এখানে কী হচ্ছে?
+এখানে নতুন একটি concept:
 
 ```text
-Hero Section
-    │
-    ├── Background Image
-    │
-    ├── Black Overlay
-    │
-    └── Content
-          │
-          ├── Heading
-          ├── Paragraph
-          └── Button
+group
+group-hover:*
 ```
 
-এখানে Day 9-এর:
+Parent:
 
 ```html
-relative
-absolute
-inset-0
-z-10
+class="group"
 ```
 
-আবার ব্যবহার হয়েছে।
+Child:
+
+```html
+group-hover:scale-110
+```
+
+মানে parent-এর উপর hover করলে child image scale হবে।
 
 ---
 
-## 1️⃣1️⃣ Background Repeat
-
-Background image repeat করা নিয়ন্ত্রণ করতে পারো।
+## 1️⃣5️⃣ Image Rounded
 
 ```html
-bg-repeat
+<img
+  src="/images/profile.jpg"
+  class="rounded-full"
+/>
 ```
+
+Profile image:
 
 ```html
-bg-no-repeat
+<div class="h-20 w-20 overflow-hidden rounded-full">
+  <img
+    src="/images/profile.jpg"
+    class="h-full w-full object-cover"
+    alt="Profile"
+  />
+</div>
 ```
 
-```html
-bg-repeat-x
-```
-
-```html
-bg-repeat-y
-```
-
-সাধারণ website hero-তে:
-
-```html
-bg-no-repeat
-```
-
-ব্যবহার করা হয়।
+এটি একটি খুব common pattern।
 
 ---
 
-## 1️⃣2️⃣ Gradient + Image Overlay
+## 1️⃣6️⃣ Responsive Image
 
-আরও professional Hero তৈরি করা যায় gradient overlay দিয়ে।
+Mobile:
+
+```text
+┌──────────────┐
+│    Image     │
+└──────────────┘
+```
+
+Desktop:
+
+```text
+┌───────────────────────────────┐
+│             Image             │
+└───────────────────────────────┘
+```
+
+Tailwind:
 
 ```html
-<section class="relative overflow-hidden">
-  
-  <div
-    class="absolute inset-0 bg-cover bg-center"
-    style="background-image: url('/images/hero.jpg');"
-  ></div>
+<img
+  src="/images/hero.jpg"
+  alt="Hero"
+  class="h-48 w-full object-cover md:h-72 lg:h-96"
+/>
+```
 
-  <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
+এখানে:
 
-  <div class="relative z-10 px-6 py-32 text-white">
-    <h1 class="text-5xl font-bold">
-      Modern Web Development
-    </h1>
+```text
+Mobile → h-48
+Tablet → h-72
+Desktop → h-96
+```
 
-    <p class="mt-5 max-w-xl text-lg text-gray-200">
-      Build beautiful and scalable applications.
-    </p>
+---
+
+## 1️⃣7️⃣ Responsive Aspect Ratio
+
+এভাবেও করতে পারো:
+
+```html
+<div class="aspect-square md:aspect-video">
+  <img
+    src="/images/hero.jpg"
+    class="h-full w-full object-cover"
+    alt="Hero"
+  />
+</div>
+```
+
+অর্থাৎ:
+
+```text
+Mobile
+aspect-square
+
+Desktop
+aspect-video
+```
+
+---
+
+## 1️⃣8️⃣ E-commerce Product Card 🚀
+
+এখন একটি complete product card তৈরি করি।
+
+```html
+<div class="overflow-hidden rounded-2xl border bg-white shadow-sm">
+
+  <!-- Image -->
+  <div class="group aspect-square overflow-hidden">
+    <img
+      src="/images/headphone.jpg"
+      alt="Wireless Headphone"
+      class="h-full w-full object-cover transition duration-300 group-hover:scale-110"
+    />
   </div>
 
-</section>
+  <!-- Content -->
+  <div class="p-5">
+
+    <h2 class="text-xl font-bold">
+      Wireless Headphone
+    </h2>
+
+    <p class="mt-2 text-gray-500">
+      Premium wireless headphone.
+    </p>
+
+    <div class="mt-4 flex items-center justify-between">
+
+      <span class="text-2xl font-bold">
+        $59
+      </span>
+
+      <button class="rounded-lg bg-blue-600 px-4 py-2 text-white">
+        Buy
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 ```
 
-এই ধরনের technique professional landing page-এ অনেক দেখা যায়।
+এখানে আমরা আগের দিনের অনেক concept ব্যবহার করছি:
+
+```text
+border
+rounded
+shadow
+overflow
+aspect
+object-cover
+transition
+hover
+flex
+padding
+```
+
+এভাবেই ধীরে ধীরে Tailwind-এর utilityগুলো একসাথে ব্যবহার করতে শিখতে হবে।
 
 ---
 
-## 1️⃣3️⃣ React Example
+## 1️⃣9️⃣ React Version
 
-React-এ:
+তুমি যেহেতু React developer, JSX version-টাও practice করবে:
 
 ```jsx
-export default function Hero() {
+function ProductCard() {
   return (
-    <section className="relative overflow-hidden">
+    <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
       
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/hero.jpg')",
-        }}
-      />
-
-      <div className="absolute inset-0 bg-black/60" />
-
-      <div className="relative z-10 px-6 py-32 text-center text-white">
-        <h1 className="text-4xl font-bold md:text-6xl">
-          Build Amazing Products
-        </h1>
-
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-200">
-          Create modern applications with React and Tailwind CSS.
-        </p>
-
-        <button className="mt-8 rounded-lg bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700">
-          Get Started
-        </button>
+      <div className="group aspect-square overflow-hidden">
+        <img
+          src="/images/headphone.jpg"
+          alt="Wireless Headphone"
+          className="h-full w-full object-cover transition duration-300 group-hover:scale-110"
+        />
       </div>
 
-    </section>
+      <div className="p-5">
+        <h2 className="text-xl font-bold">
+          Wireless Headphone
+        </h2>
+
+        <p className="mt-2 text-gray-500">
+          Premium wireless headphone.
+        </p>
+
+        <div className="mt-4 flex items-center justify-between">
+          <span className="text-2xl font-bold">
+            $59
+          </span>
+
+          <button className="rounded-lg bg-blue-600 px-4 py-2 text-white">
+            Buy
+          </button>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+export default ProductCard;
+```
+
+---
+
+## 2️⃣0️⃣ Product Grid
+
+এখন একাধিক product:
+
+```jsx
+function ProductGrid() {
+  const products = [
+    {
+      id: 1,
+      name: "Wireless Headphone",
+      price: 59,
+      image: "/images/headphone.jpg",
+    },
+    {
+      id: 2,
+      name: "Smart Watch",
+      price: 89,
+      image: "/images/watch.jpg",
+    },
+    {
+      id: 3,
+      name: "Running Shoes",
+      price: 75,
+      image: "/images/shoes.jpg",
+    },
+    {
+      id: 4,
+      name: "Backpack",
+      price: 45,
+      image: "/images/bag.jpg",
+    },
+  ];
+
+  return (
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {products.map((product) => (
+        <div
+          key={product.id}
+          className="overflow-hidden rounded-2xl border bg-white shadow-sm"
+        >
+          <div className="group aspect-square overflow-hidden">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="h-full w-full object-cover transition duration-300 group-hover:scale-110"
+            />
+          </div>
+
+          <div className="p-5">
+            <h2 className="font-bold">
+              {product.name}
+            </h2>
+
+            <p className="mt-2 text-xl font-bold">
+              ${product.price}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 ```
 
----
-
-## 1️⃣4️⃣ Background নিয়ে গুরুত্বপূর্ণ Classes
-
-| কাজ                    | Tailwind           |
-| ---------------------- | ------------------ |
-| Background color       | `bg-blue-500`      |
-| Transparent background | `bg-transparent`   |
-| Black opacity          | `bg-black/50`      |
-| Gradient               | `bg-gradient-to-r` |
-| Gradient start         | `from-blue-500`    |
-| Gradient middle        | `via-purple-500`   |
-| Gradient end           | `to-pink-500`      |
-| Background image       | `bg-[url(...)]`    |
-| Cover                  | `bg-cover`         |
-| Contain                | `bg-contain`       |
-| Center                 | `bg-center`        |
-| Top                    | `bg-top`           |
-| Bottom                 | `bg-bottom`        |
-| No repeat              | `bg-no-repeat`     |
-
----
-
-## 🧠 আজকের সবচেয়ে গুরুত্বপূর্ণ Pattern
-
-একটি professional Hero section-এর জন্য এই pattern মনে রাখো:
-
-```html
-<section class="relative overflow-hidden">
-
-  <!-- Background -->
-  <div class="absolute inset-0 bg-cover bg-center">
-  </div>
-
-  <!-- Overlay -->
-  <div class="absolute inset-0 bg-black/50">
-  </div>
-
-  <!-- Content -->
-  <div class="relative z-10">
-    Content
-  </div>
-
-</section>
-```
-
-এটা ভালোভাবে আয়ত্ত করতে পারলে তুমি অনেক ধরনের:
-
-* Landing Page
-* Portfolio
-* E-commerce Hero
-* SaaS Website
-* Agency Website
-* Product Website
-
-এর Hero Section তৈরি করতে পারবে।
-
----
-
-## 🧪 আজকের Practice
-
-###### Task 1 — Gradient Card
-
-একটি card তৈরি করো:
+এখানে আগের Day 7 এবং Day 8-এর:
 
 ```text
-┌─────────────────────────────┐
-│                             │
-│       PREMIUM PLAN          │
-│                             │
-│          $29                │
-│                             │
-│       Get Started           │
-│                             │
-└─────────────────────────────┘
+Grid
+Responsive
 ```
 
-ব্যবহার করবে:
+এর সাথে আজকের:
 
 ```text
-bg-gradient-to-*
-from-*
-via-*
-to-*
-rounded
-shadow
-text
+Aspect Ratio
+Object Fit
+Image
+```
+
+combine হয়েছে।
+
+---
+
+## 🧠 2️⃣1️⃣ `object-cover` vs `object-contain`
+
+এটা খুব ভালোভাবে বুঝে রাখো।
+
+| বিষয়                | `object-cover` | `object-contain` |
+| ------------------- | -------------- | ---------------- |
+| পুরো container fill | ✅              | ❌                |
+| Image crop হতে পারে | ✅              | ❌                |
+| Image distortion    | সাধারণত নয়     | সাধারণত নয়       |
+| Product card        | ⭐⭐⭐⭐⭐          | ⭐⭐⭐⭐             |
+| Logo                | ⭐⭐             | ⭐⭐⭐⭐⭐            |
+| Hero image          | ⭐⭐⭐⭐⭐          | ⭐⭐               |
+| Product PNG         | ⭐⭐⭐            | ⭐⭐⭐⭐⭐            |
+
+###### সহজ নিয়ম:
+
+**Photo / background-like image → `object-cover`**
+
+**Product / logo / transparent image → `object-contain`**
+
+---
+
+## 📌 2️⃣2️⃣ আজকের গুরুত্বপূর্ণ Classes
+
+```text
+IMAGE
+────────────────────
+
+w-full
+h-full
+h-64
+
+
+OBJECT
+────────────────────
+
+object-cover
+object-contain
+object-fill
+object-none
+
+object-center
+object-top
+object-bottom
+object-left
+object-right
+
+
+ASPECT
+────────────────────
+
+aspect-square
+aspect-video
+aspect-auto
+aspect-[4/3]
+aspect-[3/2]
+aspect-[21/9]
+
+
+IMAGE EFFECT
+────────────────────
+
+overflow-hidden
+rounded-xl
+transition
+duration-300
+
+scale-110
+group
+group-hover:scale-110
 ```
 
 ---
 
-###### Task 2 — Hero Section
+## 🧪 আজকের Homework
 
-একটি responsive Hero তৈরি করো:
+#### Task 1 — Profile Image
 
-```text
-Desktop:
-
-┌─────────────────────────────────────────┐
-│                                         │
-│       Build Your Future                 │
-│       with Web Development              │
-│                                         │
-│       [ Get Started ]                   │
-│                                         │
-└─────────────────────────────────────────┘
-```
-
-ব্যবহার করবে:
+একটি circular profile component বানাও:
 
 ```text
-background image
-bg-cover
-bg-center
-overlay
-relative
-absolute
-z-index
-responsive typography
+      _________
+    /           \
+   |    IMAGE    |
+    \___________/
+    
+   Ariful Islam
+   Web Developer
 ```
-
----
-
-###### Task 3 — React Challenge 🚀
-
-একটি `Hero.jsx` component তৈরি করো।
 
 Requirements:
 
 ```text
-✓ Background Image
-✓ Dark Overlay
-✓ Gradient Overlay
-✓ Responsive Heading
-✓ Paragraph
-✓ Two Buttons
-✓ Mobile Responsive
-```
-
-Structure:
-
-```jsx
-function Hero() {
-  return (
-    <section>
-      {/* Background */}
-
-      {/* Overlay */}
-
-      {/* Content */}
-
-    </section>
-  );
-}
+✓ rounded-full
+✓ object-cover
+✓ fixed width/height
+✓ border
+✓ shadow
 ```
 
 ---
 
-## 📌 Day 11 Cheat Sheet
+#### Task 2 — Product Card
+
+একটি Product Card তৈরি করো:
 
 ```text
-BACKGROUND
-────────────────────────
+┌─────────────────────┐
+│                     │
+│       PRODUCT       │
+│        IMAGE        │
+│                     │
+├─────────────────────┤
+│ Wireless Headphone  │
+│ Premium Quality     │
+│                     │
+│ $59       [ Buy ]   │
+└─────────────────────┘
+```
 
-bg-blue-500
-bg-gray-100
-bg-black
-bg-white
+Requirements:
 
-OPACITY
-────────────────────────
-
-bg-black/50
-bg-white/80
-
-GRADIENT
-────────────────────────
-
-bg-gradient-to-r
-bg-gradient-to-l
-bg-gradient-to-t
-bg-gradient-to-b
-bg-gradient-to-br
-
-from-blue-500
-via-purple-500
-to-pink-500
-
-IMAGE
-────────────────────────
-
-bg-[url('/image.jpg')]
-
-SIZE
-────────────────────────
-
-bg-cover
-bg-contain
-bg-auto
-
-POSITION
-────────────────────────
-
-bg-center
-bg-top
-bg-bottom
-bg-left
-bg-right
-
-REPEAT
-────────────────────────
-
-bg-repeat
-bg-no-repeat
-bg-repeat-x
-bg-repeat-y
+```text
+✓ aspect-square
+✓ object-cover
+✓ overflow-hidden
+✓ rounded
+✓ border
+✓ shadow
+✓ hover image zoom
 ```
 
 ---
 
-## 🎯 Day 11-এর Key Takeaway
+## 🚀 Day 12 Challenge
 
-আজকের ৫টি জিনিস অবশ্যই ভালোভাবে শিখবে:
+একটি **E-commerce Product Grid** তৈরি করো।
+
+Requirements:
 
 ```text
-1. bg-{color}-{shade}
-2. bg-black/50
-3. bg-gradient-to-r + from/via/to
-4. bg-cover + bg-center
-5. Background + Overlay + Content pattern
+Mobile
+1 column
+
+Tablet
+2 columns
+
+Desktop
+4 columns
 ```
 
-বিশেষ করে এই pattern:
+Grid:
 
 ```html
-relative
-   │
-   ├── absolute → Background
-   │
-   ├── absolute → Overlay
-   │
-   └── relative z-10 → Content
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 ```
+
+প্রতিটি card-এ থাকবে:
+
+```text
+✓ Product Image
+✓ Product Name
+✓ Description
+✓ Price
+✓ Buy Button
+✓ aspect-square
+✓ object-cover
+✓ hover zoom
+✓ border
+✓ shadow
+```
+
+---
+
+## 🎯 Day 12 Key Takeaway
+
+আজকের সবচেয়ে গুরুত্বপূর্ণ ৬টি concept:
+
+```text
+1. object-cover
+2. object-contain
+3. object-center
+4. aspect-square
+5. aspect-video
+6. group + group-hover
+```
+
+বিশেষ করে এই pattern মুখস্থ করে ফেলো:
+
+```html
+<div class="group aspect-square overflow-hidden rounded-xl">
+  <img
+    src="/image.jpg"
+    alt=""
+    class="h-full w-full object-cover transition duration-300 group-hover:scale-110"
+  />
+</div>
+```
+
+এই ছোট pattern দিয়েই তুমি **modern product card, gallery, portfolio card এবং অনেক ধরনের image-based UI** তৈরি করতে পারবে।
+
 
