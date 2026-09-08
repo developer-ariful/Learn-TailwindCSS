@@ -7,17 +7,45 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body class="p-2">
-  <div class="border bg-gray-200 shadow-sm rounded-md text-center">
-    <div class="group overflow-hidden aspect-square rounded-full">
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJzVCpeSBjOxxxRLRhWVrqt56mwYAQe3mm6QSD3wH-PLtI9WTLNU1cP9zf&s=10"
-        alt="Profile"
-          class="w-full h-full group-hover:scale-110 trasition duration-300 object-cover"
-        >
+<body class="mt-2">
+  <div class="min-h-screen bg-gray-100 px-4 py-10">
+    <div>
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Welcome Back</h1>
+      </div>
+      <p class="mt-2 text-gray-500">Login to your account</p>
     </div>
-    <h2 class="font-bold text-2xl">Ariful Islam</h2>
-    <p class="text-gray-500 mt-2">Web Developer</p>
+    <!-- email  -->
+    <form action="" class="space-y-5">
+      <div>
+        <label for="email">
+          Email
+        </label>
+        <input type="email" name="email" id="email"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transtion focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ">
+      </div>
+      <!-- password  -->
+      <div>
+        <label for="password" class="mb-2 block font-medium text-gray-700">
+          Password
+        </label>
+        <input type="password" id="password" placeholder="Enter your password"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transtion focus:border-blue-500 focus:ring-2 focus:ring-blue-500">
+      </div>
+      <!-- Remember -->
+      <div class="flex items-center justify-between">
+        <label for="" class="flex items-center gap-2">
+          <input type="checkbox" name="" id="" class="h-4 w-4">
+          <span class="text-sm text-gray-600">Remember me</span>
+        </label>
+        <label for="">
+          <a href="#" class="text-sm font-medium text-blue-600 hover:underline">Forgot Password?</a>
+        </label>
+      </div>
+      <!-- button -->
+      <button type="submit"
+        class="w-full rounded-lg px-5 py-3 font-semibold text-white shadow-md bg-blue-600 transition duration-300 hover:bg-blue-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95">Login</button>
+    </form>
   </div>
 </body>
 

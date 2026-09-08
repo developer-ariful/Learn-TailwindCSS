@@ -8,30 +8,106 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
 
-  <body class="px-5">
-    <img src="bg-image.jpg" alt="Natural" class="object-container">
-    <br><br>
-    <img src="bg-image.jpg" alt="Product" class="h-64 w-full object-cover object-top
-      transtion duration-300 group-hover:scale-110
-    ">
+  <body class="px-5 mt-3">
+   <button disabled class="disabled:cursor-not-allowed disabled:opacity-50 rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700 transition duration-300">Login</button>
+   <button class="rounded-lg bg-green-600 px-5 py-3 font-semibold text-white shadow-md hover:shadow-lg">Login</button>
+   <button class="rounded-lg bg-gray-200 px-5 py-3 font-semibold text-white outline-none focuse:ring-5 foucus:ring-boue-500">Login</button>
+   <button class="rounded-lg bg-gray-600 px-5 py-3 font-semibold text-white active:scale-95">Login</button>
+   <br><br><br>
+   <div>
+    <label for="" class="mb-2 block font-medium text-gray-700">Email</label>
+    <input type="email" name="" id=""
+      class="w-full border rounded-lg border-gray-300 px-4 py-3"
+    >
+   </div>
 
-    <br><br>
-    <div class="aspect-[21/9]">
-      <video src="motu-patlu.mp4"></video>
-    </div>
+   <input type="email" name="" id="" placeholder="Enter your email"
+    class="
+    w-full rounded-lg
+    border mt-3
+    border-gray-300
+    px-4 py-3
+    outline-none
+    transition
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500
+    placeholder:text-gray-400
+    "
+   >
 
-    <br>
-    <div class="aspect-square overflow-hidden rounded-xl flex">
-      <img src="bg-image.jpg" alt="Product" class="h-full w-full object-cover">
-      <img src="bg-image.jpg" alt="Product" class="h-full w-full object-cover">
-      <img src="bg-image.jpg" alt="Product" class="h-full w-full object-cover">
-    </div>
-    <br><br>
-    <img src="bg-image.jpg" alt="" class="rounded-full">
+   <div>
+    <label class="mb-2 block font-medium text-gray-700" for="">Password</label>
+    <input type="password" name="" id="" placeholder="Enter your password"
+    class="
+    w-full rounded-lg
+    border mt-3
+    border-gray-300
+    px-4 py-3
+    outline-none
+    transition
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500
+    placeholder:text-gray-400
+    "
+   >
+   </div>
+   <textarea name="" rows="5" placeholder="Write your message.." id=""
+    class="
+    w-full
+    border
+    mt-2
+    rounded-lg
+    boder-gray-300
+    px-4 py-3
+    outline-none
+    focus:border-blue-500
+    focus:ring-red-500
+    focus:ring-2
+    "
+   >
 
-    <div class="aspect-square md:aspect-video ">
-      <img src="bg-image.jpg" class="h-full w-full" alt="">
-    </div>
+   </textarea>
+
+   <select
+    class="
+    w-full
+    rounded-lg
+    border
+    px-4 py-3
+    outline-none
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500
+
+    "
+   name="" id="">
+    <option value="">Select a category</option>
+    <option value="">Electronics</option>
+    <option value="">Clothing</option>
+    <option value="">Books</option>
+   </select>
+
+   <br><br>
+   <label for="" class="flex items-center gap-2">
+    <input type="checkbox" name="" id=""
+      class="h-4 w-4 border-gray-300 rounded"
+    >
+    <span class="text-sm text-gray-700">Remember me</span>
+   </label>
+
+   <br><br>
+   <div class="space-y-3" >
+    <label for=""  class="flex items-center gap-2">
+      <input type="radio" name="gender" id="">
+      <span>Male</span>
+    </label>
+    <label for=""  class="flex items-center gap-2">
+      <input type="radio" name="gender" id="" >
+      <span>Female</span>
+    </label>
+   </div>
   </body>
 
   </html>

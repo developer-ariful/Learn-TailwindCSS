@@ -1,905 +1,1077 @@
 # Learn TailwinCSS
 *Day By Day*
 
-## 🎯 Tailwind CSS — Day 12
+## 🎯 Tailwind CSS — Day 13: Buttons, Forms & Form UI
 
-#### Images, Aspect Ratio & Object Fit
+আজ আমরা Tailwind CSS-এর একটি খুব গুরুত্বপূর্ণ অংশ শিখব—**Button এবং Form UI**।
 
-আজ আমরা Tailwind CSS-এর **Image Handling** শিখব। বিশেষ করে তুমি যেহেতু React.js/MERN developer, তাই আজকের বিষয়গুলো **E-commerce, Portfolio, Blog, Dashboard এবং Landing Page**-এ সরাসরি কাজে লাগবে।
-
-
+তুমি যেহেতু React.js/Node.js দিয়ে বাস্তব Project তৈরি করছো, তাই আজকের lesson-এ আমরা শুধু class মুখস্থ করব না; বরং **Login/Register Form-এর মতো বাস্তব UI** তৈরি করব।
 
 
 
-## 1️⃣ Image-এর Basic Structure
+## 1️⃣ Tailwind দিয়ে Button তৈরি
 
-সাধারণ HTML:
+একটি সাধারণ button:
 
 ```html
-<img src="/images/product.jpg" alt="Product" />
+<button class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white">
+  Login
+</button>
 ```
 
-Tailwind:
-
-```html
-<img
-  src="/images/product.jpg"
-  alt="Product"
-  class="h-64 w-full"
-/>
-```
-
-এখানে:
+এখানে—
 
 ```text
-w-full → পুরো width
-h-64   → নির্দিষ্ট height
+rounded-lg      → Corner গোল
+bg-blue-600     → Background
+px-5            → Left + Right padding
+py-3            → Top + Bottom padding
+font-semibold   → Font একটু bold
+text-white      → Text color
 ```
 
-কিন্তু একটি সমস্যা হতে পারে।
+###### 🎨 Button-এর Color পরিবর্তন
 
-Image-এর original ratio যদি container-এর সাথে না মিলে, তাহলে image **stretch/distort** হতে পারে।
+```html
+<button class="bg-blue-600 text-white">
+  Primary
+</button>
 
-এখানেই `object-fit` কাজে আসে।
+<button class="bg-green-600 text-white">
+  Success
+</button>
+
+<button class="bg-red-600 text-white">
+  Delete
+</button>
+
+<button class="bg-gray-600 text-white">
+  Secondary
+</button>
+```
 
 ---
 
-## 2️⃣ `object-cover`
+## 2️⃣ Button-এর Hover Effect
 
-সবচেয়ে গুরুত্বপূর্ণ image utility:
-
-```html
-class="object-cover"
-```
-
-উদাহরণ:
+User যখন button-এর উপর mouse রাখবে তখন color পরিবর্তন করতে:
 
 ```html
-<img
-  src="/images/product.jpg"
-  alt="Product"
-  class="h-64 w-full object-cover"
-/>
+<button
+  class="rounded-lg bg-blue-600 px-5 py-3 text-white hover:bg-blue-700"
+>
+  Login
+</button>
 ```
 
-###### কী করে?
-
-Image container-এর পুরো জায়গা cover করবে।
-
-প্রয়োজনে image-এর কিছু অংশ crop হবে।
+মূল বিষয়:
 
 ```text
-Container
-┌────────────────────────────┐
-│       ┌────────────┐       │
-│       │   IMAGE    │       │
-│       │   CROPPED  │       │
-│       └────────────┘       │
-└────────────────────────────┘
-```
-
-###### কোথায় ব্যবহার করবে?
-
-* Product images
-* Hero images
-* Blog thumbnails
-* Profile cover
-* Gallery
-
----
-
-## 3️⃣ `object-contain`
-
-```html
-<img
-  src="/images/product.png"
-  class="h-64 w-full object-contain"
-/>
-```
-
-এখানে image পুরোটা দেখা যাবে।
-
-Image crop হবে না।
-
-```text
-┌────────────────────────────┐
-│                            │
-│       ┌──────────┐         │
-│       │  IMAGE   │         │
-│       └──────────┘         │
-│                            │
-└────────────────────────────┘
-```
-
-###### কোথায় ভালো?
-
-বিশেষ করে:
-
-* Product PNG
-* Logo
-* Shoes
-* Electronics
-* Product catalog
-
-যেখানে পুরো product image দেখা গুরুত্বপূর্ণ।
-
----
-
-## 4️⃣ `object-fill`
-
-```html
-class="object-fill"
-```
-
-Image container-এর width/height অনুযায়ী stretch হবে।
-
-ফলে image distorted হতে পারে।
-
-তাই সাধারণ UI-তে `object-cover` বা `object-contain` বেশি ব্যবহার করবে।
-
----
-
-## 5️⃣ `object-none`
-
-```html
-class="object-none"
-```
-
-Image নিজস্ব size বজায় রাখে এবং container-এর মধ্যে object-fit অনুযায়ী stretch/crop করে না।
-
-এটি সাধারণ product card-এর জন্য খুব বেশি প্রয়োজন হয় না।
-
----
-
-## 6️⃣ `object-center`
-
-Image-এর positioning:
-
-```html
-class="object-center"
-```
-
-এটি default-এর মতো center positioning দেয়।
-
-আরও আছে:
-
-```text
-object-top
-object-bottom
-object-left
-object-right
-
-object-left-top
-object-right-top
-object-left-bottom
-object-right-bottom
-```
-
----
-
-## 7️⃣ `object-cover` + Position
-
-ধরো ছবির গুরুত্বপূর্ণ অংশ উপরের দিকে।
-
-তাহলে:
-
-```html
-<img
-  src="/images/person.jpg"
-  class="h-80 w-full object-cover object-top"
-/>
-```
-
-এখানে:
-
-```text
-object-cover → image cover করবে
-object-top   → উপরের অংশকে priority দেবে
-```
-
----
-
-## 8️⃣ Aspect Ratio কী?
-
-ধরো একটি video:
-
-```text
-16 : 9
+bg-blue-600
+     ↓
+hover:bg-blue-700
 ```
 
 অর্থাৎ:
 
-```text
-Width = 16
-Height = 9
-```
-
-Tailwind-এ:
-
-```html
-aspect-video
-```
-
-ব্যবহার করতে পারো।
-
-```html
-<div class="aspect-video">
-  Video
-</div>
-```
+> Normal অবস্থায় `blue-600`, hover করলে `blue-700`
 
 ---
 
-## 9️⃣ `aspect-square`
+## 3️⃣ Transition ব্যবহার
 
-একটি perfect square:
+Hover effect-কে smooth করতে:
 
 ```html
-<div class="aspect-square">
-  Image
-</div>
+<button
+  class="rounded-lg bg-blue-600 px-5 py-3 text-white
+         transition duration-300 hover:bg-blue-700"
+>
+  Login
+</button>
 ```
 
-অর্থাৎ:
+###### গুরুত্বপূর্ণ
 
 ```text
-Width = Height
+transition
+duration-300
 ```
 
-Product thumbnail বা profile image-এর জন্য useful।
+এগুলো animation-কে smooth করে।
 
 ---
 
-## 🔟 `aspect-video`
+## 4️⃣ Button Shadow
 
 ```html
-<div class="aspect-video">
-  Video Thumbnail
-</div>
-```
-
-এটি সাধারণত 16:9 ধরনের video layout-এর জন্য ব্যবহৃত হয়।
-
-YouTube thumbnail-এর মতো:
-
-```text
-┌──────────────────────────┐
-│                          │
-│      VIDEO THUMBNAIL     │
-│                          │
-└──────────────────────────┘
-```
-
----
-
-## 1️⃣1️⃣ Custom Aspect Ratio
-
-নিজের ratio দিতে পারো:
-
-```html
-<div class="aspect-[4/3]">
-```
-
-অথবা:
-
-```html
-<div class="aspect-[3/2]">
-```
-
-অথবা:
-
-```html
-<div class="aspect-[21/9]">
-```
-
-###### Example
-
-```html
-<div class="aspect-[4/3] overflow-hidden rounded-xl">
-  <img
-    src="/images/product.jpg"
-    alt="Product"
-    class="h-full w-full object-cover"
-  />
-</div>
-```
-
----
-
-## 1️⃣2️⃣ কেন Aspect Ratio গুরুত্বপূর্ণ?
-
-ধরো তোমার E-commerce site-এ ১০টি product আছে।
-
-যদি প্রতিটি image-এর height আলাদা হয়:
-
-```text
-Product 1 ┌────────┐
-          │        │
-          │        │
-          └────────┘
-
-Product 2 ┌──────────────┐
-          │              │
-          └──────────────┘
-
-Product 3 ┌───────┐
-          │       │
-          │       │
-          │       │
-          └───────┘
-```
-
-UI অসমান দেখাবে।
-
-কিন্তু:
-
-```html
-aspect-square
-```
-
-ব্যবহার করলে:
-
-```text
-┌─────────┐  ┌─────────┐  ┌─────────┐
-│         │  │         │  │         │
-│ Product │  │ Product │  │ Product │
-│         │  │         │  │         │
-└─────────┘  └─────────┘  └─────────┘
-```
-
-সব image একই ratio-এর হবে।
-
----
-
-## 1️⃣3️⃣ Best Product Image Pattern ⭐
-
-এটি খুব ভালোভাবে মনে রাখো:
-
-```html
-<div class="aspect-square overflow-hidden rounded-xl">
-  <img
-    src="/images/product.jpg"
-    alt="Product"
-    class="h-full w-full object-cover"
-  />
-</div>
+<button
+  class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white shadow-md hover:shadow-lg"
+>
+  Buy Now
+</button>
 ```
 
 এখানে:
 
 ```text
-aspect-square
-      ↓
-একই ratio
-      ↓
-overflow-hidden
-      ↓
-বাইরের অংশ hide
-      ↓
-object-cover
-      ↓
-image পুরো area cover
+shadow-md
+    ↓
+hover:shadow-lg
 ```
 
 ---
 
-## 1️⃣4️⃣ Hover করলে Image Zoom
+## 5️⃣ Focus State
 
-E-commerce site-এ খুব সুন্দর effect:
-
-```html
-<div class="group aspect-square overflow-hidden rounded-xl">
-  <img
-    src="/images/product.jpg"
-    alt="Product"
-    class="h-full w-full object-cover transition duration-300 group-hover:scale-110"
-  />
-</div>
-```
-
-এখানে নতুন একটি concept:
-
-```text
-group
-group-hover:*
-```
-
-Parent:
+Keyboard দিয়ে button/input select করলে focus state দেখা যায়।
 
 ```html
-class="group"
-```
-
-Child:
-
-```html
-group-hover:scale-110
-```
-
-মানে parent-এর উপর hover করলে child image scale হবে।
-
----
-
-## 1️⃣5️⃣ Image Rounded
-
-```html
-<img
-  src="/images/profile.jpg"
-  class="rounded-full"
-/>
-```
-
-Profile image:
-
-```html
-<div class="h-20 w-20 overflow-hidden rounded-full">
-  <img
-    src="/images/profile.jpg"
-    class="h-full w-full object-cover"
-    alt="Profile"
-  />
-</div>
-```
-
-এটি একটি খুব common pattern।
-
----
-
-## 1️⃣6️⃣ Responsive Image
-
-Mobile:
-
-```text
-┌──────────────┐
-│    Image     │
-└──────────────┘
-```
-
-Desktop:
-
-```text
-┌───────────────────────────────┐
-│             Image             │
-└───────────────────────────────┘
-```
-
-Tailwind:
-
-```html
-<img
-  src="/images/hero.jpg"
-  alt="Hero"
-  class="h-48 w-full object-cover md:h-72 lg:h-96"
-/>
+<button
+  class="rounded-lg bg-blue-600 px-5 py-3 text-white
+         outline-none focus:ring-2 focus:ring-blue-500"
+>
+  Login
+</button>
 ```
 
 এখানে:
 
 ```text
-Mobile → h-48
-Tablet → h-72
-Desktop → h-96
+focus:ring-2
+focus:ring-blue-500
+```
+
+খুব গুরুত্বপূর্ণ।
+
+---
+
+## 6️⃣ Active State
+
+Button click করার সময় আলাদা effect দিতে পারো:
+
+```html
+<button
+  class="rounded-lg bg-blue-600 px-5 py-3 text-white
+         hover:bg-blue-700 active:scale-95"
+>
+  Submit
+</button>
+```
+
+এখানে:
+
+```text
+active:scale-95
+```
+
+click করার সময় button সামান্য ছোট হবে।
+
+---
+
+## 7️⃣ Disabled Button
+
+ধরো form submit করার সময় button disable হয়ে গেছে।
+
+```html
+<button
+  disabled
+  class="rounded-lg bg-blue-600 px-5 py-3 text-white
+         disabled:cursor-not-allowed disabled:opacity-50"
+>
+  Processing...
+</button>
+```
+
+এখানে:
+
+```text
+disabled:cursor-not-allowed
+disabled:opacity-50
+```
+
+ব্যবহারকারীর কাছে বোঝা যাবে যে button বর্তমানে ব্যবহারযোগ্য নয়।
+
+---
+
+## 8️⃣ Professional Button Pattern
+
+বাস্তব Project-এ এই pattern মনে রাখতে পারো:
+
+```html
+<button
+  class="
+    rounded-lg
+    bg-blue-600
+    px-5 py-3
+    font-semibold
+    text-white
+    shadow-md
+    transition
+    duration-300
+    hover:bg-blue-700
+    hover:shadow-lg
+    focus:outline-none
+    focus:ring-2
+    focus:ring-blue-500
+    active:scale-95
+  "
+>
+  Login
+</button>
 ```
 
 ---
 
-## 1️⃣7️⃣ Responsive Aspect Ratio
+## 9️⃣ Form তৈরি করা
 
-এভাবেও করতে পারো:
+একটি Form সাধারণত এমন:
+
+```text
+Form
+│
+├── Label
+├── Input
+│
+├── Label
+├── Input
+│
+├── Button
+│
+└── Other information
+```
+
+---
+
+## 🔟 Label + Input
 
 ```html
-<div class="aspect-square md:aspect-video">
-  <img
-    src="/images/hero.jpg"
-    class="h-full w-full object-cover"
-    alt="Hero"
+<div>
+  <label class="mb-2 block font-medium text-gray-700">
+    Email
+  </label>
+
+  <input
+    type="email"
+    placeholder="Enter your email"
+    class="w-full rounded-lg border border-gray-300 px-4 py-3"
   />
 </div>
 ```
 
-অর্থাৎ:
+###### কেন `block`?
 
 ```text
-Mobile
-aspect-square
+label
+↓
+input
+```
 
-Desktop
-aspect-video
+Label-কে পুরো line নিতে সাহায্য করে।
+
+---
+
+## 1️⃣1️⃣ Input Focus Design
+
+Professional input:
+
+```html
+<input
+  type="email"
+  placeholder="Enter your email"
+  class="
+    w-full
+    rounded-lg
+    border
+    border-gray-300
+    px-4
+    py-3
+    outline-none
+    transition
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500
+  "
+/>
+```
+
+এখানে গুরুত্বপূর্ণ:
+
+```text
+outline-none
+focus:border-blue-500
+focus:ring-2
+focus:ring-blue-500
 ```
 
 ---
 
-## 1️⃣8️⃣ E-commerce Product Card 🚀
+## 1️⃣2️⃣ Placeholder Color
 
-এখন একটি complete product card তৈরি করি।
+Placeholder-এর color পরিবর্তন করতে:
 
 ```html
-<div class="overflow-hidden rounded-2xl border bg-white shadow-sm">
+<input
+  placeholder="Enter your email"
+  class="placeholder:text-gray-400"
+/>
+```
 
-  <!-- Image -->
-  <div class="group aspect-square overflow-hidden">
-    <img
-      src="/images/headphone.jpg"
-      alt="Wireless Headphone"
-      class="h-full w-full object-cover transition duration-300 group-hover:scale-110"
-    />
-  </div>
+আরও সুন্দর:
 
-  <!-- Content -->
-  <div class="p-5">
+```html
+<input
+  placeholder="Enter your email"
+  class="
+    w-full
+    rounded-lg
+    border
+    border-gray-300
+    px-4 py-3
+    placeholder:text-gray-400
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500
+  "
+/>
+```
 
-    <h2 class="text-xl font-bold">
-      Wireless Headphone
-    </h2>
+---
 
-    <p class="mt-2 text-gray-500">
-      Premium wireless headphone.
-    </p>
+## 1️⃣3️⃣ Password Input
 
-    <div class="mt-4 flex items-center justify-between">
+```html
+<div>
+  <label class="mb-2 block font-medium text-gray-700">
+    Password
+  </label>
 
-      <span class="text-2xl font-bold">
-        $59
-      </span>
+  <input
+    type="password"
+    placeholder="Enter your password"
+    class="
+      w-full
+      rounded-lg
+      border
+      border-gray-300
+      px-4 py-3
+      outline-none
+      focus:border-blue-500
+      focus:ring-2
+      focus:ring-blue-500
+    "
+  />
+</div>
+```
 
-      <button class="rounded-lg bg-blue-600 px-4 py-2 text-white">
-        Buy
-      </button>
+---
 
+## 1️⃣4️⃣ Textarea
+
+User-এর message নেওয়ার জন্য:
+
+```html
+<textarea
+  rows="5"
+  placeholder="Write your message..."
+  class="
+    w-full
+    rounded-lg
+    border
+    border-gray-300
+    px-4 py-3
+    outline-none
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500
+  "
+></textarea>
+```
+
+এটি ব্যবহার করতে পারো:
+
+* Contact Form
+* Comment
+* Product Description
+* Customer Support
+* Client Message
+
+---
+
+## 1️⃣5️⃣ Select
+
+```html
+<select
+  class="
+    w-full
+    rounded-lg
+    border
+    border-gray-300
+    px-4 py-3
+    outline-none
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500
+  "
+>
+  <option>Select a category</option>
+  <option>Electronics</option>
+  <option>Clothing</option>
+  <option>Books</option>
+</select>
+```
+
+---
+
+## 1️⃣6️⃣ Checkbox
+
+```html
+<label class="flex items-center gap-2">
+  <input
+    type="checkbox"
+    class="h-4 w-4 rounded border-gray-300"
+  />
+
+  <span class="text-sm text-gray-700">
+    Remember me
+  </span>
+</label>
+```
+
+এখানে:
+
+```text
+flex
+items-center
+gap-2
+```
+
+ব্যবহার করে checkbox এবং text একই লাইনে সুন্দরভাবে রাখা হয়েছে।
+
+---
+
+## 1️⃣7️⃣ Radio Button
+
+```html
+<div class="space-y-3">
+  <label class="flex items-center gap-2">
+    <input type="radio" name="gender" />
+    <span>Male</span>
+  </label>
+
+  <label class="flex items-center gap-2">
+    <input type="radio" name="gender" />
+    <span>Female</span>
+  </label>
+</div>
+```
+
+---
+
+## 1️⃣8️⃣ Error State
+
+ধরো email ভুল হয়েছে।
+
+```html
+<input
+  type="email"
+  class="
+    w-full
+    rounded-lg
+    border
+    border-red-500
+    px-4 py-3
+    outline-none
+    focus:ring-2
+    focus:ring-red-500
+  "
+/>
+
+<p class="mt-1 text-sm text-red-500">
+  Please enter a valid email address.
+</p>
+```
+
+UI:
+
+```text
+Email
+┌──────────────────────────────┐
+│ wrong-email                  │
+└──────────────────────────────┘
+  Please enter a valid email address.
+```
+
+---
+
+## 1️⃣9️⃣ Success State
+
+```html
+<input
+  type="email"
+  class="
+    w-full
+    rounded-lg
+    border
+    border-green-500
+    px-4 py-3
+    outline-none
+    focus:ring-2
+    focus:ring-green-500
+  "
+/>
+
+<p class="mt-1 text-sm text-green-600">
+  Email is valid.
+</p>
+```
+
+---
+
+## 2️⃣0️⃣ Professional Login Form
+
+এবার আমরা আজকের সবচেয়ে গুরুত্বপূর্ণ অংশ তৈরি করব।
+
+```html
+<div class="min-h-screen bg-gray-100 px-4 py-10">
+  <div class="mx-auto max-w-md rounded-2xl bg-white p-8 shadow-xl">
+
+    <div class="mb-8 text-center">
+      <h1 class="text-3xl font-bold text-gray-900">
+        Welcome Back
+      </h1>
+
+      <p class="mt-2 text-gray-500">
+        Login to your account
+      </p>
     </div>
 
-  </div>
+    <form class="space-y-5">
 
-</div>
-```
+      <!-- Email -->
+      <div>
+        <label
+          for="email"
+          class="mb-2 block font-medium text-gray-700"
+        >
+          Email
+        </label>
 
-এখানে আমরা আগের দিনের অনেক concept ব্যবহার করছি:
-
-```text
-border
-rounded
-shadow
-overflow
-aspect
-object-cover
-transition
-hover
-flex
-padding
-```
-
-এভাবেই ধীরে ধীরে Tailwind-এর utilityগুলো একসাথে ব্যবহার করতে শিখতে হবে।
-
----
-
-## 1️⃣9️⃣ React Version
-
-তুমি যেহেতু React developer, JSX version-টাও practice করবে:
-
-```jsx
-function ProductCard() {
-  return (
-    <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
-      
-      <div className="group aspect-square overflow-hidden">
-        <img
-          src="/images/headphone.jpg"
-          alt="Wireless Headphone"
-          className="h-full w-full object-cover transition duration-300 group-hover:scale-110"
+        <input
+          id="email"
+          type="email"
+          placeholder="Enter your email"
+          class="
+            w-full
+            rounded-lg
+            border
+            border-gray-300
+            px-4 py-3
+            outline-none
+            transition
+            focus:border-blue-500
+            focus:ring-2
+            focus:ring-blue-500
+          "
         />
       </div>
 
-      <div className="p-5">
-        <h2 className="text-xl font-bold">
-          Wireless Headphone
-        </h2>
+      <!-- Password -->
+      <div>
+        <label
+          for="password"
+          class="mb-2 block font-medium text-gray-700"
+        >
+          Password
+        </label>
 
-        <p className="mt-2 text-gray-500">
-          Premium wireless headphone.
-        </p>
-
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-2xl font-bold">
-            $59
-          </span>
-
-          <button className="rounded-lg bg-blue-600 px-4 py-2 text-white">
-            Buy
-          </button>
-        </div>
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter your password"
+          class="
+            w-full
+            rounded-lg
+            border
+            border-gray-300
+            px-4 py-3
+            outline-none
+            transition
+            focus:border-blue-500
+            focus:ring-2
+            focus:ring-blue-500
+          "
+        />
       </div>
 
-    </div>
-  );
-}
+      <!-- Remember -->
+      <div class="flex items-center justify-between">
 
-export default ProductCard;
-```
+        <label class="flex items-center gap-2">
+          <input
+            type="checkbox"
+            class="h-4 w-4"
+          />
 
----
+          <span class="text-sm text-gray-600">
+            Remember me
+          </span>
+        </label>
 
-## 2️⃣0️⃣ Product Grid
-
-এখন একাধিক product:
-
-```jsx
-function ProductGrid() {
-  const products = [
-    {
-      id: 1,
-      name: "Wireless Headphone",
-      price: 59,
-      image: "/images/headphone.jpg",
-    },
-    {
-      id: 2,
-      name: "Smart Watch",
-      price: 89,
-      image: "/images/watch.jpg",
-    },
-    {
-      id: 3,
-      name: "Running Shoes",
-      price: 75,
-      image: "/images/shoes.jpg",
-    },
-    {
-      id: 4,
-      name: "Backpack",
-      price: 45,
-      image: "/images/bag.jpg",
-    },
-  ];
-
-  return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {products.map((product) => (
-        <div
-          key={product.id}
-          className="overflow-hidden rounded-2xl border bg-white shadow-sm"
+        <a
+          href="##"
+          class="text-sm font-medium text-blue-600 hover:underline"
         >
-          <div className="group aspect-square overflow-hidden">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="h-full w-full object-cover transition duration-300 group-hover:scale-110"
-            />
-          </div>
+          Forgot password?
+        </a>
 
-          <div className="p-5">
-            <h2 className="font-bold">
-              {product.name}
-            </h2>
+      </div>
 
-            <p className="mt-2 text-xl font-bold">
-              ${product.price}
-            </p>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-```
+      <!-- Button -->
+      <button
+        type="submit"
+        class="
+          w-full
+          rounded-lg
+          bg-blue-600
+          px-5 py-3
+          font-semibold
+          text-white
+          shadow-md
+          transition
+          duration-300
+          hover:bg-blue-700
+          hover:shadow-lg
+          focus:outline-none
+          focus:ring-2
+          focus:ring-blue-500
+          active:scale-95
+        "
+      >
+        Login
+      </button>
 
-এখানে আগের Day 7 এবং Day 8-এর:
+    </form>
 
-```text
-Grid
-Responsive
-```
+    <p class="mt-6 text-center text-sm text-gray-500">
+      Don't have an account?
+      <a
+        href="##"
+        class="font-semibold text-blue-600 hover:underline"
+      >
+        Register
+      </a>
+    </p>
 
-এর সাথে আজকের:
-
-```text
-Aspect Ratio
-Object Fit
-Image
-```
-
-combine হয়েছে।
-
----
-
-## 🧠 2️⃣1️⃣ `object-cover` vs `object-contain`
-
-এটা খুব ভালোভাবে বুঝে রাখো।
-
-| বিষয়                | `object-cover` | `object-contain` |
-| ------------------- | -------------- | ---------------- |
-| পুরো container fill | ✅              | ❌                |
-| Image crop হতে পারে | ✅              | ❌                |
-| Image distortion    | সাধারণত নয়     | সাধারণত নয়       |
-| Product card        | ⭐⭐⭐⭐⭐          | ⭐⭐⭐⭐             |
-| Logo                | ⭐⭐             | ⭐⭐⭐⭐⭐            |
-| Hero image          | ⭐⭐⭐⭐⭐          | ⭐⭐               |
-| Product PNG         | ⭐⭐⭐            | ⭐⭐⭐⭐⭐            |
-
-###### সহজ নিয়ম:
-
-**Photo / background-like image → `object-cover`**
-
-**Product / logo / transparent image → `object-contain`**
-
----
-
-## 📌 2️⃣2️⃣ আজকের গুরুত্বপূর্ণ Classes
-
-```text
-IMAGE
-────────────────────
-
-w-full
-h-full
-h-64
-
-
-OBJECT
-────────────────────
-
-object-cover
-object-contain
-object-fill
-object-none
-
-object-center
-object-top
-object-bottom
-object-left
-object-right
-
-
-ASPECT
-────────────────────
-
-aspect-square
-aspect-video
-aspect-auto
-aspect-[4/3]
-aspect-[3/2]
-aspect-[21/9]
-
-
-IMAGE EFFECT
-────────────────────
-
-overflow-hidden
-rounded-xl
-transition
-duration-300
-
-scale-110
-group
-group-hover:scale-110
-```
-
----
-
-## 🧪 আজকের Homework
-
-#### Task 1 — Profile Image
-
-একটি circular profile component বানাও:
-
-```text
-      _________
-    /           \
-   |    IMAGE    |
-    \___________/
-    
-   Ariful Islam
-   Web Developer
-```
-
-Requirements:
-
-```text
-✓ rounded-full
-✓ object-cover
-✓ fixed width/height
-✓ border
-✓ shadow
-```
-
----
-
-#### Task 2 — Product Card
-
-একটি Product Card তৈরি করো:
-
-```text
-┌─────────────────────┐
-│                     │
-│       PRODUCT       │
-│        IMAGE        │
-│                     │
-├─────────────────────┤
-│ Wireless Headphone  │
-│ Premium Quality     │
-│                     │
-│ $59       [ Buy ]   │
-└─────────────────────┘
-```
-
-Requirements:
-
-```text
-✓ aspect-square
-✓ object-cover
-✓ overflow-hidden
-✓ rounded
-✓ border
-✓ shadow
-✓ hover image zoom
-```
-
----
-
-## 🚀 Day 12 Challenge
-
-একটি **E-commerce Product Grid** তৈরি করো।
-
-Requirements:
-
-```text
-Mobile
-1 column
-
-Tablet
-2 columns
-
-Desktop
-4 columns
-```
-
-Grid:
-
-```html
-<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-```
-
-প্রতিটি card-এ থাকবে:
-
-```text
-✓ Product Image
-✓ Product Name
-✓ Description
-✓ Price
-✓ Buy Button
-✓ aspect-square
-✓ object-cover
-✓ hover zoom
-✓ border
-✓ shadow
-```
-
----
-
-## 🎯 Day 12 Key Takeaway
-
-আজকের সবচেয়ে গুরুত্বপূর্ণ ৬টি concept:
-
-```text
-1. object-cover
-2. object-contain
-3. object-center
-4. aspect-square
-5. aspect-video
-6. group + group-hover
-```
-
-বিশেষ করে এই pattern মুখস্থ করে ফেলো:
-
-```html
-<div class="group aspect-square overflow-hidden rounded-xl">
-  <img
-    src="/image.jpg"
-    alt=""
-    class="h-full w-full object-cover transition duration-300 group-hover:scale-110"
-  />
+  </div>
 </div>
 ```
 
-এই ছোট pattern দিয়েই তুমি **modern product card, gallery, portfolio card এবং অনেক ধরনের image-based UI** তৈরি করতে পারবে।
+---
+
+## 2️⃣1️⃣ React + Tailwind Version
+
+React Project-এ `class` নয়, `className` ব্যবহার করবে।
+
+```jsx
+function LoginForm() {
+  return (
+    <div className="min-h-screen bg-gray-100 px-4 py-10">
+      <div className="mx-auto max-w-md rounded-2xl bg-white p-8 shadow-xl">
+
+        <h1 className="text-center text-3xl font-bold">
+          Welcome Back
+        </h1>
+
+        <p className="mt-2 text-center text-gray-500">
+          Login to your account
+        </p>
+
+        <form className="mt-8 space-y-5">
+
+          <div>
+            <label
+              htmlFor="email"
+              className="mb-2 block font-medium"
+            >
+              Email
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              className="
+                w-full
+                rounded-lg
+                border
+                border-gray-300
+                px-4 py-3
+                outline-none
+                transition
+                focus:border-blue-500
+                focus:ring-2
+                focus:ring-blue-500
+              "
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="mb-2 block font-medium"
+            >
+              Password
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              className="
+                w-full
+                rounded-lg
+                border
+                border-gray-300
+                px-4 py-3
+                outline-none
+                transition
+                focus:border-blue-500
+                focus:ring-2
+                focus:ring-blue-500
+              "
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="
+              w-full
+              rounded-lg
+              bg-blue-600
+              px-5 py-3
+              font-semibold
+              text-white
+              transition
+              hover:bg-blue-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-500
+            "
+          >
+            Login
+          </button>
+
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default LoginForm;
+```
+
+---
+
+## 2️⃣2️⃣ Accessibility — খুব গুরুত্বপূর্ণ
+
+Professional developer হিসেবে শুধু সুন্দর UI বানালেই হবে না।
+
+Label-এর সাথে input-এর relationship তৈরি করো:
+
+```jsx
+<label htmlFor="email">
+  Email
+</label>
+
+<input id="email" type="email" />
+```
+
+এখানে:
+
+```text
+htmlFor="email"
+       ↓
+id="email"
+```
+
+দুটো একই হওয়া উচিত।
+
+এটি accessibility-এর জন্য গুরুত্বপূর্ণ।
+
+---
+
+## 2️⃣3️⃣ Form Layout-এর জন্য `space-y`
+
+Form-এর প্রতিটি field-এর মধ্যে spacing দিতে:
+
+```html
+<form class="space-y-5">
+```
+
+এতে:
+
+```text
+Email
+
+Password
+
+Button
+```
+
+এর মধ্যে সুন্দর vertical spacing হবে।
+
+এটি খুব useful Tailwind pattern।
+
+---
+
+## 2️⃣4️⃣ Input State বুঝে রাখো
+
+একটি Input-এর বিভিন্ন state হতে পারে:
+
+```text
+Normal
+   ↓
+Hover
+   ↓
+Focus
+   ↓
+Valid
+   ↓
+Invalid
+   ↓
+Disabled
+```
+
+Tailwind:
+
+```text
+hover:
+focus:
+disabled:
+```
+
+এগুলো খুব গুরুত্বপূর্ণ।
+
+---
+
+## 🧠 আজকের সবচেয়ে গুরুত্বপূর্ণ Pattern
+
+###### Button
+
+```html
+<button
+  class="
+    rounded-lg
+    bg-blue-600
+    px-5 py-3
+    font-semibold
+    text-white
+    transition
+    hover:bg-blue-700
+    focus:ring-2
+    focus:ring-blue-500
+    active:scale-95
+  "
+>
+  Submit
+</button>
+```
+
+###### Input
+
+```html
+<input
+  class="
+    w-full
+    rounded-lg
+    border
+    border-gray-300
+    px-4 py-3
+    outline-none
+    transition
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500
+  "
+/>
+```
+
+---
+
+## 📋 Day 13 Cheat Sheet
+
+| কাজ                   | Tailwind                          |
+| --------------------- | --------------------------------- |
+| Button background     | `bg-blue-600`                     |
+| Button text           | `text-white`                      |
+| Padding               | `px-5 py-3`                       |
+| Rounded               | `rounded-lg`                      |
+| Shadow                | `shadow-md`                       |
+| Hover                 | `hover:bg-blue-700`               |
+| Focus                 | `focus:ring-2`                    |
+| Focus color           | `focus:ring-blue-500`             |
+| Active                | `active:scale-95`                 |
+| Disabled              | `disabled:opacity-50`             |
+| Cursor                | `cursor-pointer`                  |
+| Input width           | `w-full`                          |
+| Input border          | `border border-gray-300`          |
+| Placeholder           | `placeholder:text-gray-400`       |
+| Vertical form spacing | `space-y-5`                       |
+| Checkbox layout       | `flex items-center gap-2`         |
+| Error                 | `border-red-500 text-red-500`     |
+| Success               | `border-green-500 text-green-500` |
+
+---
+
+## 📝 আজকের Homework
+
+###### Task 1 — Button Collection
+
+৫টি button তৈরি করো:
+
+```text
+Primary
+Success
+Danger
+Warning
+Secondary
+```
+
+প্রতিটিতে ব্যবহার করবে:
+
+* `hover`
+* `transition`
+* `shadow`
+* `focus`
+
+---
+
+###### Task 2 — Contact Form
+
+তৈরি করো:
+
+```text
+Contact Us
+
+Name
+[________________]
+
+Email
+[________________]
+
+Subject
+[________________]
+
+Message
+[________________]
+
+[ Send Message ]
+```
+
+ব্যবহার করবে:
+
+* `label`
+* `input`
+* `textarea`
+* `button`
+* `focus:ring`
+* `hover`
+* `transition`
+
+---
+
+###### Task 3 — React Register Form ⭐
+
+React + Tailwind দিয়ে:
+
+```text
+Create Account
+
+Full Name
+Email
+Password
+Confirm Password
+
+☐ Accept Terms & Conditions
+
+[ Create Account ]
+
+Already have an account? Login
+```
+
+তৈরি করো।
+
+---
+
+## 🚀 Mini Challenge
+
+তোমার **AI-Powered E-Commerce Management System**-এর জন্য একটি Admin Login UI বানানোর চেষ্টা করো।
+
+Structure:
+
+```text
+┌────────────────────────────────────┐
+│                                    │
+│          Admin Login               │
+│                                    │
+│       Email                        │
+│       ┌────────────────────────┐   │
+│       │ admin@example.com      │   │
+│       └────────────────────────┘   │
+│                                    │
+│       Password                     │
+│       ┌────────────────────────┐   │
+│       │ •••••••••              │   │
+│       └────────────────────────┘   │
+│                                    │
+│       ☑ Remember me                │
+│                                    │
+│       ┌────────────────────────┐   │
+│       │        Login           │   │
+│       └────────────────────────┘   │
+│                                    │
+└────────────────────────────────────┘
+```
+
+এটি তৈরি করার সময় **Day 4-এর spacing + Day 5-এর width + Day 6-এর flex + Day 8-এর responsive + Day 10-এর shadow/ring + আজকের form utilities** একসাথে ব্যবহার করার চেষ্টা করো।
+
+---
+
+## 🎯 Day 13-এর Key Takeaway
+
+আজ তোমার মূলত এই বিষয়গুলো আয়ত্ত করা উচিত:
+
+```text
+Button
+ ↓
+bg + text + px/py + rounded
+ ↓
+hover + focus + active
+ ↓
+transition + shadow
+```
+
+এবং—
+
+```text
+Form
+ ↓
+label
+ ↓
+input / textarea / select
+ ↓
+focus:ring
+ ↓
+validation state
+ ↓
+submit button
+```
+
+সবচেয়ে গুরুত্বপূর্ণ বিষয় হলো **Tailwind class মুখস্থ করা নয়**। বরং কোনো UI দেখলে তুমি যেন চিন্তা করতে পারো:
+
+> “এই UI বানাতে আমার কোন layout, spacing, sizing, state এবং responsive utility লাগবে?”
+
+এটাই একজন **React + Tailwind developer** হিসেবে তোমার আসল skill।
 
 
