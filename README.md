@@ -1,1018 +1,1025 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-## 🚀 Tailwind CSS — Day 16: Reusable Components & Design Patterns
+## 🚀 Tailwind CSS — Day 17: Advanced Component Styling & State-Based UI
 
-আজ থেকে আমরা Tailwind CSS-এর **শুধু utility class শেখা থেকে বের হয়ে React + Tailwind দিয়ে professional UI architecture** তৈরি করা শুরু করব।
+Day 16-এ আমরা শিখেছি **Reusable Components, Props, Variant, Size এবং Component Composition**।
 
-আপনি যেহেতু React.js/MERN developer, তাই আজকের lesson-এ সবচেয়ে গুরুত্বপূর্ণ বিষয় হবে:
+আজ আমরা সেই component-গুলোকে আরও **interactive এবং professional** করব।
 
-> **একই UI বারবার লিখব না → Reusable React Component তৈরি করব।**
+আজকের মূল ধারণা:
+
+> **User কোনো action করলে UI কীভাবে পরিবর্তিত হবে—Tailwind দিয়ে সেই visual state design করা।**
 
 ---
 
-#### 🎯 আজকের Learning Goal
+#### 🎯 আজকের Learning Goals
 
-আজ আপনি শিখবেন:
+আজ শিখবেন:
 
-* Reusable Component কেন প্রয়োজন
-* React + Tailwind component design
-* Reusable `Button`
-* Button `variant`
-* Button `size`
-* Reusable `Card`
-* Reusable `Badge`
-* Reusable `Input`
-* `className` ব্যবহার করে customization
-* UI component folder structure
-* E-commerce project-এ component reuse
+* `hover:`
+* `focus:`
+* `active:`
+* `disabled:`
+* `group`
+* `group-hover:`
+* `peer`
+* `peer-checked:`
+* Conditional UI styling
+* React state + Tailwind
+* Interactive Product Card
+* Interactive Button
+* Dropdown/Card UI
 
+---
 
+## ⏰ ১ ঘণ্টার Study Plan
 
-## 1️⃣ Reusable Component কী?
+| সময়      | বিষয়                    |
+| -------- | ----------------------- |
+| 10 মিনিট | Tailwind State Variants |
+| 10 মিনিট | Hover / Focus / Active  |
+| 10 মিনিট | Disabled State          |
+| 10 মিনিট | `group` ও `group-hover` |
+| 10 মিনিট | `peer` ও Form State     |
+| 10 মিনিট | React State + Tailwind  |
 
-ধরুন আপনার project-এ ৫০টি button আছে।
+---
 
-সব জায়গায় যদি লিখেন:
+## 1️⃣ State-Based Styling কী?
+
+ধরুন একটি button আছে।
+
+Normal অবস্থায়:
+
+```text
+[ Buy Now ]
+```
+
+Mouse নিয়ে গেলে:
+
+```text
+[ Buy Now ]  ← color পরিবর্তন
+```
+
+Click করলে:
+
+```text
+[ Buy Now ]  ← একটু ছোট/pressed
+```
+
+Disabled হলে:
+
+```text
+[ Buy Now ]  ← faded
+```
+
+এই বিভিন্ন অবস্থাকে বলা যায় **UI State**।
+
+Tailwind-এ আমরা এগুলো লিখি:
+
+```text
+hover:
+focus:
+active:
+disabled:
+```
+
+---
+
+## 2️⃣ `hover:` — Mouse Hover
 
 ```jsx
-<button className="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700">
-  Login
+<button className="rounded-lg bg-blue-600 px-5 py-3 text-white hover:bg-blue-700">
+  Buy Now
 </button>
 ```
 
-তাহলে সমস্যা হবে।
-
-কারণ:
-
-* একই code বারবার লিখতে হবে
-* Design পরিবর্তন করা কঠিন
-* ভুল হওয়ার সম্ভাবনা বাড়বে
-* Project maintain করা কঠিন হবে
-
-এর পরিবর্তে আমরা তৈরি করব:
-
-```jsx
-<Button>
-  Login
-</Button>
-```
-
-এটাই হলো **Reusable Component**।
-
----
-
-## 2️⃣ Component Design Concept
-
-আমরা এমন component তৈরি করব:
-
-```text
-components/
-└── ui/
-    ├── Button.jsx
-    ├── Card.jsx
-    ├── Badge.jsx
-    ├── Input.jsx
-    └── Modal.jsx
-```
-
-তারপর project-এর যেকোনো জায়গা থেকে ব্যবহার করব।
-
-```text
-              UI Components
-                    │
-        ┌───────────┼───────────┐
-        ↓           ↓           ↓
-      Button       Card        Input
-        │           │           │
-        ↓           ↓           ↓
-      Login      Product      Email
-      Buy        User         Search
-      Submit     Order        Form
-```
-
----
-
-## 3️⃣ Reusable Button Component
-
-প্রথমে একটি সাধারণ Button তৈরি করি।
-
-###### `Button.jsx`
-
-```jsx
-function Button({ children }) {
-  return (
-    <button className="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700">
-      {children}
-    </button>
-  );
-}
-
-export default Button;
-```
-
-এখন ব্যবহার:
-
-```jsx
-<Button>Login</Button>
-<Button>Buy Now</Button>
-<Button>Submit</Button>
-```
-
-একই component, কিন্তু আলাদা content।
-
----
-
-## 4️⃣ `children` কী?
-
-React-এর একটি গুরুত্বপূর্ণ concept।
-
-```jsx
-<Button>Login</Button>
-```
-
 এখানে:
 
 ```text
-Button
- └── children = Login
+Normal → bg-blue-600
+Hover  → bg-blue-700
 ```
 
-আবার:
-
-```jsx
-<Button>Buy Now</Button>
-```
-
-এখানে:
+অর্থাৎ:
 
 ```text
-Button
- └── children = Buy Now
-```
-
-তাই component-এর ভিতরে:
-
-```jsx
-{children}
-```
-
-ব্যবহার করা হয়।
-
----
-
-## 5️⃣ Button Variant
-
-একটি professional project-এ শুধু blue button থাকলেই হবে না।
-
-আমাদের দরকার:
-
-* Primary
-* Secondary
-* Danger
-* Outline
-
-তাই আমরা `variant` ব্যবহার করতে পারি।
-
-```jsx
-function Button({
-  children,
-  variant = "primary",
-}) {
-  const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white",
-    secondary: "bg-gray-600 hover:bg-gray-700 text-white",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
-    outline: "border border-gray-300 hover:bg-gray-100 text-gray-800",
-  };
-
-  return (
-    <button
-      className={`rounded-lg px-5 py-3 font-semibold ${variants[variant]}`}
-    >
-      {children}
-    </button>
-  );
-}
-
-export default Button;
-```
-
-এখন:
-
-```jsx
-<Button variant="primary">
-  Login
-</Button>
-
-<Button variant="secondary">
-  Cancel
-</Button>
-
-<Button variant="danger">
-  Delete
-</Button>
-
-<Button variant="outline">
-  View Details
-</Button>
+bg-blue-600
+      ↓
+   hover
+      ↓
+bg-blue-700
 ```
 
 ---
 
-## 6️⃣ Button Size
+## 3️⃣ Hover + Transition
 
-এবার button-এর size-ও reusable করি।
+শুধু color change করলে অনেক সময় UI একটু abrupt লাগে।
 
-```jsx
-function Button({
-  children,
-  variant = "primary",
-  size = "md",
-}) {
-  const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white",
-    secondary: "bg-gray-600 hover:bg-gray-700 text-white",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
-    outline: "border border-gray-300 hover:bg-gray-100 text-gray-800",
-  };
-
-  const sizes = {
-    sm: "px-3 py-2 text-sm",
-    md: "px-5 py-3",
-    lg: "px-7 py-4 text-lg",
-  };
-
-  return (
-    <button
-      className={`rounded-lg font-semibold ${variants[variant]} ${sizes[size]}`}
-    >
-      {children}
-    </button>
-  );
-}
-
-export default Button;
-```
-
-ব্যবহার:
+তাই:
 
 ```jsx
-<Button size="sm">
-  Small
-</Button>
-
-<Button size="md">
-  Medium
-</Button>
-
-<Button size="lg">
-  Large
-</Button>
-```
-
----
-
-## 7️⃣ Variant + Size একসাথে
-
-এটাই reusable component-এর আসল শক্তি।
-
-```jsx
-<Button variant="primary" size="lg">
+<button
+  className="
+    rounded-lg
+    bg-blue-600
+    px-5
+    py-3
+    text-white
+    transition
+    duration-300
+    hover:bg-blue-700
+  "
+>
   Buy Now
-</Button>
+</button>
 ```
 
-অথবা:
-
-```jsx
-<Button variant="danger" size="sm">
-  Delete
-</Button>
-```
-
-অথবা:
-
-```jsx
-<Button variant="outline" size="md">
-  Details
-</Button>
-```
-
-একটি component থেকে অনেক ধরনের UI তৈরি করা যাচ্ছে।
-
----
-
-## 8️⃣ Reusable Card Component
-
-এবার Card তৈরি করি।
-
-###### `Card.jsx`
-
-```jsx
-function Card({ children }) {
-  return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-      {children}
-    </div>
-  );
-}
-
-export default Card;
-```
-
-ব্যবহার:
-
-```jsx
-<Card>
-  <h2 className="text-xl font-bold">
-    Wireless Headphone
-  </h2>
-
-  <p className="mt-2 text-gray-500">
-    Premium wireless headphone.
-  </p>
-</Card>
-```
-
----
-
-## 9️⃣ Card-এর ভিতরে অন্য Component
-
-React component-এর সবচেয়ে গুরুত্বপূর্ণ সুবিধাগুলোর একটি হলো:
-
-> **একটি component-এর ভিতরে অন্য component ব্যবহার করা যায়।**
-
-যেমন:
-
-```jsx
-<Card>
-  <h2>Wireless Headphone</h2>
-
-  <p>Premium headphone</p>
-
-  <Button>
-    Buy Now
-  </Button>
-</Card>
-```
-
-Architecture:
+এখানে:
 
 ```text
-Card
- │
- ├── Heading
- ├── Paragraph
- └── Button
+transition
+    +
+duration-300
+    +
+hover:bg-blue-700
 ```
 
-এভাবেই বড় application ছোট ছোট component দিয়ে তৈরি করা হয়।
+একটি smooth interaction তৈরি করে।
 
 ---
 
-## 🔟 Reusable Badge
+## 4️⃣ Hover-এর সাথে Transform
 
-E-commerce website-এ Badge অনেক জায়গায় লাগবে।
-
-যেমন:
-
-* New
-* Sale
-* Featured
-* Pending
-* Active
-* Completed
-
-###### `Badge.jsx`
+Button hover করলে সামান্য বড় হতে পারে:
 
 ```jsx
-function Badge({
-  children,
-  variant = "default",
-}) {
-  const variants = {
-    default: "bg-gray-100 text-gray-700",
-    success: "bg-green-100 text-green-700",
-    warning: "bg-yellow-100 text-yellow-700",
-    danger: "bg-red-100 text-red-700",
-    info: "bg-blue-100 text-blue-700",
-  };
-
-  return (
-    <span
-      className={`rounded-full px-3 py-1 text-sm font-medium ${variants[variant]}`}
-    >
-      {children}
-    </span>
-  );
-}
-
-export default Badge;
+<button
+  className="
+    rounded-lg
+    bg-blue-600
+    px-5
+    py-3
+    text-white
+    transition
+    duration-300
+    hover:scale-105
+  "
+>
+  Buy Now
+</button>
 ```
 
-ব্যবহার:
+অথবা card একটু উপরে উঠতে পারে:
 
 ```jsx
-<Badge variant="success">
-  Active
-</Badge>
+<div className="rounded-xl border p-5 transition hover:-translate-y-1 hover:shadow-xl">
+  Product Card
+</div>
 ```
 
-```jsx
-<Badge variant="danger">
-  Sale
-</Badge>
-```
-
-```jsx
-<Badge variant="warning">
-  Pending
-</Badge>
-```
+এটি e-commerce UI-তে খুব common pattern।
 
 ---
 
-## 1️⃣1️⃣ Reusable Input Component
+## 5️⃣ `focus:` — Input-এর জন্য গুরুত্বপূর্ণ
 
-Form-এর জন্য Input component খুব গুরুত্বপূর্ণ।
-
-###### `Input.jsx`
+Input focus করলে border/ring পরিবর্তন করা যায়।
 
 ```jsx
-function Input({
-  label,
-  type = "text",
-  placeholder,
-}) {
-  return (
-    <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
-
-      <input
-        type={type}
-        placeholder={placeholder}
-        className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
-  );
-}
-
-export default Input;
-```
-
-ব্যবহার:
-
-```jsx
-<Input
-  label="Email"
+<input
   type="email"
   placeholder="Enter your email"
+  className="
+    w-full
+    rounded-lg
+    border
+    border-gray-300
+    px-4
+    py-3
+    outline-none
+    focus:border-blue-500
+    focus:ring-2
+    focus:ring-blue-500
+  "
 />
 ```
 
-আবার:
+Flow:
 
-```jsx
-<Input
-  label="Password"
-  type="password"
-  placeholder="Enter your password"
-/>
+```text
+Normal
+  ↓
+border-gray-300
+
+User clicks input
+  ↓
+focus:
+
+border-blue-500
+ring-blue-500
 ```
-
-একই component।
 
 ---
 
-## 1️⃣2️⃣ একটি Login Form
-
-এখন আমাদের reusable component ব্যবহার করে Login Form তৈরি করি।
+## 6️⃣ `active:` — Click করার সময়
 
 ```jsx
-import Button from "./ui/Button";
-import Input from "./ui/Input";
-
-function LoginForm() {
-  return (
-    <div className="mx-auto max-w-md rounded-2xl border bg-white p-6 shadow-lg">
-      <h1 className="text-2xl font-bold">
-        Login
-      </h1>
-
-      <div className="mt-6 space-y-5">
-        <Input
-          label="Email"
-          type="email"
-          placeholder="Enter your email"
-        />
-
-        <Input
-          label="Password"
-          type="password"
-          placeholder="Enter your password"
-        />
-
-        <Button className="w-full">
-          Login
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-export default LoginForm;
+<button
+  className="
+    rounded-lg
+    bg-blue-600
+    px-5
+    py-3
+    text-white
+    transition
+    active:scale-95
+  "
+>
+  Submit
+</button>
 ```
 
-এখানে একটি বিষয় খেয়াল করুন:
+Click করার সময় button সামান্য ছোট হবে।
 
-```jsx
-<Button className="w-full">
+```text
+Normal → scale 100%
+Active → scale 95%
 ```
-
-আমাদের বর্তমান Button component এখনো `className` গ্রহণ করছে না।
-
-এটি professional component design-এর জন্য গুরুত্বপূর্ণ।
 
 ---
 
-## 1️⃣3️⃣ `className` Prop
+## 7️⃣ `disabled:` — Disabled State
 
-Button-কে আরও flexible করি।
+ধরুন payment process চলছে।
+
+Button:
 
 ```jsx
-function Button({
-  children,
-  variant = "primary",
-  size = "md",
-  className = "",
-}) {
-  const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white",
-    secondary: "bg-gray-600 hover:bg-gray-700 text-white",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
-    outline: "border border-gray-300 hover:bg-gray-100 text-gray-800",
-  };
+<button
+  disabled
+  className="
+    rounded-lg
+    bg-blue-600
+    px-5
+    py-3
+    text-white
+    disabled:cursor-not-allowed
+    disabled:opacity-50
+  "
+>
+  Processing...
+</button>
+```
 
-  const sizes = {
-    sm: "px-3 py-2 text-sm",
-    md: "px-5 py-3",
-    lg: "px-7 py-4 text-lg",
-  };
+এখানে:
+
+```text
+disabled:cursor-not-allowed
+disabled:opacity-50
+```
+
+ব্যবহার করে user-কে বোঝানো হচ্ছে যে button এখন available নয়।
+
+---
+
+## 8️⃣ চারটি গুরুত্বপূর্ণ State
+
+মনে রাখুন:
+
+| Variant     | কখন কাজ করে      |
+| ----------- | ---------------- |
+| `hover:`    | Mouse hover      |
+| `focus:`    | Element focus    |
+| `active:`   | Click/press      |
+| `disabled:` | Disabled element |
+
+উদাহরণ:
+
+```jsx
+<button
+  className="
+    bg-blue-600
+    hover:bg-blue-700
+    focus:ring-2
+    focus:ring-blue-500
+    active:scale-95
+    disabled:opacity-50
+  "
+>
+  Submit
+</button>
+```
+
+---
+
+## 9️⃣ `group` — Parent-এর State দিয়ে Child পরিবর্তন
+
+এটি Tailwind-এর অত্যন্ত গুরুত্বপূর্ণ feature।
+
+ধরুন:
+
+```text
+Product Card
+    │
+    ├── Image
+    └── Product Name
+```
+
+আপনি চান পুরো card hover করলে image zoom হবে।
+
+এখানে `group` ব্যবহার করব।
+
+```jsx
+<div className="group overflow-hidden rounded-xl">
+  <img
+    src="/product.jpg"
+    alt="Product"
+    className="h-64 w-full object-cover transition duration-300 group-hover:scale-110"
+  />
+</div>
+```
+
+খেয়াল করুন:
+
+Parent:
+
+```text
+group
+```
+
+Child:
+
+```text
+group-hover:scale-110
+```
+
+---
+
+## 🔟 `group` কীভাবে কাজ করে?
+
+```text
+             Parent
+         class="group"
+              │
+        Mouse Hover
+              │
+       ┌──────┴──────┐
+       ↓             ↓
+     Image         Title
+       │
+       ↓
+group-hover:scale-110
+```
+
+অর্থাৎ parent-এর hover state child-এর styling পরিবর্তন করতে পারে।
+
+---
+
+## 1️⃣1️⃣ Product Card-এর Real Example
+
+```jsx
+<div className="group overflow-hidden rounded-2xl border bg-white shadow-sm">
+  <div className="aspect-square overflow-hidden bg-gray-100">
+    <img
+      src="/images/headphone.jpg"
+      alt="Wireless Headphone"
+      className="
+        h-full
+        w-full
+        object-cover
+        transition
+        duration-300
+        group-hover:scale-110
+      "
+    />
+  </div>
+
+  <div className="p-5">
+    <h3 className="text-lg font-bold">
+      Wireless Headphone
+    </h3>
+
+    <p className="mt-2 text-gray-500">
+      Premium wireless headphone.
+    </p>
+  </div>
+</div>
+```
+
+এখানে card hover করলে image zoom হবে।
+
+---
+
+## 1️⃣2️⃣ Product Card-এ Multiple Hover Effects
+
+আমরা title-ও পরিবর্তন করতে পারি।
+
+```jsx
+<div className="group rounded-2xl border p-5">
+  <h3 className="text-gray-800 transition group-hover:text-blue-600">
+    Wireless Headphone
+  </h3>
+
+  <p className="mt-2 text-gray-500">
+    Premium headphone.
+  </p>
+</div>
+```
+
+Card hover করলে:
+
+```text
+Product Name
+     ↓
+gray
+     ↓
+blue
+```
+
+---
+
+## 1️⃣3️⃣ Product Card + Image + Button
+
+আরও realistic example:
+
+```jsx
+<div className="group rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-xl">
+
+  <div className="aspect-square overflow-hidden rounded-xl bg-gray-100">
+    <img
+      src="/images/product.jpg"
+      alt="Product"
+      className="
+        h-full
+        w-full
+        object-cover
+        transition
+        duration-300
+        group-hover:scale-110
+      "
+    />
+  </div>
+
+  <h3 className="mt-4 text-lg font-bold transition group-hover:text-blue-600">
+    Smart Watch
+  </h3>
+
+  <p className="mt-2 text-gray-500">
+    Modern smart watch.
+  </p>
+
+  <button
+    className="
+      mt-4
+      w-full
+      rounded-lg
+      bg-blue-600
+      py-3
+      font-semibold
+      text-white
+      transition
+      hover:bg-blue-700
+      active:scale-95
+    "
+  >
+    Add to Cart
+  </button>
+
+</div>
+```
+
+এখানে একসাথে ব্যবহার হয়েছে:
+
+```text
+group
+group-hover
+hover
+active
+transition
+scale
+shadow
+```
+
+---
+
+## 1️⃣4️⃣ `peer` কী?
+
+`peer` মূলত একটি element-এর state-এর উপর ভিত্তি করে অন্য element-এর styling পরিবর্তন করতে সাহায্য করে।
+
+বিশেষ করে form UI-তে এটি খুব useful।
+
+ধরুন একটি checkbox:
+
+```jsx
+<div>
+  <input
+    type="checkbox"
+    className="peer"
+  />
+
+  <span className="peer-checked:text-blue-600">
+    Remember me
+  </span>
+</div>
+```
+
+Checkbox checked হলে text-এর color পরিবর্তিত হবে।
+
+---
+
+## 1️⃣5️⃣ Custom Checkbox UI
+
+আরও সুন্দরভাবে:
+
+```jsx
+<label className="flex cursor-pointer items-center gap-3">
+  <input
+    type="checkbox"
+    className="peer sr-only"
+  />
+
+  <span
+    className="
+      h-5
+      w-5
+      rounded
+      border
+      border-gray-300
+      peer-checked:border-blue-600
+      peer-checked:bg-blue-600
+    "
+  ></span>
+
+  <span className="text-gray-700">
+    Remember me
+  </span>
+</label>
+```
+
+এখানে:
+
+```text
+unchecked
+    ↓
+border-gray-300
+
+checked
+    ↓
+peer-checked:border-blue-600
+peer-checked:bg-blue-600
+```
+
+---
+
+## 1️⃣6️⃣ React State + Tailwind
+
+Tailwind শুধু visual styling করে।
+
+কিন্তু actual UI state manage করার জন্য React ব্যবহার করব।
+
+উদাহরণ:
+
+```jsx
+import { useState } from "react";
+
+function LikeButton() {
+  const [liked, setLiked] = useState(false);
 
   return (
     <button
-      className={`rounded-lg font-semibold ${variants[variant]} ${sizes[size]} ${className}`}
+      onClick={() => setLiked(!liked)}
+      className={`
+        rounded-full
+        px-4
+        py-2
+        ${liked ? "bg-red-500 text-white" : "bg-gray-100 text-gray-700"}
+      `}
     >
-      {children}
+      {liked ? "Liked" : "Like"}
     </button>
   );
 }
 
-export default Button;
+export default LikeButton;
 ```
 
-এখন:
+এখানে React state:
 
-```jsx
-<Button className="w-full">
-  Login
-</Button>
+```text
+liked = false
+     ↓
+Like
+
+liked = true
+     ↓
+Liked
 ```
-
-এটি হবে full width।
 
 ---
 
-## 1️⃣4️⃣ E-commerce Project-এ Component Architecture
+## 1️⃣7️⃣ Conditional Class কী?
 
-আপনার AI-Powered E-Commerce Management System-এর মতো project-এ আমরা এভাবে structure করতে পারি:
+React-এ আমরা condition অনুযায়ী Tailwind class পরিবর্তন করতে পারি।
+
+```jsx
+className={`
+  rounded-lg
+  px-5
+  py-3
+  ${isActive ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}
+`}
+```
+
+অর্থাৎ:
+
+```text
+isActive = true
+     ↓
+bg-blue-600
+
+isActive = false
+     ↓
+bg-gray-200
+```
+
+এটি React + Tailwind development-এর খুব গুরুত্বপূর্ণ skill।
+
+---
+
+## 1️⃣8️⃣ Dropdown Example
+
+ধরুন user profile menu click করলে dropdown open হবে।
+
+```jsx
+import { useState } from "react";
+
+function ProfileMenu() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="relative">
+
+      <button
+        onClick={() => setOpen(!open)}
+        className="rounded-lg border px-4 py-2"
+      >
+        Profile
+      </button>
+
+      {open && (
+        <div className="absolute right-0 mt-2 w-48 rounded-xl border bg-white p-2 shadow-lg">
+          <button className="block w-full rounded-lg px-4 py-2 text-left hover:bg-gray-100">
+            Profile
+          </button>
+
+          <button className="block w-full rounded-lg px-4 py-2 text-left hover:bg-gray-100">
+            Settings
+          </button>
+
+          <button className="block w-full rounded-lg px-4 py-2 text-left hover:bg-gray-100">
+            Logout
+          </button>
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+export default ProfileMenu;
+```
+
+এখানে:
+
+```text
+React State
+    ↓
+open / closed
+    ↓
+Conditional Rendering
+    ↓
+Tailwind Styling
+```
+
+---
+
+## 1️⃣9️⃣ Professional UI-এর State System
+
+একটি component design করার সময় শুধু normal state চিন্তা করবেন না।
+
+এইগুলো চিন্তা করুন:
+
+```text
+Default
+   ↓
+Hover
+   ↓
+Focus
+   ↓
+Active
+   ↓
+Disabled
+   ↓
+Loading
+   ↓
+Error
+   ↓
+Success
+```
+
+উদাহরণ Button:
+
+```text
+Button
+│
+├── Default
+├── Hover
+├── Focus
+├── Active
+├── Disabled
+└── Loading
+```
+
+এটি একজন professional frontend developer-এর চিন্তার অংশ।
+
+---
+
+## 🛒 2️⃣0️⃣ E-commerce Product Button-এর State
+
+ধরুন Add to Cart button।
+
+###### Normal
+
+```text
+Add to Cart
+```
+
+###### Loading
+
+```text
+Adding...
+```
+
+###### Added
+
+```text
+✓ Added to Cart
+```
+
+React-এর মাধ্যমে state:
+
+```jsx
+const [loading, setLoading] = useState(false);
+const [added, setAdded] = useState(false);
+```
+
+তারপর UI state অনুযায়ী button পরিবর্তন করা যায়।
+
+এখানে গুরুত্বপূর্ণ বিষয়:
+
+> **Tailwind visual state তৈরি করবে, React application state control করবে।**
+
+---
+
+## 🧠 React + Tailwind-এর Responsibility
+
+এটি খুব ভালোভাবে মনে রাখুন:
+
+```text
+React
+ ↓
+Logic + State + Data
+ ↓
+Tailwind CSS
+ ↓
+Visual Styling + Responsive UI + Interaction Style
+```
+
+উদাহরণ:
+
+```text
+React
+  ↓
+isOpen = true
+  ↓
+Dropdown দেখাবে
+  ↓
+Tailwind
+  ↓
+absolute + shadow + rounded + border
+```
+
+---
+
+## 📁 আজকের Component Structure
+
+Day 16-এর structure এখন আরও শক্তিশালী করতে পারেন:
 
 ```text
 src/
+├── components/
+│   └── ui/
+│       ├── Button.jsx
+│       ├── Card.jsx
+│       ├── Badge.jsx
+│       ├── Input.jsx
+│       └── Dropdown.jsx
 │
 ├── components/
-│   │
-│   ├── ui/
-│   │   ├── Button.jsx
-│   │   ├── Card.jsx
-│   │   ├── Badge.jsx
-│   │   ├── Input.jsx
-│   │   └── Modal.jsx
-│   │
-│   ├── products/
-│   │   ├── ProductCard.jsx
-│   │   ├── ProductGrid.jsx
-│   │   └── ProductFilter.jsx
-│   │
-│   ├── orders/
-│   │   ├── OrderCard.jsx
-│   │   └── OrderTable.jsx
-│   │
-│   └── dashboard/
-│       ├── StatCard.jsx
-│       └── SalesChart.jsx
+│   └── products/
+│       └── ProductCard.jsx
 │
 ├── pages/
 │   ├── Home.jsx
 │   ├── Products.jsx
-│   ├── Orders.jsx
 │   └── Dashboard.jsx
 │
 └── App.jsx
-```
-
-এটি একটি scalable structure-এর দিকে নিয়ে যায়।
-
----
-
-## 1️⃣5️⃣ ProductCard-এ Reusable Components
-
-আগের Day 15-এর ProductCard-কে আরও professional করা যায়।
-
-```jsx
-<Card>
-  <Badge variant="danger">
-    Sale
-  </Badge>
-
-  <h2 className="mt-4 text-xl font-bold">
-    Wireless Headphone
-  </h2>
-
-  <p className="mt-2 text-gray-500">
-    Premium wireless headphone.
-  </p>
-
-  <div className="mt-4 flex items-center justify-between">
-    <span className="text-xl font-bold">
-      $59
-    </span>
-
-    <Button size="sm">
-      Buy
-    </Button>
-  </div>
-</Card>
-```
-
-এখন:
-
-```text
-ProductCard
-     │
-     ├── Card
-     │
-     ├── Badge
-     │
-     ├── Product Info
-     │
-     └── Button
-```
-
-এটাই component composition।
-
----
-
-## 1️⃣6️⃣ Component Composition কী?
-
-সহজভাবে:
-
-> **ছোট ছোট component একসাথে ব্যবহার করে বড় component তৈরি করাকে Component Composition বলা যায়।**
-
-উদাহরণ:
-
-```text
-              ProductCard
-                   │
-       ┌───────────┼───────────┐
-       ↓           ↓           ↓
-     Badge        Card       Button
-                    │
-              Product Info
-```
-
-আর Dashboard:
-
-```text
-Dashboard
-   │
-   ├── Navbar
-   ├── Sidebar
-   ├── StatCard
-   ├── SalesChart
-   └── OrderTable
-```
-
----
-
-## 1️⃣7️⃣ কেন Reusable Component গুরুত্বপূর্ণ?
-
-###### ❌ Component ছাড়া
-
-```text
-Page 1 → 100 lines
-Page 2 → 100 lines
-Page 3 → 100 lines
-Page 4 → 100 lines
-```
-
-একই design বারবার।
-
-###### ✅ Component ব্যবহার করলে
-
-```text
-Button.jsx
-Card.jsx
-Input.jsx
-Badge.jsx
-```
-
-তারপর:
-
-```text
-Page 1 ──┐
-Page 2 ──┤
-Page 3 ──┼──> Shared Components
-Page 4 ──┘
-```
-
-ফলে:
-
-* Code duplication কমে
-* UI consistency বাড়ে
-* Development speed বাড়ে
-* Maintenance সহজ হয়
-* Design পরিবর্তন দ্রুত করা যায়
-* Large project manage করা সহজ হয়
-
----
-
-## 1️⃣8️⃣ আজকের সবচেয়ে গুরুত্বপূর্ণ Design Pattern
-
-আপনি এই sequence মনে রাখুন:
-
-```text
-Requirement
-    ↓
-UI Design
-    ↓
-Identify Repeated UI
-    ↓
-Create Component
-    ↓
-Add Props
-    ↓
-Add Variants
-    ↓
-Reuse Everywhere
-```
-
-উদাহরণ:
-
-```text
-বারবার Button লাগছে
-        ↓
-Button Component
-        ↓
-variant
-        ↓
-size
-        ↓
-className
-        ↓
-Reusable Button
-```
-
----
-
-## 🧠 আজকের গুরুত্বপূর্ণ Tailwind Pattern
-
-###### Button
-
-```text
-rounded-lg
-px-*
-py-*
-font-semibold
-bg-*
-text-*
-hover:bg-*
-transition
-```
-
-###### Card
-
-```text
-rounded-2xl
-border
-bg-white
-p-5
-shadow-sm
-```
-
-###### Input
-
-```text
-w-full
-rounded-lg
-border
-px-4
-py-3
-outline-none
-focus:border-blue-500
-focus:ring-2
-```
-
-###### Badge
-
-```text
-rounded-full
-px-3
-py-1
-text-sm
-font-medium
 ```
 
 ---
 
 ## 🧪 আজকের Practice
 
-#### Task 1 — Button System
+#### Task 1 — Interactive Button
 
-তৈরি করুন:
-
-```text
-Primary
-Secondary
-Danger
-Outline
-```
-
-এবং:
+একটি button তৈরি করুন যেখানে থাকবে:
 
 ```text
-Small
-Medium
-Large
-```
-
-অর্থাৎ আপনার Button component থেকে মোট ১২ ধরনের combination তৈরি করতে পারবেন।
-
----
-
-#### Task 2 — UI Components
-
-এই folder তৈরি করুন:
-
-```text
-components/
-└── ui/
-    ├── Button.jsx
-    ├── Card.jsx
-    ├── Badge.jsx
-    └── Input.jsx
+Default
+Hover
+Focus
+Active
+Disabled
 ```
 
 ---
 
-#### Task 3 — Product Card
+#### Task 2 — Product Card
 
-তৈরি করুন:
+একটি Product Card বানান:
 
 ```text
-Product Card
-│
-├── Image
-├── Badge
-├── Product Name
-├── Description
-├── Price
-└── Buy Button
+┌─────────────────────┐
+│       Product       │
+│       Image         │
+│                     │
+├─────────────────────┤
+│ Product Name        │
+│ Description         │
+│ $59                 │
+│ [ Add to Cart ]     │
+└─────────────────────┘
 ```
 
-এবং চেষ্টা করুন:
+Card hover করলে:
 
-```jsx
-<Card>
-  <Badge />
-  <Button />
-</Card>
+* shadow বাড়বে
+* image zoom হবে
+* product name blue হবে
+
+ব্যবহার করুন:
+
+```text
+group
+group-hover:
+hover:
+transition
 ```
-
-ব্যবহার করতে।
 
 ---
 
-## 🏆 Day 16 Challenge
+## 🏆 Day 17 Challenge
 
-আপনার **AI-Powered E-Commerce Management System**-এর জন্য একটি ছোট UI Library তৈরি করুন।
+আপনার **AI-Powered E-Commerce Management System**-এর জন্য একটি interactive Product Card তৈরি করুন।
 
-কমপক্ষে:
+Requirements:
 
-```text
-Button
-Card
-Badge
-Input
-```
-
-তারপর এগুলো দিয়ে তৈরি করুন:
-
-###### 1. Login Page
+###### Product Image
 
 ```text
-Email
-Password
-Login Button
+aspect-square
+object-cover
+overflow-hidden
+group-hover:scale-110
 ```
 
-###### 2. Product Card
+###### Badge
 
 ```text
-Image
-Sale Badge
-Product Name
-Price
-Buy Button
+New / Sale
 ```
 
-###### 3. Dashboard Stat Card
+###### Favorite Button
+
+Click করলে:
 
 ```text
-Total Sales
-$12,500
-+12.5%
+♡ → ♥
 ```
 
-লক্ষ্য হবে:
+এবং color পরিবর্তন হবে।
 
-> **একই UI code copy-paste না করে component reuse করা।**
+###### Add to Cart
+
+State:
+
+```text
+Add to Cart
+     ↓
+Adding...
+     ↓
+✓ Added
+```
+
+###### Card Hover
+
+```text
+shadow-sm
+     ↓
+shadow-xl
+```
+
+এবং product name:
+
+```text
+gray
+ ↓
+blue
+```
 
 ---
 
-## 📝 Day 16 Self-Test
+## 📝 Day 17 Self-Test
 
 নিজেকে এই প্রশ্নগুলো করুন:
 
-1. Reusable Component কী?
-2. React-এ `children` কী?
-3. `props` কেন ব্যবহার করি?
-4. `variant` কী কাজে লাগে?
-5. `size` prop কেন দরকার?
-6. `className` prop কেন গুরুত্বপূর্ণ?
-7. Component Composition কী?
-8. `Button` component কীভাবে বিভিন্ন page-এ reuse করবেন?
-9. `Card` component-এর ভিতরে অন্য component কীভাবে ব্যবহার করবেন?
-10. কেন `components/ui` folder রাখা হয়?
+1. `hover:` কী?
+2. `focus:` কেন ব্যবহার করি?
+3. `active:` কখন কাজ করে?
+4. `disabled:` কী কাজে লাগে?
+5. `transition` কেন ব্যবহার করি?
+6. `group` কী?
+7. `group-hover:` কীভাবে কাজ করে?
+8. `peer` কী?
+9. `peer-checked:` কী?
+10. React state এবং Tailwind state-এর মধ্যে পার্থক্য কী?
+11. Conditional class কী?
+12. Product Card-এ `group-hover` কেন useful?
 
 ---
 
-## 📌 Day 16 Cheat Sheet
+## 📌 Day 17 Cheat Sheet
 
-| Concept            | উদ্দেশ্য                             |
-| ------------------ | ------------------------------------ |
-| `children`         | Component-এর ভিতরের content          |
-| `props`            | Component-এ data/config পাঠানো       |
-| `variant`          | বিভিন্ন visual style                 |
-| `size`             | বিভিন্ন size                         |
-| `className`        | অতিরিক্ত Tailwind customization      |
-| Reusable Component | একই UI বারবার ব্যবহার                |
-| Composition        | ছোট component দিয়ে বড় component তৈরি |
-| `components/ui`    | Shared UI components রাখার জায়গা     |
+| Tailwind             | কাজ                        |
+| -------------------- | -------------------------- |
+| `hover:`             | Mouse hover                |
+| `focus:`             | Focus state                |
+| `active:`            | Click/press                |
+| `disabled:`          | Disabled state             |
+| `transition`         | Smooth transition          |
+| `duration-300`       | Animation duration         |
+| `scale-105`          | Element বড়                 |
+| `scale-95`           | Element ছোট                |
+| `group`              | Parent state তৈরি          |
+| `group-hover:`       | Parent hover → child style |
+| `peer`               | Sibling state control      |
+| `peer-checked:`      | Checkbox checked state     |
+| `opacity-50`         | Faded UI                   |
+| `cursor-not-allowed` | Disabled cursor            |
 
 ---
 
-## 🎯 আজকের Key Takeaway
+## 🎯 Day 17-এর মূল শিক্ষা
 
-আজ পর্যন্ত আপনি Tailwind-এর **individual utilities** শিখেছেন।
-
-এখন থেকে আপনার চিন্তাটা এমন হওয়া উচিত:
+আজকের সবচেয়ে গুরুত্বপূর্ণ concept:
 
 ```text
-❌ "কোন Tailwind class ব্যবহার করব?"
-
-বরং
-
-✅ "এই UI কি reusable component হওয়া উচিত?"
+             React
+               │
+        Logic + State
+               │
+               ↓
+       Conditional UI
+               │
+               ↓
+         Tailwind CSS
+               │
+      ┌────────┼────────┐
+      ↓        ↓        ↓
+    Hover     Focus    Active
+      ↓        ↓        ↓
+    Visual   Visual   Visual
 ```
 
-আর Professional React + Tailwind development-এর একটি গুরুত্বপূর্ণ formula হলো:
+আর একজন ভালো **React + Tailwind Developer** শুধু সুন্দর UI বানায় না।
 
-```text
-React
-  +
-Tailwind CSS
-  +
-Reusable Components
-  +
-Component Composition
-  =
-Scalable UI
-```
+সে চিন্তা করে:
 
-**Day 16-এর মূল শিক্ষা:**
-👉 **একই UI বারবার লিখবেন না। Identify করুন → Component বানান → Props দিন → Reuse করুন।**
+> **User যখন hover করবে, click করবে, focus করবে, loading হবে, error হবে বা disabled থাকবে—প্রতিটি অবস্থায় UI কেমন দেখাবে?**
+
+এটাই আজকের **Day 17-এর সবচেয়ে গুরুত্বপূর্ণ skill।**
 
