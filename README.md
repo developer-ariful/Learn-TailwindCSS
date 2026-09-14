@@ -1,1025 +1,1219 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-## 🚀 Tailwind CSS — Day 17: Advanced Component Styling & State-Based UI
+## 📘 Tailwind CSS — Day 18
 
-Day 16-এ আমরা শিখেছি **Reusable Components, Props, Variant, Size এবং Component Composition**।
+#### Typography + Advanced Text Styling + Truncate + Line Clamp + Lists + Tables
 
-আজ আমরা সেই component-গুলোকে আরও **interactive এবং professional** করব।
+আজকের lesson-এ আমরা Tailwind CSS-এর **Typography-এর advanced অংশ** শিখব। বিশেষ করে real-world **E-commerce, Blog এবং Admin Dashboard** বানানোর সময় এগুলো অনেক কাজে লাগে।
 
-আজকের মূল ধারণা:
+###### 🎯 আজকের Learning Goal
 
-> **User কোনো action করলে UI কীভাবে পরিবর্তিত হবে—Tailwind দিয়ে সেই visual state design করা।**
+আজ তুমি শিখবে:
 
----
-
-#### 🎯 আজকের Learning Goals
-
-আজ শিখবেন:
-
-* `hover:`
-* `focus:`
-* `active:`
-* `disabled:`
-* `group`
-* `group-hover:`
-* `peer`
-* `peer-checked:`
-* Conditional UI styling
-* React state + Tailwind
-* Interactive Product Card
-* Interactive Button
-* Dropdown/Card UI
+* Font Family
+* Font Size
+* Font Weight
+* Line Height
+* Letter Spacing
+* Text Alignment
+* Text Transform
+* Text Decoration
+* `truncate`
+* `line-clamp`
+* `whitespace`
+* `break-words`
+* List Styling
+* Table Styling
+* Responsive Table
 
 ---
 
-## ⏰ ১ ঘণ্টার Study Plan
+## ⏰ আজকের ১ ঘণ্টার পরিকল্পনা
 
-| সময়      | বিষয়                    |
-| -------- | ----------------------- |
-| 10 মিনিট | Tailwind State Variants |
-| 10 মিনিট | Hover / Focus / Active  |
-| 10 মিনিট | Disabled State          |
-| 10 মিনিট | `group` ও `group-hover` |
-| 10 মিনিট | `peer` ও Form State     |
-| 10 মিনিট | React State + Tailwind  |
+| সময়      | বিষয়                             |
+| -------- | -------------------------------- |
+| 10 মিনিট | Typography Revision              |
+| 10 মিনিট | Font Family, Size, Weight        |
+| 10 মিনিট | Line Height, Letter Spacing      |
+| 10 মিনিট | Truncate, Line Clamp, Whitespace |
+| 10 মিনিট | Lists + Tables                   |
+| 10 মিনিট | Real-world Product/Admin UI      |
 
 ---
 
-## 1️⃣ State-Based Styling কী?
+## 1️⃣ Font Family
 
-ধরুন একটি button আছে।
+Tailwind-এ সাধারণত তিন ধরনের font family ব্যবহার করা যায়।
 
-Normal অবস্থায়:
+###### Sans
 
-```text
-[ Buy Now ]
+```html
+<h1 class="font-sans">
+  E-Commerce Store
+</h1>
 ```
 
-Mouse নিয়ে গেলে:
+###### Serif
 
-```text
-[ Buy Now ]  ← color পরিবর্তন
+```html
+<h1 class="font-serif">
+  Blog Article
+</h1>
 ```
 
-Click করলে:
+###### Mono
 
-```text
-[ Buy Now ]  ← একটু ছোট/pressed
+```html
+<code class="font-mono">
+  npm install
+</code>
 ```
 
-Disabled হলে:
+সহজভাবে:
 
 ```text
-[ Buy Now ]  ← faded
-```
-
-এই বিভিন্ন অবস্থাকে বলা যায় **UI State**।
-
-Tailwind-এ আমরা এগুলো লিখি:
-
-```text
-hover:
-focus:
-active:
-disabled:
+font-sans  → সাধারণ Web UI
+font-serif → Article/Blog
+font-mono  → Code/Technical content
 ```
 
 ---
 
-## 2️⃣ `hover:` — Mouse Hover
+## 2️⃣ Font Size
 
-```jsx
-<button className="rounded-lg bg-blue-600 px-5 py-3 text-white hover:bg-blue-700">
-  Buy Now
-</button>
+আগে আমরা basic font size দেখেছি। এবার একটু ভালোভাবে মনে রাখো:
+
+```html
+<p class="text-xs">Extra Small</p>
+<p class="text-sm">Small</p>
+<p class="text-base">Base</p>
+<p class="text-lg">Large</p>
+<p class="text-xl">Extra Large</p>
+<p class="text-2xl">2XL</p>
+<p class="text-3xl">3XL</p>
+<p class="text-4xl">4XL</p>
+<p class="text-5xl">5XL</p>
+<p class="text-6xl">6XL</p>
 ```
 
-এখানে:
+###### Responsive Typography
 
-```text
-Normal → bg-blue-600
-Hover  → bg-blue-700
+Real-world project-এ:
+
+```html
+<h1 class="text-3xl font-bold md:text-5xl lg:text-6xl">
+  Build Your Future
+</h1>
 ```
 
-অর্থাৎ:
+এর অর্থ:
 
 ```text
-bg-blue-600
-      ↓
-   hover
-      ↓
-bg-blue-700
+Mobile  → text-3xl
+Tablet  → text-5xl
+Desktop → text-6xl
 ```
 
 ---
 
-## 3️⃣ Hover + Transition
+## 3️⃣ Font Weight
 
-শুধু color change করলে অনেক সময় UI একটু abrupt লাগে।
+Text কতটা মোটা হবে সেটি `font-*` দিয়ে নিয়ন্ত্রণ করা যায়।
 
-তাই:
-
-```jsx
-<button
-  className="
-    rounded-lg
-    bg-blue-600
-    px-5
-    py-3
-    text-white
-    transition
-    duration-300
-    hover:bg-blue-700
-  "
->
-  Buy Now
-</button>
+```html
+<p class="font-thin">Thin</p>
+<p class="font-light">Light</p>
+<p class="font-normal">Normal</p>
+<p class="font-medium">Medium</p>
+<p class="font-semibold">Semi Bold</p>
+<p class="font-bold">Bold</p>
+<p class="font-extrabold">Extra Bold</p>
+<p class="font-black">Black</p>
 ```
 
-এখানে:
+Real-world example:
 
-```text
-transition
-    +
-duration-300
-    +
-hover:bg-blue-700
+```html
+<h2 class="text-2xl font-bold">
+  Wireless Headphone
+</h2>
+
+<p class="font-medium text-gray-600">
+  Premium wireless headphone
+</p>
 ```
-
-একটি smooth interaction তৈরি করে।
 
 ---
 
-## 4️⃣ Hover-এর সাথে Transform
+## 4️⃣ Line Height — `leading-*`
 
-Button hover করলে সামান্য বড় হতে পারে:
+এক লাইনের সাথে পরের লাইনের vertical distance নিয়ন্ত্রণ করতে `leading-*` ব্যবহার করা হয়।
 
-```jsx
-<button
-  className="
-    rounded-lg
-    bg-blue-600
-    px-5
-    py-3
-    text-white
-    transition
-    duration-300
-    hover:scale-105
-  "
->
-  Buy Now
-</button>
+```html
+<p class="leading-none">
+  Lorem ipsum dolor sit amet...
+</p>
 ```
 
-অথবা card একটু উপরে উঠতে পারে:
+Common utilities:
 
-```jsx
-<div className="rounded-xl border p-5 transition hover:-translate-y-1 hover:shadow-xl">
-  Product Card
+```text
+leading-none
+leading-tight
+leading-snug
+leading-normal
+leading-relaxed
+leading-loose
+```
+
+###### Blog-এর জন্য
+
+```html
+<p class="leading-8 text-gray-600">
+  This is a long blog article. Good line height makes
+  the content easier to read.
+</p>
+```
+
+👉 Blog/article-এর ক্ষেত্রে `leading-relaxed` বা নির্দিষ্ট `leading-*` অনেক সময় readability বাড়ায়।
+
+---
+
+## 5️⃣ Letter Spacing — `tracking-*`
+
+অক্ষরগুলোর মধ্যে horizontal spacing নিয়ন্ত্রণ করে।
+
+```html
+<h1 class="tracking-tight">
+  Welcome
+</h1>
+```
+
+Common:
+
+```text
+tracking-tighter
+tracking-tight
+tracking-normal
+tracking-wide
+tracking-wider
+tracking-widest
+```
+
+###### Heading Example
+
+```html
+<h1 class="text-4xl font-bold tracking-tight">
+  Modern E-Commerce
+</h1>
+```
+
+###### Uppercase Heading
+
+```html
+<h2 class="text-sm font-bold uppercase tracking-widest">
+  Featured Products
+</h2>
+```
+
+এটি ছোট section heading-এ সুন্দর দেখায়।
+
+---
+
+## 6️⃣ Text Alignment
+
+```html
+<p class="text-left">Left</p>
+
+<p class="text-center">Center</p>
+
+<p class="text-right">Right</p>
+
+<p class="text-justify">Justify</p>
+```
+
+Responsive alignment:
+
+```html
+<h1 class="text-center md:text-left">
+  Welcome to our store
+</h1>
+```
+
+Mobile:
+
+```text
+Center
+```
+
+Desktop:
+
+```text
+Left
+```
+
+---
+
+## 7️⃣ Text Transform
+
+###### Uppercase
+
+```html
+<p class="uppercase">
+  hello world
+</p>
+```
+
+Output:
+
+```text
+HELLO WORLD
+```
+
+###### Lowercase
+
+```html
+<p class="lowercase">
+  HELLO WORLD
+</p>
+```
+
+###### Capitalize
+
+```html
+<p class="capitalize">
+  hello world
+</p>
+```
+
+Output:
+
+```text
+Hello World
+```
+
+###### Normal
+
+```html
+<p class="normal-case">
+  Hello World
+</p>
+```
+
+---
+
+## 8️⃣ Text Decoration
+
+###### Underline
+
+```html
+<a class="underline">
+  Read More
+</a>
+```
+
+###### No Underline
+
+```html
+<a class="no-underline">
+  Home
+</a>
+```
+
+###### Line Through
+
+```html
+<span class="line-through">
+  $99
+</span>
+```
+
+E-commerce-এ খুব দরকার:
+
+```html
+<div class="flex gap-2">
+  <span class="text-xl font-bold">$59</span>
+
+  <span class="text-gray-400 line-through">
+    $79
+  </span>
 </div>
 ```
 
-এটি e-commerce UI-তে খুব common pattern।
+---
+
+## 9️⃣ Underline-এর আরও Control
+
+```html
+<p class="underline decoration-2">
+  Important Text
+</p>
+```
+
+Underline-এর position:
+
+```html
+<p class="underline underline-offset-4">
+  Learn More
+</p>
+```
+
+Color:
+
+```html
+<p class="underline decoration-blue-500">
+  Tailwind CSS
+</p>
+```
 
 ---
 
-## 5️⃣ `focus:` — Input-এর জন্য গুরুত্বপূর্ণ
+## 🔟 `truncate` — খুব গুরুত্বপূর্ণ
 
-Input focus করলে border/ring পরিবর্তন করা যায়।
-
-```jsx
-<input
-  type="email"
-  placeholder="Enter your email"
-  className="
-    w-full
-    rounded-lg
-    border
-    border-gray-300
-    px-4
-    py-3
-    outline-none
-    focus:border-blue-500
-    focus:ring-2
-    focus:ring-blue-500
-  "
-/>
-```
-
-Flow:
+ধরো Product-এর নাম অনেক বড়:
 
 ```text
-Normal
-  ↓
-border-gray-300
-
-User clicks input
-  ↓
-focus:
-
-border-blue-500
-ring-blue-500
+Apple MacBook Pro M4 16-inch Professional Laptop
 ```
 
----
+Card-এর width সীমিত।
 
-## 6️⃣ `active:` — Click করার সময়
+তখন text card-এর বাইরে চলে যেতে পারে।
 
-```jsx
-<button
-  className="
-    rounded-lg
-    bg-blue-600
-    px-5
-    py-3
-    text-white
-    transition
-    active:scale-95
-  "
->
-  Submit
-</button>
+এক্ষেত্রে:
+
+```html
+<h3 class="truncate font-bold">
+  Apple MacBook Pro M4 16-inch Professional Laptop
+</h3>
 ```
 
-Click করার সময় button সামান্য ছোট হবে।
+এটি সাধারণত এক লাইনের text-কে:
 
 ```text
-Normal → scale 100%
-Active → scale 95%
+Apple MacBook Pro M4 16-inch Professional...
 ```
 
----
+এর মতো দেখাতে সাহায্য করে।
 
-## 7️⃣ `disabled:` — Disabled State
+###### `truncate` কী করে?
 
-ধরুন payment process চলছে।
-
-Button:
-
-```jsx
-<button
-  disabled
-  className="
-    rounded-lg
-    bg-blue-600
-    px-5
-    py-3
-    text-white
-    disabled:cursor-not-allowed
-    disabled:opacity-50
-  "
->
-  Processing...
-</button>
-```
-
-এখানে:
+সহজভাবে:
 
 ```text
-disabled:cursor-not-allowed
-disabled:opacity-50
+overflow-hidden
++
+text-overflow: ellipsis
++
+white-space: nowrap
 ```
 
-ব্যবহার করে user-কে বোঝানো হচ্ছে যে button এখন available নয়।
+অর্থাৎ `truncate` মূলত **single-line text**-এর জন্য খুব useful।
 
 ---
 
-## 8️⃣ চারটি গুরুত্বপূর্ণ State
+## 1️⃣1️⃣ `truncate` কোথায় ব্যবহার করবে?
 
-মনে রাখুন:
-
-| Variant     | কখন কাজ করে      |
-| ----------- | ---------------- |
-| `hover:`    | Mouse hover      |
-| `focus:`    | Element focus    |
-| `active:`   | Click/press      |
-| `disabled:` | Disabled element |
-
-উদাহরণ:
+###### Product Title
 
 ```jsx
-<button
-  className="
-    bg-blue-600
-    hover:bg-blue-700
-    focus:ring-2
-    focus:ring-blue-500
-    active:scale-95
-    disabled:opacity-50
-  "
->
-  Submit
-</button>
+<h3 className="truncate text-lg font-bold">
+  Apple MacBook Pro M4 16-inch Professional Laptop
+</h3>
 ```
 
----
-
-## 9️⃣ `group` — Parent-এর State দিয়ে Child পরিবর্তন
-
-এটি Tailwind-এর অত্যন্ত গুরুত্বপূর্ণ feature।
-
-ধরুন:
-
-```text
-Product Card
-    │
-    ├── Image
-    └── Product Name
-```
-
-আপনি চান পুরো card hover করলে image zoom হবে।
-
-এখানে `group` ব্যবহার করব।
+###### User Name
 
 ```jsx
-<div className="group overflow-hidden rounded-xl">
-  <img
-    src="/product.jpg"
-    alt="Product"
-    className="h-64 w-full object-cover transition duration-300 group-hover:scale-110"
-  />
-</div>
+<p className="truncate">
+  Muhammad Abdul Rahman Al-Hossaini
+</p>
 ```
 
-খেয়াল করুন:
-
-Parent:
-
-```text
-group
-```
-
-Child:
-
-```text
-group-hover:scale-110
-```
-
----
-
-## 🔟 `group` কীভাবে কাজ করে?
-
-```text
-             Parent
-         class="group"
-              │
-        Mouse Hover
-              │
-       ┌──────┴──────┐
-       ↓             ↓
-     Image         Title
-       │
-       ↓
-group-hover:scale-110
-```
-
-অর্থাৎ parent-এর hover state child-এর styling পরিবর্তন করতে পারে।
-
----
-
-## 1️⃣1️⃣ Product Card-এর Real Example
+###### File Name
 
 ```jsx
-<div className="group overflow-hidden rounded-2xl border bg-white shadow-sm">
-  <div className="aspect-square overflow-hidden bg-gray-100">
-    <img
-      src="/images/headphone.jpg"
-      alt="Wireless Headphone"
-      className="
-        h-full
-        w-full
-        object-cover
-        transition
-        duration-300
-        group-hover:scale-110
-      "
-    />
-  </div>
-
-  <div className="p-5">
-    <h3 className="text-lg font-bold">
-      Wireless Headphone
-    </h3>
-
-    <p className="mt-2 text-gray-500">
-      Premium wireless headphone.
-    </p>
-  </div>
-</div>
+<p className="truncate font-mono text-sm">
+  very-long-project-backup-file-name-2026.zip
+</p>
 ```
-
-এখানে card hover করলে image zoom হবে।
 
 ---
 
-## 1️⃣2️⃣ Product Card-এ Multiple Hover Effects
+## 1️⃣2️⃣ `line-clamp`
 
-আমরা title-ও পরিবর্তন করতে পারি।
+`truncate` এক লাইনের জন্য ভালো।
+
+কিন্তু তোমার যদি **২ বা ৩ লাইনের text সীমিত করতে হয়**, তখন `line-clamp` ব্যবহার করবে।
+
+```html
+<p class="line-clamp-2">
+  This is a very long product description that contains
+  lots of information about the product and its features.
+</p>
+```
+
+এটি সর্বোচ্চ প্রায় ২ লাইনের মধ্যে text সীমিত করবে এবং অতিরিক্ত অংশ hide করবে।
+
+###### 3 Lines
+
+```html
+<p class="line-clamp-3">
+  Long product description goes here...
+</p>
+```
+
+###### Product Card
 
 ```jsx
-<div className="group rounded-2xl border p-5">
-  <h3 className="text-gray-800 transition group-hover:text-blue-600">
-    Wireless Headphone
+<div className="p-5">
+  <h3 className="truncate text-xl font-bold">
+    Wireless Noise Cancelling Headphone
   </h3>
 
-  <p className="mt-2 text-gray-500">
-    Premium headphone.
+  <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-500">
+    Premium wireless headphone with active noise
+    cancellation, long battery life and comfortable design.
   </p>
 </div>
 ```
 
-Card hover করলে:
+---
+
+## ⭐ `truncate` বনাম `line-clamp`
+
+এটি অবশ্যই মনে রাখবে।
+
+| Utility        | ব্যবহার         |
+| -------------- | --------------- |
+| `truncate`     | Single line     |
+| `line-clamp-2` | Maximum 2 lines |
+| `line-clamp-3` | Maximum 3 lines |
+
+###### সহজ Formula
 
 ```text
-Product Name
-     ↓
-gray
-     ↓
-blue
+1 line → truncate
+
+2+ lines → line-clamp
 ```
 
 ---
 
-## 1️⃣3️⃣ Product Card + Image + Button
+## 1️⃣3️⃣ Whitespace
 
-আরও realistic example:
+Text কীভাবে line break করবে সেটি নিয়ন্ত্রণ করতে `whitespace-*` ব্যবহার করা যায়।
+
+###### Normal
+
+```html
+<p class="whitespace-normal">
+  Normal text wrapping
+</p>
+```
+
+###### No Wrap
+
+```html
+<p class="whitespace-nowrap">
+  This text will stay on one line
+</p>
+```
+
+এটি Navigation item, badge ইত্যাদিতে useful।
+
+```html
+<span class="whitespace-nowrap">
+  In Stock
+</span>
+```
+
+---
+
+## 1️⃣4️⃣ Long Word Break
+
+কখনো URL বা খুব বড় কোনো word container-এর বাইরে চলে যেতে পারে।
+
+```html
+<p class="break-words">
+  https://example.com/very-long-url-here...
+</p>
+```
+
+এতে প্রয়োজন হলে long word ভাঙতে সাহায্য করে।
+
+---
+
+## 1️⃣5️⃣ List Styling
+
+HTML list:
+
+```html
+<ul class="list-disc">
+  <li>React.js</li>
+  <li>Node.js</li>
+  <li>MongoDB</li>
+</ul>
+```
+
+Output:
+
+```text
+• React.js
+• Node.js
+• MongoDB
+```
+
+###### Number List
+
+```html
+<ol class="list-decimal">
+  <li>Requirement Analysis</li>
+  <li>Database Design</li>
+  <li>Backend Development</li>
+</ol>
+```
+
+---
+
+## 1️⃣6️⃣ List Position
+
+```html
+<ul class="list-disc list-inside">
+  <li>React</li>
+  <li>Node</li>
+  <li>MongoDB</li>
+</ul>
+```
+
+অথবা:
+
+```html
+<ul class="list-disc list-outside">
+  <li>React</li>
+  <li>Node</li>
+  <li>MongoDB</li>
+</ul>
+```
+
+---
+
+## 1️⃣7️⃣ Real-world Feature List
 
 ```jsx
-<div className="group rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-xl">
-
-  <div className="aspect-square overflow-hidden rounded-xl bg-gray-100">
-    <img
-      src="/images/product.jpg"
-      alt="Product"
-      className="
-        h-full
-        w-full
-        object-cover
-        transition
-        duration-300
-        group-hover:scale-110
-      "
-    />
-  </div>
-
-  <h3 className="mt-4 text-lg font-bold transition group-hover:text-blue-600">
-    Smart Watch
-  </h3>
-
-  <p className="mt-2 text-gray-500">
-    Modern smart watch.
-  </p>
-
-  <button
-    className="
-      mt-4
-      w-full
-      rounded-lg
-      bg-blue-600
-      py-3
-      font-semibold
-      text-white
-      transition
-      hover:bg-blue-700
-      active:scale-95
-    "
-  >
-    Add to Cart
-  </button>
-
-</div>
+<ul className="mt-4 list-disc space-y-2 pl-5 text-gray-600">
+  <li>Free shipping</li>
+  <li>30-day return policy</li>
+  <li>Secure payment</li>
+  <li>24/7 customer support</li>
+</ul>
 ```
 
 এখানে একসাথে ব্যবহার হয়েছে:
 
 ```text
-group
-group-hover
-hover
-active
-transition
-scale
-shadow
+list-disc
+space-y-2
+pl-5
+text-gray-600
 ```
 
 ---
 
-## 1️⃣4️⃣ `peer` কী?
+## 1️⃣8️⃣ Tailwind দিয়ে Table
 
-`peer` মূলত একটি element-এর state-এর উপর ভিত্তি করে অন্য element-এর styling পরিবর্তন করতে সাহায্য করে।
+Admin Dashboard, Order Management, User Management ইত্যাদিতে Table অত্যন্ত গুরুত্বপূর্ণ।
 
-বিশেষ করে form UI-তে এটি খুব useful।
-
-ধরুন একটি checkbox:
+Basic table:
 
 ```jsx
-<div>
-  <input
-    type="checkbox"
-    className="peer"
-  />
+<table className="w-full">
+  <thead>
+    <tr>
+      <th className="px-4 py-3 text-left">Product</th>
+      <th className="px-4 py-3 text-left">Price</th>
+      <th className="px-4 py-3 text-left">Status</th>
+    </tr>
+  </thead>
 
-  <span className="peer-checked:text-blue-600">
-    Remember me
-  </span>
+  <tbody>
+    <tr>
+      <td className="px-4 py-3">Laptop</td>
+      <td className="px-4 py-3">$999</td>
+      <td className="px-4 py-3">In Stock</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+---
+
+## 1️⃣9️⃣ Professional Table
+
+```jsx
+<div className="overflow-x-auto rounded-xl border">
+  <table className="min-w-[700px] w-full">
+    <thead className="bg-gray-50">
+      <tr>
+        <th className="px-4 py-3 text-left text-sm font-semibold">
+          Product
+        </th>
+
+        <th className="px-4 py-3 text-left text-sm font-semibold">
+          Price
+        </th>
+
+        <th className="px-4 py-3 text-left text-sm font-semibold">
+          Status
+        </th>
+
+        <th className="px-4 py-3 text-left text-sm font-semibold">
+          Action
+        </th>
+      </tr>
+    </thead>
+
+    <tbody className="divide-y">
+      <tr className="hover:bg-gray-50">
+        <td className="px-4 py-4 font-medium">
+          Wireless Headphone
+        </td>
+
+        <td className="px-4 py-4">
+          $59
+        </td>
+
+        <td className="px-4 py-4">
+          In Stock
+        </td>
+
+        <td className="px-4 py-4">
+          <button className="rounded-lg bg-blue-600 px-3 py-2 text-sm text-white">
+            Edit
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 ```
 
-Checkbox checked হলে text-এর color পরিবর্তিত হবে।
-
 ---
 
-## 1️⃣5️⃣ Custom Checkbox UI
+## 2️⃣0️⃣ Responsive Table
 
-আরও সুন্দরভাবে:
+এটি খুব গুরুত্বপূর্ণ।
+
+Desktop-এ table ঠিক আছে। কিন্তু Mobile screen ছোট।
+
+তাই table-কে horizontal scroll করানো ভালো:
 
 ```jsx
-<label className="flex cursor-pointer items-center gap-3">
-  <input
-    type="checkbox"
-    className="peer sr-only"
-  />
-
-  <span
-    className="
-      h-5
-      w-5
-      rounded
-      border
-      border-gray-300
-      peer-checked:border-blue-600
-      peer-checked:bg-blue-600
-    "
-  ></span>
-
-  <span className="text-gray-700">
-    Remember me
-  </span>
-</label>
+<div className="overflow-x-auto">
+  <table className="min-w-[700px] w-full">
+    ...
+  </table>
+</div>
 ```
 
-এখানে:
+Concept:
 
 ```text
-unchecked
-    ↓
-border-gray-300
-
-checked
-    ↓
-peer-checked:border-blue-600
-peer-checked:bg-blue-600
+Mobile Screen
+     ↓
+┌──────────────────┐
+│  Table → → → →   │
+│             scroll│
+└──────────────────┘
 ```
+
+অর্থাৎ পুরো page-এর width নষ্ট না করে শুধু table-এর ভিতরে horizontal scroll হবে।
 
 ---
 
-## 1️⃣6️⃣ React State + Tailwind
+## 2️⃣1️⃣ `table-auto` বনাম `table-fixed`
 
-Tailwind শুধু visual styling করে।
+###### Auto
 
-কিন্তু actual UI state manage করার জন্য React ব্যবহার করব।
+```html
+<table class="table-auto w-full">
+```
 
-উদাহরণ:
+Browser content অনুযায়ী column width নির্ধারণ করতে পারে।
+
+###### Fixed
+
+```html
+<table class="table-fixed w-full">
+```
+
+Column width আরও predictable করা যায়।
+
+Dashboard-এর নির্দিষ্ট layout-এ `table-fixed` কাজে লাগতে পারে।
+
+---
+
+## 2️⃣2️⃣ Table Border
+
+```html
+<table class="border-collapse">
+```
+
+এছাড়া:
+
+```html
+<table class="border-separate">
+```
+
+Cell-এর border separation দরকার হলে:
+
+```html
+border-separate
+```
+
+ব্যবহার করতে পারো।
+
+---
+
+## 2️⃣3️⃣ `divide-y` দিয়ে Table Row
+
+প্রতিটি row-এর মধ্যে separator দিতে:
+
+```html
+<tbody class="divide-y">
+```
+
+আরও নির্দিষ্ট color:
+
+```html
+<tbody class="divide-y divide-gray-200">
+```
+
+এটি খুব clean dashboard UI তৈরি করে।
+
+---
+
+## 2️⃣4️⃣ Admin Order Table
+
+তোমার **AI-Powered E-Commerce Management System**-এর কথা ধরো।
 
 ```jsx
-import { useState } from "react";
+<div className="overflow-x-auto rounded-xl border bg-white">
+  <table className="min-w-[800px] w-full">
+    <thead className="bg-gray-50">
+      <tr>
+        <th className="px-4 py-3 text-left text-sm font-semibold">
+          Order ID
+        </th>
 
-function LikeButton() {
-  const [liked, setLiked] = useState(false);
+        <th className="px-4 py-3 text-left text-sm font-semibold">
+          Customer
+        </th>
 
+        <th className="px-4 py-3 text-left text-sm font-semibold">
+          Total
+        </th>
+
+        <th className="px-4 py-3 text-left text-sm font-semibold">
+          Status
+        </th>
+
+        <th className="px-4 py-3 text-left text-sm font-semibold">
+          Action
+        </th>
+      </tr>
+    </thead>
+
+    <tbody className="divide-y divide-gray-200">
+      <tr className="hover:bg-gray-50">
+
+        <td className="px-4 py-4 font-medium">
+          ##ORD-1001
+        </td>
+
+        <td className="max-w-[200px] truncate px-4 py-4">
+          Abdul Rahman
+        </td>
+
+        <td className="px-4 py-4 font-semibold">
+          $249
+        </td>
+
+        <td className="px-4 py-4">
+          <span className="rounded-full bg-green-100 px-3 py-1 text-sm text-green-700">
+            Paid
+          </span>
+        </td>
+
+        <td className="px-4 py-4">
+          <button className="rounded-lg bg-blue-600 px-3 py-2 text-sm text-white">
+            View
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+এখানে আমরা Day 1–18-এর অনেক concept একসাথে ব্যবহার করেছি:
+
+```text
+overflow-x-auto
+rounded-xl
+border
+bg-white
+min-w
+w-full
+bg-gray
+px / py
+text
+font
+divide-y
+hover
+rounded-full
+```
+
+এটাই Tailwind শেখার আসল উদ্দেশ্য—**একটি real UI-তে utilities combine করা।**
+
+---
+
+## 2️⃣5️⃣ Product Card-এ Typography
+
+এখন একটি professional Product Card:
+
+```jsx
+function ProductCard() {
   return (
-    <button
-      onClick={() => setLiked(!liked)}
-      className={`
-        rounded-full
-        px-4
-        py-2
-        ${liked ? "bg-red-500 text-white" : "bg-gray-100 text-gray-700"}
-      `}
-    >
-      {liked ? "Liked" : "Like"}
-    </button>
-  );
-}
+    <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
 
-export default LikeButton;
-```
+      <div className="aspect-square overflow-hidden">
+        <img
+          src="/product.jpg"
+          alt="Wireless Headphone"
+          className="h-full w-full object-cover"
+        />
+      </div>
 
-এখানে React state:
+      <div className="p-5">
 
-```text
-liked = false
-     ↓
-Like
+        <span className="text-xs font-semibold uppercase tracking-widest text-blue-600">
+          Electronics
+        </span>
 
-liked = true
-     ↓
-Liked
-```
+        <h3 className="mt-2 truncate text-xl font-bold">
+          Wireless Noise Cancelling Headphone
+        </h3>
 
----
+        <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-500">
+          Premium wireless headphone with active noise
+          cancellation, excellent battery life and
+          comfortable design.
+        </p>
 
-## 1️⃣7️⃣ Conditional Class কী?
+        <div className="mt-4 flex items-center gap-3">
+          <span className="text-xl font-bold">
+            $59
+          </span>
 
-React-এ আমরা condition অনুযায়ী Tailwind class পরিবর্তন করতে পারি।
-
-```jsx
-className={`
-  rounded-lg
-  px-5
-  py-3
-  ${isActive ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}
-`}
-```
-
-অর্থাৎ:
-
-```text
-isActive = true
-     ↓
-bg-blue-600
-
-isActive = false
-     ↓
-bg-gray-200
-```
-
-এটি React + Tailwind development-এর খুব গুরুত্বপূর্ণ skill।
-
----
-
-## 1️⃣8️⃣ Dropdown Example
-
-ধরুন user profile menu click করলে dropdown open হবে।
-
-```jsx
-import { useState } from "react";
-
-function ProfileMenu() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="relative">
-
-      <button
-        onClick={() => setOpen(!open)}
-        className="rounded-lg border px-4 py-2"
-      >
-        Profile
-      </button>
-
-      {open && (
-        <div className="absolute right-0 mt-2 w-48 rounded-xl border bg-white p-2 shadow-lg">
-          <button className="block w-full rounded-lg px-4 py-2 text-left hover:bg-gray-100">
-            Profile
-          </button>
-
-          <button className="block w-full rounded-lg px-4 py-2 text-left hover:bg-gray-100">
-            Settings
-          </button>
-
-          <button className="block w-full rounded-lg px-4 py-2 text-left hover:bg-gray-100">
-            Logout
-          </button>
+          <span className="text-gray-400 line-through">
+            $79
+          </span>
         </div>
-      )}
 
+      </div>
     </div>
   );
 }
-
-export default ProfileMenu;
 ```
 
-এখানে:
+###### এখানে গুরুত্বপূর্ণ অংশ:
 
 ```text
-React State
-    ↓
-open / closed
-    ↓
-Conditional Rendering
-    ↓
-Tailwind Styling
+uppercase
+tracking-widest
+truncate
+line-clamp-2
+leading-6
+line-through
+font-bold
 ```
 
 ---
 
-## 1️⃣9️⃣ Professional UI-এর State System
+## 🧠 2️⃣6️⃣ Typography-এর Mental Model
 
-একটি component design করার সময় শুধু normal state চিন্তা করবেন না।
-
-এইগুলো চিন্তা করুন:
+Typography মনে রাখার জন্য:
 
 ```text
-Default
-   ↓
-Hover
-   ↓
-Focus
-   ↓
-Active
-   ↓
-Disabled
-   ↓
-Loading
-   ↓
-Error
-   ↓
-Success
-```
-
-উদাহরণ Button:
-
-```text
-Button
+Typography
 │
-├── Default
-├── Hover
-├── Focus
-├── Active
-├── Disabled
-└── Loading
-```
-
-এটি একজন professional frontend developer-এর চিন্তার অংশ।
-
----
-
-## 🛒 2️⃣0️⃣ E-commerce Product Button-এর State
-
-ধরুন Add to Cart button।
-
-###### Normal
-
-```text
-Add to Cart
-```
-
-###### Loading
-
-```text
-Adding...
-```
-
-###### Added
-
-```text
-✓ Added to Cart
-```
-
-React-এর মাধ্যমে state:
-
-```jsx
-const [loading, setLoading] = useState(false);
-const [added, setAdded] = useState(false);
-```
-
-তারপর UI state অনুযায়ী button পরিবর্তন করা যায়।
-
-এখানে গুরুত্বপূর্ণ বিষয়:
-
-> **Tailwind visual state তৈরি করবে, React application state control করবে।**
-
----
-
-## 🧠 React + Tailwind-এর Responsibility
-
-এটি খুব ভালোভাবে মনে রাখুন:
-
-```text
-React
- ↓
-Logic + State + Data
- ↓
-Tailwind CSS
- ↓
-Visual Styling + Responsive UI + Interaction Style
-```
-
-উদাহরণ:
-
-```text
-React
-  ↓
-isOpen = true
-  ↓
-Dropdown দেখাবে
-  ↓
-Tailwind
-  ↓
-absolute + shadow + rounded + border
-```
-
----
-
-## 📁 আজকের Component Structure
-
-Day 16-এর structure এখন আরও শক্তিশালী করতে পারেন:
-
-```text
-src/
-├── components/
-│   └── ui/
-│       ├── Button.jsx
-│       ├── Card.jsx
-│       ├── Badge.jsx
-│       ├── Input.jsx
-│       └── Dropdown.jsx
+├── Font
+│   ├── font-sans
+│   ├── font-serif
+│   └── font-mono
 │
-├── components/
-│   └── products/
-│       └── ProductCard.jsx
+├── Size
+│   ├── text-sm
+│   ├── text-lg
+│   └── text-4xl
 │
-├── pages/
-│   ├── Home.jsx
-│   ├── Products.jsx
-│   └── Dashboard.jsx
+├── Weight
+│   ├── font-normal
+│   ├── font-semibold
+│   └── font-bold
 │
-└── App.jsx
+├── Spacing
+│   ├── leading-*
+│   └── tracking-*
+│
+├── Alignment
+│   ├── text-left
+│   ├── text-center
+│   └── text-right
+│
+└── Text Control
+    ├── truncate
+    ├── line-clamp
+    ├── whitespace
+    └── break-words
 ```
 
 ---
 
-## 🧪 আজকের Practice
+## 🧪 2️⃣7️⃣ আজকের Practice
 
-#### Task 1 — Interactive Button
+#### Practice 1 — Product Card
 
-একটি button তৈরি করুন যেখানে থাকবে:
+একটি Product Card তৈরি করো যেখানে থাকবে:
+
+* Product image
+* Category
+* Product title
+* Long description
+* Current price
+* Old price
+* Buy button
+
+এবং অবশ্যই ব্যবহার করবে:
 
 ```text
-Default
-Hover
-Focus
-Active
-Disabled
+truncate
+line-clamp-2
+font-bold
+leading-6
+tracking
+line-through
 ```
 
 ---
 
-#### Task 2 — Product Card
+#### Practice 2 — Blog Card
 
-একটি Product Card বানান:
+একটি Blog Card বানাও:
 
 ```text
-┌─────────────────────┐
-│       Product       │
-│       Image         │
-│                     │
-├─────────────────────┤
-│ Product Name        │
-│ Description         │
-│ $59                 │
-│ [ Add to Cart ]     │
-└─────────────────────┘
+Image
+↓
+Category
+↓
+Long Blog Title
+↓
+Long Description
+↓
+Author
+↓
+Read More
 ```
 
-Card hover করলে:
+Blog title:
 
-* shadow বাড়বে
-* image zoom হবে
-* product name blue হবে
+```html
+<h2 class="line-clamp-2 text-2xl font-bold">
+  Your Long Blog Title Here
+</h2>
+```
 
-ব্যবহার করুন:
+Description:
 
-```text
-group
-group-hover:
-hover:
-transition
+```html
+<p class="line-clamp-3 leading-7 text-gray-600">
+  Your long blog description...
+</p>
 ```
 
 ---
 
-## 🏆 Day 17 Challenge
+## 🏆 2️⃣8️⃣ আজকের Challenge
 
-আপনার **AI-Powered E-Commerce Management System**-এর জন্য একটি interactive Product Card তৈরি করুন।
+###### AI-Powered E-Commerce Admin Dashboard
+
+একটি **Order Management Table** তৈরি করো।
+
+Columns:
+
+```text
+Order ID
+Customer
+Product
+Total
+Payment
+Status
+Action
+```
 
 Requirements:
 
-###### Product Image
-
 ```text
-aspect-square
-object-cover
-overflow-hidden
-group-hover:scale-110
+✅ Responsive
+✅ overflow-x-auto
+✅ min-w
+✅ divide-y
+✅ hover state
+✅ Badge
+✅ truncate
+✅ Proper typography
+✅ Clean spacing
 ```
 
-###### Badge
+বিশেষ করে Customer/Product-এর অনেক বড় text দিয়ে test করবে।
+
+---
+
+## 📝 2️⃣9️⃣ Self Test
+
+নিজেকে এই প্রশ্নগুলোর উত্তর দিতে পারো কি না দেখো:
+
+1. `font-sans` কী?
+2. `font-bold` কী করে?
+3. `leading-7` কী নিয়ন্ত্রণ করে?
+4. `tracking-wide` কী করে?
+5. `text-center` কী করে?
+6. `uppercase` কী করে?
+7. `line-through` কোথায় ব্যবহার করা যায়?
+8. `truncate` কী?
+9. `truncate` এবং `line-clamp-2`-এর পার্থক্য কী?
+10. `whitespace-nowrap` কেন ব্যবহার করা হয়?
+11. `break-words` কী কাজে লাগে?
+12. `list-disc` কী?
+13. `divide-y` কী?
+14. `overflow-x-auto` কেন responsive table-এ ব্যবহার করা হয়?
+15. `min-w-[700px]` table-এর ক্ষেত্রে কেন useful?
+
+---
+
+## 📋 3️⃣0️⃣ Day 18 Cheat Sheet
 
 ```text
-New / Sale
-```
+FONT
+font-sans
+font-serif
+font-mono
 
-###### Favorite Button
+SIZE
+text-xs
+text-sm
+text-base
+text-lg
+text-xl
+text-2xl
+text-3xl
+text-4xl
 
-Click করলে:
+WEIGHT
+font-normal
+font-medium
+font-semibold
+font-bold
+font-extrabold
 
-```text
-♡ → ♥
-```
+LINE HEIGHT
+leading-none
+leading-tight
+leading-normal
+leading-relaxed
+leading-loose
 
-এবং color পরিবর্তন হবে।
+LETTER SPACING
+tracking-tight
+tracking-normal
+tracking-wide
+tracking-widest
 
-###### Add to Cart
+ALIGNMENT
+text-left
+text-center
+text-right
+text-justify
 
-State:
+TRANSFORM
+uppercase
+lowercase
+capitalize
+normal-case
 
-```text
-Add to Cart
-     ↓
-Adding...
-     ↓
-✓ Added
-```
+DECORATION
+underline
+no-underline
+line-through
+decoration-2
+underline-offset-4
 
-###### Card Hover
+TEXT CONTROL
+truncate
+line-clamp-2
+line-clamp-3
+whitespace-nowrap
+break-words
 
-```text
-shadow-sm
-     ↓
-shadow-xl
-```
+LIST
+list-disc
+list-decimal
+list-inside
+list-outside
 
-এবং product name:
-
-```text
-gray
- ↓
-blue
+TABLE
+table-auto
+table-fixed
+border-collapse
+border-separate
+divide-y
+overflow-x-auto
 ```
 
 ---
 
-## 📝 Day 17 Self-Test
+## 🎯 Day 18-এর সবচেয়ে গুরুত্বপূর্ণ বিষয়
 
-নিজেকে এই প্রশ্নগুলো করুন:
-
-1. `hover:` কী?
-2. `focus:` কেন ব্যবহার করি?
-3. `active:` কখন কাজ করে?
-4. `disabled:` কী কাজে লাগে?
-5. `transition` কেন ব্যবহার করি?
-6. `group` কী?
-7. `group-hover:` কীভাবে কাজ করে?
-8. `peer` কী?
-9. `peer-checked:` কী?
-10. React state এবং Tailwind state-এর মধ্যে পার্থক্য কী?
-11. Conditional class কী?
-12. Product Card-এ `group-hover` কেন useful?
-
----
-
-## 📌 Day 17 Cheat Sheet
-
-| Tailwind             | কাজ                        |
-| -------------------- | -------------------------- |
-| `hover:`             | Mouse hover                |
-| `focus:`             | Focus state                |
-| `active:`            | Click/press                |
-| `disabled:`          | Disabled state             |
-| `transition`         | Smooth transition          |
-| `duration-300`       | Animation duration         |
-| `scale-105`          | Element বড়                 |
-| `scale-95`           | Element ছোট                |
-| `group`              | Parent state তৈরি          |
-| `group-hover:`       | Parent hover → child style |
-| `peer`               | Sibling state control      |
-| `peer-checked:`      | Checkbox checked state     |
-| `opacity-50`         | Faded UI                   |
-| `cursor-not-allowed` | Disabled cursor            |
-
----
-
-## 🎯 Day 17-এর মূল শিক্ষা
-
-আজকের সবচেয়ে গুরুত্বপূর্ণ concept:
+তোমার জন্য সবচেয়ে গুরুত্বপূর্ণ ৫টি হলো:
 
 ```text
-             React
-               │
-        Logic + State
-               │
-               ↓
-       Conditional UI
-               │
-               ↓
-         Tailwind CSS
-               │
-      ┌────────┼────────┐
-      ↓        ↓        ↓
-    Hover     Focus    Active
-      ↓        ↓        ↓
-    Visual   Visual   Visual
+1. truncate
+2. line-clamp
+3. leading
+4. tracking
+5. Responsive Table
 ```
 
-আর একজন ভালো **React + Tailwind Developer** শুধু সুন্দর UI বানায় না।
+বিশেষ করে **React + E-commerce + Admin Dashboard** development-এ এগুলো নিয়মিত ব্যবহার করবে।
 
-সে চিন্তা করে:
+###### আজকের মূল Formula:
 
-> **User যখন hover করবে, click করবে, focus করবে, loading হবে, error হবে বা disabled থাকবে—প্রতিটি অবস্থায় UI কেমন দেখাবে?**
+```text
+Typography
+     ↓
+Readable Text
+     ↓
+Text Control
+     ↓
+Responsive Content
+     ↓
+Professional UI
+```
 
-এটাই আজকের **Day 17-এর সবচেয়ে গুরুত্বপূর্ণ skill।**
+আর মনে রাখবে:
+
+> **Tailwind মুখস্থ করার বিষয় নয়; কোন UI problem-এর জন্য কোন utility ব্যবহার করতে হবে—এটাই আসল skill।**
 
