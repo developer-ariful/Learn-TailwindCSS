@@ -1,1303 +1,1166 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-# 📘 Tailwind CSS — Day 19
+## 🌙 Tailwind CSS — Day 20: Dark Mode + Theme Design
 
-## Transitions, Transforms & Animations
+আজ থেকে আমরা Tailwind CSS-এর **Theme Design** নিয়ে কাজ শুরু করব। বিশেষ করে React project-এ **Light Mode + Dark Mode** কীভাবে তৈরি করা যায়, সেটি শিখব।
 
-আজ আমরা Tailwind CSS-এর **UI interaction ও animation** নিয়ে কাজ করব। Day 17-এ আমরা `hover`, `focus`, `active`, `group-hover` শিখেছিলাম। আজ সেগুলোকে আরও professional করব।
-
-React/MERN project-এ এগুলো বিশেষভাবে কাজে লাগবে:
-
-* Product Card hover
-* Button animation
-* Image zoom
-* Modal animation
-* Loading indicator
-* Skeleton UI
-* Dropdown interaction
-* E-commerce cart interaction
+আজকের লক্ষ্য হলো এমন UI তৈরি করা, যেখানে user সহজেই Light/Dark theme পরিবর্তন করতে পারবে এবং সেই preference সংরক্ষণও করা যাবে।
 
 ---
 
-# 🎯 আজকের Learning Goal
+#### 🎯 আজকের Learning Goal
 
-আজ তুমি শিখবে:
+Day 20 শেষে আপনি জানতে পারবেন:
 
-1. `transition`
-2. `duration-*`
-3. `ease-*`
-4. `delay-*`
-5. `transform`
-6. `scale-*`
-7. `rotate-*`
-8. `translate-*`
-9. `skew-*`
-10. Hover animation
-11. `animate-spin`
-12. `animate-pulse`
-13. `animate-bounce`
-14. Professional Product Card animation
-15. React + Tailwind animation pattern
+* `dark:` variant কী
+* Light/Dark color strategy
+* Dark Product Card
+* Dark Navbar
+* Dark Form
+* Dark Dashboard
+* React দিয়ে Theme Toggle
+* `localStorage` দিয়ে theme preference সংরক্ষণ
+* Dark mode-এ ভালো color নির্বাচন
+* একটি reusable Theme System কীভাবে চিন্তা করতে হয়
 
 ---
 
-# ⏰ আজকের ১ ঘণ্টার পরিকল্পনা
+## ⏰ ১ ঘণ্টার Study Plan
 
-| সময়      | বিষয়                   |
-| -------- | ---------------------- |
-| 10 মিনিট | Transition             |
-| 10 মিনিট | Duration + Timing      |
-| 15 মিনিট | Transform              |
-| 10 মিনিট | Built-in Animation     |
-| 10 মিনিট | Product Card Animation |
-| 5 মিনিট  | Practice + Revision    |
+| সময়      | বিষয়                                  |
+| -------- | ------------------------------------- |
+| 10 মিনিট | Dark Mode Concept + `dark:`           |
+| 10 মিনিট | Light/Dark Color Strategy             |
+| 10 মিনিট | Dark Card + Navbar + Form             |
+| 10 মিনিট | React Theme Toggle                    |
+| 10 মিনিট | `localStorage` দিয়ে Theme Persistence |
+| 5 মিনিট  | E-commerce Dashboard                  |
+| 5 মিনিট  | Practice + Revision                   |
 
 ---
 
-# 1️⃣ Transition কী?
+## 1️⃣ Dark Mode কী?
 
-ধরো একটি button:
-
-```html
-<button class="bg-blue-500 hover:bg-blue-700">
-  Buy Now
-</button>
-```
-
-Mouse hover করলে background হঠাৎ পরিবর্তন হবে।
-
-আমরা যদি smooth করতে চাই:
-
-```html
-<button class="bg-blue-500 transition hover:bg-blue-700">
-  Buy Now
-</button>
-```
-
-এখন পরিবর্তনটি smooth হবে।
-
-### Mental Model
+সাধারণত একটি website-এ দুই ধরনের theme থাকতে পারে:
 
 ```text
-Without transition:
+Light Mode
+   ↓
+White Background
+Dark Text
+Light Card
 
-Blue ───────────────→ Dark Blue
-       হঠাৎ পরিবর্তন
+Dark Mode
+   ↓
+Dark Background
+Light Text
+Dark Card
+```
 
+উদাহরণ:
 
-With transition:
+###### Light Mode
 
-Blue ──→ Light Blue ──→ Medium Blue ──→ Dark Blue
-              Smooth
+```text
+Background → White
+Card       → White
+Text       → Gray-900
+Border     → Gray-200
+```
+
+###### Dark Mode
+
+```text
+Background → Gray-900
+Card       → Gray-800
+Text       → White
+Border     → Gray-700
+```
+
+Tailwind-এ dark mode-এর জন্য আমরা মূলত ব্যবহার করি:
+
+```text
+dark:
 ```
 
 ---
 
-# 2️⃣ `transition`
+## 2️⃣ `dark:` Variant
 
-সবচেয়ে সাধারণ:
-
-```html
-<button class="transition hover:bg-blue-700">
-  Buy Now
-</button>
-```
-
-আরও নির্দিষ্টভাবে:
+ধরুন:
 
 ```html
-<button class="transition-colors hover:bg-blue-700">
-  Buy Now
-</button>
-```
-
-### Common Transition Utilities
-
-```text
-transition
-transition-all
-transition-colors
-transition-opacity
-transition-shadow
-transition-transform
-```
-
-### কখন কোনটি?
-
-| Utility                | ব্যবহার                |
-| ---------------------- | ---------------------- |
-| `transition`           | সাধারণ transition      |
-| `transition-all`       | একাধিক property        |
-| `transition-colors`    | Color পরিবর্তন         |
-| `transition-opacity`   | Opacity                |
-| `transition-shadow`    | Shadow                 |
-| `transition-transform` | Scale/Rotate/Translate |
-
----
-
-# 3️⃣ Duration
-
-Animation কতক্ষণ চলবে তা `duration-*` দিয়ে নিয়ন্ত্রণ করা যায়।
-
-```html
-<button class="transition duration-300 hover:bg-blue-700">
-  Buy
-</button>
-```
-
-Common values:
-
-```text
-duration-75
-duration-100
-duration-150
-duration-200
-duration-300
-duration-500
-duration-700
-duration-1000
-```
-
-### Example
-
-```html
-<div class="transition duration-500 hover:scale-105">
-  Product
+<div class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
+    Hello World
 </div>
 ```
 
-এখানে scale পরিবর্তন হতে `500ms` সময় লাগবে।
-
----
-
-# 4️⃣ কোন Duration ব্যবহার করব?
-
-Real-world UI-এর জন্য:
+এখানে:
 
 ```text
-Button hover
-→ duration-200 / duration-300
-
-Card hover
-→ duration-300
-
-Image zoom
-→ duration-300 / duration-500
-
-Large UI animation
-→ duration-500+
+bg-white
 ```
 
-সাধারণ UI-তে অতিরিক্ত slow animation ব্যবহার না করাই ভালো।
-
----
-
-# 5️⃣ Timing Function — `ease-*`
-
-Animation-এর গতি কেমন হবে তা `ease-*` দিয়ে নিয়ন্ত্রণ করা যায়।
-
-```html
-<div class="transition duration-500 ease-in-out hover:scale-105">
-  Product
-</div>
-```
-
-Common:
-
-```text
-ease-linear
-ease-in
-ease-out
-ease-in-out
-```
-
-### সহজভাবে
-
-```text
-ease-linear
-→ একই গতিতে
-
-ease-in
-→ ধীরে শুরু
-
-ease-out
-→ ধীরে শেষ
-
-ease-in-out
-→ ধীরে শুরু + ধীরে শেষ
-```
-
-Professional UI-তে:
-
-```html
-class="transition duration-300 ease-in-out"
-```
-
-খুব common pattern।
-
----
-
-# 6️⃣ Delay
-
-Animation শুরু হতে delay দিতে:
-
-```html
-<div class="transition delay-150 duration-300 hover:scale-105">
-  Card
-</div>
-```
-
-অর্থাৎ interaction-এর পরে transition শুরু হওয়ার আগে delay থাকবে।
-
----
-
-# 7️⃣ Transform
-
-এখন আসি খুব গুরুত্বপূর্ণ বিষয়:
-
-## `transform`
-
-Transform দিয়ে element-এর অবস্থান/আকার/rotation ইত্যাদি পরিবর্তন করা যায়।
-
-প্রধানগুলো:
-
-```text
-scale
-rotate
-translate
-skew
-```
-
----
-
-# 8️⃣ Scale
-
-Element বড় বা ছোট করতে:
-
-```html
-<div class="transition hover:scale-105">
-  Product
-</div>
-```
-
-`scale-105` মানে element কিছুটা বড় হবে।
+Light mode-এর background।
 
 আর:
 
-```html
-<div class="transition hover:scale-110">
-  Product
-</div>
+```text
+dark:bg-gray-900
 ```
 
-আরও বড় হবে।
+Dark mode-এর background।
 
-### ছোট করা
-
-```html
-<button class="transition active:scale-95">
-  Click Me
-</button>
-```
-
-Click করার সময় button সামান্য ছোট হবে।
-
----
-
-# 9️⃣ Common Scale
+একইভাবে:
 
 ```text
-scale-50
-scale-75
-scale-90
-scale-95
-scale-100
-scale-105
-scale-110
-scale-125
-150...
+text-gray-900
 ```
 
-সবচেয়ে common:
+Light mode-এর text।
 
 ```text
-hover:scale-105
-hover:scale-110
-active:scale-95
+dark:text-white
 ```
 
----
+Dark mode-এর text।
 
-# 🔟 Button Animation
-
-একটি professional button:
-
-```html
-<button
-  class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white
-         transition duration-300
-         hover:scale-105 hover:bg-blue-700
-         active:scale-95"
->
-  Buy Now
-</button>
-```
-
-Interaction:
+###### Mental Model
 
 ```text
-Normal
-  ↓
-Hover → একটু বড় + Darker
-  ↓
-Click → একটু ছোট
+Light Mode
+    ↓
+bg-white
+text-gray-900
+
+Dark Mode
+    ↓
+dark:bg-gray-900
+dark:text-white
 ```
 
 ---
 
-# 1️⃣1️⃣ Translate
-
-Element-কে horizontal/vertical direction-এ সরাতে `translate-*` ব্যবহার করা যায়।
-
-### X direction
-
-```html
-<div class="transition hover:translate-x-2">
-  Hello
-</div>
-```
-
-ডানে যাবে।
-
-### Negative
-
-```html
-<div class="transition hover:-translate-x-2">
-  Hello
-</div>
-```
-
-বামে যাবে।
-
-### Y direction
-
-```html
-<div class="transition hover:-translate-y-1">
-  Card
-</div>
-```
-
-উপরে উঠবে।
-
----
-
-# 1️⃣2️⃣ Product Card Lift Effect
-
-E-commerce-এ খুব জনপ্রিয়:
-
-```html
-<div
-  class="rounded-2xl border bg-white p-5 shadow-sm
-         transition duration-300
-         hover:-translate-y-1 hover:shadow-xl"
->
-  Product Card
-</div>
-```
-
-Mouse hover করলে:
-
-```text
-       ↑
-   Product Card
-       ↑
-```
-
-Card সামান্য উপরে উঠবে এবং shadow বাড়বে।
-
----
-
-# 1️⃣3️⃣ Rotate
-
-Element rotate করতে:
-
-```html
-<div class="transition duration-300 hover:rotate-3">
-  ⭐
-</div>
-```
-
-অথবা:
-
-```html
-<div class="transition duration-300 hover:-rotate-3">
-  ⭐
-</div>
-```
-
-Common use:
-
-* Icon
-* Image
-* Decorative element
-* Menu icon
-
----
-
-# 1️⃣4️⃣ Image Zoom
-
-Day 17-এ `group-hover` শিখেছিলে।
-
-এখন সেটার সাথে transition combine করি।
-
-```jsx
-<div className="group overflow-hidden rounded-xl">
-  <img
-    src="/product.jpg"
-    alt="Product"
-    className="h-64 w-full object-cover transition duration-500 group-hover:scale-110"
-  />
-</div>
-```
-
-এখানে:
-
-```text
-group
-   ↓
-Parent hover
-   ↓
-group-hover:scale-110
-   ↓
-Image Zoom
-```
-
----
-
-# 1️⃣5️⃣ কেন `overflow-hidden`?
-
-ধরো image zoom হচ্ছে:
-
-```text
-┌─────────────────────┐
-│     IMAGE           │
-│    ↗ ↗ ↗            │
-│                     │
-└─────────────────────┘
-```
-
-Image container-এর বাইরে চলে যেতে পারে।
-
-তাই:
-
-```html
-overflow-hidden
-```
-
-দিলে অতিরিক্ত অংশ দেখা যাবে না।
-
-Complete pattern:
-
-```html
-<div class="group overflow-hidden rounded-xl">
-  <img
-    src="/product.jpg"
-    class="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-    alt="Product"
-  />
-</div>
-```
-
-### এই pattern মনে রাখো:
-
-```text
-group
-+
-overflow-hidden
-+
-object-cover
-+
-transition
-+
-group-hover:scale-110
-```
-
-🔥 E-commerce project-এ অত্যন্ত useful।
-
----
-
-# 1️⃣6️⃣ Opacity Transition
-
-Element-এর opacity পরিবর্তন:
-
-```html
-<div class="opacity-70 transition hover:opacity-100">
-  Content
-</div>
-```
-
-Image-এর জন্য:
-
-```html
-<img
-  src="/image.jpg"
-  class="opacity-80 transition duration-300 hover:opacity-100"
-  alt="Image"
-/>
-```
-
----
-
-# 1️⃣7️⃣ Shadow Transition
-
-```html
-<div
-  class="rounded-xl shadow-sm
-         transition-shadow duration-300
-         hover:shadow-xl"
->
-  Card
-</div>
-```
-
-এখানে শুধু shadow transition করবে।
-
-এটি `transition-shadow` দিয়ে আরও specific করা হয়েছে।
-
----
-
-# 1️⃣8️⃣ Color Transition
-
-```html
-<a
-  href="#"
-  class="text-gray-600 transition-colors duration-200 hover:text-blue-600"
->
-  Read More
-</a>
-```
-
-এটি Navbar এবং links-এর জন্য খুব useful।
-
----
-
-# 1️⃣9️⃣ Built-in Animation
-
-Tailwind-এ কিছু built-in animation আছে।
-
-প্রধানগুলো:
-
-```text
-animate-spin
-animate-ping
-animate-pulse
-animate-bounce
-```
-
----
-
-# 2️⃣0️⃣ `animate-spin`
-
-Loading spinner:
-
-```html
-<div class="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600">
-</div>
-```
-
-এটি loading UI-তে খুব common।
-
-Concept:
-
-```text
-Loading
-   ↓
-↻
-```
-
----
-
-# 2️⃣1️⃣ `animate-pulse`
-
-Loading skeleton-এর জন্য খুব useful।
-
-```html
-<div class="h-4 w-32 animate-pulse rounded bg-gray-200">
-</div>
-```
-
-একটি Skeleton Card:
-
-```jsx
-<div className="animate-pulse rounded-xl border p-5">
-  <div className="h-48 rounded-lg bg-gray-200"></div>
-
-  <div className="mt-4 h-5 w-3/4 rounded bg-gray-200"></div>
-
-  <div className="mt-3 h-4 w-full rounded bg-gray-200"></div>
-
-  <div className="mt-2 h-4 w-2/3 rounded bg-gray-200"></div>
-</div>
-```
-
-API থেকে data আসার সময় এমন skeleton ব্যবহার করা যায়।
-
----
-
-# 2️⃣2️⃣ `animate-bounce`
-
-Element bounce করতে:
-
-```html
-<div class="animate-bounce">
-  ↓
-</div>
-```
-
-Possible use:
-
-* Scroll indicator
-* Attention indicator
-* Small decorative UI
-
-অতিরিক্ত ব্যবহার করলে UI distracting হতে পারে।
-
----
-
-# 2️⃣3️⃣ `animate-ping`
-
-কোনো indicator-এর attention effect:
-
-```html
-<span class="relative flex h-3 w-3">
-  <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
-
-  <span class="relative inline-flex h-3 w-3 rounded-full bg-green-500"></span>
-</span>
-```
-
-এটি online/live indicator-এর মতো UI-তে ব্যবহার করা যায়।
-
----
-
-# 2️⃣4️⃣ Transition বনাম Animation
-
-এটি খুব গুরুত্বপূর্ণ।
-
-### Transition
-
-সাধারণত কোনো **state change** হলে চলে।
-
-```text
-Normal
-  ↓
-Hover
-  ↓
-Transition
-```
+## 3️⃣ শুধু Background নয়
+
+Dark mode-এ শুধু background পরিবর্তন করলেই হবে না।
+
+আমাদের পরিবর্তন করতে হতে পারে:
+
+* Background
+* Card
+* Text
+* Border
+* Input
+* Placeholder
+* Button
+* Hover state
+* Focus state
+* Table
+* Badge
 
 উদাহরণ:
 
 ```html
-hover:scale-105
+<div
+  class="
+    rounded-xl
+    border border-gray-200
+    bg-white
+    p-6
+    text-gray-900
+
+    dark:border-gray-700
+    dark:bg-gray-800
+    dark:text-white
+  "
+>
+    Product Card
+</div>
 ```
-
-### Animation
-
-নিজে থেকে চলতে পারে।
-
-```text
-Page Load
-   ↓
-Animation Start
-   ↓
-Continue
-```
-
-উদাহরণ:
-
-```html
-animate-spin
-animate-pulse
-```
-
-### Comparison
-
-| Transition                | Animation                     |
-| ------------------------- | ----------------------------- |
-| State change-এর সাথে      | নিজে চলতে পারে                |
-| `hover:` ইত্যাদির সাথে    | `animate-*`                   |
-| Button/Card               | Loader/Skeleton               |
-| সাধারণত interaction-based | Continuous/automatic হতে পারে |
 
 ---
 
-# 2️⃣5️⃣ Professional Product Card
+## 4️⃣ Light/Dark Color Strategy
 
-এখন Day 1–19-এর অনেক concept combine করি।
+একটি professional application-এ color system আগে চিন্তা করা ভালো।
+
+আমি সাধারণত এই ধরনের structure চিন্তা করতে বলব:
+
+```text
+LIGHT MODE
+
+Page Background
+    ↓
+gray-50
+
+Surface/Card
+    ↓
+white
+
+Primary Text
+    ↓
+gray-900
+
+Secondary Text
+    ↓
+gray-600
+
+Border
+    ↓
+gray-200
+```
+
+Dark Mode:
+
+```text
+DARK MODE
+
+Page Background
+    ↓
+gray-950
+
+Surface/Card
+    ↓
+gray-900 / gray-800
+
+Primary Text
+    ↓
+white
+
+Secondary Text
+    ↓
+gray-300 / gray-400
+
+Border
+    ↓
+gray-700
+```
+
+এভাবে চিন্তা করলে পুরো application-এর design consistent থাকে।
+
+---
+
+## 5️⃣ Dark Product Card
+
+এখন একটি Product Card দেখি।
 
 ```jsx
-function ProductCard() {
-  return (
-    <div
+<div
+  className="
+    overflow-hidden rounded-2xl
+    border border-gray-200
+    bg-white
+    shadow-sm
+    transition
+    hover:-translate-y-1
+    hover:shadow-xl
+
+    dark:border-gray-700
+    dark:bg-gray-800
+  "
+>
+  <div className="aspect-square overflow-hidden">
+    <img
+      src="/product.jpg"
+      alt="Product"
       className="
-        group
-        overflow-hidden
-        rounded-2xl
-        border
-        border-gray-200
-        bg-white
-        shadow-sm
-        transition
-        duration-300
-        hover:-translate-y-1
-        hover:shadow-xl
+        h-full w-full object-cover
+        transition duration-500
+        hover:scale-110
+      "
+    />
+  </div>
+
+  <div className="p-5">
+    <h3
+      className="
+        truncate text-lg font-bold
+        text-gray-900
+        dark:text-white
       "
     >
-      {/* Image */}
-      <div className="relative aspect-square overflow-hidden">
-        <img
-          src="/product.jpg"
-          alt="Wireless Headphone"
-          className="
-            h-full
-            w-full
-            object-cover
-            transition
-            duration-500
-            group-hover:scale-110
-          "
-        />
+      Premium Headphone
+    </h3>
 
-        {/* Badge */}
-        <span
-          className="
-            absolute
-            left-3
-            top-3
-            rounded-full
-            bg-red-500
-            px-3
-            py-1
-            text-sm
-            font-semibold
-            text-white
-          "
-        >
-          Sale
-        </span>
-      </div>
+    <p
+      className="
+        mt-2 line-clamp-2
+        text-sm text-gray-600
+        dark:text-gray-400
+      "
+    >
+      High quality wireless headphone with
+      excellent sound quality.
+    </p>
 
-      {/* Content */}
-      <div className="p-5">
+    <div className="mt-4 flex items-center justify-between">
+      <span
+        className="
+          text-xl font-bold
+          text-blue-600
+          dark:text-blue-400
+        "
+      >
+        $120
+      </span>
 
-        <h3
-          className="
-            truncate
-            text-xl
-            font-bold
-            transition-colors
-            duration-200
-            group-hover:text-blue-600
-          "
-        >
-          Wireless Noise Cancelling Headphone
-        </h3>
-
-        <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-500">
-          Premium wireless headphone with excellent sound
-          quality and long battery life.
-        </p>
-
-        <div className="mt-4 flex items-center justify-between">
-
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-bold">
-              $59
-            </span>
-
-            <span className="text-gray-400 line-through">
-              $79
-            </span>
-          </div>
-
-          <button
-            className="
-              rounded-lg
-              bg-blue-600
-              px-4
-              py-2
-              font-semibold
-              text-white
-              transition
-              duration-300
-              hover:scale-105
-              hover:bg-blue-700
-              active:scale-95
-            "
-          >
-            Buy
-          </button>
-
-        </div>
-      </div>
+      <button
+        className="
+          rounded-lg bg-blue-600
+          px-4 py-2
+          font-semibold text-white
+          transition
+          hover:bg-blue-700
+        "
+      >
+        Add to Cart
+      </button>
     </div>
-  );
-}
-```
-
----
-
-# 🧠 2️⃣6️⃣ এই Card-এ কী কী শিখলাম?
-
-একটি UI-তে কতগুলো concept combine হয়েছে দেখো:
-
-```text
-Product Card
-│
-├── group
-├── overflow-hidden
-├── rounded
-├── border
-├── shadow
-│
-├── Image
-│   ├── aspect-square
-│   ├── object-cover
-│   ├── transition
-│   └── group-hover:scale-110
-│
-├── Badge
-│   ├── absolute
-│   └── rounded-full
-│
-├── Title
-│   ├── truncate
-│   └── group-hover:text-blue-600
-│
-├── Description
-│   └── line-clamp-2
-│
-└── Button
-    ├── transition
-    ├── hover:scale-105
-    └── active:scale-95
-```
-
-এটাই হলো **Tailwind utility composition**।
-
----
-
-# 2️⃣7️⃣ React + Loading State
-
-এবার React-এর সাথে animation ব্যবহার করি।
-
-ধরো Add to Cart button:
-
-```jsx
-import { useState } from "react";
-
-function AddToCartButton() {
-  const [loading, setLoading] = useState(false);
-
-  const handleAddToCart = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-  };
-
-  return (
-    <button
-      onClick={handleAddToCart}
-      disabled={loading}
-      className="
-        flex
-        items-center
-        justify-center
-        gap-2
-        rounded-lg
-        bg-blue-600
-        px-5
-        py-3
-        font-semibold
-        text-white
-        transition
-        duration-300
-        hover:bg-blue-700
-        disabled:cursor-not-allowed
-        disabled:opacity-60
-      "
-    >
-      {loading ? (
-        <>
-          <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-          Adding...
-        </>
-      ) : (
-        "Add to Cart"
-      )}
-    </button>
-  );
-}
-```
-
-এখানে:
-
-```text
-React
- ↓
-loading state
- ↓
-Tailwind
- ↓
-animate-spin
- ↓
-Loading UI
-```
-
-এটি real-world application development-এর খুব common pattern।
-
----
-
-# 2️⃣8️⃣ Animation Design Principle
-
-প্রতিটি element-এ animation দেওয়া উচিত নয়।
-
-❌ Bad:
-
-```text
-Everything moving
-Everything bouncing
-Everything rotating
-Everything scaling
-```
-
-UI confusing হয়ে যেতে পারে।
-
-✅ Better:
-
-```text
-Button
-→ subtle scale
-
-Card
-→ subtle lift
-
-Image
-→ subtle zoom
-
-Loading
-→ pulse/spin
-
-Important indicator
-→ ping
-```
-
-### Rule:
-
-> **Animation-এর উদ্দেশ্য হলো user interaction বুঝতে সাহায্য করা, user-কে distract করা নয়।**
-
----
-
-# 🧪 2️⃣9️⃣ আজকের Practice
-
-## Practice 1 — Animated Button
-
-একটি button বানাও:
-
-Requirements:
-
-```text
-Normal
-↓
-Hover → background change
-↓
-Hover → scale 105
-↓
-Click → scale 95
-```
-
-ব্যবহার করবে:
-
-```text
-transition
-duration-300
-hover:
-active:
-scale
-```
-
----
-
-## Practice 2 — Animated Product Image
-
-Requirements:
-
-```text
-Parent → group
-Image → object-cover
-Hover → image zoom
-Container → overflow-hidden
-```
-
-Target:
-
-```html
-<div class="group overflow-hidden rounded-xl">
-  ...
+  </div>
 </div>
 ```
 
----
-
-## Practice 3 — Loading Skeleton
-
-একটি Product Skeleton বানাও:
-
-```text
-┌──────────────────────┐
-│                      │
-│       Skeleton       │
-│                      │
-├──────────────────────┤
-│ ███████████████      │
-│ ██████████           │
-│                      │
-│ █████    █████       │
-└──────────────────────┘
-```
-
-ব্যবহার করবে:
-
-```text
-animate-pulse
-bg-gray-200
-rounded
-```
-
----
-
-# 🏆 3️⃣0️⃣ আজকের Challenge
-
-## AI-Powered E-Commerce Product Card
-
-একটি সম্পূর্ণ interactive Product Card বানাও।
-
-### Requirements
-
-**Image:**
+এখানে আমরা আগের দিনের অনেক concept একসাথে ব্যবহার করেছি:
 
 ```text
 aspect-square
-object-cover
 overflow-hidden
-group-hover:scale-110
+object-cover
 transition
-```
-
-**Card:**
-
-```text
-shadow-sm
-hover:shadow-xl
-hover:-translate-y-1
-transition
-```
-
-**Title:**
-
-```text
+hover:scale
 truncate
-group-hover:text-blue-600
-transition-colors
+line-clamp
+dark:
 ```
 
-**Button:**
-
-```text
-hover:scale-105
-active:scale-95
-transition
-```
-
-**Loading:**
-
-```text
-animate-spin
-```
-
-Flow:
-
-```text
-Add to Cart
-     ↓
-   Click
-     ↓
- Adding... + Spinner
-     ↓
-   Added ✓
-```
+এটাই বাস্তব project-এ Tailwind শেখার সবচেয়ে ভালো উপায়।
 
 ---
 
-# 📝 3️⃣1️⃣ Self Test
+## 6️⃣ Dark Navbar
 
-নিজেকে প্রশ্ন করো:
-
-1. `transition` কেন ব্যবহার করি?
-2. `duration-300` কী?
-3. `ease-in-out` কী?
-4. `scale-105` কী করে?
-5. `active:scale-95` কেন ব্যবহার করা হয়?
-6. `translate-y` কী?
-7. `hover:-translate-y-1` কী effect তৈরি করে?
-8. `rotate-*` কী কাজে লাগে?
-9. `transition-transform` কখন ব্যবহার করব?
-10. `transition-colors` কখন ব্যবহার করব?
-11. `animate-spin` কোথায় ব্যবহার করা হয়?
-12. `animate-pulse` কোথায় ব্যবহার করা হয়?
-13. `animate-bounce` কোথায় ব্যবহার করা যায়?
-14. `transition` ও `animation`-এর পার্থক্য কী?
-15. `group-hover:scale-110` কীভাবে কাজ করে?
-16. Product image-এর ক্ষেত্রে `overflow-hidden` কেন দরকার?
-17. React state এবং Tailwind animation কীভাবে একসাথে কাজ করে?
-
----
-
-# 📋 3️⃣2️⃣ Day 19 Cheat Sheet
-
-```text
-TRANSITION
-transition
-transition-all
-transition-colors
-transition-shadow
-transition-transform
-transition-opacity
-
-DURATION
-duration-100
-duration-200
-duration-300
-duration-500
-duration-700
-
-TIMING
-ease-linear
-ease-in
-ease-out
-ease-in-out
-
-DELAY
-delay-150
-delay-300
-
-SCALE
-scale-95
-scale-100
-scale-105
-scale-110
-
-TRANSLATE
-translate-x-2
--translate-x-2
-translate-y-2
--translate-y-2
-
-ROTATE
-rotate-3
--rotate-3
-
-OPACITY
-opacity-70
-hover:opacity-100
-
-ANIMATION
-animate-spin
-animate-ping
-animate-pulse
-animate-bounce
-
-INTERACTION
-hover:
-focus:
-active:
-disabled:
-group
-group-hover:
-```
-
----
-
-# 🎯 Day 19-এর সবচেয়ে গুরুত্বপূর্ণ Pattern
-
-এই pattern-টি ভালোভাবে আয়ত্ত করো:
+একটি responsive navbar:
 
 ```jsx
-<div className="group overflow-hidden rounded-xl">
-  <img
-    src="/product.jpg"
-    alt="Product"
+<nav
+  className="
+    border-b border-gray-200
+    bg-white
+    dark:border-gray-800
+    dark:bg-gray-900
+  "
+>
+  <div
     className="
-      h-full
-      w-full
-      object-cover
-      transition
-      duration-500
-      group-hover:scale-110
+      mx-auto flex max-w-7xl
+      items-center justify-between
+      px-4 py-4
+    "
+  >
+    <h1
+      className="
+        text-xl font-bold
+        text-gray-900
+        dark:text-white
+      "
+    >
+      TechStore
+    </h1>
+
+    <div className="flex items-center gap-6">
+      <a
+        href="##"
+        className="
+          text-gray-700
+          hover:text-blue-600
+          dark:text-gray-300
+          dark:hover:text-blue-400
+        "
+      >
+        Products
+      </a>
+
+      <a
+        href="##"
+        className="
+          text-gray-700
+          hover:text-blue-600
+          dark:text-gray-300
+          dark:hover:text-blue-400
+        "
+      >
+        Orders
+      </a>
+    </div>
+  </div>
+</nav>
+```
+
+খেয়াল করুন:
+
+```text
+Light:
+bg-white
+text-gray-700
+border-gray-200
+
+Dark:
+dark:bg-gray-900
+dark:text-gray-300
+dark:border-gray-800
+```
+
+---
+
+## 7️⃣ Dark Mode Form
+
+Input-এর ক্ষেত্রেও theme পরিবর্তন করতে হবে।
+
+```jsx
+<div>
+  <label
+    className="
+      mb-2 block
+      text-sm font-medium
+      text-gray-700
+      dark:text-gray-300
+    "
+  >
+    Email
+  </label>
+
+  <input
+    type="email"
+    placeholder="Enter your email"
+    className="
+      w-full rounded-lg
+      border border-gray-300
+      bg-white
+      px-4 py-3
+      text-gray-900
+
+      placeholder:text-gray-400
+
+      focus:outline-none
+      focus:ring-2
+      focus:ring-blue-500
+
+      dark:border-gray-700
+      dark:bg-gray-800
+      dark:text-white
+      dark:placeholder:text-gray-500
     "
   />
 </div>
 ```
 
-এবং button-এর জন্য:
+এখানে গুরুত্বপূর্ণ:
+
+```text
+dark:bg-gray-800
+dark:text-white
+dark:border-gray-700
+dark:placeholder:text-gray-500
+```
+
+অর্থাৎ input-এর প্রতিটি গুরুত্বপূর্ণ visual অংশের জন্য dark state চিন্তা করতে হবে।
+
+---
+
+## 8️⃣ React Theme Toggle
+
+এখন আসি সবচেয়ে গুরুত্বপূর্ণ অংশে।
+
+React-এ আমরা একটি state রাখতে পারি:
 
 ```jsx
-<button
-  className="
-    rounded-lg
-    bg-blue-600
-    px-5
-    py-3
-    text-white
-    transition
-    duration-300
-    hover:scale-105
-    hover:bg-blue-700
-    active:scale-95
-  "
->
-  Buy Now
-</button>
+const [darkMode, setDarkMode] = useState(false);
 ```
 
-### 🧠 আজকের Mental Model
+তারপর button click করলে:
 
-```text
-User Interaction
-       ↓
-State / Variant
-       ↓
-hover / focus / active
-       ↓
-transition
-       ↓
-transform / color / shadow
-       ↓
-Smooth Professional UI
+```jsx
+setDarkMode(!darkMode);
 ```
 
-আর Loading-এর ক্ষেত্রে:
+কিন্তু শুধু React state পরিবর্তন করলে Tailwind-এর `dark:` styles প্রয়োগ করার জন্য root element-এর theme mechanism-ও ঠিকভাবে সেট করতে হবে।
+
+একটি class-based approach-এ:
+
+```jsx
+document.documentElement.classList.toggle("dark");
+```
+
+এখানে:
 
 ```text
+document.documentElement
+        ↓
+<html>
+```
+
+অর্থাৎ আমরা `<html>` element-এ `dark` class যোগ বা remove করছি।
+
+Concept:
+
+```text
+Light Mode
+
+<html>
+```
+
+Dark:
+
+```text
+<html class="dark">
+```
+
+তারপর:
+
+```html
+dark:bg-gray-900
+```
+
+জাতীয় classগুলো dark theme অনুযায়ী apply হবে।
+
+> **নোট:** Tailwind-এর version/configuration অনুযায়ী dark mode কীভাবে trigger হবে তা ভিন্ন হতে পারে। Class-based manual toggle ব্যবহার করলে আপনার project-এর Tailwind configuration/ডকুমেন্টেশন অনুযায়ী সেটি enable করতে হবে।
+
+---
+
+## 9️⃣ Theme Toggle Component
+
+একটি basic React example:
+
+```jsx
+import { useState } from "react";
+
+function ThemeToggle() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setDarkMode((prev) => {
+      const nextMode = !prev;
+
+      document.documentElement.classList.toggle(
+        "dark",
+        nextMode
+      );
+
+      return nextMode;
+    });
+  };
+
+  return (
+    <button
+      onClick={toggleTheme}
+      className="
+        rounded-lg
+        bg-gray-200
+        px-4 py-2
+        text-gray-900
+        transition
+        hover:bg-gray-300
+
+        dark:bg-gray-700
+        dark:text-white
+        dark:hover:bg-gray-600
+      "
+    >
+      {darkMode ? "☀️ Light" : "🌙 Dark"}
+    </button>
+  );
+}
+
+export default ThemeToggle;
+```
+
+এখানে flow:
+
+```text
+User clicks button
+       ↓
+toggleTheme()
+       ↓
+React State পরিবর্তন
+       ↓
+<html>-এ dark class
+       ↓
+Tailwind dark:* utilities
+       ↓
+UI Dark Mode
+```
+
+---
+
+## 🔟 Theme Preference `localStorage`-এ রাখা
+
+সমস্যা হলো browser refresh করলে state আবার reset হতে পারে।
+
+আমরা চাই:
+
+```text
+User → Dark Mode নির্বাচন করল
+             ↓
+Browser Refresh
+             ↓
+Dark Mode আবার থাকবে
+```
+
+এর জন্য browser-এর `localStorage` ব্যবহার করা যায়।
+
+Concept:
+
+```text
+localStorage
+
+theme = "dark"
+```
+
+Theme save:
+
+```jsx
+localStorage.setItem("theme", "dark");
+```
+
+Theme read:
+
+```jsx
+const theme = localStorage.getItem("theme");
+```
+
+Theme remove:
+
+```jsx
+localStorage.removeItem("theme");
+```
+
+---
+
+## 1️⃣1️⃣ React + localStorage Theme System
+
+একটি practical implementation:
+
+```jsx
+import { useEffect, useState } from "react";
+
+function ThemeToggle() {
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle(
+      "dark",
+      darkMode
+    );
+
+    localStorage.setItem(
+      "theme",
+      darkMode ? "dark" : "light"
+    );
+  }, [darkMode]);
+
+  return (
+    <button
+      onClick={() => setDarkMode((prev) => !prev)}
+      className="
+        rounded-lg
+        bg-gray-200
+        px-4 py-2
+        text-gray-900
+        transition
+        hover:bg-gray-300
+
+        dark:bg-gray-700
+        dark:text-white
+        dark:hover:bg-gray-600
+      "
+    >
+      {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+    </button>
+  );
+}
+
+export default ThemeToggle;
+```
+
+###### এখানে কী হচ্ছে?
+
+```text
+Application শুরু
+       ↓
+localStorage থেকে theme পড়ছে
+       ↓
+theme === "dark" ?
+       ↓
+হ্যাঁ → darkMode = true
+       ↓
+<html class="dark">
+       ↓
+Dark UI
+```
+
+---
+
+## ⚠️ `localStorage` সম্পর্কে গুরুত্বপূর্ণ কথা
+
+`localStorage` সাধারণ theme preference-এর জন্য ভালো:
+
+```text
+theme
+language
+UI preference
+sidebar state
+```
+
+কিন্তু sensitive information যেমন:
+
+```text
+Password
+Authentication Token
+Private Key
+Secret Data
+```
+
+এ ধরনের sensitive data শুধু `localStorage`-এ রাখার সিদ্ধান্ত নেওয়ার আগে security architecture ভালোভাবে বিবেচনা করতে হবে।
+
+---
+
+## 1️⃣2️⃣ Dark Dashboard
+
+আপনার AI-powered e-commerce management system-এর dashboard চিন্তা করুন।
+
+```text
+┌──────────────────────────────────────────────┐
+│ Navbar                         🌙 Theme      │
+├──────────────┬───────────────────────────────┤
+│ Sidebar      │ Dashboard                     │
+│              │                               │
+│ Products     │ ┌──────┐ ┌──────┐ ┌──────┐  │
+│ Orders       │ │Sales │ │Orders│ │Users │  │
+│ Customers    │ └──────┘ └──────┘ └──────┘  │
+│              │                               │
+│              │ Recent Orders                 │
+│              │ ┌───────────────────────────┐ │
+│              │ │ Order │ Customer │ Status │ │
+│              │ └───────────────────────────┘ │
+└──────────────┴───────────────────────────────┘
+```
+
+Dark mode design:
+
+```text
+Page
+↓
+dark:bg-gray-950
+
+Sidebar
+↓
+dark:bg-gray-900
+
+Card
+↓
+dark:bg-gray-800
+
+Border
+↓
+dark:border-gray-700
+
+Primary Text
+↓
+dark:text-white
+
+Secondary Text
+↓
+dark:text-gray-400
+```
+
+---
+
+## 1️⃣3️⃣ Dark Table
+
+আগের Day 18-এর table-এর সাথে Dark Mode যুক্ত করি:
+
+```jsx
+<div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
+  <table className="min-w-[700px] w-full">
+    <thead
+      className="
+        bg-gray-50
+        dark:bg-gray-800
+      "
+    >
+      <tr>
+        <th
+          className="
+            px-4 py-3 text-left
+            text-sm font-semibold
+            text-gray-700
+            dark:text-gray-300
+          "
+        >
+          Product
+        </th>
+
+        <th
+          className="
+            px-4 py-3 text-left
+            text-sm font-semibold
+            text-gray-700
+            dark:text-gray-300
+          "
+        >
+          Price
+        </th>
+
+        <th
+          className="
+            px-4 py-3 text-left
+            text-sm font-semibold
+            text-gray-700
+            dark:text-gray-300
+          "
+        >
+          Status
+        </th>
+      </tr>
+    </thead>
+
+    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+      <tr className="hover:bg-gray-50 dark:hover:bg-gray-800">
+        <td className="px-4 py-3 text-gray-900 dark:text-white">
+          Headphone
+        </td>
+
+        <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
+          $120
+        </td>
+
+        <td className="px-4 py-3">
+          <span
+            className="
+              rounded-full
+              bg-green-100
+              px-3 py-1
+              text-sm text-green-700
+              dark:bg-green-900/30
+              dark:text-green-400
+            "
+          >
+            Active
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+এখানে একটি গুরুত্বপূর্ণ pattern:
+
+```text
+Light background
+bg-green-100
+
+Dark background
+dark:bg-green-900/30
+
+Light text
+text-green-700
+
+Dark text
+dark:text-green-400
+```
+
+এটি dashboard-এর status badge-এ খুব কাজে লাগবে।
+
+---
+
+## 1️⃣4️⃣ Dark Mode Design-এর গুরুত্বপূর্ণ Rule
+
+Dark Mode মানে:
+
+❌ সবকিছু `bg-black`
+
+এটা নয়।
+
+বরং:
+
+```text
+Page       → gray-950
+Surface    → gray-900
+Card       → gray-800
+Border     → gray-700
+Text       → white
+Secondary  → gray-400
+```
+
+অর্থাৎ **multiple levels of darkness** ব্যবহার করলে UI বেশি পরিষ্কার হয়।
+
+---
+
+## 1️⃣5️⃣ Light/Dark Design Token চিন্তা করুন
+
+Professional developer হিসেবে আপনাকে শুধু class মুখস্থ করলে হবে না।
+
+Design system হিসেবে চিন্তা করতে হবে।
+
+```text
+                DESIGN SYSTEM
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+      Light Mode            Dark Mode
+          │                     │
+     ┌────┼────┐           ┌────┼────┐
+     │    │    │           │    │    │
+   Page Card Text        Page Card Text
+     │    │    │           │    │    │
+ gray50 white gray900   gray950 gray800 white
+```
+
+এটাই scalable UI design-এর foundation।
+
+---
+
+## 1️⃣6️⃣ React + Tailwind Mental Model
+
+আপনার মনে এই architecture রাখুন:
+
+```text
+React
+  │
+  ├── State
+  │     └── darkMode
+  │
+  ├── Event
+  │     └── Toggle
+  │
+  └── DOM
+        └── <html class="dark">
+                    │
+                    ↓
+                 Tailwind
+                    │
+             ┌──────┴──────┐
+             │             │
+        Normal Style    dark: Style
+             │             │
+             └──────┬──────┘
+                    ↓
+                    UI
+```
+
+অর্থাৎ:
+
+**React controls the theme state → Tailwind controls the visual appearance.**
+
+---
+
+## 🛒 Day 20 Real-World Challenge
+
+আজ আপনার সবচেয়ে গুরুত্বপূর্ণ কাজ:
+
+#### “AI-Powered E-commerce Dark Dashboard”
+
+একটি Dashboard তৈরি করুন।
+
+###### Required Components
+
+```text
+Dashboard
+│
+├── Navbar
+│   └── Theme Toggle
+│
+├── Sidebar
+│
+├── Statistics Cards
+│   ├── Total Sales
+│   ├── Orders
+│   ├── Customers
+│   └── Products
+│
+├── Recent Orders Table
+│
+└── Product Cards
+```
+
+###### Light Mode
+
+```text
+Page       → light
+Card       → white
+Text       → dark
+Border     → light
+```
+
+###### Dark Mode
+
+```text
+Page       → dark
+Card       → gray-800
+Text       → white
+Border     → gray-700
+```
+
+---
+
+## 🧪 আজকের Practice
+
+###### Practice 1 — Theme Button
+
+তৈরি করুন:
+
+```text
+🌙 Dark Mode
+☀️ Light Mode
+```
+
+---
+
+###### Practice 2 — Product Card
+
+একটি Product Card তৈরি করুন যেখানে:
+
+* Light/Dark background
+* Light/Dark text
+* Light/Dark border
+* Dark price
+* Dark button
+* Hover effect
+
+---
+
+###### Practice 3 — Login Form
+
+একটি login form তৈরি করুন:
+
+```text
+Email
+Password
+Remember Me
+Login
+```
+
+Light এবং Dark দুই mode-এ সুন্দর হতে হবে।
+
+---
+
+###### Practice 4 — Dashboard
+
+কমপক্ষে:
+
+```text
+4 Statistics Cards
+1 Table
+1 Sidebar
+1 Navbar
+1 Theme Toggle
+```
+
+তৈরি করুন।
+
+---
+
+## 🧠 Day 20 Self-Test
+
+নিজেকে এই প্রশ্নগুলো করুন:
+
+###### Basic
+
+1. `dark:` কী?
+2. `dark:bg-gray-900` কী করে?
+3. Light এবং Dark color strategy কেন দরকার?
+4. Dark mode-এ শুধু background পরিবর্তন করলেই কি যথেষ্ট?
+
+###### React
+
+5. Theme state কেন দরকার?
+6. `document.documentElement` কী?
+7. `<html class="dark">` কেন ব্যবহার করা হয়?
+8. `localStorage` কেন ব্যবহার করা হয়?
+
+###### Professional
+
+9. Dark Mode-এ কেন multiple gray shades ব্যবহার করা ভালো?
+10. Product Card-এর কোন কোন অংশ dark mode-এর জন্য পরিবর্তন করা উচিত?
+11. Dashboard-এর table কীভাবে dark mode friendly করবেন?
+12. React এবং Tailwind-এর মধ্যে theme-এর দায়িত্ব কীভাবে ভাগ করবেন?
+
+---
+
+## 📌 Day 20 Cheat Sheet
+
+```text
+DARK MODE
+dark:bg-gray-900
+dark:bg-gray-800
+dark:text-white
+dark:text-gray-300
+dark:text-gray-400
+dark:border-gray-700
+dark:hover:bg-gray-800
+dark:placeholder:text-gray-500
+
+THEME
+Light Mode
+→ white
+→ gray-50
+→ gray-900
+
+Dark Mode
+→ gray-950
+→ gray-900
+→ gray-800
+→ white
+→ gray-400
+
+REACT
+useState()
+useEffect()
+
+DOM
+document.documentElement
+
+LOCAL STORAGE
+localStorage.setItem()
+localStorage.getItem()
+localStorage.removeItem()
+
+THEME FLOW
+User Click
+    ↓
 React State
     ↓
-loading === true
+<html class="dark">
     ↓
-animate-spin / animate-pulse
+dark:* utilities
     ↓
-Loading Feedback
+Dark UI
 ```
+
+---
+
+## 🎯 আজকের সবচেয়ে গুরুত্বপূর্ণ ৫টি বিষয়
+
+```text
+1️⃣ dark: variant
+        ↓
+2️⃣ Light/Dark Color Strategy
+        ↓
+3️⃣ Dark Component Design
+        ↓
+4️⃣ React Theme Toggle
+        ↓
+5️⃣ localStorage Theme Persistence
+```
+
+###### আজকের মূল শিক্ষা
+
+> **Dark Mode শুধু `dark:bg-black` শেখা নয়; এটি একটি সম্পূর্ণ UI Theme Design System।**
+
+আপনি যদি React + Tailwind দিয়ে professional e-commerce বা admin dashboard বানাতে চান, তাহলে **Light/Dark theme-কে শুরু থেকেই reusable design system হিসেবে চিন্তা করা** গুরুত্বপূর্ণ।
+
