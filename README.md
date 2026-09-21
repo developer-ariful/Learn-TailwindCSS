@@ -1,382 +1,244 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-## 🌙 Tailwind CSS — Day 20: Dark Mode + Theme Design
+## 🧩 Tailwind CSS — Day 21: Advanced Layout & UI Patterns
 
-আজ থেকে আমরা Tailwind CSS-এর **Theme Design** নিয়ে কাজ শুরু করব। বিশেষ করে React project-এ **Light Mode + Dark Mode** কীভাবে তৈরি করা যায়, সেটি শিখব।
+আজ থেকে আমরা Tailwind CSS-এর **real-world layout architecture** নিয়ে কাজ করব।
 
-আজকের লক্ষ্য হলো এমন UI তৈরি করা, যেখানে user সহজেই Light/Dark theme পরিবর্তন করতে পারবে এবং সেই preference সংরক্ষণও করা যাবে।
+আগের ২০ দিনে আপনি Flexbox, Grid, Responsive Design, Positioning, Forms, Tables, Dark Mode, Animation ইত্যাদি শিখেছেন। এখন এগুলোকে একসাথে ব্যবহার করে **professional Dashboard এবং Admin UI structure** তৈরি করা শিখব।
+
+আজকের সবচেয়ে গুরুত্বপূর্ণ লক্ষ্য:
+
+> **একটি বড় application-এর layout কীভাবে ছোট ছোট reusable layout অংশে ভাগ করতে হয়।**
 
 ---
 
-#### 🎯 আজকের Learning Goal
+## 🎯 Day 21 Learning Goals
 
-Day 20 শেষে আপনি জানতে পারবেন:
+আজ আপনি শিখবেন:
 
-* `dark:` variant কী
-* Light/Dark color strategy
-* Dark Product Card
-* Dark Navbar
-* Dark Form
-* Dark Dashboard
-* React দিয়ে Theme Toggle
-* `localStorage` দিয়ে theme preference সংরক্ষণ
-* Dark mode-এ ভালো color নির্বাচন
-* একটি reusable Theme System কীভাবে চিন্তা করতে হয়
+* Dashboard layout কীভাবে চিন্তা করতে হয়
+* `min-h-screen`
+* `grid` দিয়ে Sidebar + Main Content
+* Responsive Sidebar
+* Header/Navbar layout
+* `sticky` Header
+* Content container
+* Nested Grid
+* Dashboard Statistics Cards
+* Sidebar + Header + Main Content architecture
+* Mobile → Tablet → Desktop layout
+* Reusable layout pattern
 
 ---
 
 ## ⏰ ১ ঘণ্টার Study Plan
 
-| সময়      | বিষয়                                  |
-| -------- | ------------------------------------- |
-| 10 মিনিট | Dark Mode Concept + `dark:`           |
-| 10 মিনিট | Light/Dark Color Strategy             |
-| 10 মিনিট | Dark Card + Navbar + Form             |
-| 10 মিনিট | React Theme Toggle                    |
-| 10 মিনিট | `localStorage` দিয়ে Theme Persistence |
-| 5 মিনিট  | E-commerce Dashboard                  |
-| 5 মিনিট  | Practice + Revision                   |
+| সময়      | বিষয়                          |
+| -------- | ----------------------------- |
+| 10 মিনিট | Dashboard Layout Concept      |
+| 10 মিনিট | Sidebar + Main Content        |
+| 10 মিনিট | Responsive Layout             |
+| 10 মিনিট | Header + Sticky Navigation    |
+| 10 মিনিট | Dashboard Cards + Nested Grid |
+| 5 মিনিট  | Full Dashboard Structure      |
+| 5 মিনিট  | Practice + Revision           |
 
 ---
 
-## 1️⃣ Dark Mode কী?
+## 1️⃣ Dashboard Layout কী?
 
-সাধারণত একটি website-এ দুই ধরনের theme থাকতে পারে:
+একটি Admin Dashboard সাধারণত এমন হয়:
 
-```text
-Light Mode
-   ↓
-White Background
-Dark Text
-Light Card
-
-Dark Mode
-   ↓
-Dark Background
-Light Text
-Dark Card
+```text id="qz6e4y"
+┌─────────────────────────────────────────────┐
+│                  Header                     │
+├───────────────┬─────────────────────────────┤
+│               │                             │
+│   Sidebar     │       Main Content          │
+│               │                             │
+│   Dashboard   │   ┌────┐ ┌────┐ ┌────┐     │
+│   Products    │   │Card│ │Card│ │Card│     │
+│   Orders      │   └────┘ └────┘ └────┘     │
+│   Customers   │                             │
+│               │      Recent Orders          │
+│               │      ┌─────────────────┐    │
+│               │      │     Table       │    │
+│               │      └─────────────────┘    │
+└───────────────┴─────────────────────────────┘
 ```
 
-উদাহরণ:
+এখানে মূলত ৩টি অংশ:
 
-###### Light Mode
-
-```text
-Background → White
-Card       → White
-Text       → Gray-900
-Border     → Gray-200
-```
-
-###### Dark Mode
-
-```text
-Background → Gray-900
-Card       → Gray-800
-Text       → White
-Border     → Gray-700
-```
-
-Tailwind-এ dark mode-এর জন্য আমরা মূলত ব্যবহার করি:
-
-```text
-dark:
+```text id="g2q0mg"
+Dashboard
+│
+├── Sidebar
+├── Header
+└── Main Content
 ```
 
 ---
 
-## 2️⃣ `dark:` Variant
+## 2️⃣ `min-h-screen`
 
-ধরুন:
+Dashboard-এর জন্য একটি গুরুত্বপূর্ণ utility:
 
-```html
-<div class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
-    Hello World
+```html id="n7w1xb"
+<div class="min-h-screen">
+    Dashboard
+</div>
+```
+
+এর অর্থ:
+
+> Element-এর minimum height হবে viewport-এর পুরো height।
+
+অর্থাৎ browser screen যদি 800px height হয়:
+
+```text id="7dbt4r"
+min-height
+    ↓
+800px
+```
+
+তাই Dashboard-এর root container-এ এটি খুবই useful:
+
+```html id="h5cr5c"
+<div class="min-h-screen bg-gray-50">
+```
+
+Dark mode:
+
+```html id="9av9b4"
+<div class="min-h-screen bg-gray-50 dark:bg-gray-950">
+```
+
+---
+
+## 3️⃣ Sidebar + Main Content
+
+এখন একটি simple layout তৈরি করি।
+
+```jsx id="h6b3wz"
+<div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+
+  <div className="grid min-h-screen lg:grid-cols-[260px_1fr]">
+
+    {/* Sidebar */}
+    <aside className="hidden border-r bg-white lg:block dark:border-gray-800 dark:bg-gray-900">
+      Sidebar
+    </aside>
+
+    {/* Main */}
+    <main>
+      Main Content
+    </main>
+
+  </div>
+
 </div>
 ```
 
 এখানে:
 
-```text
-bg-white
+```text id="afc8br"
+grid
+   ↓
+lg:grid-cols-[260px_1fr]
 ```
 
-Light mode-এর background।
+মানে desktop-এ:
 
-আর:
-
-```text
-dark:bg-gray-900
-```
-
-Dark mode-এর background।
-
-একইভাবে:
-
-```text
-text-gray-900
-```
-
-Light mode-এর text।
-
-```text
-dark:text-white
-```
-
-Dark mode-এর text।
-
-###### Mental Model
-
-```text
-Light Mode
-    ↓
-bg-white
-text-gray-900
-
-Dark Mode
-    ↓
-dark:bg-gray-900
-dark:text-white
+```text id="g0h8ay"
+260px              Remaining Space
+┌────────────┐ ┌──────────────────────────┐
+│  Sidebar   │ │       Main Content       │
+│            │ │                          │
+│            │ │                          │
+└────────────┘ └──────────────────────────┘
 ```
 
 ---
 
-## 3️⃣ শুধু Background নয়
+## 4️⃣ `1fr` কী?
 
-Dark mode-এ শুধু background পরিবর্তন করলেই হবে না।
+CSS Grid-এর:
 
-আমাদের পরিবর্তন করতে হতে পারে:
-
-* Background
-* Card
-* Text
-* Border
-* Input
-* Placeholder
-* Button
-* Hover state
-* Focus state
-* Table
-* Badge
-
-উদাহরণ:
-
-```html
-<div
-  class="
-    rounded-xl
-    border border-gray-200
-    bg-white
-    p-6
-    text-gray-900
-
-    dark:border-gray-700
-    dark:bg-gray-800
-    dark:text-white
-  "
->
-    Product Card
-</div>
+```text
+1fr
 ```
+
+মানে available remaining space-এর একটি fraction।
+
+যেমন:
+
+```text id="x44u3r"
+grid-cols-[260px_1fr]
+```
+
+এর অর্থ:
+
+```text id="d0yr65"
+Sidebar       Main
+260px         Remaining Space
+```
+
+এটি Dashboard-এর জন্য খুব useful pattern।
 
 ---
 
-## 4️⃣ Light/Dark Color Strategy
+## 5️⃣ Sidebar Design
 
-একটি professional application-এ color system আগে চিন্তা করা ভালো।
+এখন একটি বাস্তব Sidebar তৈরি করি।
 
-আমি সাধারণত এই ধরনের structure চিন্তা করতে বলব:
-
-```text
-LIGHT MODE
-
-Page Background
-    ↓
-gray-50
-
-Surface/Card
-    ↓
-white
-
-Primary Text
-    ↓
-gray-900
-
-Secondary Text
-    ↓
-gray-600
-
-Border
-    ↓
-gray-200
-```
-
-Dark Mode:
-
-```text
-DARK MODE
-
-Page Background
-    ↓
-gray-950
-
-Surface/Card
-    ↓
-gray-900 / gray-800
-
-Primary Text
-    ↓
-white
-
-Secondary Text
-    ↓
-gray-300 / gray-400
-
-Border
-    ↓
-gray-700
-```
-
-এভাবে চিন্তা করলে পুরো application-এর design consistent থাকে।
-
----
-
-## 5️⃣ Dark Product Card
-
-এখন একটি Product Card দেখি।
-
-```jsx
-<div
+```jsx id="s3t0xa"
+<aside
   className="
-    overflow-hidden rounded-2xl
-    border border-gray-200
+    hidden
+    border-r
+    border-gray-200
     bg-white
-    shadow-sm
-    transition
-    hover:-translate-y-1
-    hover:shadow-xl
+    lg:block
 
-    dark:border-gray-700
-    dark:bg-gray-800
-  "
->
-  <div className="aspect-square overflow-hidden">
-    <img
-      src="/product.jpg"
-      alt="Product"
-      className="
-        h-full w-full object-cover
-        transition duration-500
-        hover:scale-110
-      "
-    />
-  </div>
-
-  <div className="p-5">
-    <h3
-      className="
-        truncate text-lg font-bold
-        text-gray-900
-        dark:text-white
-      "
-    >
-      Premium Headphone
-    </h3>
-
-    <p
-      className="
-        mt-2 line-clamp-2
-        text-sm text-gray-600
-        dark:text-gray-400
-      "
-    >
-      High quality wireless headphone with
-      excellent sound quality.
-    </p>
-
-    <div className="mt-4 flex items-center justify-between">
-      <span
-        className="
-          text-xl font-bold
-          text-blue-600
-          dark:text-blue-400
-        "
-      >
-        $120
-      </span>
-
-      <button
-        className="
-          rounded-lg bg-blue-600
-          px-4 py-2
-          font-semibold text-white
-          transition
-          hover:bg-blue-700
-        "
-      >
-        Add to Cart
-      </button>
-    </div>
-  </div>
-</div>
-```
-
-এখানে আমরা আগের দিনের অনেক concept একসাথে ব্যবহার করেছি:
-
-```text
-aspect-square
-overflow-hidden
-object-cover
-transition
-hover:scale
-truncate
-line-clamp
-dark:
-```
-
-এটাই বাস্তব project-এ Tailwind শেখার সবচেয়ে ভালো উপায়।
-
----
-
-## 6️⃣ Dark Navbar
-
-একটি responsive navbar:
-
-```jsx
-<nav
-  className="
-    border-b border-gray-200
-    bg-white
     dark:border-gray-800
     dark:bg-gray-900
   "
 >
-  <div
-    className="
-      mx-auto flex max-w-7xl
-      items-center justify-between
-      px-4 py-4
-    "
-  >
-    <h1
-      className="
-        text-xl font-bold
-        text-gray-900
-        dark:text-white
-      "
-    >
-      TechStore
+  <div className="sticky top-0 h-screen p-5">
+
+    <h1 className="mb-8 text-xl font-bold text-gray-900 dark:text-white">
+      AdminPanel
     </h1>
 
-    <div className="flex items-center gap-6">
+    <nav className="space-y-2">
+
       <a
         href="##"
         className="
+          block rounded-lg
+          bg-blue-50
+          px-4 py-3
+          font-medium
+          text-blue-600
+
+          dark:bg-blue-900/30
+          dark:text-blue-400
+        "
+      >
+        Dashboard
+      </a>
+
+      <a
+        href="##"
+        className="
+          block rounded-lg
+          px-4 py-3
           text-gray-700
-          hover:text-blue-600
+          hover:bg-gray-100
+
           dark:text-gray-300
-          dark:hover:text-blue-400
+          dark:hover:bg-gray-800
         "
       >
         Products
@@ -385,782 +247,831 @@ dark:
       <a
         href="##"
         className="
+          block rounded-lg
+          px-4 py-3
           text-gray-700
-          hover:text-blue-600
+          hover:bg-gray-100
+
           dark:text-gray-300
-          dark:hover:text-blue-400
+          dark:hover:bg-gray-800
         "
       >
         Orders
       </a>
-    </div>
+
+      <a
+        href="##"
+        className="
+          block rounded-lg
+          px-4 py-3
+          text-gray-700
+          hover:bg-gray-100
+
+          dark:text-gray-300
+          dark:hover:bg-gray-800
+        "
+      >
+        Customers
+      </a>
+
+    </nav>
   </div>
-</nav>
-```
-
-খেয়াল করুন:
-
-```text
-Light:
-bg-white
-text-gray-700
-border-gray-200
-
-Dark:
-dark:bg-gray-900
-dark:text-gray-300
-dark:border-gray-800
+</aside>
 ```
 
 ---
 
-## 7️⃣ Dark Mode Form
+## 6️⃣ কেন Sidebar-এ `sticky`?
 
-Input-এর ক্ষেত্রেও theme পরিবর্তন করতে হবে।
+আমরা ব্যবহার করেছি:
 
-```jsx
-<div>
-  <label
+```text id="w5p3f1"
+sticky top-0
+```
+
+এর ফলে Sidebar scroll করার সময় একটি নির্দিষ্ট position-এ থাকতে পারে।
+
+এখানে:
+
+```text id="4dh0an"
+sticky top-0 h-screen
+```
+
+মানে:
+
+```text
+top: 0
+height: 100vh
+```
+
+Dashboard navigation-এর জন্য এটি খুব useful।
+
+---
+
+## 7️⃣ Header
+
+Main content-এর উপরে একটি header থাকবে।
+
+```jsx id="o1s7gn"
+<header
+  className="
+    sticky top-0 z-40
+    border-b
+    border-gray-200
+    bg-white/80
+    backdrop-blur
+
+    dark:border-gray-800
+    dark:bg-gray-900/80
+  "
+>
+  <div
     className="
-      mb-2 block
-      text-sm font-medium
-      text-gray-700
-      dark:text-gray-300
+      flex items-center
+      justify-between
+      px-4 py-4
+      lg:px-8
     "
   >
-    Email
-  </label>
+    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+      Dashboard
+    </h2>
 
-  <input
-    type="email"
-    placeholder="Enter your email"
-    className="
-      w-full rounded-lg
-      border border-gray-300
-      bg-white
-      px-4 py-3
-      text-gray-900
+    <button
+      className="
+        rounded-lg
+        border
+        border-gray-200
+        px-4 py-2
+        text-sm
+        text-gray-700
+        hover:bg-gray-100
 
-      placeholder:text-gray-400
+        dark:border-gray-700
+        dark:text-gray-300
+        dark:hover:bg-gray-800
+      "
+    >
+      Profile
+    </button>
+  </div>
+</header>
+```
 
-      focus:outline-none
-      focus:ring-2
-      focus:ring-blue-500
+---
 
-      dark:border-gray-700
-      dark:bg-gray-800
-      dark:text-white
-      dark:placeholder:text-gray-500
-    "
-  />
+## 8️⃣ `z-40` কেন?
+
+Header sticky হলে অন্য element তার উপরে চলে আসতে পারে।
+
+তাই:
+
+```text id="v0m0ce"
+z-40
+```
+
+দিয়ে আমরা header-এর stacking order বাড়াচ্ছি।
+
+আগের Day 9-এ আমরা `z-index` সম্পর্কে শিখেছি।
+
+---
+
+## 9️⃣ Main Content
+
+Header-এর নিচে:
+
+```jsx id="cz4l1m"
+<main className="p-4 lg:p-8">
+  <div className="mx-auto max-w-7xl">
+    Main Content
+  </div>
+</main>
+```
+
+এখানে:
+
+```text id="fl56re"
+p-4
+```
+
+Mobile spacing।
+
+আর:
+
+```text id="p27g6r"
+lg:p-8
+```
+
+Desktop spacing।
+
+---
+
+## 🔟 `max-w-7xl` কেন?
+
+যদি monitor অনেক বড় হয়, content পুরো screen জুড়ে ছড়িয়ে দিলে UI দেখতে অসুবিধা হতে পারে।
+
+তাই:
+
+```html id="5sghsp"
+<div class="mx-auto max-w-7xl">
+```
+
+এখানে:
+
+```text id="1s1b9a"
+max-w-7xl
+    ↓
+Content-এর maximum width
+
+mx-auto
+    ↓
+Center
+```
+
+এটি আমরা Day 5-এর responsive container concept-এ শিখেছিলাম।
+
+---
+
+## 1️⃣1️⃣ Dashboard Statistics Cards
+
+এখন Main Content-এর মধ্যে statistics cards তৈরি করি।
+
+```jsx id="8f3m4u"
+<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+  <div className="rounded-2xl border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+    <p className="text-sm text-gray-500 dark:text-gray-400">
+      Total Sales
+    </p>
+
+    <h3 className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+      $24,500
+    </h3>
+  </div>
+
+  <div className="rounded-2xl border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+    <p className="text-sm text-gray-500 dark:text-gray-400">
+      Orders
+    </p>
+
+    <h3 className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+      1,240
+    </h3>
+  </div>
+
+  <div className="rounded-2xl border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+    <p className="text-sm text-gray-500 dark:text-gray-400">
+      Customers
+    </p>
+
+    <h3 className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+      8,450
+    </h3>
+  </div>
+
+  <div className="rounded-2xl border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+    <p className="text-sm text-gray-500 dark:text-gray-400">
+      Products
+    </p>
+
+    <h3 className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+      540
+    </h3>
+  </div>
+
 </div>
 ```
 
-এখানে গুরুত্বপূর্ণ:
+Responsive behavior:
 
-```text
-dark:bg-gray-800
-dark:text-white
-dark:border-gray-700
-dark:placeholder:text-gray-500
+```text id="yprwpy"
+Mobile
+↓
+1 column
+
+Tablet
+↓
+2 columns
+
+Large Desktop
+↓
+4 columns
 ```
 
-অর্থাৎ input-এর প্রতিটি গুরুত্বপূর্ণ visual অংশের জন্য dark state চিন্তা করতে হবে।
+```text
+grid-cols-1
+sm:grid-cols-2
+xl:grid-cols-4
+```
 
 ---
 
-## 8️⃣ React Theme Toggle
+## 1️⃣2️⃣ Nested Grid
 
-এখন আসি সবচেয়ে গুরুত্বপূর্ণ অংশে।
+এখন একটি গুরুত্বপূর্ণ real-world pattern।
 
-React-এ আমরা একটি state রাখতে পারি:
+Dashboard-এ একটি বড় section:
 
-```jsx
-const [darkMode, setDarkMode] = useState(false);
+```text id="uvk0iz"
+┌──────────────────────────────────────┐
+│           Sales Chart                │
+└──────────────────────────────────────┘
+
+┌───────────────────┐ ┌────────────────┐
+│ Recent Orders     │ │ Top Products   │
+└───────────────────┘ └────────────────┘
 ```
 
-তারপর button click করলে:
+Tailwind:
 
-```jsx
-setDarkMode(!darkMode);
+```jsx id="k0oj79"
+<div className="mt-6 grid gap-6 xl:grid-cols-3">
+
+  <div className="rounded-2xl border bg-white p-6 xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
+    Sales Chart
+  </div>
+
+  <div className="rounded-2xl border bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+    Top Products
+  </div>
+
+</div>
 ```
 
-কিন্তু শুধু React state পরিবর্তন করলে Tailwind-এর `dark:` styles প্রয়োগ করার জন্য root element-এর theme mechanism-ও ঠিকভাবে সেট করতে হবে।
+এখানে:
 
-একটি class-based approach-এ:
+```text id="v1u2x5"
+xl:grid-cols-3
+```
 
-```jsx
-document.documentElement.classList.toggle("dark");
+এবং:
+
+```text id="kq7e4c"
+xl:col-span-2
+```
+
+ফলে:
+
+```text
+Column 1    Column 2    Column 3
+┌──────────────────────┐ ┌───────┐
+│     Sales Chart      │ │ Top   │
+│                      │ │Product│
+└──────────────────────┘ └───────┘
+       2 columns          1 column
+```
+
+---
+
+## 1️⃣3️⃣ Responsive Layout Strategy
+
+Professional responsive layout-এ আগে Mobile চিন্তা করুন।
+
+```text id="d7d8yd"
+Mobile
+   ↓
+Tablet
+   ↓
+Desktop
+   ↓
+Large Desktop
+```
+
+উদাহরণ:
+
+```text id="m6i4tb"
+Sidebar:
+hidden
+lg:block
+```
+
+Mobile:
+
+```text
+Sidebar → Hidden
+```
+
+Desktop:
+
+```text
+Sidebar → Visible
+```
+
+Cards:
+
+```text
+grid-cols-1
+sm:grid-cols-2
+xl:grid-cols-4
+```
+
+Main padding:
+
+```text
+p-4
+lg:p-8
+```
+
+এটাই Mobile-first approach।
+
+---
+
+## 1️⃣4️⃣ Mobile Sidebar Problem
+
+এখন প্রশ্ন:
+
+Mobile-এ Sidebar hidden থাকলে user navigation করবে কীভাবে?
+
+সাধারণত আমরা একটি mobile menu button ব্যবহার করি।
+
+```text id="g7fh4v"
+Desktop
+
+┌────────┬────────────────────┐
+│Sidebar │ Main               │
+└────────┴────────────────────┘
+
+
+Mobile
+
+┌─────────────────────────────┐
+│ ☰   Dashboard        👤    │
+├─────────────────────────────┤
+│                             │
+│ Main Content                │
+│                             │
+└─────────────────────────────┘
+```
+
+React-এ:
+
+```jsx id="4qf6on"
+const [sidebarOpen, setSidebarOpen] = useState(false);
+```
+
+Button:
+
+```jsx id="qz3qbr"
+<button
+  onClick={() => setSidebarOpen(true)}
+  className="rounded-lg p-2 lg:hidden"
+>
+  ☰
+</button>
 ```
 
 এখানে:
 
 ```text
-document.documentElement
-        ↓
-<html>
+lg:hidden
 ```
 
-অর্থাৎ আমরা `<html>` element-এ `dark` class যোগ বা remove করছি।
-
-Concept:
-
-```text
-Light Mode
-
-<html>
-```
-
-Dark:
-
-```text
-<html class="dark">
-```
-
-তারপর:
-
-```html
-dark:bg-gray-900
-```
-
-জাতীয় classগুলো dark theme অনুযায়ী apply হবে।
-
-> **নোট:** Tailwind-এর version/configuration অনুযায়ী dark mode কীভাবে trigger হবে তা ভিন্ন হতে পারে। Class-based manual toggle ব্যবহার করলে আপনার project-এর Tailwind configuration/ডকুমেন্টেশন অনুযায়ী সেটি enable করতে হবে।
+মানে Desktop-এ button hidden।
 
 ---
 
-## 9️⃣ Theme Toggle Component
+## 1️⃣5️⃣ Mobile Sidebar State
 
-একটি basic React example:
+React:
 
-```jsx
-import { useState } from "react";
-
-function ThemeToggle() {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleTheme = () => {
-    setDarkMode((prev) => {
-      const nextMode = !prev;
-
-      document.documentElement.classList.toggle(
-        "dark",
-        nextMode
-      );
-
-      return nextMode;
-    });
-  };
-
-  return (
-    <button
-      onClick={toggleTheme}
-      className="
-        rounded-lg
-        bg-gray-200
-        px-4 py-2
-        text-gray-900
-        transition
-        hover:bg-gray-300
-
-        dark:bg-gray-700
-        dark:text-white
-        dark:hover:bg-gray-600
-      "
-    >
-      {darkMode ? "☀️ Light" : "🌙 Dark"}
-    </button>
-  );
-}
-
-export default ThemeToggle;
+```jsx id="50l2cd"
+{sidebarOpen && (
+  <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white lg:hidden">
+    Mobile Sidebar
+  </aside>
+)}
 ```
 
-এখানে flow:
+Close button:
 
-```text
-User clicks button
-       ↓
-toggleTheme()
-       ↓
-React State পরিবর্তন
-       ↓
-<html>-এ dark class
-       ↓
-Tailwind dark:* utilities
-       ↓
-UI Dark Mode
+```jsx id="4j2gac"
+<button
+  onClick={() => setSidebarOpen(false)}
+  className="rounded-lg p-2"
+>
+  ✕
+</button>
 ```
+
+Flow:
+
+```text id="u6eq15"
+User clicks ☰
+      ↓
+sidebarOpen = true
+      ↓
+Sidebar visible
+
+User clicks ✕
+      ↓
+sidebarOpen = false
+      ↓
+Sidebar hidden
+```
+
+এখানে Tailwind শুধু UI style করছে।
+
+React state করছে:
+
+**Sidebar open/close logic।**
 
 ---
 
-## 🔟 Theme Preference `localStorage`-এ রাখা
+## 1️⃣6️⃣ Complete Layout Architecture
 
-সমস্যা হলো browser refresh করলে state আবার reset হতে পারে।
+এখন পুরো structure:
 
-আমরা চাই:
-
-```text
-User → Dark Mode নির্বাচন করল
-             ↓
-Browser Refresh
-             ↓
-Dark Mode আবার থাকবে
+```text id="f4l1j7"
+App
+│
+└── DashboardLayout
+    │
+    ├── Sidebar
+    │
+    └── Main Area
+        │
+        ├── Header
+        │
+        └── Main Content
+            │
+            ├── Page Header
+            │
+            ├── Statistics
+            │
+            ├── Charts
+            │
+            ├── Tables
+            │
+            └── Other Widgets
 ```
 
-এর জন্য browser-এর `localStorage` ব্যবহার করা যায়।
+React project-এ:
 
-Concept:
-
-```text
-localStorage
-
-theme = "dark"
+```text id="9f2pzn"
+src/
+│
+├── components/
+│   ├── layout/
+│   │   ├── Sidebar.jsx
+│   │   ├── Header.jsx
+│   │   └── DashboardLayout.jsx
+│   │
+│   ├── ui/
+│   │   ├── Button.jsx
+│   │   ├── Card.jsx
+│   │   └── Badge.jsx
+│   │
+│   └── dashboard/
+│       ├── StatCard.jsx
+│       ├── SalesChart.jsx
+│       └── RecentOrders.jsx
+│
+├── pages/
+│   └── Dashboard.jsx
+│
+└── App.jsx
 ```
 
-Theme save:
-
-```jsx
-localStorage.setItem("theme", "dark");
-```
-
-Theme read:
-
-```jsx
-const theme = localStorage.getItem("theme");
-```
-
-Theme remove:
-
-```jsx
-localStorage.removeItem("theme");
-```
+এটি অনেক বেশি scalable approach।
 
 ---
 
-## 1️⃣1️⃣ React + localStorage Theme System
+## 1️⃣7️⃣ Layout বনাম Component
 
-একটি practical implementation:
+এখানে একটি গুরুত্বপূর্ণ distinction:
 
-```jsx
-import { useEffect, useState } from "react";
+###### Layout
 
-function ThemeToggle() {
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
-
-  useEffect(() => {
-    document.documentElement.classList.toggle(
-      "dark",
-      darkMode
-    );
-
-    localStorage.setItem(
-      "theme",
-      darkMode ? "dark" : "light"
-    );
-  }, [darkMode]);
-
-  return (
-    <button
-      onClick={() => setDarkMode((prev) => !prev)}
-      className="
-        rounded-lg
-        bg-gray-200
-        px-4 py-2
-        text-gray-900
-        transition
-        hover:bg-gray-300
-
-        dark:bg-gray-700
-        dark:text-white
-        dark:hover:bg-gray-600
-      "
-    >
-      {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-    </button>
-  );
-}
-
-export default ThemeToggle;
-```
-
-###### এখানে কী হচ্ছে?
+পুরো page-এর structure:
 
 ```text
-Application শুরু
-       ↓
-localStorage থেকে theme পড়ছে
-       ↓
-theme === "dark" ?
-       ↓
-হ্যাঁ → darkMode = true
-       ↓
-<html class="dark">
-       ↓
-Dark UI
-```
-
----
-
-## ⚠️ `localStorage` সম্পর্কে গুরুত্বপূর্ণ কথা
-
-`localStorage` সাধারণ theme preference-এর জন্য ভালো:
-
-```text
-theme
-language
-UI preference
-sidebar state
-```
-
-কিন্তু sensitive information যেমন:
-
-```text
-Password
-Authentication Token
-Private Key
-Secret Data
-```
-
-এ ধরনের sensitive data শুধু `localStorage`-এ রাখার সিদ্ধান্ত নেওয়ার আগে security architecture ভালোভাবে বিবেচনা করতে হবে।
-
----
-
-## 1️⃣2️⃣ Dark Dashboard
-
-আপনার AI-powered e-commerce management system-এর dashboard চিন্তা করুন।
-
-```text
-┌──────────────────────────────────────────────┐
-│ Navbar                         🌙 Theme      │
-├──────────────┬───────────────────────────────┤
-│ Sidebar      │ Dashboard                     │
-│              │                               │
-│ Products     │ ┌──────┐ ┌──────┐ ┌──────┐  │
-│ Orders       │ │Sales │ │Orders│ │Users │  │
-│ Customers    │ └──────┘ └──────┘ └──────┘  │
-│              │                               │
-│              │ Recent Orders                 │
-│              │ ┌───────────────────────────┐ │
-│              │ │ Order │ Customer │ Status │ │
-│              │ └───────────────────────────┘ │
-└──────────────┴───────────────────────────────┘
-```
-
-Dark mode design:
-
-```text
-Page
-↓
-dark:bg-gray-950
-
 Sidebar
-↓
-dark:bg-gray-900
+Header
+Main
+Footer
+```
 
+###### Component
+
+UI-এর individual reusable অংশ:
+
+```text
+Button
 Card
-↓
-dark:bg-gray-800
-
-Border
-↓
-dark:border-gray-700
-
-Primary Text
-↓
-dark:text-white
-
-Secondary Text
-↓
-dark:text-gray-400
-```
-
----
-
-## 1️⃣3️⃣ Dark Table
-
-আগের Day 18-এর table-এর সাথে Dark Mode যুক্ত করি:
-
-```jsx
-<div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
-  <table className="min-w-[700px] w-full">
-    <thead
-      className="
-        bg-gray-50
-        dark:bg-gray-800
-      "
-    >
-      <tr>
-        <th
-          className="
-            px-4 py-3 text-left
-            text-sm font-semibold
-            text-gray-700
-            dark:text-gray-300
-          "
-        >
-          Product
-        </th>
-
-        <th
-          className="
-            px-4 py-3 text-left
-            text-sm font-semibold
-            text-gray-700
-            dark:text-gray-300
-          "
-        >
-          Price
-        </th>
-
-        <th
-          className="
-            px-4 py-3 text-left
-            text-sm font-semibold
-            text-gray-700
-            dark:text-gray-300
-          "
-        >
-          Status
-        </th>
-      </tr>
-    </thead>
-
-    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-      <tr className="hover:bg-gray-50 dark:hover:bg-gray-800">
-        <td className="px-4 py-3 text-gray-900 dark:text-white">
-          Headphone
-        </td>
-
-        <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
-          $120
-        </td>
-
-        <td className="px-4 py-3">
-          <span
-            className="
-              rounded-full
-              bg-green-100
-              px-3 py-1
-              text-sm text-green-700
-              dark:bg-green-900/30
-              dark:text-green-400
-            "
-          >
-            Active
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-```
-
-এখানে একটি গুরুত্বপূর্ণ pattern:
-
-```text
-Light background
-bg-green-100
-
-Dark background
-dark:bg-green-900/30
-
-Light text
-text-green-700
-
-Dark text
-dark:text-green-400
-```
-
-এটি dashboard-এর status badge-এ খুব কাজে লাগবে।
-
----
-
-## 1️⃣4️⃣ Dark Mode Design-এর গুরুত্বপূর্ণ Rule
-
-Dark Mode মানে:
-
-❌ সবকিছু `bg-black`
-
-এটা নয়।
-
-বরং:
-
-```text
-Page       → gray-950
-Surface    → gray-900
-Card       → gray-800
-Border     → gray-700
-Text       → white
-Secondary  → gray-400
-```
-
-অর্থাৎ **multiple levels of darkness** ব্যবহার করলে UI বেশি পরিষ্কার হয়।
-
----
-
-## 1️⃣5️⃣ Light/Dark Design Token চিন্তা করুন
-
-Professional developer হিসেবে আপনাকে শুধু class মুখস্থ করলে হবে না।
-
-Design system হিসেবে চিন্তা করতে হবে।
-
-```text
-                DESIGN SYSTEM
-                     │
-          ┌──────────┴──────────┐
-          │                     │
-      Light Mode            Dark Mode
-          │                     │
-     ┌────┼────┐           ┌────┼────┐
-     │    │    │           │    │    │
-   Page Card Text        Page Card Text
-     │    │    │           │    │    │
- gray50 white gray900   gray950 gray800 white
-```
-
-এটাই scalable UI design-এর foundation।
-
----
-
-## 1️⃣6️⃣ React + Tailwind Mental Model
-
-আপনার মনে এই architecture রাখুন:
-
-```text
-React
-  │
-  ├── State
-  │     └── darkMode
-  │
-  ├── Event
-  │     └── Toggle
-  │
-  └── DOM
-        └── <html class="dark">
-                    │
-                    ↓
-                 Tailwind
-                    │
-             ┌──────┴──────┐
-             │             │
-        Normal Style    dark: Style
-             │             │
-             └──────┬──────┘
-                    ↓
-                    UI
+Badge
+Input
+StatCard
+Table
 ```
 
 অর্থাৎ:
 
-**React controls the theme state → Tailwind controls the visual appearance.**
+```text id="9v2j5n"
+Layout
+   ↓
+Page Structure
+
+Component
+   ↓
+Reusable UI
+```
 
 ---
 
-## 🛒 Day 20 Real-World Challenge
+## 1️⃣8️⃣ Dashboard Page Structure
 
-আজ আপনার সবচেয়ে গুরুত্বপূর্ণ কাজ:
+আপনার AI-powered e-commerce system-এর জন্য:
 
-#### “AI-Powered E-commerce Dark Dashboard”
-
-একটি Dashboard তৈরি করুন।
-
-###### Required Components
-
-```text
-Dashboard
-│
-├── Navbar
-│   └── Theme Toggle
+```text id="n7b0sw"
+DashboardLayout
 │
 ├── Sidebar
 │
-├── Statistics Cards
-│   ├── Total Sales
-│   ├── Orders
-│   ├── Customers
-│   └── Products
-│
-├── Recent Orders Table
-│
-└── Product Cards
+└── Main
+    │
+    ├── Header
+    │
+    └── Dashboard
+        │
+        ├── PageTitle
+        │
+        ├── StatsGrid
+        │   ├── SalesCard
+        │   ├── OrderCard
+        │   ├── CustomerCard
+        │   └── ProductCard
+        │
+        ├── AnalyticsSection
+        │
+        └── RecentOrders
 ```
 
-###### Light Mode
+এখন আপনি বুঝতে পারছেন কেন Day 16-এ আমরা reusable components শিখেছিলাম।
 
-```text
-Page       → light
-Card       → white
-Text       → dark
-Border     → light
+---
+
+## 🧠 1️⃣9️⃣ আজকের সবচেয়ে গুরুত্বপূর্ণ Concept
+
+একটি বড় UI দেখে সরাসরি HTML লেখা শুরু করবেন না।
+
+প্রথমে এটিকে ভাগ করুন:
+
+```text id="6v7n8m"
+Page
+ ↓
+Layout
+ ↓
+Sections
+ ↓
+Components
+ ↓
+Elements
 ```
 
-###### Dark Mode
+উদাহরণ:
+
+```text id="e5s1b2"
+E-commerce Dashboard
+        ↓
+Dashboard Layout
+        ↓
+Sidebar + Header + Main
+        ↓
+Stats + Chart + Table
+        ↓
+Cards + Buttons + Badges
+```
+
+এটি একজন professional frontend developer-এর জন্য খুব গুরুত্বপূর্ণ চিন্তার পদ্ধতি।
+
+---
+
+## 🛒 Day 21 Real-World Challenge
+
+আজ আপনি তৈরি করবেন:
+
+#### **AI E-commerce Admin Dashboard Layout**
+
+Structure:
 
 ```text
-Page       → dark
-Card       → gray-800
-Text       → white
-Border     → gray-700
+┌───────────────────────────────────────────────┐
+│ ☰  Admin Dashboard                 🌙  👤    │
+├──────────────┬────────────────────────────────┤
+│              │                                │
+│ Dashboard    │ Welcome back, Admin            │
+│ Products     │                                │
+│ Orders       │ ┌──────┐ ┌──────┐ ┌──────┐   │
+│ Customers    │ │Sales │ │Orders│ │Users │   │
+│ Categories   │ └──────┘ └──────┘ └──────┘   │
+│ Settings     │                                │
+│              │ ┌──────────────────────────┐  │
+│              │ │      Sales Analytics      │  │
+│              │ └──────────────────────────┘  │
+│              │                                │
+│              │ ┌──────────────────────────┐  │
+│              │ │      Recent Orders       │  │
+│              │ └──────────────────────────┘  │
+└──────────────┴────────────────────────────────┘
+```
+
+###### Requirements
+
+* Responsive
+* Mobile-first
+* Sidebar
+* Header
+* Mobile menu button
+* Sticky header
+* Dark mode
+* Statistics cards
+* Responsive content
+* Table
+* Reusable components
+
+---
+
+## 📝 আজকের Homework
+
+###### Task 1
+
+শুধু layout তৈরি করুন:
+
+```text
+Sidebar
+Header
+Main
 ```
 
 ---
 
-## 🧪 আজকের Practice
+###### Task 2
 
-###### Practice 1 — Theme Button
-
-তৈরি করুন:
+Responsive করুন:
 
 ```text
-🌙 Dark Mode
-☀️ Light Mode
+Mobile → Sidebar hidden
+Desktop → Sidebar visible
 ```
 
 ---
 
-###### Practice 2 — Product Card
+###### Task 3
 
-একটি Product Card তৈরি করুন যেখানে:
-
-* Light/Dark background
-* Light/Dark text
-* Light/Dark border
-* Dark price
-* Dark button
-* Hover effect
-
----
-
-###### Practice 3 — Login Form
-
-একটি login form তৈরি করুন:
+চারটি statistics card তৈরি করুন:
 
 ```text
-Email
-Password
-Remember Me
-Login
+Total Sales
+Total Orders
+Customers
+Products
 ```
 
-Light এবং Dark দুই mode-এ সুন্দর হতে হবে।
+---
+
+###### Task 4
+
+একটি Recent Orders table তৈরি করুন।
 
 ---
 
-###### Practice 4 — Dashboard
+###### Task 5
 
-কমপক্ষে:
+আগের Day 20-এর Dark Mode যুক্ত করুন।
+
+---
+
+## 🧪 Day 21 Self-Test
+
+নিজেকে জিজ্ঞেস করুন:
+
+1. `min-h-screen` কী করে?
+2. `grid-cols-[260px_1fr]` কী বোঝায়?
+3. `1fr` কী?
+4. Sidebar-এর জন্য `sticky top-0` কেন ব্যবহার করা হয়?
+5. Header-এ `z-40` কেন?
+6. `max-w-7xl mx-auto` কেন ব্যবহার করি?
+7. `lg:hidden` কী করে?
+8. `lg:block` কী করে?
+9. `col-span-2` কী?
+10. Nested Grid কী?
+11. Layout এবং Component-এর পার্থক্য কী?
+12. React Sidebar state কেন প্রয়োজন?
+
+---
+
+## 📌 Day 21 Cheat Sheet
 
 ```text
-4 Statistics Cards
-1 Table
-1 Sidebar
-1 Navbar
-1 Theme Toggle
-```
+LAYOUT
+min-h-screen
+max-w-7xl
+mx-auto
+p-4
+lg:p-8
 
-তৈরি করুন।
+GRID
+grid
+grid-cols-1
+sm:grid-cols-2
+lg:grid-cols-3
+xl:grid-cols-4
+gap-4
+gap-6
+col-span-2
+col-span-full
 
----
+SIDEBAR
+hidden
+lg:block
+sticky
+top-0
+h-screen
 
-## 🧠 Day 20 Self-Test
+HEADER
+sticky
+top-0
+z-40
+backdrop-blur
 
-নিজেকে এই প্রশ্নগুলো করুন:
+RESPONSIVE
+lg:hidden
+lg:block
+sm:grid-cols-2
+xl:grid-cols-4
 
-###### Basic
-
-1. `dark:` কী?
-2. `dark:bg-gray-900` কী করে?
-3. Light এবং Dark color strategy কেন দরকার?
-4. Dark mode-এ শুধু background পরিবর্তন করলেই কি যথেষ্ট?
-
-###### React
-
-5. Theme state কেন দরকার?
-6. `document.documentElement` কী?
-7. `<html class="dark">` কেন ব্যবহার করা হয়?
-8. `localStorage` কেন ব্যবহার করা হয়?
-
-###### Professional
-
-9. Dark Mode-এ কেন multiple gray shades ব্যবহার করা ভালো?
-10. Product Card-এর কোন কোন অংশ dark mode-এর জন্য পরিবর্তন করা উচিত?
-11. Dashboard-এর table কীভাবে dark mode friendly করবেন?
-12. React এবং Tailwind-এর মধ্যে theme-এর দায়িত্ব কীভাবে ভাগ করবেন?
-
----
-
-## 📌 Day 20 Cheat Sheet
-
-```text
 DARK MODE
 dark:bg-gray-900
 dark:bg-gray-800
 dark:text-white
-dark:text-gray-300
 dark:text-gray-400
 dark:border-gray-700
-dark:hover:bg-gray-800
-dark:placeholder:text-gray-500
-
-THEME
-Light Mode
-→ white
-→ gray-50
-→ gray-900
-
-Dark Mode
-→ gray-950
-→ gray-900
-→ gray-800
-→ white
-→ gray-400
-
-REACT
-useState()
-useEffect()
-
-DOM
-document.documentElement
-
-LOCAL STORAGE
-localStorage.setItem()
-localStorage.getItem()
-localStorage.removeItem()
-
-THEME FLOW
-User Click
-    ↓
-React State
-    ↓
-<html class="dark">
-    ↓
-dark:* utilities
-    ↓
-Dark UI
 ```
 
 ---
 
-## 🎯 আজকের সবচেয়ে গুরুত্বপূর্ণ ৫টি বিষয়
+## 🎯 Day 21-এর Mental Model
 
-```text
-1️⃣ dark: variant
-        ↓
-2️⃣ Light/Dark Color Strategy
-        ↓
-3️⃣ Dark Component Design
-        ↓
-4️⃣ React Theme Toggle
-        ↓
-5️⃣ localStorage Theme Persistence
+```text id="k3p6zq"
+Requirement
+     ↓
+Page Structure
+     ↓
+Layout
+     ↓
+Sections
+     ↓
+Reusable Components
+     ↓
+Responsive Design
+     ↓
+Dark Mode
+     ↓
+Professional UI
 ```
 
-###### আজকের মূল শিক্ষা
+আজকের সবচেয়ে গুরুত্বপূর্ণ শিক্ষা হলো:
 
-> **Dark Mode শুধু `dark:bg-black` শেখা নয়; এটি একটি সম্পূর্ণ UI Theme Design System।**
+> **Tailwind CSS শুধু individual element সুন্দর করার tool নয়; এটি দিয়ে পুরো application-এর responsive layout architecture তৈরি করা যায়।**
 
-আপনি যদি React + Tailwind দিয়ে professional e-commerce বা admin dashboard বানাতে চান, তাহলে **Light/Dark theme-কে শুরু থেকেই reusable design system হিসেবে চিন্তা করা** গুরুত্বপূর্ণ।
-
+আগের Day 1–20-এর utilityগুলো এখন থেকে বিচ্ছিন্নভাবে নয়, **একসাথে একটি real-world system হিসেবে ব্যবহার করতে শুরু করবেন।**
