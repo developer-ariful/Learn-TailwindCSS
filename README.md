@@ -1,1077 +1,1273 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-## 🧩 Tailwind CSS — Day 21: Advanced Layout & UI Patterns
+## 🚀 Tailwind CSS — Day 22: Advanced UI Components — Modal, Dropdown, Tabs & Drawer
 
-আজ থেকে আমরা Tailwind CSS-এর **real-world layout architecture** নিয়ে কাজ করব।
+আজ আমরা Dashboard Layout-এর পরবর্তী ধাপে যাব। Day 21-এ আমরা **Sidebar + Header + Main Content + Responsive Layout** তৈরি করেছি।
 
-আগের ২০ দিনে আপনি Flexbox, Grid, Responsive Design, Positioning, Forms, Tables, Dark Mode, Animation ইত্যাদি শিখেছেন। এখন এগুলোকে একসাথে ব্যবহার করে **professional Dashboard এবং Admin UI structure** তৈরি করা শিখব।
+আজ শিখব কীভাবে একটি professional application-এর **interactive UI components** তৈরি করা যায়।
 
-আজকের সবচেয়ে গুরুত্বপূর্ণ লক্ষ্য:
+বিশেষ করে:
 
-> **একটি বড় application-এর layout কীভাবে ছোট ছোট reusable layout অংশে ভাগ করতে হয়।**
+* Modal
+* Dropdown
+* Tabs
+* Drawer
+* Overlay
+* Accordion
+* Tooltip
+* Responsive interaction
+* React state + Tailwind
+
+আজকের মূল শিক্ষা:
+
+> **Tailwind UI-এর appearance নিয়ন্ত্রণ করবে, আর React state UI-এর behavior নিয়ন্ত্রণ করবে।**
 
 ---
 
-## 🎯 Day 21 Learning Goals
+## 🎯 Day 22 Learning Goals
 
 আজ আপনি শিখবেন:
 
-* Dashboard layout কীভাবে চিন্তা করতে হয়
-* `min-h-screen`
-* `grid` দিয়ে Sidebar + Main Content
-* Responsive Sidebar
-* Header/Navbar layout
-* `sticky` Header
-* Content container
-* Nested Grid
-* Dashboard Statistics Cards
-* Sidebar + Header + Main Content architecture
-* Mobile → Tablet → Desktop layout
-* Reusable layout pattern
+1. Modal কীভাবে তৈরি করতে হয়
+2. Overlay কীভাবে তৈরি করতে হয়
+3. Dropdown Menu
+4. Tabs
+5. Mobile Drawer
+6. Accordion
+7. Tooltip
+8. React `useState()` দিয়ে interactive UI
+9. `fixed`, `absolute`, `inset-0`, `z-*`
+10. Reusable interactive component চিন্তা
 
 ---
 
 ## ⏰ ১ ঘণ্টার Study Plan
 
-| সময়      | বিষয়                          |
-| -------- | ----------------------------- |
-| 10 মিনিট | Dashboard Layout Concept      |
-| 10 মিনিট | Sidebar + Main Content        |
-| 10 মিনিট | Responsive Layout             |
-| 10 মিনিট | Header + Sticky Navigation    |
-| 10 মিনিট | Dashboard Cards + Nested Grid |
-| 5 মিনিট  | Full Dashboard Structure      |
-| 5 মিনিট  | Practice + Revision           |
+| সময়      | বিষয়                |
+| -------- | ------------------- |
+| 10 মিনিট | Modal + Overlay     |
+| 10 মিনিট | Dropdown            |
+| 10 মিনিট | Tabs                |
+| 10 মিনিট | Mobile Drawer       |
+| 10 মিনিট | Accordion + Tooltip |
+| 5 মিনিট  | E-commerce UI       |
+| 5 মিনিট  | Practice + Revision |
 
 ---
 
-## 1️⃣ Dashboard Layout কী?
+## 1️⃣ Interactive UI কী?
 
-একটি Admin Dashboard সাধারণত এমন হয়:
+আগের দিন আমরা এমন UI তৈরি করেছি:
 
-```text id="qz6e4y"
-┌─────────────────────────────────────────────┐
-│                  Header                     │
-├───────────────┬─────────────────────────────┤
-│               │                             │
-│   Sidebar     │       Main Content          │
-│               │                             │
-│   Dashboard   │   ┌────┐ ┌────┐ ┌────┐     │
-│   Products    │   │Card│ │Card│ │Card│     │
-│   Orders      │   └────┘ └────┘ └────┘     │
-│   Customers   │                             │
-│               │      Recent Orders          │
-│               │      ┌─────────────────┐    │
-│               │      │     Table       │    │
-│               │      └─────────────────┘    │
-└───────────────┴─────────────────────────────┘
-```
-
-এখানে মূলত ৩টি অংশ:
-
-```text id="g2q0mg"
+```text id="p4v6yn"
 Dashboard
-│
 ├── Sidebar
 ├── Header
-└── Main Content
+├── Cards
+└── Table
 ```
 
----
-
-## 2️⃣ `min-h-screen`
-
-Dashboard-এর জন্য একটি গুরুত্বপূর্ণ utility:
-
-```html id="n7w1xb"
-<div class="min-h-screen">
-    Dashboard
-</div>
-```
-
-এর অর্থ:
-
-> Element-এর minimum height হবে viewport-এর পুরো height।
-
-অর্থাৎ browser screen যদি 800px height হয়:
-
-```text id="7dbt4r"
-min-height
-    ↓
-800px
-```
-
-তাই Dashboard-এর root container-এ এটি খুবই useful:
-
-```html id="h5cr5c"
-<div class="min-h-screen bg-gray-50">
-```
-
-Dark mode:
-
-```html id="9av9b4"
-<div class="min-h-screen bg-gray-50 dark:bg-gray-950">
-```
-
----
-
-## 3️⃣ Sidebar + Main Content
-
-এখন একটি simple layout তৈরি করি।
-
-```jsx id="h6b3wz"
-<div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-
-  <div className="grid min-h-screen lg:grid-cols-[260px_1fr]">
-
-    {/* Sidebar */}
-    <aside className="hidden border-r bg-white lg:block dark:border-gray-800 dark:bg-gray-900">
-      Sidebar
-    </aside>
-
-    {/* Main */}
-    <main>
-      Main Content
-    </main>
-
-  </div>
-
-</div>
-```
-
-এখানে:
-
-```text id="afc8br"
-grid
-   ↓
-lg:grid-cols-[260px_1fr]
-```
-
-মানে desktop-এ:
-
-```text id="g0h8ay"
-260px              Remaining Space
-┌────────────┐ ┌──────────────────────────┐
-│  Sidebar   │ │       Main Content       │
-│            │ │                          │
-│            │ │                          │
-└────────────┘ └──────────────────────────┘
-```
-
----
-
-## 4️⃣ `1fr` কী?
-
-CSS Grid-এর:
-
-```text
-1fr
-```
-
-মানে available remaining space-এর একটি fraction।
+কিন্তু বাস্তব application-এ user interaction প্রয়োজন।
 
 যেমন:
 
-```text id="x44u3r"
-grid-cols-[260px_1fr]
+```text id="x7q2em"
+Button click
+     ↓
+Modal Open
+
+Profile click
+     ↓
+Dropdown Open
+
+Tab click
+     ↓
+Content Change
+
+Mobile menu click
+     ↓
+Drawer Open
 ```
 
-এর অর্থ:
-
-```text id="d0yr65"
-Sidebar       Main
-260px         Remaining Space
-```
-
-এটি Dashboard-এর জন্য খুব useful pattern।
+এখানেই React state-এর প্রয়োজন হয়।
 
 ---
 
-## 5️⃣ Sidebar Design
+## 2️⃣ Modal কী?
 
-এখন একটি বাস্তব Sidebar তৈরি করি।
-
-```jsx id="s3t0xa"
-<aside
-  className="
-    hidden
-    border-r
-    border-gray-200
-    bg-white
-    lg:block
-
-    dark:border-gray-800
-    dark:bg-gray-900
-  "
->
-  <div className="sticky top-0 h-screen p-5">
-
-    <h1 className="mb-8 text-xl font-bold text-gray-900 dark:text-white">
-      AdminPanel
-    </h1>
-
-    <nav className="space-y-2">
-
-      <a
-        href="##"
-        className="
-          block rounded-lg
-          bg-blue-50
-          px-4 py-3
-          font-medium
-          text-blue-600
-
-          dark:bg-blue-900/30
-          dark:text-blue-400
-        "
-      >
-        Dashboard
-      </a>
-
-      <a
-        href="##"
-        className="
-          block rounded-lg
-          px-4 py-3
-          text-gray-700
-          hover:bg-gray-100
-
-          dark:text-gray-300
-          dark:hover:bg-gray-800
-        "
-      >
-        Products
-      </a>
-
-      <a
-        href="##"
-        className="
-          block rounded-lg
-          px-4 py-3
-          text-gray-700
-          hover:bg-gray-100
-
-          dark:text-gray-300
-          dark:hover:bg-gray-800
-        "
-      >
-        Orders
-      </a>
-
-      <a
-        href="##"
-        className="
-          block rounded-lg
-          px-4 py-3
-          text-gray-700
-          hover:bg-gray-100
-
-          dark:text-gray-300
-          dark:hover:bg-gray-800
-        "
-      >
-        Customers
-      </a>
-
-    </nav>
-  </div>
-</aside>
-```
-
----
-
-## 6️⃣ কেন Sidebar-এ `sticky`?
-
-আমরা ব্যবহার করেছি:
-
-```text id="w5p3f1"
-sticky top-0
-```
-
-এর ফলে Sidebar scroll করার সময় একটি নির্দিষ্ট position-এ থাকতে পারে।
-
-এখানে:
-
-```text id="4dh0an"
-sticky top-0 h-screen
-```
-
-মানে:
-
-```text
-top: 0
-height: 100vh
-```
-
-Dashboard navigation-এর জন্য এটি খুব useful।
-
----
-
-## 7️⃣ Header
-
-Main content-এর উপরে একটি header থাকবে।
-
-```jsx id="o1s7gn"
-<header
-  className="
-    sticky top-0 z-40
-    border-b
-    border-gray-200
-    bg-white/80
-    backdrop-blur
-
-    dark:border-gray-800
-    dark:bg-gray-900/80
-  "
->
-  <div
-    className="
-      flex items-center
-      justify-between
-      px-4 py-4
-      lg:px-8
-    "
-  >
-    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-      Dashboard
-    </h2>
-
-    <button
-      className="
-        rounded-lg
-        border
-        border-gray-200
-        px-4 py-2
-        text-sm
-        text-gray-700
-        hover:bg-gray-100
-
-        dark:border-gray-700
-        dark:text-gray-300
-        dark:hover:bg-gray-800
-      "
-    >
-      Profile
-    </button>
-  </div>
-</header>
-```
-
----
-
-## 8️⃣ `z-40` কেন?
-
-Header sticky হলে অন্য element তার উপরে চলে আসতে পারে।
-
-তাই:
-
-```text id="v0m0ce"
-z-40
-```
-
-দিয়ে আমরা header-এর stacking order বাড়াচ্ছি।
-
-আগের Day 9-এ আমরা `z-index` সম্পর্কে শিখেছি।
-
----
-
-## 9️⃣ Main Content
-
-Header-এর নিচে:
-
-```jsx id="cz4l1m"
-<main className="p-4 lg:p-8">
-  <div className="mx-auto max-w-7xl">
-    Main Content
-  </div>
-</main>
-```
-
-এখানে:
-
-```text id="fl56re"
-p-4
-```
-
-Mobile spacing।
-
-আর:
-
-```text id="p27g6r"
-lg:p-8
-```
-
-Desktop spacing।
-
----
-
-## 🔟 `max-w-7xl` কেন?
-
-যদি monitor অনেক বড় হয়, content পুরো screen জুড়ে ছড়িয়ে দিলে UI দেখতে অসুবিধা হতে পারে।
-
-তাই:
-
-```html id="5sghsp"
-<div class="mx-auto max-w-7xl">
-```
-
-এখানে:
-
-```text id="1s1b9a"
-max-w-7xl
-    ↓
-Content-এর maximum width
-
-mx-auto
-    ↓
-Center
-```
-
-এটি আমরা Day 5-এর responsive container concept-এ শিখেছিলাম।
-
----
-
-## 1️⃣1️⃣ Dashboard Statistics Cards
-
-এখন Main Content-এর মধ্যে statistics cards তৈরি করি।
-
-```jsx id="8f3m4u"
-<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
-  <div className="rounded-2xl border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-    <p className="text-sm text-gray-500 dark:text-gray-400">
-      Total Sales
-    </p>
-
-    <h3 className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-      $24,500
-    </h3>
-  </div>
-
-  <div className="rounded-2xl border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-    <p className="text-sm text-gray-500 dark:text-gray-400">
-      Orders
-    </p>
-
-    <h3 className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-      1,240
-    </h3>
-  </div>
-
-  <div className="rounded-2xl border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-    <p className="text-sm text-gray-500 dark:text-gray-400">
-      Customers
-    </p>
-
-    <h3 className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-      8,450
-    </h3>
-  </div>
-
-  <div className="rounded-2xl border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-    <p className="text-sm text-gray-500 dark:text-gray-400">
-      Products
-    </p>
-
-    <h3 className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-      540
-    </h3>
-  </div>
-
-</div>
-```
-
-Responsive behavior:
-
-```text id="yprwpy"
-Mobile
-↓
-1 column
-
-Tablet
-↓
-2 columns
-
-Large Desktop
-↓
-4 columns
-```
-
-```text
-grid-cols-1
-sm:grid-cols-2
-xl:grid-cols-4
-```
-
----
-
-## 1️⃣2️⃣ Nested Grid
-
-এখন একটি গুরুত্বপূর্ণ real-world pattern।
-
-Dashboard-এ একটি বড় section:
-
-```text id="uvk0iz"
-┌──────────────────────────────────────┐
-│           Sales Chart                │
-└──────────────────────────────────────┘
-
-┌───────────────────┐ ┌────────────────┐
-│ Recent Orders     │ │ Top Products   │
-└───────────────────┘ └────────────────┘
-```
-
-Tailwind:
-
-```jsx id="k0oj79"
-<div className="mt-6 grid gap-6 xl:grid-cols-3">
-
-  <div className="rounded-2xl border bg-white p-6 xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
-    Sales Chart
-  </div>
-
-  <div className="rounded-2xl border bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-    Top Products
-  </div>
-
-</div>
-```
-
-এখানে:
-
-```text id="v1u2x5"
-xl:grid-cols-3
-```
-
-এবং:
-
-```text id="kq7e4c"
-xl:col-span-2
-```
-
-ফলে:
-
-```text
-Column 1    Column 2    Column 3
-┌──────────────────────┐ ┌───────┐
-│     Sales Chart      │ │ Top   │
-│                      │ │Product│
-└──────────────────────┘ └───────┘
-       2 columns          1 column
-```
-
----
-
-## 1️⃣3️⃣ Responsive Layout Strategy
-
-Professional responsive layout-এ আগে Mobile চিন্তা করুন।
-
-```text id="d7d8yd"
-Mobile
-   ↓
-Tablet
-   ↓
-Desktop
-   ↓
-Large Desktop
-```
+Modal হলো এমন একটি UI যা বর্তমান page-এর উপরে একটি dialog হিসেবে আসে।
 
 উদাহরণ:
 
-```text id="m6i4tb"
-Sidebar:
-hidden
-lg:block
+```text id="j8n4wp"
+┌────────────────────────────────────┐
+│ Dashboard                          │
+│                                    │
+│     ┌──────────────────────┐       │
+│     │ Delete Product       │       │
+│     │                      │       │
+│     │ Are you sure?        │       │
+│     │                      │       │
+│     │ Cancel    Delete     │       │
+│     └──────────────────────┘       │
+│                                    │
+└────────────────────────────────────┘
 ```
-
-Mobile:
-
-```text
-Sidebar → Hidden
-```
-
-Desktop:
-
-```text
-Sidebar → Visible
-```
-
-Cards:
-
-```text
-grid-cols-1
-sm:grid-cols-2
-xl:grid-cols-4
-```
-
-Main padding:
-
-```text
-p-4
-lg:p-8
-```
-
-এটাই Mobile-first approach।
 
 ---
 
-## 1️⃣4️⃣ Mobile Sidebar Problem
+## 3️⃣ Modal-এর তিনটি প্রধান অংশ
 
-এখন প্রশ্ন:
+একটি Modal সাধারণত:
 
-Mobile-এ Sidebar hidden থাকলে user navigation করবে কীভাবে?
-
-সাধারণত আমরা একটি mobile menu button ব্যবহার করি।
-
-```text id="g7fh4v"
-Desktop
-
-┌────────┬────────────────────┐
-│Sidebar │ Main               │
-└────────┴────────────────────┘
-
-
-Mobile
-
-┌─────────────────────────────┐
-│ ☰   Dashboard        👤    │
-├─────────────────────────────┤
-│                             │
-│ Main Content                │
-│                             │
-└─────────────────────────────┘
+```text id="t4j8qa"
+Modal
+│
+├── Overlay
+│
+└── Dialog
+    ├── Header
+    ├── Content
+    └── Actions
 ```
 
-React-এ:
+Overlay:
 
-```jsx id="4qf6on"
-const [sidebarOpen, setSidebarOpen] = useState(false);
+```text
+fixed inset-0
+```
+
+Dialog:
+
+```text
+relative
+rounded-2xl
+bg-white
+```
+
+---
+
+## 4️⃣ Basic Modal
+
+```jsx id="7m5q2d"
+<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+
+  <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-800">
+
+    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+      Delete Product
+    </h2>
+
+    <p className="mt-3 text-gray-600 dark:text-gray-400">
+      Are you sure you want to delete this product?
+    </p>
+
+    <div className="mt-6 flex justify-end gap-3">
+
+      <button
+        className="
+          rounded-lg
+          border border-gray-300
+          px-4 py-2
+          text-gray-700
+          hover:bg-gray-100
+
+          dark:border-gray-600
+          dark:text-gray-300
+          dark:hover:bg-gray-700
+        "
+      >
+        Cancel
+      </button>
+
+      <button
+        className="
+          rounded-lg
+          bg-red-600
+          px-4 py-2
+          font-semibold
+          text-white
+          hover:bg-red-700
+        "
+      >
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+```
+
+---
+
+## 5️⃣ এখানে গুরুত্বপূর্ণ Tailwind Classes
+
+###### `fixed`
+
+```text id="2yn8rs"
+fixed
+```
+
+Element viewport-এর সাথে fixed থাকবে।
+
+###### `inset-0`
+
+```text id="v8o5rp"
+inset-0
+```
+
+এর equivalent ধারণা:
+
+```css
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+```
+
+অর্থাৎ পুরো screen cover করবে।
+
+###### `z-50`
+
+```text id="r8f3as"
+z-50
+```
+
+Modal-কে অন্যান্য UI-এর উপরে রাখে।
+
+---
+
+## 6️⃣ React Modal
+
+এখন Modal-কে interactive করি।
+
+```jsx id="k3n7qx"
+import { useState } from "react";
+
+function ProductPage() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+
+      <button
+        onClick={() => setOpen(true)}
+        className="
+          rounded-lg
+          bg-red-600
+          px-5 py-3
+          font-semibold
+          text-white
+          hover:bg-red-700
+        "
+      >
+        Delete Product
+      </button>
+
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 dark:bg-gray-800">
+
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              Delete Product
+            </h2>
+
+            <p className="mt-3 text-gray-600 dark:text-gray-400">
+              Are you sure?
+            </p>
+
+            <div className="mt-6 flex justify-end gap-3">
+
+              <button
+                onClick={() => setOpen(false)}
+                className="rounded-lg bg-gray-200 px-4 py-2"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={() => setOpen(false)}
+                className="rounded-lg bg-red-600 px-4 py-2 text-white"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+export default ProductPage;
+```
+
+###### Flow:
+
+```text id="d6h8p1"
+Delete Button
+     ↓
+setOpen(true)
+     ↓
+open === true
+     ↓
+Modal Render
+```
+
+Close:
+
+```text id="g8s4nb"
+Cancel
+   ↓
+setOpen(false)
+   ↓
+Modal disappears
+```
+
+---
+
+## 7️⃣ Dropdown Menu
+
+Dashboard Header-এ সাধারণত Profile Dropdown থাকে।
+
+```text id="e5x9cp"
+       👤 Ariful
+            ↓
+      ┌──────────────┐
+      │ Profile      │
+      │ Settings     │
+      │ Logout       │
+      └──────────────┘
+```
+
+এখানে `relative` + `absolute` খুব গুরুত্বপূর্ণ।
+
+---
+
+## 8️⃣ Basic Dropdown
+
+```jsx id="4h1s7m"
+<div className="relative">
+
+  <button
+    className="
+      rounded-lg
+      border border-gray-200
+      px-4 py-2
+      dark:border-gray-700
+    "
+  >
+    Profile
+  </button>
+
+  <div
+    className="
+      absolute right-0 mt-2
+      w-48
+      rounded-xl
+      border
+      border-gray-200
+      bg-white
+      p-2
+      shadow-xl
+
+      dark:border-gray-700
+      dark:bg-gray-800
+    "
+  >
+    <a
+      href="##"
+      className="
+        block rounded-lg
+        px-3 py-2
+        text-gray-700
+        hover:bg-gray-100
+
+        dark:text-gray-300
+        dark:hover:bg-gray-700
+      "
+    >
+      Profile
+    </a>
+
+    <a
+      href="##"
+      className="
+        block rounded-lg
+        px-3 py-2
+        text-gray-700
+        hover:bg-gray-100
+
+        dark:text-gray-300
+        dark:hover:bg-gray-700
+      "
+    >
+      Settings
+    </a>
+
+    <button
+      className="
+        w-full rounded-lg
+        px-3 py-2
+        text-left
+        text-red-600
+        hover:bg-red-50
+
+        dark:hover:bg-red-900/20
+      "
+    >
+      Logout
+    </button>
+
+  </div>
+
+</div>
+```
+
+---
+
+## 9️⃣ কেন `relative` + `absolute`?
+
+Parent:
+
+```text id="3n6j2a"
+relative
+```
+
+Child:
+
+```text id="k1j8vz"
+absolute right-0
+```
+
+এর ফলে dropdown parent-এর relative position অনুযায়ী বসবে।
+
+```text id="7w0y3s"
+Profile Button
+       │
+       └───────────┐
+                   ↓
+             Dropdown
+```
+
+---
+
+## 🔟 React Dropdown
+
+```jsx id="z7x3mc"
+const [open, setOpen] = useState(false);
 ```
 
 Button:
 
-```jsx id="qz3qbr"
-<button
-  onClick={() => setSidebarOpen(true)}
-  className="rounded-lg p-2 lg:hidden"
->
-  ☰
+```jsx id="r5v9pa"
+<button onClick={() => setOpen(!open)}>
+  Profile
 </button>
+```
+
+Conditional rendering:
+
+```jsx id="u4b6tn"
+{open && (
+  <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white shadow-xl">
+    ...
+  </div>
+)}
+```
+
+Mental model:
+
+```text id="q0m2jf"
+Click
+ ↓
+State change
+ ↓
+Conditional rendering
+ ↓
+Dropdown
+```
+
+---
+
+## 1️⃣1️⃣ Tabs
+
+Tabs হলো একই page-এর মধ্যে বিভিন্ন content section পরিবর্তন করার pattern।
+
+উদাহরণ:
+
+```text id="a6v3kc"
+┌──────────┬──────────┬──────────┐
+│ Overview │ Reviews  │ Details  │
+└──────────┴──────────┴──────────┘
+
+        Product Information
+```
+
+E-commerce-এ এটি খুব common।
+
+---
+
+## 1️⃣2️⃣ Basic Tabs
+
+```jsx id="n2v8sp"
+<div>
+
+  <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
+
+    <button
+      className="
+        border-b-2
+        border-blue-600
+        px-4 py-3
+        font-semibold
+        text-blue-600
+      "
+    >
+      Overview
+    </button>
+
+    <button
+      className="
+        px-4 py-3
+        text-gray-600
+        hover:text-blue-600
+        dark:text-gray-400
+      "
+    >
+      Reviews
+    </button>
+
+    <button
+      className="
+        px-4 py-3
+        text-gray-600
+        hover:text-blue-600
+        dark:text-gray-400
+      "
+    >
+      Details
+    </button>
+
+  </div>
+
+  <div className="py-6">
+    Product overview content
+  </div>
+
+</div>
+```
+
+---
+
+## 1️⃣3️⃣ React Tabs
+
+```jsx id="m7k4cd"
+import { useState } from "react";
+
+function ProductTabs() {
+  const [activeTab, setActiveTab] = useState("overview");
+
+  return (
+    <div>
+
+      <div className="flex gap-2 border-b dark:border-gray-700">
+
+        <button
+          onClick={() => setActiveTab("overview")}
+          className={`
+            px-4 py-3
+            ${
+              activeTab === "overview"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "text-gray-500"
+            }
+          `}
+        >
+          Overview
+        </button>
+
+        <button
+          onClick={() => setActiveTab("reviews")}
+          className={`
+            px-4 py-3
+            ${
+              activeTab === "reviews"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "text-gray-500"
+            }
+          `}
+        >
+          Reviews
+        </button>
+
+      </div>
+
+      <div className="py-6">
+
+        {activeTab === "overview" && (
+          <p>Product overview information.</p>
+        )}
+
+        {activeTab === "reviews" && (
+          <p>Customer reviews.</p>
+        )}
+
+      </div>
+
+    </div>
+  );
+}
+```
+
+এখানে গুরুত্বপূর্ণ concept:
+
+```text id="t7k5sq"
+activeTab
+    ↓
+Conditional UI
+```
+
+এটি Day 17-এর state-based styling-এর আরও advanced ব্যবহার।
+
+---
+
+## 1️⃣4️⃣ Mobile Drawer
+
+Day 21-এ আমরা mobile sidebar-এর কথা বলেছিলাম।
+
+আজ সেটিকে একটি proper **Drawer** হিসেবে তৈরি করব।
+
+```text id="y5n8qw"
+Mobile
+
+┌──────────────────────────────┐
+│ ☰ Dashboard                  │
+├──────────────────────────────┤
+│                              │
+│                              │
+└──────────────────────────────┘
+
+☰ Click
+
+┌──────────────────┬───────────┐
+│ Sidebar          │ Overlay   │
+│                  │           │
+│ Dashboard        │           │
+│ Products         │           │
+│ Orders           │           │
+│                  │           │
+└──────────────────┴───────────┘
+```
+
+---
+
+## 1️⃣5️⃣ Drawer Structure
+
+```jsx id="0j5r7s"
+<div className="fixed inset-0 z-50">
+
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/50"></div>
+
+  {/* Drawer */}
+  <aside
+    className="
+      relative
+      h-full
+      w-72
+      bg-white
+      shadow-xl
+      dark:bg-gray-900
+    "
+  >
+    Sidebar Content
+  </aside>
+
+</div>
 ```
 
 এখানে:
 
-```text
-lg:hidden
-```
+```text id="3u5gk7"
+fixed inset-0
+      ↓
+Full screen container
 
-মানে Desktop-এ button hidden।
+absolute inset-0
+      ↓
+Overlay
+
+relative
+      ↓
+Drawer positioning context
+```
 
 ---
 
-## 1️⃣5️⃣ Mobile Sidebar State
+## 1️⃣6️⃣ Drawer-এর React State
 
-React:
-
-```jsx id="50l2cd"
-{sidebarOpen && (
-  <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white lg:hidden">
-    Mobile Sidebar
-  </aside>
-)}
+```jsx id="z2q8wy"
+const [open, setOpen] = useState(false);
 ```
 
-Close button:
+Open:
 
-```jsx id="4j2gac"
-<button
-  onClick={() => setSidebarOpen(false)}
-  className="rounded-lg p-2"
->
+```jsx id="n4y6we"
+<button onClick={() => setOpen(true)}>
+  ☰
+</button>
+```
+
+Close:
+
+```jsx id="2n9j5r"
+<button onClick={() => setOpen(false)}>
   ✕
 </button>
 ```
 
-Flow:
+Render:
 
-```text id="u6eq15"
-User clicks ☰
-      ↓
-sidebarOpen = true
-      ↓
-Sidebar visible
-
-User clicks ✕
-      ↓
-sidebarOpen = false
-      ↓
-Sidebar hidden
+```jsx id="g8v2mz"
+{open && (
+  <div className="fixed inset-0 z-50">
+    ...
+  </div>
+)}
 ```
-
-এখানে Tailwind শুধু UI style করছে।
-
-React state করছে:
-
-**Sidebar open/close logic।**
 
 ---
 
-## 1️⃣6️⃣ Complete Layout Architecture
+## 1️⃣7️⃣ Accordion
 
-এখন পুরো structure:
+FAQ section-এ Accordion খুব বেশি ব্যবহৃত হয়।
 
-```text id="f4l1j7"
-App
-│
-└── DashboardLayout
-    │
-    ├── Sidebar
-    │
-    └── Main Area
-        │
-        ├── Header
-        │
-        └── Main Content
-            │
-            ├── Page Header
-            │
-            ├── Statistics
-            │
-            ├── Charts
-            │
-            ├── Tables
-            │
-            └── Other Widgets
+```text id="v7c4jx"
+What is Tailwind CSS?          +
+─────────────────────────────────
+
+How does dark mode work?       +
+─────────────────────────────────
+
+Can I use Tailwind with React? +
+─────────────────────────────────
 ```
 
-React project-এ:
+Click করলে:
 
-```text id="9f2pzn"
+```text id="j2p5hz"
+What is Tailwind CSS?          -
+─────────────────────────────────
+Tailwind is a utility-first
+CSS framework...
+```
+
+---
+
+## 1️⃣8️⃣ Basic Accordion
+
+```jsx id="q6v9sk"
+<div className="rounded-xl border dark:border-gray-700">
+
+  <button
+    className="
+      flex w-full
+      items-center justify-between
+      px-5 py-4
+      text-left
+      font-semibold
+    "
+  >
+    <span>What is Tailwind CSS?</span>
+
+    <span>+</span>
+  </button>
+
+  <div className="border-t px-5 py-4 text-gray-600 dark:border-gray-700 dark:text-gray-400">
+    Tailwind CSS is a utility-first CSS framework.
+  </div>
+
+</div>
+```
+
+---
+
+## 1️⃣9️⃣ Accordion with React
+
+```jsx id="w8k3fd"
+import { useState } from "react";
+
+function FAQ() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="rounded-xl border dark:border-gray-700">
+
+      <button
+        onClick={() => setOpen(!open)}
+        className="
+          flex w-full
+          items-center justify-between
+          px-5 py-4
+          text-left
+          font-semibold
+          text-gray-900
+          dark:text-white
+        "
+      >
+        <span>What is Tailwind CSS?</span>
+
+        <span>{open ? "−" : "+"}</span>
+      </button>
+
+      {open && (
+        <div
+          className="
+            border-t
+            px-5 py-4
+            text-gray-600
+            dark:border-gray-700
+            dark:text-gray-400
+          "
+        >
+          Tailwind CSS is a utility-first CSS framework.
+        </div>
+      )}
+
+    </div>
+  );
+}
+```
+
+---
+
+## 2️⃣0️⃣ Tooltip
+
+Tooltip হলো ছোট information box।
+
+```text id="n3y7wc"
+        Delete
+          ↑
+    ┌──────────┐
+    │ Delete   │
+    └──────────┘
+        🗑️
+```
+
+Tailwind-এর `group` দিয়ে এটি সহজে তৈরি করা যায়।
+
+```jsx id="k4w9qp"
+<div className="group relative inline-block">
+
+  <button
+    className="
+      rounded-lg
+      bg-red-600
+      p-3
+      text-white
+    "
+  >
+    🗑️
+  </button>
+
+  <div
+    className="
+      pointer-events-none
+      absolute
+      bottom-full
+      left-1/2
+      mb-2
+      -translate-x-1/2
+      whitespace-nowrap
+      rounded-lg
+      bg-gray-900
+      px-3 py-2
+      text-xs
+      text-white
+      opacity-0
+      transition
+      group-hover:opacity-100
+    "
+  >
+    Delete Product
+  </div>
+
+</div>
+```
+
+এখানে আমরা Day 17-এর:
+
+```text id="p5c8ay"
+group
+group-hover
+```
+
+এবং Day 19-এর:
+
+```text id="f6k2rw"
+transition
+opacity
+```
+
+একসাথে ব্যবহার করেছি।
+
+---
+
+## 🧠 2️⃣1️⃣ আজকের Core Pattern
+
+আজকের প্রায় সব interactive component-এর architecture একই:
+
+```text id="v5s2bx"
+User Interaction
+       ↓
+React Event
+       ↓
+State Change
+       ↓
+Conditional Rendering
+       ↓
+Tailwind Styling
+       ↓
+UI Update
+```
+
+উদাহরণ:
+
+###### Modal
+
+```text id="b2n7cv"
+Click Delete
+     ↓
+open = true
+     ↓
+Modal Render
+```
+
+###### Dropdown
+
+```text id="y8m4kp"
+Click Profile
+     ↓
+open = true
+     ↓
+Dropdown Render
+```
+
+###### Tabs
+
+```text id="e3r7hd"
+Click Reviews
+     ↓
+activeTab = "reviews"
+     ↓
+Reviews Content
+```
+
+###### Drawer
+
+```text id="z5q9jx"
+Click Menu
+     ↓
+sidebarOpen = true
+     ↓
+Drawer Render
+```
+
+---
+
+## 🛒 2️⃣2️⃣ E-commerce-এ এগুলোর ব্যবহার
+
+আপনার AI-powered e-commerce application-এ:
+
+| Component | কোথায় ব্যবহার করবেন            |
+| --------- | ------------------------------ |
+| Modal     | Delete Product / Confirm Order |
+| Dropdown  | Profile / Actions              |
+| Tabs      | Product Details                |
+| Drawer    | Mobile Sidebar                 |
+| Accordion | FAQ                            |
+| Tooltip   | Icon Buttons                   |
+| Overlay   | Modal/Drawer                   |
+| State     | UI behavior                    |
+
+---
+
+## 🏗️ 2️⃣3️⃣ Reusable Component Architecture
+
+React project-এ এগুলো আলাদা component করা ভালো:
+
+```text id="v4q8nm"
 src/
-│
 ├── components/
+│   ├── ui/
+│   │   ├── Button.jsx
+│   │   ├── Modal.jsx
+│   │   ├── Dropdown.jsx
+│   │   ├── Tabs.jsx
+│   │   ├── Drawer.jsx
+│   │   ├── Accordion.jsx
+│   │   └── Tooltip.jsx
+│   │
 │   ├── layout/
 │   │   ├── Sidebar.jsx
 │   │   ├── Header.jsx
 │   │   └── DashboardLayout.jsx
 │   │
-│   ├── ui/
-│   │   ├── Button.jsx
-│   │   ├── Card.jsx
-│   │   └── Badge.jsx
-│   │
 │   └── dashboard/
 │       ├── StatCard.jsx
-│       ├── SalesChart.jsx
 │       └── RecentOrders.jsx
-│
-├── pages/
-│   └── Dashboard.jsx
-│
-└── App.jsx
 ```
 
-এটি অনেক বেশি scalable approach।
+এটাই reusable UI library-এর দিকে আপনার যাত্রা।
 
 ---
 
-## 1️⃣7️⃣ Layout বনাম Component
+## ⚠️ 2️⃣4️⃣ Accessibility মনে রাখবেন
 
-এখানে একটি গুরুত্বপূর্ণ distinction:
+Interactive UI বানানোর সময় শুধু সুন্দর দেখালেই হবে না।
 
-###### Layout
+###### Button-এর ক্ষেত্রে
 
-পুরো page-এর structure:
-
-```text
-Sidebar
-Header
-Main
-Footer
+```jsx id="x7k2pd"
+<button type="button">
 ```
 
-###### Component
+ব্যবহার করুন।
 
-UI-এর individual reusable অংশ:
+###### Icon-only button হলে
 
-```text
-Button
-Card
-Badge
-Input
-StatCard
-Table
+```jsx id="q4v8ms"
+<button
+  type="button"
+  aria-label="Open menu"
+>
+  ☰
+</button>
 ```
 
-অর্থাৎ:
+কারণ user বুঝতে না পারলেও screen reader button-এর উদ্দেশ্য বুঝতে পারবে।
 
-```text id="9v2j5n"
-Layout
-   ↓
-Page Structure
+###### Modal-এর ক্ষেত্রে
 
-Component
-   ↓
-Reusable UI
+Professional application-এ focus management, keyboard interaction এবং dialog semantics-ও বিবেচনা করতে হয়।
+
+---
+
+## 🧪 2️⃣5️⃣ আজকের Practice
+
+#### Practice 1 — Modal
+
+তৈরি করুন:
+
+```text id="e8w4pz"
+Delete Product
+       ↓
+Confirmation Modal
+       ↓
+Cancel / Delete
 ```
 
 ---
 
-## 1️⃣8️⃣ Dashboard Page Structure
+#### Practice 2 — Profile Dropdown
 
-আপনার AI-powered e-commerce system-এর জন্য:
-
-```text id="n7b0sw"
-DashboardLayout
-│
-├── Sidebar
-│
-└── Main
-    │
-    ├── Header
-    │
-    └── Dashboard
-        │
-        ├── PageTitle
-        │
-        ├── StatsGrid
-        │   ├── SalesCard
-        │   ├── OrderCard
-        │   ├── CustomerCard
-        │   └── ProductCard
-        │
-        ├── AnalyticsSection
-        │
-        └── RecentOrders
+```text id="m7c3qa"
+Profile
+  ↓
+Profile
+Settings
+Logout
 ```
-
-এখন আপনি বুঝতে পারছেন কেন Day 16-এ আমরা reusable components শিখেছিলাম।
 
 ---
 
-## 🧠 1️⃣9️⃣ আজকের সবচেয়ে গুরুত্বপূর্ণ Concept
+#### Practice 3 — Product Tabs
 
-একটি বড় UI দেখে সরাসরি HTML লেখা শুরু করবেন না।
+তৈরি করুন:
 
-প্রথমে এটিকে ভাগ করুন:
-
-```text id="6v7n8m"
-Page
- ↓
-Layout
- ↓
-Sections
- ↓
-Components
- ↓
-Elements
+```text id="b3p8vn"
+Overview
+Reviews
+Specifications
 ```
-
-উদাহরণ:
-
-```text id="e5s1b2"
-E-commerce Dashboard
-        ↓
-Dashboard Layout
-        ↓
-Sidebar + Header + Main
-        ↓
-Stats + Chart + Table
-        ↓
-Cards + Buttons + Badges
-```
-
-এটি একজন professional frontend developer-এর জন্য খুব গুরুত্বপূর্ণ চিন্তার পদ্ধতি।
 
 ---
 
-## 🛒 Day 21 Real-World Challenge
+#### Practice 4 — Mobile Drawer
 
-আজ আপনি তৈরি করবেন:
+তৈরি করুন:
 
-#### **AI E-commerce Admin Dashboard Layout**
+```text id="r9k5xd"
+☰
+ ↓
+Sidebar Drawer
+ ↓
+Overlay
+```
+
+---
+
+#### Practice 5 — FAQ Accordion
+
+কমপক্ষে ৪টি প্রশ্ন তৈরি করুন।
+
+---
+
+## 🎯 2️⃣6️⃣ Day 22 Mini Project
+
+আজকের সবচেয়ে গুরুত্বপূর্ণ challenge:
+
+#### **E-commerce Product Details UI**
 
 Structure:
 
-```text
-┌───────────────────────────────────────────────┐
-│ ☰  Admin Dashboard                 🌙  👤    │
-├──────────────┬────────────────────────────────┤
-│              │                                │
-│ Dashboard    │ Welcome back, Admin            │
-│ Products     │                                │
-│ Orders       │ ┌──────┐ ┌──────┐ ┌──────┐   │
-│ Customers    │ │Sales │ │Orders│ │Users │   │
-│ Categories   │ └──────┘ └──────┘ └──────┘   │
-│ Settings     │                                │
-│              │ ┌──────────────────────────┐  │
-│              │ │      Sales Analytics      │  │
-│              │ └──────────────────────────┘  │
-│              │                                │
-│              │ ┌──────────────────────────┐  │
-│              │ │      Recent Orders       │  │
-│              │ └──────────────────────────┘  │
-└──────────────┴────────────────────────────────┘
+```text id="d6y2hf"
+Product Details
+│
+├── Product Image
+│
+├── Product Information
+│   ├── Title
+│   ├── Price
+│   ├── Rating
+│   ├── Add to Cart
+│   └── Buy Now
+│
+├── Tabs
+│   ├── Description
+│   ├── Reviews
+│   └── Specifications
+│
+├── FAQ Accordion
+│
+└── Delete/Edit Modal
 ```
 
-###### Requirements
+এর মধ্যে ব্যবহার করবেন:
 
-* Responsive
-* Mobile-first
-* Sidebar
-* Header
-* Mobile menu button
-* Sticky header
-* Dark mode
-* Statistics cards
-* Responsive content
-* Table
-* Reusable components
-
----
-
-## 📝 আজকের Homework
-
-###### Task 1
-
-শুধু layout তৈরি করুন:
-
-```text
-Sidebar
-Header
-Main
+```text id="x4p7na"
+Grid
+Flex
+Responsive
+Dark Mode
+Tabs
+Accordion
+Modal
+Button
+Transition
+Hover
+Focus
 ```
 
----
-
-###### Task 2
-
-Responsive করুন:
-
-```text
-Mobile → Sidebar hidden
-Desktop → Sidebar visible
-```
+এটি করলে Day 1–22-এর অনেক concept একসাথে practice হবে।
 
 ---
 
-###### Task 3
-
-চারটি statistics card তৈরি করুন:
-
-```text
-Total Sales
-Total Orders
-Customers
-Products
-```
-
----
-
-###### Task 4
-
-একটি Recent Orders table তৈরি করুন।
-
----
-
-###### Task 5
-
-আগের Day 20-এর Dark Mode যুক্ত করুন।
-
----
-
-## 🧪 Day 21 Self-Test
+## 🧠 Day 22 Self-Test
 
 নিজেকে জিজ্ঞেস করুন:
 
-1. `min-h-screen` কী করে?
-2. `grid-cols-[260px_1fr]` কী বোঝায়?
-3. `1fr` কী?
-4. Sidebar-এর জন্য `sticky top-0` কেন ব্যবহার করা হয়?
-5. Header-এ `z-40` কেন?
-6. `max-w-7xl mx-auto` কেন ব্যবহার করি?
-7. `lg:hidden` কী করে?
-8. `lg:block` কী করে?
-9. `col-span-2` কী?
-10. Nested Grid কী?
-11. Layout এবং Component-এর পার্থক্য কী?
-12. React Sidebar state কেন প্রয়োজন?
+1. Modal কী?
+2. `fixed inset-0` কী করে?
+3. Overlay কেন ব্যবহার করা হয়?
+4. `z-50` কেন দরকার?
+5. Dropdown-এর parent-এ `relative` কেন?
+6. Dropdown-এ `absolute` কেন?
+7. Tabs কীভাবে React state ব্যবহার করে?
+8. Drawer এবং Sidebar-এর মধ্যে পার্থক্য কী?
+9. Accordion কীভাবে কাজ করে?
+10. `group-hover` Tooltip-এ কীভাবে কাজ করছে?
+11. Conditional rendering কী?
+12. Interactive component-এ React এবং Tailwind-এর দায়িত্ব কী?
 
 ---
 
-## 📌 Day 21 Cheat Sheet
+## 📌 Day 22 Cheat Sheet
 
 ```text
-LAYOUT
-min-h-screen
-max-w-7xl
-mx-auto
-p-4
-lg:p-8
+MODAL
+fixed
+inset-0
+z-50
+bg-black/50
+flex
+items-center
+justify-center
 
-GRID
-grid
-grid-cols-1
-sm:grid-cols-2
-lg:grid-cols-3
-xl:grid-cols-4
-gap-4
-gap-6
-col-span-2
-col-span-full
+DROPDOWN
+relative
+absolute
+right-0
+mt-2
+shadow-xl
 
-SIDEBAR
-hidden
-lg:block
-sticky
-top-0
-h-screen
+TABS
+activeTab
+border-b-2
+conditional rendering
 
-HEADER
-sticky
-top-0
-z-40
-backdrop-blur
+DRAWER
+fixed
+inset-0
+z-50
+w-72
+shadow-xl
 
-RESPONSIVE
-lg:hidden
-lg:block
-sm:grid-cols-2
-xl:grid-cols-4
+ACCORDION
+useState
+conditional rendering
 
-DARK MODE
-dark:bg-gray-900
-dark:bg-gray-800
-dark:text-white
-dark:text-gray-400
-dark:border-gray-700
+TOOLTIP
+group
+relative
+absolute
+opacity-0
+group-hover:opacity-100
+transition
+
+INTERACTION
+onClick
+useState
+conditional rendering
 ```
 
 ---
 
-## 🎯 Day 21-এর Mental Model
+## 🔥 Day 22-এর Mental Model
 
-```text id="k3p6zq"
-Requirement
-     ↓
-Page Structure
-     ↓
-Layout
-     ↓
-Sections
-     ↓
-Reusable Components
-     ↓
-Responsive Design
-     ↓
-Dark Mode
-     ↓
-Professional UI
+```text id="c8m4za"
+          USER
+            │
+            ▼
+       Click / Action
+            │
+            ▼
+       React Event
+            │
+            ▼
+        React State
+            │
+            ▼
+   Conditional Rendering
+            │
+            ▼
+      Tailwind Styling
+            │
+            ▼
+       Interactive UI
 ```
 
-আজকের সবচেয়ে গুরুত্বপূর্ণ শিক্ষা হলো:
+###### আজকের মূল শিক্ষা:
 
-> **Tailwind CSS শুধু individual element সুন্দর করার tool নয়; এটি দিয়ে পুরো application-এর responsive layout architecture তৈরি করা যায়।**
+> **React দিয়ে UI-এর behavior তৈরি করবেন এবং Tailwind CSS দিয়ে সেই UI-এর appearance, responsive layout, state styles এবং visual feedback তৈরি করবেন।**
 
-আগের Day 1–20-এর utilityগুলো এখন থেকে বিচ্ছিন্নভাবে নয়, **একসাথে একটি real-world system হিসেবে ব্যবহার করতে শুরু করবেন।**
+Day 21-এ আমরা **Dashboard-এর skeleton** তৈরি করেছি। Day 22-এ সেই skeleton-এর মধ্যে **Modal, Dropdown, Tabs, Drawer, Accordion ও Tooltip-এর মতো interactive components** বসানো শিখলাম।

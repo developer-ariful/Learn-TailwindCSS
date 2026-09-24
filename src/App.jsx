@@ -1,10 +1,11 @@
+import Products from "./pages/Products";
 
-import Dashboard from "./pages/Dashboard";
+
 
 export default function () {
     return (
-       <>
-        <Dashboard/>
-       </>
+        <>
+           <Products/>
+        </>
     )
 }
