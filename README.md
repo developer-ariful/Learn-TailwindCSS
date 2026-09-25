@@ -1,848 +1,599 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-# 🚀 Tailwind CSS — Day 22: Advanced UI Components — Modal, Dropdown, Tabs & Drawer
+## 🚀 Tailwind CSS — Day 24
 
-আজ আমরা Dashboard Layout-এর পরবর্তী ধাপে যাব। Day 21-এ আমরা **Sidebar + Header + Main Content + Responsive Layout** তৈরি করেছি।
+#### Pagination, Search, Filter & Sort সহ Advanced Product Listing UI
 
-আজ শিখব কীভাবে একটি professional application-এর **interactive UI components** তৈরি করা যায়।
+আজ আমরা **Day 23-এর Product Listing Page**-কে আরও বাস্তবসম্মত করব।
 
-বিশেষ করে:
+আজকের মূল লক্ষ্য:
 
-* Modal
-* Dropdown
-* Tabs
-* Drawer
-* Overlay
-* Accordion
-* Tooltip
-* Responsive interaction
-* React state + Tailwind
+> **Product Listing → Search → Filter → Sort → Pagination → Responsive UI**
 
-আজকের মূল শিক্ষা:
-
-> **Tailwind UI-এর appearance নিয়ন্ত্রণ করবে, আর React state UI-এর behavior নিয়ন্ত্রণ করবে।**
+এগুলো জানলে আপনি বাস্তব **E-commerce, Admin Dashboard, SaaS Dashboard**-এর Data UI অনেক ভালোভাবে তৈরি করতে পারবেন।
 
 ---
 
-# 🎯 Day 22 Learning Goals
+## 🎯 আজকের Learning Objectives
 
-আজ আপনি শিখবেন:
+আজ শিখবেন:
 
-1. Modal কীভাবে তৈরি করতে হয়
-2. Overlay কীভাবে তৈরি করতে হয়
-3. Dropdown Menu
-4. Tabs
-5. Mobile Drawer
-6. Accordion
-7. Tooltip
-8. React `useState()` দিয়ে interactive UI
-9. `fixed`, `absolute`, `inset-0`, `z-*`
-10. Reusable interactive component চিন্তা
-
----
-
-# ⏰ ১ ঘণ্টার Study Plan
-
-| সময়      | বিষয়                |
-| -------- | ------------------- |
-| 10 মিনিট | Modal + Overlay     |
-| 10 মিনিট | Dropdown            |
-| 10 মিনিট | Tabs                |
-| 10 মিনিট | Mobile Drawer       |
-| 10 মিনিট | Accordion + Tooltip |
-| 5 মিনিট  | E-commerce UI       |
-| 5 মিনিট  | Practice + Revision |
+1. Pagination UI
+2. Previous / Next Button
+3. Active Pagination State
+4. Search UI
+5. Category Filter UI
+6. Sort Dropdown
+7. Filter + Search + Sort Layout
+8. Loading / Disabled State
+9. Responsive Pagination
+10. React State + Tailwind UI Integration
 
 ---
 
-# 1️⃣ Interactive UI কী?
+## ⏰ ১ ঘণ্টার Study Plan
 
-আগের দিন আমরা এমন UI তৈরি করেছি:
-
-```text id="p4v6yn"
-Dashboard
-├── Sidebar
-├── Header
-├── Cards
-└── Table
-```
-
-কিন্তু বাস্তব application-এ user interaction প্রয়োজন।
-
-যেমন:
-
-```text id="x7q2em"
-Button click
-     ↓
-Modal Open
-
-Profile click
-     ↓
-Dropdown Open
-
-Tab click
-     ↓
-Content Change
-
-Mobile menu click
-     ↓
-Drawer Open
-```
-
-এখানেই React state-এর প্রয়োজন হয়।
+| সময়      | বিষয়                    |
+| -------- | ----------------------- |
+| 10 মিনিট | Pagination UI           |
+| 10 মিনিট | Search UI               |
+| 10 মিনিট | Filter UI               |
+| 10 মিনিট | Sort UI                 |
+| 10 মিনিট | React State Integration |
+| 10 মিনিট | Mini Project            |
 
 ---
 
-# 2️⃣ Modal কী?
+## 1️⃣ Pagination কী?
 
-Modal হলো এমন একটি UI যা বর্তমান page-এর উপরে একটি dialog হিসেবে আসে।
-
-উদাহরণ:
-
-```text id="j8n4wp"
-┌────────────────────────────────────┐
-│ Dashboard                          │
-│                                    │
-│     ┌──────────────────────┐       │
-│     │ Delete Product       │       │
-│     │                      │       │
-│     │ Are you sure?        │       │
-│     │                      │       │
-│     │ Cancel    Delete     │       │
-│     └──────────────────────┘       │
-│                                    │
-└────────────────────────────────────┘
-```
-
----
-
-# 3️⃣ Modal-এর তিনটি প্রধান অংশ
-
-একটি Modal সাধারণত:
-
-```text id="t4j8qa"
-Modal
-│
-├── Overlay
-│
-└── Dialog
-    ├── Header
-    ├── Content
-    └── Actions
-```
-
-Overlay:
+ধরুন আপনার database-এ:
 
 ```text
-fixed inset-0
+Total Products = 250
 ```
 
-Dialog:
+একটি page-এ যদি 20টি product দেখান:
 
 ```text
-relative
-rounded-2xl
-bg-white
+Page 1 → 1–20
+Page 2 → 21–40
+Page 3 → 41–60
+...
+Page 13 → 241–250
+```
+
+এখানে Pagination ব্যবহার করা হবে।
+
+সাধারণ UI:
+
+```text
+← Previous   1   2   3   4   5   Next →
 ```
 
 ---
 
-# 4️⃣ Basic Modal
+## 2️⃣ Basic Pagination UI
 
-```jsx id="7m5q2d"
-<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+Tailwind:
 
-  <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-800">
-
-    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-      Delete Product
-    </h2>
-
-    <p className="mt-3 text-gray-600 dark:text-gray-400">
-      Are you sure you want to delete this product?
-    </p>
-
-    <div className="mt-6 flex justify-end gap-3">
-
-      <button
-        className="
-          rounded-lg
-          border border-gray-300
-          px-4 py-2
-          text-gray-700
-          hover:bg-gray-100
-
-          dark:border-gray-600
-          dark:text-gray-300
-          dark:hover:bg-gray-700
-        "
-      >
-        Cancel
-      </button>
-
-      <button
-        className="
-          rounded-lg
-          bg-red-600
-          px-4 py-2
-          font-semibold
-          text-white
-          hover:bg-red-700
-        "
-      >
-        Delete
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-```
-
----
-
-# 5️⃣ এখানে গুরুত্বপূর্ণ Tailwind Classes
-
-### `fixed`
-
-```text id="2yn8rs"
-fixed
-```
-
-Element viewport-এর সাথে fixed থাকবে।
-
-### `inset-0`
-
-```text id="v8o5rp"
-inset-0
-```
-
-এর equivalent ধারণা:
-
-```css
-top: 0;
-right: 0;
-bottom: 0;
-left: 0;
-```
-
-অর্থাৎ পুরো screen cover করবে।
-
-### `z-50`
-
-```text id="r8f3as"
-z-50
-```
-
-Modal-কে অন্যান্য UI-এর উপরে রাখে।
-
----
-
-# 6️⃣ React Modal
-
-এখন Modal-কে interactive করি।
-
-```jsx id="k3n7qx"
-import { useState } from "react";
-
-function ProductPage() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div>
-
-      <button
-        onClick={() => setOpen(true)}
-        className="
-          rounded-lg
-          bg-red-600
-          px-5 py-3
-          font-semibold
-          text-white
-          hover:bg-red-700
-        "
-      >
-        Delete Product
-      </button>
-
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 dark:bg-gray-800">
-
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              Delete Product
-            </h2>
-
-            <p className="mt-3 text-gray-600 dark:text-gray-400">
-              Are you sure?
-            </p>
-
-            <div className="mt-6 flex justify-end gap-3">
-
-              <button
-                onClick={() => setOpen(false)}
-                className="rounded-lg bg-gray-200 px-4 py-2"
-              >
-                Cancel
-              </button>
-
-              <button
-                onClick={() => setOpen(false)}
-                className="rounded-lg bg-red-600 px-4 py-2 text-white"
-              >
-                Delete
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-      )}
-
-    </div>
-  );
-}
-
-export default ProductPage;
-```
-
-### Flow:
-
-```text id="d6h8p1"
-Delete Button
-     ↓
-setOpen(true)
-     ↓
-open === true
-     ↓
-Modal Render
-```
-
-Close:
-
-```text id="g8s4nb"
-Cancel
-   ↓
-setOpen(false)
-   ↓
-Modal disappears
-```
-
----
-
-# 7️⃣ Dropdown Menu
-
-Dashboard Header-এ সাধারণত Profile Dropdown থাকে।
-
-```text id="e5x9cp"
-       👤 Ariful
-            ↓
-      ┌──────────────┐
-      │ Profile      │
-      │ Settings     │
-      │ Logout       │
-      └──────────────┘
-```
-
-এখানে `relative` + `absolute` খুব গুরুত্বপূর্ণ।
-
----
-
-# 8️⃣ Basic Dropdown
-
-```jsx id="4h1s7m"
-<div className="relative">
-
-  <button
-    className="
-      rounded-lg
-      border border-gray-200
-      px-4 py-2
-      dark:border-gray-700
-    "
-  >
-    Profile
+```jsx
+<div className="flex items-center justify-center gap-2">
+  <button className="rounded-lg border px-4 py-2">
+    Previous
   </button>
 
-  <div
-    className="
-      absolute right-0 mt-2
-      w-48
-      rounded-xl
-      border
-      border-gray-200
-      bg-white
-      p-2
-      shadow-xl
-
-      dark:border-gray-700
-      dark:bg-gray-800
-    "
-  >
-    <a
-      href="#"
-      className="
-        block rounded-lg
-        px-3 py-2
-        text-gray-700
-        hover:bg-gray-100
-
-        dark:text-gray-300
-        dark:hover:bg-gray-700
-      "
-    >
-      Profile
-    </a>
-
-    <a
-      href="#"
-      className="
-        block rounded-lg
-        px-3 py-2
-        text-gray-700
-        hover:bg-gray-100
-
-        dark:text-gray-300
-        dark:hover:bg-gray-700
-      "
-    >
-      Settings
-    </a>
-
-    <button
-      className="
-        w-full rounded-lg
-        px-3 py-2
-        text-left
-        text-red-600
-        hover:bg-red-50
-
-        dark:hover:bg-red-900/20
-      "
-    >
-      Logout
-    </button>
-
-  </div>
-
-</div>
-```
-
----
-
-# 9️⃣ কেন `relative` + `absolute`?
-
-Parent:
-
-```text id="3n6j2a"
-relative
-```
-
-Child:
-
-```text id="k1j8vz"
-absolute right-0
-```
-
-এর ফলে dropdown parent-এর relative position অনুযায়ী বসবে।
-
-```text id="7w0y3s"
-Profile Button
-       │
-       └───────────┐
-                   ↓
-             Dropdown
-```
-
----
-
-# 🔟 React Dropdown
-
-```jsx id="z7x3mc"
-const [open, setOpen] = useState(false);
-```
-
-Button:
-
-```jsx id="r5v9pa"
-<button onClick={() => setOpen(!open)}>
-  Profile
-</button>
-```
-
-Conditional rendering:
-
-```jsx id="u4b6tn"
-{open && (
-  <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white shadow-xl">
-    ...
-  </div>
-)}
-```
-
-Mental model:
-
-```text id="q0m2jf"
-Click
- ↓
-State change
- ↓
-Conditional rendering
- ↓
-Dropdown
-```
-
----
-
-# 1️⃣1️⃣ Tabs
-
-Tabs হলো একই page-এর মধ্যে বিভিন্ন content section পরিবর্তন করার pattern।
-
-উদাহরণ:
-
-```text id="a6v3kc"
-┌──────────┬──────────┬──────────┐
-│ Overview │ Reviews  │ Details  │
-└──────────┴──────────┴──────────┘
-
-        Product Information
-```
-
-E-commerce-এ এটি খুব common।
-
----
-
-# 1️⃣2️⃣ Basic Tabs
-
-```jsx id="n2v8sp"
-<div>
-
-  <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
-
-    <button
-      className="
-        border-b-2
-        border-blue-600
-        px-4 py-3
-        font-semibold
-        text-blue-600
-      "
-    >
-      Overview
-    </button>
-
-    <button
-      className="
-        px-4 py-3
-        text-gray-600
-        hover:text-blue-600
-        dark:text-gray-400
-      "
-    >
-      Reviews
-    </button>
-
-    <button
-      className="
-        px-4 py-3
-        text-gray-600
-        hover:text-blue-600
-        dark:text-gray-400
-      "
-    >
-      Details
-    </button>
-
-  </div>
-
-  <div className="py-6">
-    Product overview content
-  </div>
-
-</div>
-```
-
----
-
-# 1️⃣3️⃣ React Tabs
-
-```jsx id="m7k4cd"
-import { useState } from "react";
-
-function ProductTabs() {
-  const [activeTab, setActiveTab] = useState("overview");
-
-  return (
-    <div>
-
-      <div className="flex gap-2 border-b dark:border-gray-700">
-
-        <button
-          onClick={() => setActiveTab("overview")}
-          className={`
-            px-4 py-3
-            ${
-              activeTab === "overview"
-                ? "border-b-2 border-blue-600 text-blue-600"
-                : "text-gray-500"
-            }
-          `}
-        >
-          Overview
-        </button>
-
-        <button
-          onClick={() => setActiveTab("reviews")}
-          className={`
-            px-4 py-3
-            ${
-              activeTab === "reviews"
-                ? "border-b-2 border-blue-600 text-blue-600"
-                : "text-gray-500"
-            }
-          `}
-        >
-          Reviews
-        </button>
-
-      </div>
-
-      <div className="py-6">
-
-        {activeTab === "overview" && (
-          <p>Product overview information.</p>
-        )}
-
-        {activeTab === "reviews" && (
-          <p>Customer reviews.</p>
-        )}
-
-      </div>
-
-    </div>
-  );
-}
-```
-
-এখানে গুরুত্বপূর্ণ concept:
-
-```text id="t7k5sq"
-activeTab
-    ↓
-Conditional UI
-```
-
-এটি Day 17-এর state-based styling-এর আরও advanced ব্যবহার।
-
----
-
-# 1️⃣4️⃣ Mobile Drawer
-
-Day 21-এ আমরা mobile sidebar-এর কথা বলেছিলাম।
-
-আজ সেটিকে একটি proper **Drawer** হিসেবে তৈরি করব।
-
-```text id="y5n8qw"
-Mobile
-
-┌──────────────────────────────┐
-│ ☰ Dashboard                  │
-├──────────────────────────────┤
-│                              │
-│                              │
-└──────────────────────────────┘
-
-☰ Click
-
-┌──────────────────┬───────────┐
-│ Sidebar          │ Overlay   │
-│                  │           │
-│ Dashboard        │           │
-│ Products         │           │
-│ Orders           │           │
-│                  │           │
-└──────────────────┴───────────┘
-```
-
----
-
-# 1️⃣5️⃣ Drawer Structure
-
-```jsx id="0j5r7s"
-<div className="fixed inset-0 z-50">
-
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-black/50"></div>
-
-  {/* Drawer */}
-  <aside
-    className="
-      relative
-      h-full
-      w-72
-      bg-white
-      shadow-xl
-      dark:bg-gray-900
-    "
-  >
-    Sidebar Content
-  </aside>
-
+  <button className="rounded-lg bg-blue-600 px-4 py-2 text-white">
+    1
+  </button>
+
+  <button className="rounded-lg border px-4 py-2">
+    2
+  </button>
+
+  <button className="rounded-lg border px-4 py-2">
+    3
+  </button>
+
+  <button className="rounded-lg border px-4 py-2">
+    Next
+  </button>
 </div>
 ```
 
 এখানে:
 
-```text id="3u5gk7"
-fixed inset-0
-      ↓
-Full screen container
-
-absolute inset-0
-      ↓
-Overlay
-
-relative
-      ↓
-Drawer positioning context
-```
+* `flex` → horizontal layout
+* `items-center` → vertical alignment
+* `justify-center` → center
+* `gap-2` → button spacing
+* `border` → border
+* `bg-blue-600` → active page
 
 ---
 
-# 1️⃣6️⃣ Drawer-এর React State
+## 3️⃣ Active Pagination State
 
-```jsx id="z2q8wy"
-const [open, setOpen] = useState(false);
+Pagination-এ current page আলাদা করে দেখাতে হবে।
+
+যেমন:
+
+```text
+1  2  3  4
+   ↑
+Current Page
 ```
 
-Open:
+React:
 
-```jsx id="n4y6we"
-<button onClick={() => setOpen(true)}>
-  ☰
+```jsx
+import { useState } from "react";
+
+function Pagination() {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  return (
+    <div className="flex justify-center gap-2">
+      {[1, 2, 3, 4, 5].map((page) => (
+        <button
+          key={page}
+          onClick={() => setCurrentPage(page)}
+          className={`rounded-lg px-4 py-2 ${
+            currentPage === page
+              ? "bg-blue-600 text-white"
+              : "border bg-white text-gray-700"
+          }`}
+        >
+          {page}
+        </button>
+      ))}
+    </div>
+  );
+}
+```
+
+###### গুরুত্বপূর্ণ ধারণা
+
+```text
+User clicks 3
+       ↓
+setCurrentPage(3)
+       ↓
+currentPage = 3
+       ↓
+Page 3 active
+```
+
+Tailwind এখানে শুধু **appearance** নিয়ন্ত্রণ করছে।
+
+React নিয়ন্ত্রণ করছে **behavior/state**।
+
+---
+
+## 4️⃣ Previous / Next Button
+
+এখন Previous এবং Next functionality যোগ করি।
+
+```jsx
+<button
+  disabled={currentPage === 1}
+  onClick={() => setCurrentPage(currentPage - 1)}
+  className="rounded-lg border px-4 py-2 disabled:cursor-not-allowed disabled:opacity-50"
+>
+  Previous
 </button>
 ```
 
-Close:
+Next:
 
-```jsx id="2n9j5r"
-<button onClick={() => setOpen(false)}>
-  ✕
+```jsx
+<button
+  disabled={currentPage === totalPages}
+  onClick={() => setCurrentPage(currentPage + 1)}
+  className="rounded-lg border px-4 py-2 disabled:cursor-not-allowed disabled:opacity-50"
+>
+  Next
 </button>
 ```
 
-Render:
+এখানে খুব গুরুত্বপূর্ণ:
 
-```jsx id="g8v2mz"
-{open && (
-  <div className="fixed inset-0 z-50">
-    ...
-  </div>
-)}
+```text
+disabled:opacity-50
+disabled:cursor-not-allowed
+```
+
+Day 13-এর **disabled state** আজ বাস্তব কাজে ব্যবহার করলেন।
+
+---
+
+## 5️⃣ Responsive Pagination
+
+মোবাইলে অনেকগুলো button জায়গা নিতে পারে।
+
+তাই:
+
+```jsx
+<div className="flex flex-wrap items-center justify-center gap-2">
+```
+
+`flex-wrap` ব্যবহার করলে ছোট screen-এ pagination নিচের লাইনে চলে যেতে পারবে।
+
+আরও ভালো:
+
+```jsx
+<div className="flex flex-wrap items-center justify-center gap-2 px-4">
 ```
 
 ---
 
-# 1️⃣7️⃣ Accordion
+## 6️⃣ Search UI
 
-FAQ section-এ Accordion খুব বেশি ব্যবহৃত হয়।
+E-commerce product listing-এ Search অত্যন্ত গুরুত্বপূর্ণ।
 
-```text id="v7c4jx"
-What is Tailwind CSS?          +
-─────────────────────────────────
+UI:
 
-How does dark mode work?       +
-─────────────────────────────────
-
-Can I use Tailwind with React? +
-─────────────────────────────────
+```text
+┌─────────────────────────────────────────┐
+│ 🔍 Search products...                   │
+└─────────────────────────────────────────┘
 ```
 
-Click করলে:
+Tailwind:
 
-```text id="j2p5hz"
-What is Tailwind CSS?          -
-─────────────────────────────────
-Tailwind is a utility-first
-CSS framework...
-```
-
----
-
-# 1️⃣8️⃣ Basic Accordion
-
-```jsx id="q6v9sk"
-<div className="rounded-xl border dark:border-gray-700">
-
-  <button
-    className="
-      flex w-full
-      items-center justify-between
-      px-5 py-4
-      text-left
-      font-semibold
-    "
-  >
-    <span>What is Tailwind CSS?</span>
-
-    <span>+</span>
-  </button>
-
-  <div className="border-t px-5 py-4 text-gray-600 dark:border-gray-700 dark:text-gray-400">
-    Tailwind CSS is a utility-first CSS framework.
-  </div>
-
+```jsx
+<div className="relative">
+  <input
+    type="text"
+    placeholder="Search products..."
+    className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+  />
 </div>
 ```
 
 ---
 
-# 1️⃣9️⃣ Accordion with React
+## 7️⃣ Search Icon সহ Input
 
-```jsx id="w8k3fd"
+```jsx
+<div className="relative">
+  <span className="absolute left-4 top-1/2 -translate-y-1/2">
+    🔍
+  </span>
+
+  <input
+    type="text"
+    placeholder="Search products..."
+    className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-blue-500"
+  />
+</div>
+```
+
+এখানে:
+
+```text
+relative
+   ↓
+absolute icon
+```
+
+Day 9-এর Positioning আবার কাজে লাগছে।
+
+---
+
+## 8️⃣ React Search State
+
+```jsx
 import { useState } from "react";
 
-function FAQ() {
-  const [open, setOpen] = useState(false);
+function SearchBox() {
+  const [search, setSearch] = useState("");
 
   return (
-    <div className="rounded-xl border dark:border-gray-700">
+    <input
+      type="text"
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      placeholder="Search products..."
+      className="w-full rounded-xl border px-4 py-3"
+    />
+  );
+}
+```
 
+Flow:
+
+```text
+User types
+   ↓
+onChange
+   ↓
+setSearch()
+   ↓
+React State Update
+   ↓
+UI Update
+```
+
+---
+
+## 9️⃣ Category Filter
+
+ধরুন categories:
+
+```text
+All
+Electronics
+Clothing
+Shoes
+Accessories
+Books
+```
+
+UI:
+
+```jsx
+<div className="space-y-3">
+  <h3 className="font-semibold">Category</h3>
+
+  <label className="flex items-center gap-3">
+    <input type="radio" name="category" />
+    <span>All</span>
+  </label>
+
+  <label className="flex items-center gap-3">
+    <input type="radio" name="category" />
+    <span>Electronics</span>
+  </label>
+
+  <label className="flex items-center gap-3">
+    <input type="radio" name="category" />
+    <span>Clothing</span>
+  </label>
+</div>
+```
+
+---
+
+## 🔟 Filter State
+
+React:
+
+```jsx
+const [category, setCategory] = useState("all");
+```
+
+তারপর:
+
+```jsx
+<input
+  type="radio"
+  name="category"
+  value="electronics"
+  checked={category === "electronics"}
+  onChange={(e) => setCategory(e.target.value)}
+/>
+```
+
+এখানে:
+
+```text
+category = "all"
+
+User selects Electronics
+
+       ↓
+
+category = "electronics"
+```
+
+---
+
+## 1️⃣1️⃣ Sort Dropdown
+
+Product sorting:
+
+```text
+Sort By
+
+Newest
+Price: Low to High
+Price: High to Low
+Rating
+```
+
+Tailwind:
+
+```jsx
+<select
+  className="rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option>Newest</option>
+  <option>Price: Low to High</option>
+  <option>Price: High to Low</option>
+  <option>Rating</option>
+</select>
+```
+
+---
+
+## 1️⃣2️⃣ Sort State
+
+```jsx
+const [sort, setSort] = useState("newest");
+```
+
+```jsx
+<select
+  value={sort}
+  onChange={(e) => setSort(e.target.value)}
+  className="rounded-xl border px-4 py-3"
+>
+  <option value="newest">Newest</option>
+  <option value="price-low">Price: Low to High</option>
+  <option value="price-high">Price: High to Low</option>
+  <option value="rating">Rating</option>
+</select>
+```
+
+---
+
+## 1️⃣3️⃣ এখন সবগুলো একসাথে
+
+আমাদের Product Listing Toolbar:
+
+```text
+┌──────────────────────────────────────────────────────┐
+│ Search products...          Sort: [Newest ▼]          │
+└──────────────────────────────────────────────────────┘
+```
+
+Tailwind:
+
+```jsx
+<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+  
+  <div className="relative w-full md:max-w-md">
+    <input
+      type="text"
+      placeholder="Search products..."
+      className="w-full rounded-xl border px-4 py-3"
+    />
+  </div>
+
+  <select className="rounded-xl border px-4 py-3">
+    <option>Newest</option>
+    <option>Price: Low to High</option>
+    <option>Price: High to Low</option>
+  </select>
+
+</div>
+```
+
+Responsive behavior:
+
+```text
+Mobile:
+
+Search
+Sort
+
+
+Desktop:
+
+Search                    Sort
+```
+
+কারণ:
+
+```text
+flex-col
+        ↓
+md:flex-row
+```
+
+---
+
+## 1️⃣4️⃣ Product Listing Architecture
+
+আজকের UI-এর structure:
+
+```text
+Products Page
+│
+├── Page Header
+│
+├── Toolbar
+│   ├── Search
+│   └── Sort
+│
+├── Main Content
+│   │
+│   ├── Filter Sidebar
+│   │   ├── Category
+│   │   ├── Price
+│   │   ├── Rating
+│   │   └── Availability
+│   │
+│   └── Product Section
+│       ├── Product Count
+│       ├── Product Grid
+│       └── Pagination
+│
+└── Mobile Filter Drawer
+```
+
+এটাই একটি বাস্তব e-commerce Product Listing Page-এর foundation।
+
+---
+
+## 1️⃣5️⃣ Product Count UI
+
+```jsx
+<div className="flex items-center justify-between">
+  <p className="text-sm text-gray-600">
+    Showing 1–12 of 120 products
+  </p>
+</div>
+```
+
+আরও সুন্দর:
+
+```jsx
+<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+  <h2 className="text-xl font-bold text-gray-900">
+    Products
+  </h2>
+
+  <p className="text-sm text-gray-500">
+    120 products found
+  </p>
+</div>
+```
+
+---
+
+## 1️⃣6️⃣ Complete Pagination Component
+
+একটি reusable component বানাতে পারেন:
+
+```jsx
+function Pagination() {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = 5;
+
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-2">
       <button
-        onClick={() => setOpen(!open)}
-        className="
-          flex w-full
-          items-center justify-between
-          px-5 py-4
-          text-left
-          font-semibold
-          text-gray-900
-          dark:text-white
-        "
+        disabled={currentPage === 1}
+        onClick={() => setCurrentPage(currentPage - 1)}
+        className="rounded-lg border px-4 py-2 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        <span>What is Tailwind CSS?</span>
-
-        <span>{open ? "−" : "+"}</span>
+        Previous
       </button>
 
-      {open && (
-        <div
-          className="
-            border-t
-            px-5 py-4
-            text-gray-600
-            dark:border-gray-700
-            dark:text-gray-400
-          "
+      {[1, 2, 3, 4, 5].map((page) => (
+        <button
+          key={page}
+          onClick={() => setCurrentPage(page)}
+          className={`rounded-lg px-4 py-2 ${
+            currentPage === page
+              ? "bg-blue-600 text-white"
+              : "border bg-white text-gray-700"
+          }`}
         >
-          Tailwind CSS is a utility-first CSS framework.
-        </div>
-      )}
+          {page}
+        </button>
+      ))}
 
+      <button
+        disabled={currentPage === totalPages}
+        onClick={() => setCurrentPage(currentPage + 1)}
+        className="rounded-lg border px-4 py-2 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Next
+      </button>
     </div>
   );
 }
@@ -850,426 +601,307 @@ function FAQ() {
 
 ---
 
-# 2️⃣0️⃣ Tooltip
+## 1️⃣7️⃣ গুরুত্বপূর্ণ বাস্তব বিষয়: Client vs Server
 
-Tooltip হলো ছোট information box।
+বাস্তব e-commerce project-এ দুই ধরনের filtering হতে পারে।
 
-```text id="n3y7wc"
-        Delete
-          ↑
-    ┌──────────┐
-    │ Delete   │
-    └──────────┘
-        🗑️
-```
-
-Tailwind-এর `group` দিয়ে এটি সহজে তৈরি করা যায়।
-
-```jsx id="k4w9qp"
-<div className="group relative inline-block">
-
-  <button
-    className="
-      rounded-lg
-      bg-red-600
-      p-3
-      text-white
-    "
-  >
-    🗑️
-  </button>
-
-  <div
-    className="
-      pointer-events-none
-      absolute
-      bottom-full
-      left-1/2
-      mb-2
-      -translate-x-1/2
-      whitespace-nowrap
-      rounded-lg
-      bg-gray-900
-      px-3 py-2
-      text-xs
-      text-white
-      opacity-0
-      transition
-      group-hover:opacity-100
-    "
-  >
-    Delete Product
-  </div>
-
-</div>
-```
-
-এখানে আমরা Day 17-এর:
-
-```text id="p5c8ay"
-group
-group-hover
-```
-
-এবং Day 19-এর:
-
-```text id="f6k2rw"
-transition
-opacity
-```
-
-একসাথে ব্যবহার করেছি।
-
----
-
-# 🧠 2️⃣1️⃣ আজকের Core Pattern
-
-আজকের প্রায় সব interactive component-এর architecture একই:
-
-```text id="v5s2bx"
-User Interaction
-       ↓
-React Event
-       ↓
-State Change
-       ↓
-Conditional Rendering
-       ↓
-Tailwind Styling
-       ↓
-UI Update
-```
-
-উদাহরণ:
-
-### Modal
-
-```text id="b2n7cv"
-Click Delete
-     ↓
-open = true
-     ↓
-Modal Render
-```
-
-### Dropdown
-
-```text id="y8m4kp"
-Click Profile
-     ↓
-open = true
-     ↓
-Dropdown Render
-```
-
-### Tabs
-
-```text id="e3r7hd"
-Click Reviews
-     ↓
-activeTab = "reviews"
-     ↓
-Reviews Content
-```
-
-### Drawer
-
-```text id="z5q9jx"
-Click Menu
-     ↓
-sidebarOpen = true
-     ↓
-Drawer Render
-```
-
----
-
-# 🛒 2️⃣2️⃣ E-commerce-এ এগুলোর ব্যবহার
-
-আপনার AI-powered e-commerce application-এ:
-
-| Component | কোথায় ব্যবহার করবেন            |
-| --------- | ------------------------------ |
-| Modal     | Delete Product / Confirm Order |
-| Dropdown  | Profile / Actions              |
-| Tabs      | Product Details                |
-| Drawer    | Mobile Sidebar                 |
-| Accordion | FAQ                            |
-| Tooltip   | Icon Buttons                   |
-| Overlay   | Modal/Drawer                   |
-| State     | UI behavior                    |
-
----
-
-# 🏗️ 2️⃣3️⃣ Reusable Component Architecture
-
-React project-এ এগুলো আলাদা component করা ভালো:
-
-```text id="v4q8nm"
-src/
-├── components/
-│   ├── ui/
-│   │   ├── Button.jsx
-│   │   ├── Modal.jsx
-│   │   ├── Dropdown.jsx
-│   │   ├── Tabs.jsx
-│   │   ├── Drawer.jsx
-│   │   ├── Accordion.jsx
-│   │   └── Tooltip.jsx
-│   │
-│   ├── layout/
-│   │   ├── Sidebar.jsx
-│   │   ├── Header.jsx
-│   │   └── DashboardLayout.jsx
-│   │
-│   └── dashboard/
-│       ├── StatCard.jsx
-│       └── RecentOrders.jsx
-```
-
-এটাই reusable UI library-এর দিকে আপনার যাত্রা।
-
----
-
-# ⚠️ 2️⃣4️⃣ Accessibility মনে রাখবেন
-
-Interactive UI বানানোর সময় শুধু সুন্দর দেখালেই হবে না।
-
-### Button-এর ক্ষেত্রে
-
-```jsx id="x7k2pd"
-<button type="button">
-```
-
-ব্যবহার করুন।
-
-### Icon-only button হলে
-
-```jsx id="q4v8ms"
-<button
-  type="button"
-  aria-label="Open menu"
->
-  ☰
-</button>
-```
-
-কারণ user বুঝতে না পারলেও screen reader button-এর উদ্দেশ্য বুঝতে পারবে।
-
-### Modal-এর ক্ষেত্রে
-
-Professional application-এ focus management, keyboard interaction এবং dialog semantics-ও বিবেচনা করতে হয়।
-
----
-
-# 🧪 2️⃣5️⃣ আজকের Practice
-
-## Practice 1 — Modal
-
-তৈরি করুন:
-
-```text id="e8w4pz"
-Delete Product
-       ↓
-Confirmation Modal
-       ↓
-Cancel / Delete
-```
-
----
-
-## Practice 2 — Profile Dropdown
-
-```text id="m7c3qa"
-Profile
-  ↓
-Profile
-Settings
-Logout
-```
-
----
-
-## Practice 3 — Product Tabs
-
-তৈরি করুন:
-
-```text id="b3p8vn"
-Overview
-Reviews
-Specifications
-```
-
----
-
-## Practice 4 — Mobile Drawer
-
-তৈরি করুন:
-
-```text id="r9k5xd"
-☰
- ↓
-Sidebar Drawer
- ↓
-Overlay
-```
-
----
-
-## Practice 5 — FAQ Accordion
-
-কমপক্ষে ৪টি প্রশ্ন তৈরি করুন।
-
----
-
-# 🎯 2️⃣6️⃣ Day 22 Mini Project
-
-আজকের সবচেয়ে গুরুত্বপূর্ণ challenge:
-
-## **E-commerce Product Details UI**
-
-Structure:
-
-```text id="d6y2hf"
-Product Details
-│
-├── Product Image
-│
-├── Product Information
-│   ├── Title
-│   ├── Price
-│   ├── Rating
-│   ├── Add to Cart
-│   └── Buy Now
-│
-├── Tabs
-│   ├── Description
-│   ├── Reviews
-│   └── Specifications
-│
-├── FAQ Accordion
-│
-└── Delete/Edit Modal
-```
-
-এর মধ্যে ব্যবহার করবেন:
-
-```text id="x4p7na"
-Grid
-Flex
-Responsive
-Dark Mode
-Tabs
-Accordion
-Modal
-Button
-Transition
-Hover
-Focus
-```
-
-এটি করলে Day 1–22-এর অনেক concept একসাথে practice হবে।
-
----
-
-# 🧠 Day 22 Self-Test
-
-নিজেকে জিজ্ঞেস করুন:
-
-1. Modal কী?
-2. `fixed inset-0` কী করে?
-3. Overlay কেন ব্যবহার করা হয়?
-4. `z-50` কেন দরকার?
-5. Dropdown-এর parent-এ `relative` কেন?
-6. Dropdown-এ `absolute` কেন?
-7. Tabs কীভাবে React state ব্যবহার করে?
-8. Drawer এবং Sidebar-এর মধ্যে পার্থক্য কী?
-9. Accordion কীভাবে কাজ করে?
-10. `group-hover` Tooltip-এ কীভাবে কাজ করছে?
-11. Conditional rendering কী?
-12. Interactive component-এ React এবং Tailwind-এর দায়িত্ব কী?
-
----
-
-# 📌 Day 22 Cheat Sheet
+###### Small Dataset
 
 ```text
-MODAL
-fixed
-inset-0
-z-50
-bg-black/50
-flex
-items-center
-justify-center
+Backend
+  ↓
+সব Products
+  ↓
+React
+  ↓
+Search / Filter / Sort
+```
 
-DROPDOWN
-relative
-absolute
-right-0
-mt-2
-shadow-xl
+###### Large Dataset
 
-TABS
-activeTab
-border-b-2
-conditional rendering
+```text
+React
+  ↓
+API Request
+  ↓
+Backend
+  ↓
+Database
+  ↓
+Filtered Products
+  ↓
+React
+```
 
-DRAWER
-fixed
-inset-0
-z-50
-w-72
-shadow-xl
+যেমন:
 
-ACCORDION
-useState
-conditional rendering
+```text
+GET /api/products?page=2&limit=12
+```
 
-TOOLTIP
-group
-relative
-absolute
-opacity-0
-group-hover:opacity-100
-transition
+Filter:
 
-INTERACTION
-onClick
-useState
-conditional rendering
+```text
+GET /api/products?category=electronics
+```
+
+Search:
+
+```text
+GET /api/products?search=iphone
+```
+
+Sort:
+
+```text
+GET /api/products?sort=price_asc
+```
+
+একসাথে:
+
+```text
+GET /api/products
+    ?page=2
+    &limit=12
+    &search=phone
+    &category=electronics
+    &sort=price_asc
+```
+
+**Tailwind এখানে শুধু UI তৈরি করবে।**
+
+API, database এবং filtering logic backend-এর দায়িত্ব।
+
+---
+
+## 1️⃣8️⃣ Component Structure
+
+আজকের কাজের জন্য:
+
+```text
+src/
+├── components/
+│   ├── products/
+│   │   ├── ProductCard.jsx
+│   │   ├── ProductGrid.jsx
+│   │   ├── ProductFilters.jsx
+│   │   ├── ProductToolbar.jsx
+│   │   └── ProductPagination.jsx
+│   │
+│   └── ui/
+│       ├── Button.jsx
+│       ├── Input.jsx
+│       └── Select.jsx
+│
+└── pages/
+    └── Products.jsx
+```
+
+এখানে একটি গুরুত্বপূর্ণ architecture concept:
+
+```text
+ProductToolbar
+     │
+     ├── Search
+     └── Sort
+
+ProductFilters
+     │
+     ├── Category
+     ├── Price
+     └── Rating
+
+ProductGrid
+     │
+     └── ProductCard
+
+ProductPagination
 ```
 
 ---
 
-# 🔥 Day 22-এর Mental Model
+## 🧠 আজকের সবচেয়ে গুরুত্বপূর্ণ Concept
 
-```text id="c8m4za"
-          USER
-            │
-            ▼
-       Click / Action
-            │
-            ▼
-       React Event
-            │
-            ▼
-        React State
-            │
-            ▼
-   Conditional Rendering
-            │
-            ▼
-      Tailwind Styling
-            │
-            ▼
-       Interactive UI
+মনে রাখবেন:
+
+```text
+Tailwind CSS
+     ↓
+UI / Appearance
+
+React
+     ↓
+State / Interaction
+
+Backend API
+     ↓
+Business Logic
+
+Database
+     ↓
+Data
 ```
 
-### আজকের মূল শিক্ষা:
+অর্থাৎ:
 
-> **React দিয়ে UI-এর behavior তৈরি করবেন এবং Tailwind CSS দিয়ে সেই UI-এর appearance, responsive layout, state styles এবং visual feedback তৈরি করবেন।**
+```text
+User
+ ↓
+Search
+ ↓
+React State
+ ↓
+API Request
+ ↓
+Backend
+ ↓
+Database
+ ↓
+Filtered Data
+ ↓
+React
+ ↓
+Tailwind UI
+```
 
-Day 21-এ আমরা **Dashboard-এর skeleton** তৈরি করেছি। Day 22-এ সেই skeleton-এর মধ্যে **Modal, Dropdown, Tabs, Drawer, Accordion ও Tooltip-এর মতো interactive components** বসানো শিখলাম।
+এটি একজন Full-Stack Developer হিসেবে আপনার জন্য খুব গুরুত্বপূর্ণ mental model।
 
+---
 
+## 🛒 Day 24 Mini Project
+
+আজ একটি:
+
+#### **TechStore Advanced Product Listing**
+
+তৈরি করুন।
+
+###### Requirements
+
+**1. Header**
+
+```text
+TechStore
+Products
+Cart
+Profile
+```
+
+**2. Search**
+
+```text
+🔍 Search products...
+```
+
+**3. Filter**
+
+```text
+Category
+☐ Electronics
+☐ Clothing
+☐ Shoes
+☐ Books
+
+Price
+Min ─── Max
+
+Rating
+○ 4★ & up
+○ 3★ & up
+```
+
+**4. Sort**
+
+```text
+Newest
+Price Low → High
+Price High → Low
+Rating
+```
+
+**5. Product Grid**
+
+```text
+1 column → Mobile
+2 columns → Tablet
+3 columns → Desktop
+4 columns → Large Desktop
+```
+
+**6. Pagination**
+
+```text
+← Previous  1  2  3  4  5  Next →
+```
+
+**7. Dark Mode**
+
+Day 20-এর `dark:` ব্যবহার করুন।
+
+---
+
+## 🧪 Day 24 Practice Challenge
+
+নিজে চেষ্টা করুন:
+
+###### Challenge 1
+
+একটি responsive search bar তৈরি করুন।
+
+###### Challenge 2
+
+5টি pagination button তৈরি করুন।
+
+###### Challenge 3
+
+Current page-কে blue background দিন।
+
+###### Challenge 4
+
+Page 1 হলে:
+
+```text
+Previous = disabled
+```
+
+###### Challenge 5
+
+শেষ page হলে:
+
+```text
+Next = disabled
+```
+
+###### Challenge 6
+
+Category filter তৈরি করুন।
+
+###### Challenge 7
+
+Sort dropdown তৈরি করুন।
+
+###### Challenge 8
+
+সবগুলো Product Listing Page-এ integrate করুন।
+
+---
+
+## 📋 Day 24 Cheat Sheet
+
+| কাজ                | Tailwind                                         |
+| ------------------ | ------------------------------------------------ |
+| Pagination layout  | `flex items-center gap-2`                        |
+| Wrap               | `flex-wrap`                                      |
+| Active button      | `bg-blue-600 text-white`                         |
+| Disabled           | `disabled:opacity-50`                            |
+| Disabled cursor    | `disabled:cursor-not-allowed`                    |
+| Search input       | `w-full rounded-xl border px-4 py-3`             |
+| Focus              | `focus:ring-2`                                   |
+| Sort               | `rounded-xl border px-4 py-3`                    |
+| Responsive toolbar | `flex-col md:flex-row`                           |
+| Center pagination  | `justify-center`                                 |
+| Product grid       | `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` |
+| Spacing            | `gap-4`, `gap-6`                                 |
+| Mobile → Desktop   | `md:`, `lg:`, `xl:`                              |
+
+---
