@@ -1,799 +1,211 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-## 🚀 Tailwind CSS — Day 22: Advanced UI Components — Modal, Dropdown, Tabs & Drawer
+# 🚀 Tailwind CSS — Day 23: Advanced Grid, Container & E-commerce Product Listing
 
-আজ আমরা Dashboard Layout-এর পরবর্তী ধাপে যাব। Day 21-এ আমরা **Sidebar + Header + Main Content + Responsive Layout** তৈরি করেছি।
+Day 21-এ আমরা **Dashboard Layout**, Day 22-এ **Modal, Dropdown, Tabs, Drawer, Accordion** শিখেছি।
 
-আজ শিখব কীভাবে একটি professional application-এর **interactive UI components** তৈরি করা যায়।
+আজ আমরা এগুলোকে আরও বাস্তবভাবে ব্যবহার করে **Professional E-commerce Product Listing UI** তৈরি করব।
 
-বিশেষ করে:
+আজকের মূল focus:
 
-* Modal
-* Dropdown
-* Tabs
-* Drawer
-* Overlay
-* Accordion
-* Tooltip
-* Responsive interaction
-* React state + Tailwind
-
-আজকের মূল শিক্ষা:
-
-> **Tailwind UI-এর appearance নিয়ন্ত্রণ করবে, আর React state UI-এর behavior নিয়ন্ত্রণ করবে।**
+> **Responsive Product Listing + Filter Sidebar + Product Grid + Advanced CSS Grid**
 
 ---
 
-## 🎯 Day 22 Learning Goals
+# 🎯 Day 23 Learning Goals
 
 আজ আপনি শিখবেন:
 
-1. Modal কীভাবে তৈরি করতে হয়
-2. Overlay কীভাবে তৈরি করতে হয়
-3. Dropdown Menu
-4. Tabs
-5. Mobile Drawer
-6. Accordion
-7. Tooltip
-8. React `useState()` দিয়ে interactive UI
-9. `fixed`, `absolute`, `inset-0`, `z-*`
-10. Reusable interactive component চিন্তা
+* `container` ও `max-w-*`
+* Advanced CSS Grid
+* `grid-cols-*`
+* `col-span-*`
+* Product listing layout
+* Filter Sidebar
+* Product Grid
+* Responsive Filter Layout
+* `auto-rows` ও custom grid concepts
+* `gap` এবং nested grid
+* Product card-কে reusable pattern হিসেবে ব্যবহার
+* E-commerce responsive architecture
 
 ---
 
-## ⏰ ১ ঘণ্টার Study Plan
+# ⏰ ১ ঘণ্টার Study Plan
 
-| সময়      | বিষয়                |
-| -------- | ------------------- |
-| 10 মিনিট | Modal + Overlay     |
-| 10 মিনিট | Dropdown            |
-| 10 মিনিট | Tabs                |
-| 10 মিনিট | Mobile Drawer       |
-| 10 মিনিট | Accordion + Tooltip |
-| 5 মিনিট  | E-commerce UI       |
-| 5 মিনিট  | Practice + Revision |
-
----
-
-## 1️⃣ Interactive UI কী?
-
-আগের দিন আমরা এমন UI তৈরি করেছি:
-
-```text id="p4v6yn"
-Dashboard
-├── Sidebar
-├── Header
-├── Cards
-└── Table
-```
-
-কিন্তু বাস্তব application-এ user interaction প্রয়োজন।
-
-যেমন:
-
-```text id="x7q2em"
-Button click
-     ↓
-Modal Open
-
-Profile click
-     ↓
-Dropdown Open
-
-Tab click
-     ↓
-Content Change
-
-Mobile menu click
-     ↓
-Drawer Open
-```
-
-এখানেই React state-এর প্রয়োজন হয়।
+| সময়      | বিষয়                      |
+| -------- | ------------------------- |
+| 10 মিনিট | Container + Content Width |
+| 10 মিনিট | Advanced Grid             |
+| 10 মিনিট | Product Listing Layout    |
+| 10 মিনিট | Filter Sidebar            |
+| 10 মিনিট | Responsive Product Grid   |
+| 5 মিনিট  | E-commerce UI Integration |
+| 5 মিনিট  | Practice + Revision       |
 
 ---
 
-## 2️⃣ Modal কী?
+# 1️⃣ `container` কী?
 
-Modal হলো এমন একটি UI যা বর্তমান page-এর উপরে একটি dialog হিসেবে আসে।
+Tailwind-এ `container` utility content-এর maximum width responsiveভাবে পরিচালনা করতে সাহায্য করে।
 
-উদাহরণ:
-
-```text id="j8n4wp"
-┌────────────────────────────────────┐
-│ Dashboard                          │
-│                                    │
-│     ┌──────────────────────┐       │
-│     │ Delete Product       │       │
-│     │                      │       │
-│     │ Are you sure?        │       │
-│     │                      │       │
-│     │ Cancel    Delete     │       │
-│     └──────────────────────┘       │
-│                                    │
-└────────────────────────────────────┘
-```
-
----
-
-## 3️⃣ Modal-এর তিনটি প্রধান অংশ
-
-একটি Modal সাধারণত:
-
-```text id="t4j8qa"
-Modal
-│
-├── Overlay
-│
-└── Dialog
-    ├── Header
-    ├── Content
-    └── Actions
-```
-
-Overlay:
-
-```text
-fixed inset-0
-```
-
-Dialog:
-
-```text
-relative
-rounded-2xl
-bg-white
-```
-
----
-
-## 4️⃣ Basic Modal
-
-```jsx id="7m5q2d"
-<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-
-  <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-800">
-
-    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-      Delete Product
-    </h2>
-
-    <p className="mt-3 text-gray-600 dark:text-gray-400">
-      Are you sure you want to delete this product?
-    </p>
-
-    <div className="mt-6 flex justify-end gap-3">
-
-      <button
-        className="
-          rounded-lg
-          border border-gray-300
-          px-4 py-2
-          text-gray-700
-          hover:bg-gray-100
-
-          dark:border-gray-600
-          dark:text-gray-300
-          dark:hover:bg-gray-700
-        "
-      >
-        Cancel
-      </button>
-
-      <button
-        className="
-          rounded-lg
-          bg-red-600
-          px-4 py-2
-          font-semibold
-          text-white
-          hover:bg-red-700
-        "
-      >
-        Delete
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-```
-
----
-
-## 5️⃣ এখানে গুরুত্বপূর্ণ Tailwind Classes
-
-###### `fixed`
-
-```text id="2yn8rs"
-fixed
-```
-
-Element viewport-এর সাথে fixed থাকবে।
-
-###### `inset-0`
-
-```text id="v8o5rp"
-inset-0
-```
-
-এর equivalent ধারণা:
-
-```css
-top: 0;
-right: 0;
-bottom: 0;
-left: 0;
-```
-
-অর্থাৎ পুরো screen cover করবে।
-
-###### `z-50`
-
-```text id="r8f3as"
-z-50
-```
-
-Modal-কে অন্যান্য UI-এর উপরে রাখে।
-
----
-
-## 6️⃣ React Modal
-
-এখন Modal-কে interactive করি।
-
-```jsx id="k3n7qx"
-import { useState } from "react";
-
-function ProductPage() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div>
-
-      <button
-        onClick={() => setOpen(true)}
-        className="
-          rounded-lg
-          bg-red-600
-          px-5 py-3
-          font-semibold
-          text-white
-          hover:bg-red-700
-        "
-      >
-        Delete Product
-      </button>
-
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 dark:bg-gray-800">
-
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              Delete Product
-            </h2>
-
-            <p className="mt-3 text-gray-600 dark:text-gray-400">
-              Are you sure?
-            </p>
-
-            <div className="mt-6 flex justify-end gap-3">
-
-              <button
-                onClick={() => setOpen(false)}
-                className="rounded-lg bg-gray-200 px-4 py-2"
-              >
-                Cancel
-              </button>
-
-              <button
-                onClick={() => setOpen(false)}
-                className="rounded-lg bg-red-600 px-4 py-2 text-white"
-              >
-                Delete
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-      )}
-
-    </div>
-  );
-}
-
-export default ProductPage;
-```
-
-###### Flow:
-
-```text id="d6h8p1"
-Delete Button
-     ↓
-setOpen(true)
-     ↓
-open === true
-     ↓
-Modal Render
-```
-
-Close:
-
-```text id="g8s4nb"
-Cancel
-   ↓
-setOpen(false)
-   ↓
-Modal disappears
-```
-
----
-
-## 7️⃣ Dropdown Menu
-
-Dashboard Header-এ সাধারণত Profile Dropdown থাকে।
-
-```text id="e5x9cp"
-       👤 Ariful
-            ↓
-      ┌──────────────┐
-      │ Profile      │
-      │ Settings     │
-      │ Logout       │
-      └──────────────┘
-```
-
-এখানে `relative` + `absolute` খুব গুরুত্বপূর্ণ।
-
----
-
-## 8️⃣ Basic Dropdown
-
-```jsx id="4h1s7m"
-<div className="relative">
-
-  <button
-    className="
-      rounded-lg
-      border border-gray-200
-      px-4 py-2
-      dark:border-gray-700
-    "
-  >
-    Profile
-  </button>
-
-  <div
-    className="
-      absolute right-0 mt-2
-      w-48
-      rounded-xl
-      border
-      border-gray-200
-      bg-white
-      p-2
-      shadow-xl
-
-      dark:border-gray-700
-      dark:bg-gray-800
-    "
-  >
-    <a
-      href="##"
-      className="
-        block rounded-lg
-        px-3 py-2
-        text-gray-700
-        hover:bg-gray-100
-
-        dark:text-gray-300
-        dark:hover:bg-gray-700
-      "
-    >
-      Profile
-    </a>
-
-    <a
-      href="##"
-      className="
-        block rounded-lg
-        px-3 py-2
-        text-gray-700
-        hover:bg-gray-100
-
-        dark:text-gray-300
-        dark:hover:bg-gray-700
-      "
-    >
-      Settings
-    </a>
-
-    <button
-      className="
-        w-full rounded-lg
-        px-3 py-2
-        text-left
-        text-red-600
-        hover:bg-red-50
-
-        dark:hover:bg-red-900/20
-      "
-    >
-      Logout
-    </button>
-
-  </div>
-
-</div>
-```
-
----
-
-## 9️⃣ কেন `relative` + `absolute`?
-
-Parent:
-
-```text id="3n6j2a"
-relative
-```
-
-Child:
-
-```text id="k1j8vz"
-absolute right-0
-```
-
-এর ফলে dropdown parent-এর relative position অনুযায়ী বসবে।
-
-```text id="7w0y3s"
-Profile Button
-       │
-       └───────────┐
-                   ↓
-             Dropdown
-```
-
----
-
-## 🔟 React Dropdown
-
-```jsx id="z7x3mc"
-const [open, setOpen] = useState(false);
-```
-
-Button:
-
-```jsx id="r5v9pa"
-<button onClick={() => setOpen(!open)}>
-  Profile
-</button>
-```
-
-Conditional rendering:
-
-```jsx id="u4b6tn"
-{open && (
-  <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white shadow-xl">
-    ...
-  </div>
-)}
-```
-
-Mental model:
-
-```text id="q0m2jf"
-Click
- ↓
-State change
- ↓
-Conditional rendering
- ↓
-Dropdown
-```
-
----
-
-## 1️⃣1️⃣ Tabs
-
-Tabs হলো একই page-এর মধ্যে বিভিন্ন content section পরিবর্তন করার pattern।
-
-উদাহরণ:
-
-```text id="a6v3kc"
-┌──────────┬──────────┬──────────┐
-│ Overview │ Reviews  │ Details  │
-└──────────┴──────────┴──────────┘
-
-        Product Information
-```
-
-E-commerce-এ এটি খুব common।
-
----
-
-## 1️⃣2️⃣ Basic Tabs
-
-```jsx id="n2v8sp"
-<div>
-
-  <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
-
-    <button
-      className="
-        border-b-2
-        border-blue-600
-        px-4 py-3
-        font-semibold
-        text-blue-600
-      "
-    >
-      Overview
-    </button>
-
-    <button
-      className="
-        px-4 py-3
-        text-gray-600
-        hover:text-blue-600
-        dark:text-gray-400
-      "
-    >
-      Reviews
-    </button>
-
-    <button
-      className="
-        px-4 py-3
-        text-gray-600
-        hover:text-blue-600
-        dark:text-gray-400
-      "
-    >
-      Details
-    </button>
-
-  </div>
-
-  <div className="py-6">
-    Product overview content
-  </div>
-
-</div>
-```
-
----
-
-## 1️⃣3️⃣ React Tabs
-
-```jsx id="m7k4cd"
-import { useState } from "react";
-
-function ProductTabs() {
-  const [activeTab, setActiveTab] = useState("overview");
-
-  return (
-    <div>
-
-      <div className="flex gap-2 border-b dark:border-gray-700">
-
-        <button
-          onClick={() => setActiveTab("overview")}
-          className={`
-            px-4 py-3
-            ${
-              activeTab === "overview"
-                ? "border-b-2 border-blue-600 text-blue-600"
-                : "text-gray-500"
-            }
-          `}
-        >
-          Overview
-        </button>
-
-        <button
-          onClick={() => setActiveTab("reviews")}
-          className={`
-            px-4 py-3
-            ${
-              activeTab === "reviews"
-                ? "border-b-2 border-blue-600 text-blue-600"
-                : "text-gray-500"
-            }
-          `}
-        >
-          Reviews
-        </button>
-
-      </div>
-
-      <div className="py-6">
-
-        {activeTab === "overview" && (
-          <p>Product overview information.</p>
-        )}
-
-        {activeTab === "reviews" && (
-          <p>Customer reviews.</p>
-        )}
-
-      </div>
-
-    </div>
-  );
-}
-```
-
-এখানে গুরুত্বপূর্ণ concept:
-
-```text id="t7k5sq"
-activeTab
-    ↓
-Conditional UI
-```
-
-এটি Day 17-এর state-based styling-এর আরও advanced ব্যবহার।
-
----
-
-## 1️⃣4️⃣ Mobile Drawer
-
-Day 21-এ আমরা mobile sidebar-এর কথা বলেছিলাম।
-
-আজ সেটিকে একটি proper **Drawer** হিসেবে তৈরি করব।
-
-```text id="y5n8qw"
-Mobile
-
-┌──────────────────────────────┐
-│ ☰ Dashboard                  │
-├──────────────────────────────┤
-│                              │
-│                              │
-└──────────────────────────────┘
-
-☰ Click
-
-┌──────────────────┬───────────┐
-│ Sidebar          │ Overlay   │
-│                  │           │
-│ Dashboard        │           │
-│ Products         │           │
-│ Orders           │           │
-│                  │           │
-└──────────────────┴───────────┘
-```
-
----
-
-## 1️⃣5️⃣ Drawer Structure
-
-```jsx id="0j5r7s"
-<div className="fixed inset-0 z-50">
-
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-black/50"></div>
-
-  {/* Drawer */}
-  <aside
-    className="
-      relative
-      h-full
-      w-72
-      bg-white
-      shadow-xl
-      dark:bg-gray-900
-    "
-  >
-    Sidebar Content
-  </aside>
-
+```html
+<div class="container mx-auto px-4">
+    Content
 </div>
 ```
 
 এখানে:
 
-```text id="3u5gk7"
-fixed inset-0
-      ↓
-Full screen container
+```text
+container
+    ↓
+Maximum width অনুযায়ী content
 
-absolute inset-0
-      ↓
-Overlay
+mx-auto
+    ↓
+Center
 
-relative
-      ↓
-Drawer positioning context
+px-4
+    ↓
+Horizontal padding
+```
+
+তবে বাস্তব project-এ অনেক সময় আমরা explicit:
+
+```html
+<div class="mx-auto w-full max-w-7xl px-4">
+```
+
+এই pattern-টিও ব্যবহার করি।
+
+---
+
+# 2️⃣ Container বনাম `max-w-*`
+
+দুটো approach বুঝে রাখুন।
+
+### Container
+
+```html
+<div class="container mx-auto px-4">
+```
+
+### Explicit max-width
+
+```html
+<div class="mx-auto w-full max-w-7xl px-4">
+```
+
+দ্বিতীয় approach-এ আপনি নির্দিষ্ট maximum width-এর উপর বেশি control পান।
+
+উদাহরণ:
+
+```text
+max-w-md
+max-w-lg
+max-w-xl
+max-w-2xl
+max-w-4xl
+max-w-6xl
+max-w-7xl
 ```
 
 ---
 
-## 1️⃣6️⃣ Drawer-এর React State
+# 3️⃣ Professional Page Container
 
-```jsx id="z2q8wy"
-const [open, setOpen] = useState(false);
+E-commerce page-এ একটি standard pattern:
+
+```jsx
+<div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+  Content
+</div>
 ```
 
-Open:
+Responsive:
 
-```jsx id="n4y6we"
-<button onClick={() => setOpen(true)}>
-  ☰
-</button>
+```text
+Mobile
+↓
+px-4
+
+Tablet
+↓
+px-6
+
+Desktop
+↓
+px-8
 ```
 
-Close:
+এটি আপনি প্রায় সব ধরনের page-এ ব্যবহার করতে পারবেন।
 
-```jsx id="2n9j5r"
-<button onClick={() => setOpen(false)}>
-  ✕
-</button>
+---
+
+# 4️⃣ Product Listing Page
+
+একটি সাধারণ E-commerce Product Listing:
+
+```text
+┌──────────────────────────────────────────────┐
+│ Products                                     │
+│                                              │
+│ ┌───────────┐ ┌──────┐ ┌──────┐ ┌──────┐    │
+│ │           │ │      │ │      │ │      │    │
+│ │  Filters  │ │  P1  │ │  P2  │ │  P3  │    │
+│ │           │ │      │ │      │ │      │    │
+│ │ Category  │ └──────┘ └──────┘ └──────┘    │
+│ │ Price     │                                │
+│ │ Rating    │ ┌──────┐ ┌──────┐ ┌──────┐    │
+│ │           │ │  P4  │ │  P5  │ │  P6  │    │
+│ └───────────┘ └──────┘ └──────┘ └──────┘    │
+└──────────────────────────────────────────────┘
 ```
 
-Render:
+এখানে আমাদের দুইটি প্রধান area:
 
-```jsx id="g8v2mz"
-{open && (
-  <div className="fixed inset-0 z-50">
-    ...
-  </div>
-)}
+```text
+Filter Sidebar
++
+Product Grid
 ```
 
 ---
 
-## 1️⃣7️⃣ Accordion
+# 5️⃣ Grid দিয়ে Layout
 
-FAQ section-এ Accordion খুব বেশি ব্যবহৃত হয়।
+আমরা ব্যবহার করতে পারি:
 
-```text id="v7c4jx"
-What is Tailwind CSS?          +
-─────────────────────────────────
-
-How does dark mode work?       +
-─────────────────────────────────
-
-Can I use Tailwind with React? +
-─────────────────────────────────
+```jsx
+<div className="grid gap-8 lg:grid-cols-4">
 ```
 
-Click করলে:
+এখন:
 
-```text id="j2p5hz"
-What is Tailwind CSS?          -
-─────────────────────────────────
-Tailwind is a utility-first
-CSS framework...
+```text
+Desktop
+
+Column 1     Column 2     Column 3     Column 4
+────────     ─────────     ─────────     ─────────
+Filter       Product       Product       Product
+Sidebar
 ```
 
----
+কিন্তু Filter Sidebar-এর জন্য ১টি column এবং Products-এর জন্য ৩টি column দরকার।
 
-## 1️⃣8️⃣ Basic Accordion
+তাই:
 
-```jsx id="q6v9sk"
-<div className="rounded-xl border dark:border-gray-700">
+```jsx
+<div className="grid gap-8 lg:grid-cols-4">
+  
+  <aside>
+    Filters
+  </aside>
 
-  <button
-    className="
-      flex w-full
-      items-center justify-between
-      px-5 py-4
-      text-left
-      font-semibold
-    "
-  >
-    <span>What is Tailwind CSS?</span>
-
-    <span>+</span>
-  </button>
-
-  <div className="border-t px-5 py-4 text-gray-600 dark:border-gray-700 dark:text-gray-400">
-    Tailwind CSS is a utility-first CSS framework.
+  <div className="lg:col-span-3">
+    Products
   </div>
 
 </div>
@@ -801,473 +213,1035 @@ CSS framework...
 
 ---
 
-## 1️⃣9️⃣ Accordion with React
+# 6️⃣ `col-span-3` বুঝুন
 
-```jsx id="w8k3fd"
-import { useState } from "react";
+Parent:
 
-function FAQ() {
-  const [open, setOpen] = useState(false);
+```text
+lg:grid-cols-4
+```
 
-  return (
-    <div className="rounded-xl border dark:border-gray-700">
+অর্থাৎ:
 
-      <button
-        onClick={() => setOpen(!open)}
+```text
+1 | 2 | 3 | 4
+```
+
+Product area:
+
+```text
+lg:col-span-3
+```
+
+মানে:
+
+```text
+Product Area
+┌─────────────────────────────┐
+│ Column 2 │ Column 3 │ Col 4 │
+└─────────────────────────────┘
+```
+
+আর Sidebar:
+
+```text
+Column 1
+```
+
+ফলে:
+
+```text
+┌─────────┬─────────────────────────────┐
+│ Filter  │ Product Product Product     │
+│         │ Product Product Product     │
+└─────────┴─────────────────────────────┘
+```
+
+---
+
+# 7️⃣ Complete Listing Layout
+
+```jsx
+<div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+
+  <div className="grid gap-8 lg:grid-cols-4">
+
+    {/* Filter Sidebar */}
+    <aside className="lg:col-span-1">
+      Filters
+    </aside>
+
+    {/* Products */}
+    <section className="lg:col-span-3">
+      Products
+    </section>
+
+  </div>
+
+</div>
+```
+
+---
+
+# 8️⃣ Mobile-First চিন্তা
+
+Mobile-এ:
+
+```text
+Filters
+Products
+```
+
+Desktop-এ:
+
+```text
+Filters | Products
+```
+
+তাই আমরা লিখতে পারি:
+
+```jsx
+<div className="grid gap-8 lg:grid-cols-4">
+```
+
+Mobile:
+
+```text
+1 column
+```
+
+Desktop:
+
+```text
+4 columns
+```
+
+---
+
+# 9️⃣ Filter Sidebar
+
+এখন একটি বাস্তব Filter UI:
+
+```jsx
+<aside
+  className="
+    rounded-2xl
+    border
+    border-gray-200
+    bg-white
+    p-5
+
+    dark:border-gray-700
+    dark:bg-gray-800
+  "
+>
+  <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+    Filters
+  </h2>
+
+  {/* Category */}
+  <div className="mt-6">
+    <h3 className="font-semibold text-gray-900 dark:text-white">
+      Category
+    </h3>
+
+    <div className="mt-3 space-y-3">
+
+      <label className="flex items-center gap-3">
+        <input type="checkbox" />
+        <span className="text-gray-600 dark:text-gray-400">
+          Electronics
+        </span>
+      </label>
+
+      <label className="flex items-center gap-3">
+        <input type="checkbox" />
+        <span className="text-gray-600 dark:text-gray-400">
+          Clothing
+        </span>
+      </label>
+
+      <label className="flex items-center gap-3">
+        <input type="checkbox" />
+        <span className="text-gray-600 dark:text-gray-400">
+          Accessories
+        </span>
+      </label>
+
+    </div>
+  </div>
+
+  {/* Price */}
+  <div className="mt-8">
+    <h3 className="font-semibold text-gray-900 dark:text-white">
+      Price
+    </h3>
+
+    <div className="mt-3 flex gap-3">
+      <input
+        type="number"
+        placeholder="Min"
         className="
-          flex w-full
-          items-center justify-between
-          px-5 py-4
-          text-left
-          font-semibold
-          text-gray-900
+          w-full rounded-lg
+          border border-gray-300
+          px-3 py-2
+          dark:border-gray-600
+          dark:bg-gray-700
           dark:text-white
         "
-      >
-        <span>What is Tailwind CSS?</span>
+      />
 
-        <span>{open ? "−" : "+"}</span>
-      </button>
+      <input
+        type="number"
+        placeholder="Max"
+        className="
+          w-full rounded-lg
+          border border-gray-300
+          px-3 py-2
+          dark:border-gray-600
+          dark:bg-gray-700
+          dark:text-white
+        "
+      />
+    </div>
+  </div>
 
-      {open && (
-        <div
+</aside>
+```
+
+---
+
+# 🔟 Product Grid
+
+Products section-এর ভিতরে আবার Grid থাকবে।
+
+```jsx
+<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+```
+
+Responsive:
+
+```text
+Mobile
+↓
+1 Product
+
+Small
+↓
+2 Products
+
+Large
+↓
+3 Products
+```
+
+---
+
+# 1️⃣1️⃣ Product Listing
+
+```jsx
+<section className="lg:col-span-3">
+
+  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+
+    <ProductCard />
+    <ProductCard />
+    <ProductCard />
+    <ProductCard />
+    <ProductCard />
+    <ProductCard />
+
+  </div>
+
+</section>
+```
+
+এখানে একটি গুরুত্বপূর্ণ বিষয় লক্ষ্য করুন:
+
+আমাদের দুই স্তরের Grid আছে।
+
+```text
+Page Grid
+│
+├── Filter
+│
+└── Product Area
+       │
+       └── Product Grid
+```
+
+এটাকে বলা যায় **Nested Grid**।
+
+---
+
+# 1️⃣2️⃣ Nested Grid Mental Model
+
+```text
+Outer Grid
+┌──────────┬─────────────────────────────┐
+│ Filter   │ Inner Grid                  │
+│          │                             │
+│          │ ┌────┐ ┌────┐ ┌────┐       │
+│          │ │ P1 │ │ P2 │ │ P3 │       │
+│          │ └────┘ └────┘ └────┘       │
+│          │                             │
+│          │ ┌────┐ ┌────┐ ┌────┐       │
+│          │ │ P4 │ │ P5 │ │ P6 │       │
+└──────────┴─────────────────────────────┘
+```
+
+এটি real-world UI-তে খুব গুরুত্বপূর্ণ।
+
+---
+
+# 1️⃣3️⃣ Product Card
+
+আজ আগের lessons-এর concept একত্র করি:
+
+```jsx
+function ProductCard() {
+  return (
+    <article
+      className="
+        group
+        overflow-hidden
+        rounded-2xl
+        border border-gray-200
+        bg-white
+        shadow-sm
+        transition
+        duration-300
+        hover:-translate-y-1
+        hover:shadow-xl
+
+        dark:border-gray-700
+        dark:bg-gray-800
+      "
+    >
+
+      <div className="aspect-square overflow-hidden">
+        <img
+          src="/product.jpg"
+          alt="Product"
           className="
-            border-t
-            px-5 py-4
+            h-full w-full
+            object-cover
+            transition duration-500
+            group-hover:scale-110
+          "
+        />
+      </div>
+
+      <div className="p-5">
+
+        <h3
+          className="
+            truncate
+            text-lg font-bold
+            text-gray-900
+            dark:text-white
+          "
+        >
+          Premium Wireless Headphone
+        </h3>
+
+        <p
+          className="
+            mt-2
+            line-clamp-2
+            text-sm
             text-gray-600
-            dark:border-gray-700
             dark:text-gray-400
           "
         >
-          Tailwind CSS is a utility-first CSS framework.
-        </div>
-      )}
+          High-quality wireless headphone
+          with premium sound and long battery life.
+        </p>
 
-    </div>
+        <div className="mt-4 flex items-center justify-between">
+
+          <span className="text-xl font-bold text-blue-600">
+            $120
+          </span>
+
+          <button
+            className="
+              rounded-lg
+              bg-blue-600
+              px-4 py-2
+              font-semibold
+              text-white
+              transition
+              hover:bg-blue-700
+              active:scale-95
+            "
+          >
+            Add
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
   );
 }
 ```
 
----
+এখানে আপনি Day 1–22-এর অনেক concept দেখতে পাচ্ছেন:
 
-## 2️⃣0️⃣ Tooltip
-
-Tooltip হলো ছোট information box।
-
-```text id="n3y7wc"
-        Delete
-          ↑
-    ┌──────────┐
-    │ Delete   │
-    └──────────┘
-        🗑️
+```text
+group
+overflow-hidden
+aspect-square
+object-cover
+transition
+group-hover
+truncate
+line-clamp
+grid
+dark:
+hover:
+active:
 ```
 
-Tailwind-এর `group` দিয়ে এটি সহজে তৈরি করা যায়।
+---
 
-```jsx id="k4w9qp"
-<div className="group relative inline-block">
+# 1️⃣4️⃣ Product Toolbar
 
-  <button
+Product grid-এর উপরে সাধারণত একটি toolbar থাকে।
+
+```text
+┌────────────────────────────────────────────┐
+│ 24 Products              Sort: Newest ▼   │
+└────────────────────────────────────────────┘
+```
+
+Tailwind:
+
+```jsx
+<div
+  className="
+    mb-6
+    flex
+    flex-col
+    gap-4
+    sm:flex-row
+    sm:items-center
+    sm:justify-between
+  "
+>
+  <p className="text-gray-600 dark:text-gray-400">
+    24 Products found
+  </p>
+
+  <select
     className="
       rounded-lg
-      bg-red-600
-      p-3
-      text-white
-    "
-  >
-    🗑️
-  </button>
+      border border-gray-300
+      bg-white
+      px-4 py-2
+      text-gray-700
 
-  <div
-    className="
-      pointer-events-none
-      absolute
-      bottom-full
-      left-1/2
-      mb-2
-      -translate-x-1/2
-      whitespace-nowrap
-      rounded-lg
-      bg-gray-900
-      px-3 py-2
-      text-xs
-      text-white
-      opacity-0
-      transition
-      group-hover:opacity-100
+      dark:border-gray-700
+      dark:bg-gray-800
+      dark:text-gray-300
     "
   >
-    Delete Product
-  </div>
+    <option>Newest</option>
+    <option>Price: Low to High</option>
+    <option>Price: High to Low</option>
+  </select>
+</div>
+```
+
+এখানে responsive Flexbox:
+
+```text
+Mobile:
+flex-col
+
+Desktop:
+sm:flex-row
+```
+
+---
+
+# 1️⃣5️⃣ Search + Filter + Sort
+
+Professional product page:
+
+```text
+┌───────────────────────────────────────────────┐
+│ Search products...             Sort ▼         │
+├───────────────┬───────────────────────────────┤
+│ Filters       │ Products                      │
+│               │                               │
+│ Category      │ P1    P2    P3                │
+│ Price         │ P4    P5    P6                │
+│ Rating        │ P7    P8    P9                │
+└───────────────┴───────────────────────────────┘
+```
+
+এখানে আলাদা component করা ভালো:
+
+```text
+ProductPage
+│
+├── ProductToolbar
+│   ├── Search
+│   └── Sort
+│
+└── ProductListing
+    │
+    ├── FilterSidebar
+    │
+    └── ProductGrid
+        └── ProductCard
+```
+
+---
+
+# 1️⃣6️⃣ React Component Architecture
+
+আপনার project-এ:
+
+```text
+src/
+├── components/
+│
+├── products/
+│   ├── ProductCard.jsx
+│   ├── ProductGrid.jsx
+│   ├── ProductFilters.jsx
+│   ├── ProductToolbar.jsx
+│   └── ProductPagination.jsx
+│
+└── pages/
+    └── Products.jsx
+```
+
+Page:
+
+```text
+Products.jsx
+      ↓
+ProductToolbar
+      ↓
+ProductFilters + ProductGrid
+                     ↓
+                ProductCard
+```
+
+এটি বড় application-এর জন্য অনেক বেশি maintainable।
+
+---
+
+# 1️⃣7️⃣ Mobile Filter Button
+
+Mobile-এ Sidebar সবসময় দেখানো দরকার নেই।
+
+আমরা করতে পারি:
+
+```text
+Desktop:
+┌─────────┬──────────────┐
+│ Filters │ Products     │
+└─────────┴──────────────┘
+
+Mobile:
+┌─────────────────────────┐
+│ 🔎 Search               │
+│ [ Filter ] [ Sort ]     │
+├─────────────────────────┤
+│ Product                 │
+│ Product                 │
+└─────────────────────────┘
+```
+
+Filter button:
+
+```jsx
+<button
+  className="
+    rounded-lg
+    border
+    px-4 py-2
+    lg:hidden
+  "
+>
+  Filters
+</button>
+```
+
+Desktop-এ:
+
+```text
+lg:hidden
+```
+
+মানে button hidden।
+
+---
+
+# 1️⃣8️⃣ Mobile Filter Drawer
+
+Day 22-এর Drawer knowledge ব্যবহার করে:
+
+```text
+Mobile Filter Button
+       ↓
+setFilterOpen(true)
+       ↓
+Filter Drawer
+```
+
+এখানে Day 22-এর:
+
+```text
+fixed
+inset-0
+z-50
+```
+
+ব্যবহার করতে পারবেন।
+
+অর্থাৎ:
+
+> **আগের lesson-এর component নতুন feature-এ reuse করাই professional development।**
+
+---
+
+# 1️⃣9️⃣ Advanced Grid Pattern
+
+আরেকটি pattern:
+
+```jsx
+<div className="grid grid-cols-12 gap-6">
+```
+
+এখন:
+
+```text
+12 columns
+```
+
+Filter:
+
+```jsx
+<div className="col-span-12 lg:col-span-3">
+```
+
+Products:
+
+```jsx
+<div className="col-span-12 lg:col-span-9">
+```
+
+ফলে:
+
+```text
+Desktop:
+
+3 columns      9 columns
+┌──────────┬──────────────────────────┐
+│ Filters  │ Products                 │
+│          │                          │
+└──────────┴──────────────────────────┘
+```
+
+---
+
+# 2️⃣0️⃣ `grid-cols-12` কেন গুরুত্বপূর্ণ?
+
+Complex dashboard/application layout-এ 12-column grid অনেক flexible।
+
+```text
+12-column system
+
+1 2 3 4 5 6 7 8 9 10 11 12
+```
+
+আপনি চাইলে:
+
+```text
+3 + 9
+4 + 8
+5 + 7
+6 + 6
+```
+
+এরকম layout তৈরি করতে পারবেন।
+
+উদাহরণ:
+
+```jsx
+<div className="grid grid-cols-12 gap-6">
+
+  <aside className="col-span-12 lg:col-span-3">
+    Filters
+  </aside>
+
+  <main className="col-span-12 lg:col-span-9">
+    Products
+  </main>
 
 </div>
 ```
 
-এখানে আমরা Day 17-এর:
+---
 
-```text id="p5c8ay"
-group
-group-hover
+# 2️⃣1️⃣ `gap` বনাম `space-*`
+
+এটি আবার মনে রাখুন।
+
+### Grid/Flex children-এর মধ্যে:
+
+```text
+gap-4
+gap-x-4
+gap-y-6
 ```
 
-এবং Day 19-এর:
+### এক direction-এর sibling elements:
 
-```text id="f6k2rw"
-transition
-opacity
+```text
+space-y-4
+space-x-4
 ```
 
-একসাথে ব্যবহার করেছি।
+Product grid:
+
+```jsx
+grid gap-6
+```
+
+Filter sections:
+
+```jsx
+space-y-6
+```
 
 ---
 
-## 🧠 2️⃣1️⃣ আজকের Core Pattern
+# 2️⃣2️⃣ Responsive Product Grid Strategy
 
-আজকের প্রায় সব interactive component-এর architecture একই:
+আমি আপনাকে এই pattern practice করতে বলব:
 
-```text id="v5s2bx"
-User Interaction
-       ↓
-React Event
-       ↓
-State Change
-       ↓
-Conditional Rendering
-       ↓
-Tailwind Styling
-       ↓
-UI Update
+```jsx
+<div
+  className="
+    grid
+    grid-cols-1
+    gap-5
+    sm:grid-cols-2
+    lg:grid-cols-3
+    2xl:grid-cols-4
+  "
+>
+```
+
+অর্থ:
+
+```text
+Mobile
+1
+
+Small
+2
+
+Large
+3
+
+Very Large
+4
+```
+
+এটি e-commerce product listing-এর জন্য অত্যন্ত useful pattern।
+
+---
+
+# 🛒 2️⃣3️⃣ Complete E-commerce Structure
+
+আজকের সব concept একত্র করলে:
+
+```text
+Products Page
+│
+├── Container
+│
+├── Page Header
+│
+├── Search + Sort
+│
+└── Main Grid
+    │
+    ├── Filter Sidebar
+    │   ├── Categories
+    │   ├── Price
+    │   ├── Rating
+    │   └── Availability
+    │
+    └── Product Section
+        │
+        ├── Product Count
+        │
+        ├── Product Grid
+        │   ├── ProductCard
+        │   ├── ProductCard
+        │   ├── ProductCard
+        │   └── ...
+        │
+        └── Pagination
+```
+
+---
+
+# 🧠 2️⃣4️⃣ আজকের সবচেয়ে গুরুত্বপূর্ণ Architecture
+
+একটি বড় page-কে কখনো একটিমাত্র component হিসেবে ভাববেন না।
+
+বরং:
+
+```text
+Page
+ ↓
+Container
+ ↓
+Layout
+ ↓
+Section
+ ↓
+Component
+ ↓
+Element
 ```
 
 উদাহরণ:
 
-###### Modal
-
-```text id="b2n7cv"
-Click Delete
-     ↓
-open = true
-     ↓
-Modal Render
+```text
+Products Page
+      ↓
+Main Container
+      ↓
+Product Layout
+      ↓
+Filter + Product Section
+      ↓
+Product Grid
+      ↓
+Product Card
+      ↓
+Image + Title + Price + Button
 ```
 
-###### Dropdown
-
-```text id="y8m4kp"
-Click Profile
-     ↓
-open = true
-     ↓
-Dropdown Render
-```
-
-###### Tabs
-
-```text id="e3r7hd"
-Click Reviews
-     ↓
-activeTab = "reviews"
-     ↓
-Reviews Content
-```
-
-###### Drawer
-
-```text id="z5q9jx"
-Click Menu
-     ↓
-sidebarOpen = true
-     ↓
-Drawer Render
-```
+এই চিন্তাভাবনা আপনার React component architecture-এর সাথেও সরাসরি সম্পর্কিত।
 
 ---
 
-## 🛒 2️⃣2️⃣ E-commerce-এ এগুলোর ব্যবহার
+# 🧪 2️⃣5️⃣ আজকের Practice
 
-আপনার AI-powered e-commerce application-এ:
-
-| Component | কোথায় ব্যবহার করবেন            |
-| --------- | ------------------------------ |
-| Modal     | Delete Product / Confirm Order |
-| Dropdown  | Profile / Actions              |
-| Tabs      | Product Details                |
-| Drawer    | Mobile Sidebar                 |
-| Accordion | FAQ                            |
-| Tooltip   | Icon Buttons                   |
-| Overlay   | Modal/Drawer                   |
-| State     | UI behavior                    |
-
----
-
-## 🏗️ 2️⃣3️⃣ Reusable Component Architecture
-
-React project-এ এগুলো আলাদা component করা ভালো:
-
-```text id="v4q8nm"
-src/
-├── components/
-│   ├── ui/
-│   │   ├── Button.jsx
-│   │   ├── Modal.jsx
-│   │   ├── Dropdown.jsx
-│   │   ├── Tabs.jsx
-│   │   ├── Drawer.jsx
-│   │   ├── Accordion.jsx
-│   │   └── Tooltip.jsx
-│   │
-│   ├── layout/
-│   │   ├── Sidebar.jsx
-│   │   ├── Header.jsx
-│   │   └── DashboardLayout.jsx
-│   │
-│   └── dashboard/
-│       ├── StatCard.jsx
-│       └── RecentOrders.jsx
-```
-
-এটাই reusable UI library-এর দিকে আপনার যাত্রা।
-
----
-
-## ⚠️ 2️⃣4️⃣ Accessibility মনে রাখবেন
-
-Interactive UI বানানোর সময় শুধু সুন্দর দেখালেই হবে না।
-
-###### Button-এর ক্ষেত্রে
-
-```jsx id="x7k2pd"
-<button type="button">
-```
-
-ব্যবহার করুন।
-
-###### Icon-only button হলে
-
-```jsx id="q4v8ms"
-<button
-  type="button"
-  aria-label="Open menu"
->
-  ☰
-</button>
-```
-
-কারণ user বুঝতে না পারলেও screen reader button-এর উদ্দেশ্য বুঝতে পারবে।
-
-###### Modal-এর ক্ষেত্রে
-
-Professional application-এ focus management, keyboard interaction এবং dialog semantics-ও বিবেচনা করতে হয়।
-
----
-
-## 🧪 2️⃣5️⃣ আজকের Practice
-
-#### Practice 1 — Modal
+### Practice 1 — Container
 
 তৈরি করুন:
 
-```text id="e8w4pz"
-Delete Product
-       ↓
-Confirmation Modal
-       ↓
-Cancel / Delete
+```text
+max-w-7xl
+mx-auto
+px-4
+sm:px-6
+lg:px-8
 ```
 
 ---
 
-#### Practice 2 — Profile Dropdown
+### Practice 2 — Filter + Products
 
-```text id="m7c3qa"
-Profile
-  ↓
-Profile
-Settings
-Logout
+Desktop:
+
+```text
+Filter = 25%
+Products = 75%
+```
+
+Mobile:
+
+```text
+Filter Button
+Products
 ```
 
 ---
 
-#### Practice 3 — Product Tabs
+### Practice 3 — Product Grid
+
+কমপক্ষে 8টি product:
+
+```text
+Mobile → 1
+Tablet → 2
+Desktop → 3
+Large → 4
+```
+
+---
+
+### Practice 4 — Dark Mode
+
+সবগুলোতে Dark Mode যুক্ত করুন:
+
+* Filter
+* Search
+* Select
+* Product Card
+* Product title
+* Description
+* Price
+* Button
+
+---
+
+### Practice 5 — Mobile Filter Drawer
+
+Day 22-এর Drawer ব্যবহার করে mobile filter তৈরি করুন।
+
+---
+
+# 🚀 2️⃣6️⃣ Day 23 Mini Project
+
+## **TechStore Product Listing Page**
 
 তৈরি করুন:
 
-```text id="b3p8vn"
-Overview
-Reviews
-Specifications
+```text
+┌───────────────────────────────────────────────┐
+│ TechStore                                     │
+│                                               │
+│ Search products...             Sort ▼         │
+├───────────────┬───────────────────────────────┤
+│ FILTERS       │ 24 Products                   │
+│               │                               │
+│ Category      │ ┌────┐ ┌────┐ ┌────┐        │
+│ □ Laptop      │ │ P1 │ │ P2 │ │ P3 │        │
+│ □ Phone       │ └────┘ └────┘ └────┘        │
+│ □ Headphone   │                               │
+│               │ ┌────┐ ┌────┐ ┌────┐        │
+│ Price         │ │ P4 │ │ P5 │ │ P6 │        │
+│ Min / Max     │ └────┘ └────┘ └────┘        │
+│               │                               │
+│ Rating        │        Pagination             │
+└───────────────┴───────────────────────────────┘
+```
+
+### অবশ্যই ব্যবহার করবেন:
+
+```text
+container
+max-w
+grid
+grid-cols
+col-span
+gap
+flex
+responsive
+dark:
+group
+transition
+line-clamp
+truncate
 ```
 
 ---
 
-#### Practice 4 — Mobile Drawer
-
-তৈরি করুন:
-
-```text id="r9k5xd"
-☰
- ↓
-Sidebar Drawer
- ↓
-Overlay
-```
-
----
-
-#### Practice 5 — FAQ Accordion
-
-কমপক্ষে ৪টি প্রশ্ন তৈরি করুন।
-
----
-
-## 🎯 2️⃣6️⃣ Day 22 Mini Project
-
-আজকের সবচেয়ে গুরুত্বপূর্ণ challenge:
-
-#### **E-commerce Product Details UI**
-
-Structure:
-
-```text id="d6y2hf"
-Product Details
-│
-├── Product Image
-│
-├── Product Information
-│   ├── Title
-│   ├── Price
-│   ├── Rating
-│   ├── Add to Cart
-│   └── Buy Now
-│
-├── Tabs
-│   ├── Description
-│   ├── Reviews
-│   └── Specifications
-│
-├── FAQ Accordion
-│
-└── Delete/Edit Modal
-```
-
-এর মধ্যে ব্যবহার করবেন:
-
-```text id="x4p7na"
-Grid
-Flex
-Responsive
-Dark Mode
-Tabs
-Accordion
-Modal
-Button
-Transition
-Hover
-Focus
-```
-
-এটি করলে Day 1–22-এর অনেক concept একসাথে practice হবে।
-
----
-
-## 🧠 Day 22 Self-Test
+# 🧪 Day 23 Self-Test
 
 নিজেকে জিজ্ঞেস করুন:
 
-1. Modal কী?
-2. `fixed inset-0` কী করে?
-3. Overlay কেন ব্যবহার করা হয়?
-4. `z-50` কেন দরকার?
-5. Dropdown-এর parent-এ `relative` কেন?
-6. Dropdown-এ `absolute` কেন?
-7. Tabs কীভাবে React state ব্যবহার করে?
-8. Drawer এবং Sidebar-এর মধ্যে পার্থক্য কী?
-9. Accordion কীভাবে কাজ করে?
-10. `group-hover` Tooltip-এ কীভাবে কাজ করছে?
-11. Conditional rendering কী?
-12. Interactive component-এ React এবং Tailwind-এর দায়িত্ব কী?
+1. `container` কী?
+2. `max-w-7xl mx-auto` কেন ব্যবহার করি?
+3. `grid-cols-4` কী করে?
+4. `col-span-3` কী?
+5. Nested Grid কী?
+6. `grid-cols-12` কেন complex layout-এ useful?
+7. Product Sidebar এবং Product Grid কীভাবে responsive করবেন?
+8. Mobile-এ Filter Sidebar কীভাবে Drawer-এ পরিবর্তন করবেন?
+9. `gap` এবং `space-y`-এর পার্থক্য কী?
+10. কেন ProductCard আলাদা reusable component হওয়া উচিত?
 
 ---
 
-## 📌 Day 22 Cheat Sheet
+# 📌 Day 23 Cheat Sheet
 
 ```text
-MODAL
-fixed
-inset-0
-z-50
-bg-black/50
-flex
-items-center
-justify-center
+CONTAINER
+container
+mx-auto
+max-w-7xl
+w-full
+px-4
+sm:px-6
+lg:px-8
 
-DROPDOWN
-relative
-absolute
-right-0
-mt-2
-shadow-xl
+GRID
+grid
+grid-cols-1
+sm:grid-cols-2
+lg:grid-cols-3
+xl:grid-cols-4
+grid-cols-12
 
-TABS
-activeTab
-border-b-2
-conditional rendering
+SPAN
+col-span-1
+col-span-2
+col-span-3
+col-span-12
 
-DRAWER
-fixed
-inset-0
-z-50
-w-72
-shadow-xl
+GAP
+gap-4
+gap-6
+gap-8
+gap-x-*
+gap-y-*
 
-ACCORDION
-useState
-conditional rendering
+RESPONSIVE
+lg:grid-cols-4
+lg:col-span-3
+lg:hidden
+lg:block
 
-TOOLTIP
+PRODUCT UI
 group
-relative
-absolute
-opacity-0
-group-hover:opacity-100
+overflow-hidden
+aspect-square
+object-cover
+truncate
+line-clamp-2
 transition
-
-INTERACTION
-onClick
-useState
-conditional rendering
+group-hover:scale-110
 ```
 
 ---
 
-## 🔥 Day 22-এর Mental Model
+# 🎯 Day 23 Mental Model
 
-```text id="c8m4za"
-          USER
-            │
-            ▼
-       Click / Action
-            │
-            ▼
-       React Event
-            │
-            ▼
-        React State
-            │
-            ▼
-   Conditional Rendering
-            │
-            ▼
-      Tailwind Styling
-            │
-            ▼
-       Interactive UI
+```text
+E-commerce Requirement
+          ↓
+      Page Layout
+          ↓
+   Container + Grid
+          ↓
+   ┌──────┴──────┐
+   ↓             ↓
+ Filters      Products
+                ↓
+            Product Grid
+                ↓
+           Product Card
+                ↓
+      Responsive + Dark Mode
 ```
 
-###### আজকের মূল শিক্ষা:
+## 🔥 আজকের মূল শিক্ষা
 
-> **React দিয়ে UI-এর behavior তৈরি করবেন এবং Tailwind CSS দিয়ে সেই UI-এর appearance, responsive layout, state styles এবং visual feedback তৈরি করবেন।**
-
-Day 21-এ আমরা **Dashboard-এর skeleton** তৈরি করেছি। Day 22-এ সেই skeleton-এর মধ্যে **Modal, Dropdown, Tabs, Drawer, Accordion ও Tooltip-এর মতো interactive components** বসানো শিখলাম।
+> **Advanced Tailwind শেখার অর্থ শুধু আরও বেশি utility class মুখস্থ করা নয়; বরং Grid, Flexbox, Responsive Design এবং Reusable Components ব্যবহার করে বড় UI-কে সঠিকভাবে structure করতে শেখা।**
