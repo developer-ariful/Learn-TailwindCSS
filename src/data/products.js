@@ -1,3 +1,34 @@
+export const  menuItems = [
+    "Dashboard",
+    "Products",
+    "Orders",
+    "Customers",
+    "Analytics",
+    "Settings",
+];
+
+export const staticCards = [
+    {
+        title: "Total Revenue",
+        value: "$24,500",
+        charge: "+12.5%"
+    },
+    {
+        title: "Total Orders",
+        value: "$1250",
+        charge: "+8.2%"
+    },
+    {
+        title: "Customers",
+        value: "$3450",
+        charge: "+5.4%"
+    },
+    {
+        title: "Pending Orders",
+        value: "$85",
+        charge: "Pending"
+    },
+]
 export const products = [
     {
         id:1,

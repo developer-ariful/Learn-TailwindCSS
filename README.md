@@ -1,734 +1,987 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-## 🚀 Tailwind CSS — Day 25
+## 🚀 Tailwind CSS — Day 26
 
-#### 🔥 Revision + Real-World E-commerce Product Listing Project
+#### Advanced Dashboard UI: Analytics, Statistics, Tables & Responsive Layout
 
-আজ আমরা নতুন অনেক utility শেখার চেয়ে **Day 1–24-এর knowledge একসাথে ব্যবহার করে একটি বাস্তব Project তৈরি করার mindset** তৈরি করব।
+১ ঘণ্টার লেসন
 
-আজকের লক্ষ্য:
+Intermediate to Advanced
 
-> **“আমি Tailwind-এর class মুখস্থ করতে পারি” → “আমি requirement দেখে নিজে UI architecture করতে পারি।”**
+আজ আমরা একটি বাস্তব E-commerce Admin Dashboard তৈরি করার জন্য প্রয়োজনীয় UI শিখব। Day 25-এ Product Listing Page তৈরি করেছি। আজ সেই অভিজ্ঞতা কাজে লাগিয়ে Dashboard-এর Statistics Cards, Analytics Panel, Recent Orders Table এবং Responsive Layout তৈরি করব।
 
----
+![আধুনিক E-commerce Admin Dashboard UI-এর উদাহরণ](https://images.openai.com/static-rsc-4/QKgRu-kfXfTWwUBHKvW0DnURmjHtB8fLKzXhG_gvTBcjLnJ1vWU8-04ETrOWsEXRUI8XMosK4-Rk758EeUti4E9GzpPl9z1NKLN_-nJ74NAfiG4XTBDMJ99a9OFf0VhoWjOwFdA-4U0pfRbIRQJFEUskENxIWPQU76ORQlRdpkA?purpose=inline)
 
-## 🎯 Day 25 Learning Objectives
+আজকের লক্ষ্য: এই ধরনের Dashboard-এর Layout ও UI তৈরি করা।
+
+## 🎯 ১. আজকের Learning Objectives
 
 আজ আপনি শিখবেন:
 
-1. Tailwind CSS-এর গুরুত্বপূর্ণ বিষয়গুলো Revision
-2. Requirement থেকে UI structure বের করা
-3. Component breakdown করা
-4. Responsive layout পরিকল্পনা করা
-5. E-commerce Product Listing Page তৈরি
-6. Search + Filter + Sort + Pagination একসাথে ব্যবহার
-7. Dark Mode
-8. Loading / Empty / Error State-এর UI
-9. Reusable component চিন্তা
-10. Real-world UI implementation strategy
+1. Advanced Dashboard Layout
 
----
+2. Sidebar ও Header Design
 
-## ⏰ ১ ঘণ্টার Study Plan
+3. Statistics Cards তৈরি
 
-| সময়      | কাজ                    |
-| -------- | ---------------------- |
-| 10 মিনিট | Day 1–24 Revision      |
-| 10 মিনিট | Requirement Analysis   |
-| 10 মিনিট | UI Architecture        |
-| 15 মিনিট | Product Listing UI     |
-| 10 মিনিট | States + Responsive UI |
-| 5 মিনিট  | Self Test              |
+4. Analytics Panel-এর UI
 
----
+5. Recent Orders Table
 
-## 1️⃣ প্রথমে Requirement Analysis
+6. Responsive Dashboard
 
-ধরুন Client বললো:
+7. Loading ও Empty State
 
-> “আমি একটি E-commerce website-এর Product Listing Page চাই। Customer যেন product search, category filter, price filter এবং sorting করতে পারে। Pageটি mobile এবং desktop responsive হতে হবে।”
+8. Reusable Dashboard Components
 
-এখন সরাসরি coding শুরু করবেন না।
+9. Dark Mode Integration
 
-প্রথমে Requirement ভাঙবেন।
+10. Dashboard UI Architecture
 
-```text id="d0w6pw"
-Product Listing Page
+## ⏰ ২. এক ঘণ্টার Study Plan
+
+|
+সময়
+
+|
+
+বিষয়
+
+|
+| --- | --- |
+|
+
+১০ মিনিট
+
+|
+
+Dashboard Layout ও Grid
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Sidebar ও Header
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Statistics Cards
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Analytics ও Orders Table
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Responsive ও Dark Mode
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Mini Project ও Revision
+
+|
+
+## ৩. Dashboard-এর Layout Architecture
+
+প্রথমে Dashboard-এর কাঠামো বুঝে নিন।
+
+```
+AdminDashboard
 │
-├── Header
+├── Sidebar
+│   ├── Logo
+│   ├── Dashboard
+│   ├── Products
+│   ├── Orders
+│   ├── Customers
+│   └── Settings
 │
-├── Search
-│
-├── Category Filter
-│
-├── Price Filter
-│
-├── Sort
-│
-├── Product Grid
-│
-├── Pagination
-│
-└── Responsive Design
+└── Main Content
+    │
+    ├── Header
+    │   ├── Search
+    │   ├── Notifications
+    │   └── Profile
+    │
+    └── Dashboard Content
+        │
+        ├── Page Heading
+        │
+        ├── Statistics
+        │   ├── Total Sales
+        │   ├── Total Orders
+        │   ├── Customers
+        │   └── Revenue
+        │
+        ├── Analytics
+        │   ├── Sales Chart
+        │   └── Traffic Summary
+        │
+        └── Recent Orders Table
 ```
 
-এটাই একজন ভালো developer-এর প্রথম চিন্তা।
+এখানে দুটি প্রধান অংশ রয়েছে:
 
----
+* Sidebar: Dashboard-এর Navigation।
 
-## 2️⃣ UI Architecture
+* Main Content: Dashboard-এর মূল তথ্য ও বিভিন্ন UI।
 
-এখন component চিন্তা করুন।
+## ৪. Dashboard Main Layout
 
-```text id="5glj4m"
-ProductsPage
-│
-├── Navbar
-│
-├── PageHeader
-│
-├── ProductToolbar
-│   ├── SearchBox
-│   └── SortSelect
-│
-├── MainContent
-│   │
-│   ├── ProductFilters
-│   │
-│   └── ProductSection
-│       ├── ProductCount
-│       ├── ProductGrid
-│       │   └── ProductCard
-│       │
-│       └── ProductPagination
-│
-└── MobileFilterDrawer
+প্রথমে একটি responsive layout তৈরি করুন।
+
+JavaScript
+
 ```
+function DashboardLayout({ children }) {
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="grid min-h-screen lg:grid-cols-[260px_1fr]">
+        <aside className="hidden border-r border-gray-200 bg-white lg:block dark:border-gray-800 dark:bg-gray-900">
+          Sidebar
+        </aside>
 
-এখন coding করলে project অনেক organized হবে।
+        <main className="min-w-0">
+          <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/80 p-4 backdrop-blur dark:border-gray-800 dark:bg-gray-900/80">
+            Header
+          </header>
 
----
-
-## 3️⃣ Container Strategy
-
-প্রথমে পুরো page-এর content width ঠিক করুন।
-
-```jsx id="twv1gr"
-<div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-  {/* Content */}
-</div>
-```
-
-এখানে:
-
-```text id="c82s85"
-w-full
-↓
-পুরো available width
-
-max-w-7xl
-↓
-অতিরিক্ত বড় হতে বাধা
-
-mx-auto
-↓
-center
-
-px-4
-↓
-mobile horizontal spacing
-```
-
----
-
-## 4️⃣ Page Header
-
-```jsx id="1ox9pa"
-<div className="mb-8">
-  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-    All Products
-  </h1>
-
-  <p className="mt-2 text-gray-600 dark:text-gray-400">
-    Find the perfect products for you.
-  </p>
-</div>
-```
-
-এখানে Day 3-এর Typography এবং Day 20-এর Dark Mode ব্যবহার হচ্ছে।
-
----
-
-## 5️⃣ Product Toolbar
-
-```text id="j8q1t2"
-┌─────────────────────────────────────────────────────┐
-│ 🔍 Search products...                 Sort: Newest  │
-└─────────────────────────────────────────────────────┘
-```
-
-Tailwind:
-
-```jsx id="i3g4u8"
-<div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-  
-  <div className="relative w-full md:max-w-md">
-    <input
-      type="text"
-      placeholder="Search products..."
-      className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-    />
-  </div>
-
-  <select
-    className="rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-  >
-    <option>Newest</option>
-    <option>Price: Low to High</option>
-    <option>Price: High to Low</option>
-    <option>Rating</option>
-  </select>
-
-</div>
-```
-
----
-
-## 6️⃣ Main Product Layout
-
-Day 23-এর advanced grid ব্যবহার করুন।
-
-```jsx id="x7y7pu"
-<div className="grid grid-cols-12 gap-8">
-  
-  <aside className="col-span-12 lg:col-span-3">
-    {/* Filters */}
-  </aside>
-
-  <main className="col-span-12 lg:col-span-9">
-    {/* Products */}
-  </main>
-
-</div>
-```
-
-Responsive:
-
-```text id="k7zj73"
-Mobile
-↓
-Filters
-↓
-Products
-
-Desktop
-↓
-┌──────────┬─────────────────────────┐
-│ Filters  │ Products                │
-│          │                         │
-│          │ Product Product Product │
-│          │ Product Product Product │
-└──────────┴─────────────────────────┘
-```
-
----
-
-## 7️⃣ Filter Sidebar
-
-```jsx id="k8ik6n"
-<aside className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-  
-  <h2 className="mb-6 text-lg font-bold text-gray-900 dark:text-white">
-    Filters
-  </h2>
-
-  <div className="space-y-6">
-
-    <div>
-      <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">
-        Category
-      </h3>
-
-      <div className="space-y-3">
-        <label className="flex items-center gap-3">
-          <input type="checkbox" />
-          <span>Electronics</span>
-        </label>
-
-        <label className="flex items-center gap-3">
-          <input type="checkbox" />
-          <span>Clothing</span>
-        </label>
-
-        <label className="flex items-center gap-3">
-          <input type="checkbox" />
-          <span>Shoes</span>
-        </label>
+          <div className="mx-auto w-full max-w-7xl p-4 sm:p-6 lg:p-8">
+            {children}
+          </div>
+        </main>
       </div>
     </div>
-
-  </div>
-
-</aside>
+  );
+}
 ```
 
----
+গুরুত্বপূর্ণ Tailwind utilities:
 
-## 8️⃣ Product Grid
+|
+Class
 
-```jsx id="7wm0u6"
-<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-  <ProductCard />
-  <ProductCard />
-  <ProductCard />
-  <ProductCard />
-  <ProductCard />
-  <ProductCard />
-</div>
+|
+
+কাজ
+
+|
+| --- | --- |
+|
+
+`min-h-screen`
+
+|
+
+কমপক্ষে পুরো viewport-এর উচ্চতা
+
+|
+|
+
+`grid`
+
+|
+
+CSS Grid Layout
+
+|
+|
+
+`lg:grid-cols-[260px_1fr]`
+
+|
+
+Sidebar 260px, বাকি অংশ Main Content
+
+|
+|
+
+`hidden lg:block`
+
+|
+
+বড় স্ক্রিনে Sidebar দেখানো
+
+|
+|
+
+`min-w-0`
+
+|
+
+Grid item-কে content অনুযায়ী প্রয়োজনমতো সংকুচিত হতে দেওয়া
+
+|
+|
+
+`sticky top-0`
+
+|
+
+Header-কে scroll করার সময় উপরে আটকে রাখা
+
+|
+|
+
+`backdrop-blur`
+
+|
+
+Header-এর পেছনের অংশে blur effect
+
+|
+|
+
+`max-w-7xl`
+
+|
+
+Content-এর সর্বোচ্চ প্রস্থ নির্ধারণ
+
+|
+
+মনে রাখবেন: `1fr` হলো Grid-এর অবশিষ্ট উপলব্ধ জায়গা। তাই `260px_1fr` দিয়ে Sidebar ও Main Content-এর প্রস্থ নির্ধারণ করা যায়।
+
+## ৫. Sidebar তৈরি
+
+এবার একটি reusable Sidebar component তৈরি করুন।
+
+JavaScript
+
+```
+const menuItems = [
+  "Dashboard",
+  "Products",
+  "Orders",
+  "Customers",
+  "Analytics",
+  "Settings",
+];
+
+function Sidebar() {
+  return (
+    <aside className="h-screen overflow-y-auto p-5">
+      <h1 className="mb-8 text-2xl font-bold text-blue-600">
+        TechStore
+      </h1>
+
+      <nav className="space-y-2">
+        {menuItems.map((item) => (
+          <a
+            key={item}
+            href="##"
+            className={`block rounded-xl px-4 py-3 text-sm font-medium transition ${
+              item === "Dashboard"
+                ? "bg-blue-600 text-white"
+                : "text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            }`}
+          >
+            {item}
+          </a>
+        ))}
+      </nav>
+    </aside>
+  );
+}
 ```
 
-Responsive:
+###### এখানে যেসব utility ব্যবহার হয়েছে
 
-```text id="j50r5o"
-Mobile     → 1
-Small      → 2
-Large      → 3
+* `h-screen`: viewport-এর সমান উচ্চতা।
+
+* `overflow-y-auto`: Sidebar-এর content বেশি হলে vertical scroll।
+
+* `space-y-2`: Navigation item-এর মধ্যে vertical spacing।
+
+* `block`: প্রতিটি link-কে পুরো লাইনের জায়গা দেওয়া।
+
+* `transition`: পরিবর্তনের সময় smooth effect।
+
+বাস্তব application-এ `href="##"`-এর পরিবর্তে React Router-এর `Link` ব্যবহার করতে পারেন।
+
+## ৬. Dashboard Header
+
+একটি Dashboard Header-এ সাধারণত Search, Notification এবং Profile থাকে।
+
+JavaScript
+
+```
+function DashboardHeader() {
+  return (
+    <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <input
+        type="search"
+        placeholder="Search..."
+        className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-500 sm:max-w-xs dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+      />
+
+      <div className="flex items-center justify-between gap-4 sm:justify-end">
+        <button
+          type="button"
+          aria-label="Notifications"
+          className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
+          🔔
+        </button>
+
+        <div className="flex items-center gap-3">
+          <div className="flex size-10 items-center justify-center rounded-full bg-blue-100 font-bold text-blue-700">
+            A
+          </div>
+
+          <div>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">
+              Admin
+            </p>
+            <p className="text-xs text-gray-500">
+              Administrator
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
 ```
 
----
+`flex-col sm:flex-row` ব্যবহার করায় ছোট স্ক্রিনে Header-এর উপাদানগুলো উল্লম্বভাবে এবং বড় স্ক্রিনে পাশাপাশি থাকবে।
 
-## 9️⃣ Product Card Revision
+## ৭. Statistics Cards
 
-Day 15–19-এর knowledge একসাথে ব্যবহার করুন।
+Dashboard-এর গুরুত্বপূর্ণ অংশ হলো Statistics Cards।
 
-```jsx id="r5a8m1"
-<div className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800">
+উদাহরণ:
 
-  <div className="relative aspect-square overflow-hidden">
+Total Revenue
 
-    <img
-      src="/product.jpg"
-      alt="Product"
-      className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-    />
+## $24,500
 
-    <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white">
-      Sale
-    </span>
++12.5%
 
-  </div>
+Total Orders
 
-  <div className="p-5">
+## 1,250
 
-    <h3 className="truncate text-lg font-bold text-gray-900 dark:text-white">
-      Wireless Headphone
-    </h3>
++8.2%
 
-    <p className="mt-2 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
-      High-quality wireless headphone with excellent sound and long battery life.
-    </p>
+Customers
 
-    <div className="mt-4 flex items-center justify-between">
+## 3,450
 
-      <span className="text-xl font-bold text-blue-600">
-        $99
-      </span>
++5.4%
 
-      <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-95">
-        Add to Cart
-      </button>
+Pending Orders
 
+## 85
+
+Pending
+
+এগুলো কেবল UI অনুশীলনের জন্য উদাহরণমূলক সংখ্যা।
+
+এখন Tailwind দিয়ে একটি reusable component তৈরি করুন।
+
+JavaScript
+
+```
+function StatCard({ title, value, change }) {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+        {title}
+      </p>
+
+      <div className="mt-3 flex items-center justify-between gap-2">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          {value}
+        </h2>
+
+        <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">
+          {change}
+        </span>
+      </div>
     </div>
+  );
+}
+```
 
+ব্যবহার:
+
+JavaScript
+
+```
+<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+  <StatCard title="Total Revenue" value="$24,500" change="+12.5%" />
+  <StatCard title="Total Orders" value="1,250" change="+8.2%" />
+  <StatCard title="Customers" value="3,450" change="+5.4%" />
+  <StatCard title="Pending Orders" value="85" change="Pending" />
+</div>
+```
+
+এখানে একটি component দিয়েই চারটি Statistics Card তৈরি হয়েছে।
+
+## ৮. Analytics Panel
+
+Dashboard-এ Sales Analytics বা Revenue Chart প্রায়ই থাকে।
+
+#### Monthly Sales
+
+উদাহরণমূলক ডেটা
+
+Share
+
+Chart options
+
+
+
+Chart-এর জন্য একটি আলাদা container তৈরি করুন।
+
+JavaScript
+
+```
+<div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+  <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+    <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+      Sales Analytics
+    </h2>
+
+    <select className="rounded-lg border px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+      <option>Last 7 days</option>
+      <option>Last 30 days</option>
+      <option>Last 12 months</option>
+    </select>
   </div>
 
+  <div className="flex h-64 items-center justify-center rounded-xl bg-gray-50 text-gray-500 dark:bg-gray-800">
+    Chart goes here
+  </div>
 </div>
 ```
 
-এখানে আপনি একসাথে ব্যবহার করেছেন:
+এখানে `Chart goes here`-এর জায়গায় Recharts বা অন্য কোনো chart library ব্যবহার করা যায়।
 
-* `relative`
-* `absolute`
-* `aspect-square`
-* `object-cover`
-* `group`
-* `group-hover`
-* `overflow-hidden`
-* `transition`
-* `hover`
-* `truncate`
-* `line-clamp`
-* `dark`
-* `active`
-* `rounded`
-* `shadow`
+## ৯. Recent Orders Table
 
-এটাই Day 25-এর আসল উদ্দেশ্য।
+Admin Dashboard-এ Recent Orders দেখানোর জন্য Table খুবই প্রয়োজনীয়।
 
----
+#### Recent Orders
 
-## 🔟 Product Count
+উদাহরণমূলক ডেটা
 
-```jsx id="08ihmq"
-<div className="mb-5 flex items-center justify-between">
-  <p className="text-sm text-gray-600 dark:text-gray-400">
-    Showing 1–12 of 120 products
+<table class="_6IUVGW_Table" data-d-column-sizing="auto" data-d-dividers="" style="table-layout: auto;"><tbody><tr data-d-component="table-row"><td data-d-component="table-cell" data-d-has-width="" data-d-valign="start" style="width: 30%;"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text"><span class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-default-strong="" data-d-inline="">Order ID</span></p></td><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text"><span class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-default-strong="" data-d-inline="">Customer</span></p></td><td data-d-align="end" data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text"><span class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-default-strong="" data-d-inline="">Amount</span></p></td><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text"><span class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-default-strong="" data-d-inline="">Status</span></p></td></tr><tr data-d-component="table-row"><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-weight="medium">##ORD-101</p></td><td data-d-component="table-cell" data-d-valign="start">Rahim</td><td data-d-align="end" data-d-component="table-cell" data-d-valign="start">$120</td><td data-d-component="table-cell" data-d-valign="start"><div class="ANObbW_Badge lKEGNW_Badge" data-color="success" data-size="sm" data-pill="" data-variant="soft" data-d-component="badge" data-d-weight="medium">Paid</div></td></tr><tr data-d-component="table-row"><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-weight="medium">##ORD-102</p></td><td data-d-component="table-cell" data-d-valign="start">Karim</td><td data-d-align="end" data-d-component="table-cell" data-d-valign="start">$250</td><td data-d-component="table-cell" data-d-valign="start"><div class="ANObbW_Badge lKEGNW_Badge" data-color="warning" data-size="sm" data-pill="" data-variant="soft" data-d-component="badge" data-d-weight="medium">Pending</div></td></tr><tr data-d-component="table-row"><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-weight="medium">##ORD-103</p></td><td data-d-component="table-cell" data-d-valign="start">Sakib</td><td data-d-align="end" data-d-component="table-cell" data-d-valign="start">$85</td><td data-d-component="table-cell" data-d-valign="start"><div class="ANObbW_Badge lKEGNW_Badge" data-color="info" data-size="sm" data-pill="" data-variant="soft" data-d-component="badge" data-d-weight="medium">Shipped</div></td></tr></tbody></table>
+
+Tailwind দিয়ে তৈরি করার সময়:
+
+JavaScript
+
+```
+<div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+  <table className="w-full min-w-[650px] text-left text-sm">
+    <thead className="bg-gray-50 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+      <tr>
+        <th className="px-5 py-4">Order ID</th>
+        <th className="px-5 py-4">Customer</th>
+        <th className="px-5 py-4">Amount</th>
+        <th className="px-5 py-4">Status</th>
+      </tr>
+    </thead>
+
+    <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+      <tr className="hover:bg-gray-50 dark:hover:bg-gray-800">
+        <td className="px-5 py-4">##ORD-101</td>
+        <td className="px-5 py-4">Rahim</td>
+        <td className="px-5 py-4">$120</td>
+        <td className="px-5 py-4">
+          <span className="rounded-full bg-green-100 px-3 py-1 text-xs text-green-700">
+            Paid
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+গুরুত্বপূর্ণ utilities:
+
+* `overflow-x-auto`: ছোট স্ক্রিনে প্রয়োজন হলে horizontal scroll।
+
+* `min-w-[650px]`: টেবিলের সর্বনিম্ন প্রস্থ।
+
+* `divide-y`: প্রতিটি row-এর মধ্যে divider।
+
+* `hover:bg-gray-50`: Mouse hover করলে row-এর background পরিবর্তন।
+
+## ১০. Responsive Dashboard
+
+Dashboard অবশ্যই Mobile, Tablet এবং Desktop-এ ব্যবহারযোগ্য হতে হবে।
+
+|
+Screen
+
+|
+
+Sidebar
+
+|
+
+Statistics
+
+|
+| --- | --- | --- |
+|
+
+Mobile
+
+|
+
+Drawer বা hidden
+
+|
+
+১ কলাম
+
+|
+|
+
+Tablet
+
+|
+
+প্রয়োজন অনুযায়ী
+
+|
+
+২ কলাম
+
+|
+|
+
+Desktop
+
+|
+
+স্থায়ী Sidebar
+
+|
+
+৪ কলাম
+
+|
+
+Statistics-এর জন্য:
+
+JavaScript
+
+```
+<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+  {/* Stat Cards */}
+</div>
+```
+
+Analytics ও Orders-এর জন্য:
+
+JavaScript
+
+```
+<div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
+  <section className="xl:col-span-2">
+    Sales Analytics
+  </section>
+
+  <section>
+    Traffic Summary
+  </section>
+</div>
+```
+
+এখানে বড় স্ক্রিনে Analytics দুই-তৃতীয়াংশ এবং Traffic Summary এক-তৃতীয়াংশ জায়গা পাবে।
+
+## ১১. Dark Mode Integration
+
+Day 20-এ শেখা `dark:` variant ব্যবহার করুন।
+
+JavaScript
+
+```
+<div className="rounded-2xl border border-gray-200 bg-white p-6 text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+  <h2 className="text-xl font-bold">
+    Dashboard Overview
+  </h2>
+
+  <p className="mt-2 text-gray-600 dark:text-gray-400">
+    Welcome to your admin dashboard.
   </p>
 </div>
 ```
 
----
+একটি consistent theme বজায় রাখতে নিচের mapping ব্যবহার করতে পারেন।
 
-## 1️⃣1️⃣ Pagination
+|
+Element
 
-```jsx id="h2c9ph"
-<div className="mt-10 flex flex-wrap items-center justify-center gap-2">
+|
 
-  <button
-    className="rounded-lg border px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
-    disabled
-  >
-    Previous
-  </button>
+Light
 
-  <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white">
-    1
-  </button>
+|
 
-  <button className="rounded-lg border px-4 py-2 text-sm">
-    2
-  </button>
+Dark
 
-  <button className="rounded-lg border px-4 py-2 text-sm">
-    3
-  </button>
+|
+| --- | --- | --- |
+|
 
-  <button className="rounded-lg border px-4 py-2 text-sm">
-    4
-  </button>
+Page
 
-  <button className="rounded-lg border px-4 py-2 text-sm">
-    Next
-  </button>
+|
 
+`bg-gray-50`
+
+|
+
+`dark:bg-gray-950`
+
+|
+|
+
+Card
+
+|
+
+`bg-white`
+
+|
+
+`dark:bg-gray-900`
+
+|
+|
+
+Primary text
+
+|
+
+`text-gray-900`
+
+|
+
+`dark:text-white`
+
+|
+|
+
+Secondary text
+
+|
+
+`text-gray-500`
+
+|
+
+`dark:text-gray-400`
+
+|
+|
+
+Border
+
+|
+
+`border-gray-200`
+
+|
+
+`dark:border-gray-800`
+
+|
+
+## ১২. Loading ও Empty State
+
+Dashboard-এ ডেটা লোড হওয়ার সময় Loading UI দেখাতে হবে।
+
+JavaScript
+
+```
+<div className="flex min-h-40 items-center justify-center">
+  <div className="size-10 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
 </div>
 ```
 
----
+যদি কোনো Order না থাকে:
 
-## 1️⃣2️⃣ Loading State
+JavaScript
 
-বাস্তব application-এ data আসতে কিছু সময় লাগতে পারে।
-
-তখন:
-
-```text id="0iqjiy"
-Loading Products...
-
-       ⟳
 ```
-
-Tailwind spinner:
-
-```jsx id="b2j8qg"
-<div className="flex items-center justify-center py-20">
-  <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
-</div>
-```
-
-এখানে Day 19-এর:
-
-```text
-animate-spin
-```
-
-ব্যবহার হচ্ছে।
-
----
-
-## 1️⃣3️⃣ Empty State
-
-যদি কোনো product না পাওয়া যায়:
-
-```jsx id="2znrmg"
-<div className="py-20 text-center">
-  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-    No products found
+<div className="rounded-2xl border border-dashed border-gray-300 p-10 text-center dark:border-gray-700">
+  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+    No orders found
   </h3>
 
-  <p className="mt-2 text-gray-500">
-    Try changing your search or filters.
+  <p className="mt-2 text-sm text-gray-500">
+    New orders will appear here.
   </p>
-
-  <button className="mt-5 rounded-lg bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-700">
-    Clear Filters
-  </button>
 </div>
 ```
 
-এটি অত্যন্ত গুরুত্বপূর্ণ UI state।
+এগুলো শুধু সুন্দর UI নয়, ব্যবহারকারীর কাছে application-এর বর্তমান অবস্থা পরিষ্কারভাবে প্রকাশ করে।
 
----
+## ১৩. আজকের Project Folder Structure
 
-## 1️⃣4️⃣ Error State
-
-API error হলে:
-
-```jsx id="y0j9lu"
-<div className="rounded-xl border border-red-200 bg-red-50 p-6 text-center">
-  <h3 className="font-semibold text-red-700">
-    Something went wrong
-  </h3>
-
-  <p className="mt-2 text-sm text-red-600">
-    We couldn't load the products.
-  </p>
-
-  <button className="mt-4 rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
-    Try Again
-  </button>
-</div>
 ```
-
----
-
-## 🧠 1️⃣5️⃣ Real-world UI States
-
-একটি professional Product Listing শুধু:
-
-```text
-Success
-```
-
-হলে হবে না।
-
-আপনাকে চিন্তা করতে হবে:
-
-```text id="1gq2lb"
-Product Page
-     │
-     ├── Loading
-     │
-     ├── Success
-     │
-     ├── Empty
-     │
-     └── Error
-```
-
-এটি Full-Stack application-এর অত্যন্ত গুরুত্বপূর্ণ UI pattern।
-
----
-
-## 1️⃣6️⃣ Component Architecture
-
-আজকের project:
-
-```text id="9cgzgr"
 src/
-│
 ├── components/
-│   │
 │   ├── layout/
-│   │   ├── Navbar.jsx
-│   │   └── Footer.jsx
+│   │   ├── DashboardLayout.jsx
+│   │   ├── Sidebar.jsx
+│   │   └── DashboardHeader.jsx
 │   │
-│   ├── products/
-│   │   ├── ProductCard.jsx
-│   │   ├── ProductGrid.jsx
-│   │   ├── ProductFilters.jsx
-│   │   ├── ProductToolbar.jsx
-│   │   └── ProductPagination.jsx
+│   ├── dashboard/
+│   │   ├── StatCard.jsx
+│   │   ├── SalesAnalytics.jsx
+│   │   ├── TrafficSummary.jsx
+│   │   └── RecentOrders.jsx
 │   │
 │   └── ui/
 │       ├── Button.jsx
-│       ├── Input.jsx
 │       ├── Select.jsx
 │       └── LoadingSpinner.jsx
 │
 ├── pages/
-│   └── Products.jsx
+│   └── Dashboard.jsx
 │
 └── App.jsx
 ```
 
----
+প্রতিটি component-এর নির্দিষ্ট দায়িত্ব রাখুন। এতে ভবিষ্যতে API থেকে ডেটা যুক্ত করা এবং UI পরিবর্তন করা সহজ হবে।
 
-## 1️⃣7️⃣ Tailwind Revision Map
+## 🧪 ১৪. Day 26 Mini Project
 
-এখন Day 1–24 কোথায় ব্যবহার হয়েছে দেখুন।
+আজকের Project
 
-| Day | Skill         | Project-এ ব্যবহার             |
-| --- | ------------- | ----------------------------- |
-| 1   | Utility-first | পুরো UI                       |
-| 2   | Colors        | Card/Button                   |
-| 3   | Typography    | Heading/Product               |
-| 4   | Spacing       | সব layout                     |
-| 5   | Width/Height  | Container                     |
-| 6   | Flexbox       | Toolbar                       |
-| 7   | Grid          | Product layout                |
-| 8   | Responsive    | Mobile/Desktop                |
-| 9   | Position      | Badge                         |
-| 10  | Border/Shadow | Card                          |
-| 11  | Background    | UI                            |
-| 12  | Image         | Product image                 |
-| 13  | Forms         | Search/Filter                 |
-| 14  | Landing Page  | Page structure                |
-| 15  | Project       | E-commerce                    |
-| 16  | Components    | Reusability                   |
-| 17  | State UI      | Interactive states            |
-| 18  | Typography    | Product text                  |
-| 19  | Animation     | Hover/Loading                 |
-| 20  | Dark Mode     | Theme                         |
-| 21  | Layout        | Dashboard patterns            |
-| 22  | Components    | Drawer/Modal                  |
-| 23  | Advanced Grid | Product Listing               |
-| 24  | Data UI       | Search/Filter/Sort/Pagination |
-| 25  | Integration   | সব একসাথে                     |
+## TechStore Admin Dashboard
 
----
+![TechStore Admin Dashboard-এর ডিজাইন রেফারেন্স](https://images.openai.com/static-rsc-4/VRsQAfLacOa8W4LQWLGnZ1mR1VyBHz6fWy8mRWLQq_kNOuoT_UFpoLe73jv9PxYpNaZ3A-mkQq6P00IWwJXOEbj9AOtet31SeaG3fyIGZy8l_wjjUc0htzn5FkMoSoi2YbimzLwpKS60p2Yc9uy6_Sc1BHQXVKnHJkEkA7f1OI4?purpose=inline)
 
-## 🧩 1️⃣8️⃣ সবচেয়ে গুরুত্বপূর্ণ Developer Skill
+Project Requirements
 
-Tailwind শেখার সময় এই ভুল করবেন না:
+আপনার অগ্রগতি
 
-❌ শুধু class মুখস্থ করা
+0/10
 
-```text
-grid-cols-3
-gap-6
-rounded-xl
-shadow-lg
-```
+Responsive Sidebar
 
-এর পরিবর্তে চিন্তা করুন:
+Sticky Dashboard Header
 
-> **এই UI-এর requirement কী?**
+চারটি Statistics Card
 
-তারপর:
+Sales Analytics Panel
 
-```text
-Requirement
-    ↓
-UI Structure
-    ↓
-Layout
-    ↓
-Component
-    ↓
-Responsive Behavior
-    ↓
-State
-    ↓
-Tailwind Styling
-```
+Traffic Summary Panel
 
-এটাই professional approach।
+Recent Orders Table
 
----
+Dark Mode
 
-## 🧪 Day 25 Final Challenge
+Loading State
 
-এখন নিজে **AI সাহায্য ছাড়া প্রথমে architecture তৈরি করার চেষ্টা করুন।**
+Empty State
 
-#### Project: `TechStore Product Listing`
+Mobile Responsive Layout
 
-###### Must Have
+প্রথমে static UI তৈরি করুন। তারপর React state এবং API integration যোগ করুন। বাস্তব ডেটা না থাকলে mock data ব্যবহার করতে পারেন।
 
-* [ ] Responsive Navbar
-* [ ] Page Header
-* [ ] Search
-* [ ] Category Filter
-* [ ] Price Filter UI
-* [ ] Rating Filter
-* [ ] Sort Dropdown
-* [ ] Product Count
-* [ ] Product Grid
-* [ ] Product Card
-* [ ] Sale Badge
-* [ ] Add to Cart Button
-* [ ] Pagination
-* [ ] Loading State
-* [ ] Empty State
-* [ ] Error State
-* [ ] Dark Mode
-* [ ] Mobile Responsive
-* [ ] Mobile Filter Drawer
+## 🧠 ১৫. Day 26 Self-Test
 
----
+নিজেকে নিচের প্রশ্নগুলোর উত্তর দেওয়ার চেষ্টা করুন।
 
-## 🧠 Day 25 Self-Test
+1. `grid-cols-[260px_1fr]` কীভাবে কাজ করে?
 
-নিজেকে এই প্রশ্নগুলোর উত্তর দিন:
+2. Dashboard-এর Sidebar এবং Main Content আলাদা রাখার সুবিধা কী?
 
-###### Q1
+3. `sticky top-0` ও `fixed top-0`-এর পার্থক্য কী?
 
-`container` এবং `max-w-7xl`-এর উদ্দেশ্য কী?
+4. `min-w-0` কেন Grid layout-এ কাজে লাগে?
 
-###### Q2
+5. Statistics Card-কে reusable component বানালে কী সুবিধা হয়?
 
-কখন Flexbox এবং কখন Grid ব্যবহার করবেন?
+6. `overflow-x-auto` কখন ব্যবহার করবেন?
 
-###### Q3
+7. Responsive Statistics Grid কীভাবে তৈরি করবেন?
 
-`relative` + `absolute` কেন একসাথে ব্যবহার করা হয়?
+8. Dark Mode-এর জন্য `dark:` কীভাবে ব্যবহার করবেন?
 
-###### Q4
+9. Loading ও Empty State-এর মধ্যে পার্থক্য কী?
 
-`group-hover` কীভাবে কাজ করে?
+10. Dashboard UI এবং Backend Business Logic-এর দায়িত্ব কীভাবে আলাদা?
 
-###### Q5
+## 📋 ১৬. Day 26 Cheat Sheet
 
-`truncate` এবং `line-clamp-2`-এর পার্থক্য কী?
+|
+কাজ
 
-###### Q6
+|
 
-`dark:` কী করে?
+Tailwind Class
 
-###### Q7
+|
+| --- | --- |
+|
 
-React state এবং Tailwind-এর মধ্যে পার্থক্য কী?
+Full-height layout
 
-###### Q8
+|
 
-Loading, Empty এবং Error state কেন প্রয়োজন?
+`min-h-screen`
 
-###### Q9
+|
+|
 
-Mobile-first design বলতে কী বোঝায়?
+Sidebar + Content
 
-###### Q10
+|
 
-একটি Product Listing Page-কে কীভাবে component-এ ভাগ করবেন?
+`grid lg:grid-cols-[260px_1fr]`
 
----
+|
+|
 
-## 🏆 Day 25-এর Final Mental Model
+Sticky Header
 
-```text
-                    E-Commerce UI
-                         │
-              ┌──────────┴──────────┐
-              │                     │
-           Layout                 State
-              │                     │
-        ┌─────┴─────┐        ┌──────┴──────┐
-        │           │        │             │
-       Grid       Flex     Search        Filter
-        │           │        │             │
-     Product     Toolbar    Sort        Pagination
-       Grid
-        │
-   Product Card
-        │
-   Tailwind CSS
-        │
- Responsive + Dark Mode
-```
+|
 
-###### ⭐ আজকের Golden Rule
+`sticky top-0 z-40`
 
-> **Tailwind CSS শেখার পরবর্তী স্তর হলো class জানা নয়—Requirement দেখে Layout, Component, State এবং Responsive UI-এর architecture নিজে চিন্তা করতে পারা।**
+|
+|
 
-Day 25 শেষ করার পর আপনি **Day 1–25-এর foundation**-কে একটি বাস্তব e-commerce UI workflow-এর মধ্যে ব্যবহার করতে পারবেন।
+Responsive Statistics
+
+|
+
+`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4`
+
+|
+|
+
+Analytics Layout
+
+|
+
+`grid xl:grid-cols-3`
+
+|
+|
+
+Two-column Analytics
+
+|
+
+`xl:col-span-2`
+
+|
+|
+
+Card
+
+|
+
+`rounded-2xl border bg-white p-5 shadow-sm`
+
+|
+|
+
+Table Scroll
+
+|
+
+`overflow-x-auto`
+
+|
+|
+
+Table Divider
+
+|
+
+`divide-y`
+
+|
+|
+
+Hover Row
+
+|
+
+`hover:bg-gray-50`
+
+|
+|
+
+Loading Spinner
+
+|
+
+`animate-spin`
+
+|
+|
+
+Dark Mode
+
+|
+
+`dark:bg-gray-900`
+
+|
+|
+
+Responsive Spacing
+
+|
+
+`p-4 sm:p-6 lg:p-8`
+
+|
+
+#### Day 26-এর মূল শিক্ষা
+
+একটি বাস্তব Dashboard তৈরি করতে শুধু Card ও Table বানালেই হয় না। Layout, component reusability, responsive design, theme এবং বিভিন্ন UI state—সবকিছু একসঙ্গে পরিকল্পনা করতে হয়।
+
+আজকের Golden Rule:
+
+Requirement → Layout → Components → Responsive Design → UI States → API Integration
+
+পরবর্তী ধাপে Day 27-এ Advanced Form Design, Validation State এবং Multi-step Form UI নিয়ে কাজ করতে পারেন।
+
+
+month	sales
+Jan	1,200
+Feb	1,800
+Mar	1,500
+Apr	2,400
+May	2,100
+Jun	3,200
