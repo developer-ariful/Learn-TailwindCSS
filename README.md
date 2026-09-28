@@ -39,71 +39,7 @@ Intermediate to Advanced
 
 10. Dashboard UI Architecture
 
-## ⏰ ২. এক ঘণ্টার Study Plan
 
-|
-সময়
-
-|
-
-বিষয়
-
-|
-| --- | --- |
-|
-
-১০ মিনিট
-
-|
-
-Dashboard Layout ও Grid
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Sidebar ও Header
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Statistics Cards
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Analytics ও Orders Table
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Responsive ও Dark Mode
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Mini Project ও Revision
-
-|
 
 ## ৩. Dashboard-এর Layout Architecture
 
