@@ -1,11 +1,9 @@
-
-import DashboardLayout from "./components/layout/DashboardLayout";
-import Dashboard from "./pages/Dashboard";
+import ProductForm from "./components/ProductForm";
 
 export default function () {
     return (
         <>
-           <Dashboard/>
+          <ProductForm/>
         </>
     )
 }

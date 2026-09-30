@@ -1,122 +1,228 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-## 🚀 Tailwind CSS — Day 26
+## 🚀 Tailwind CSS — Day 27
 
-#### Advanced Dashboard UI: Analytics, Statistics, Tables & Responsive Layout
+#### Advanced Form Design, Validation States & Multi-step Forms
 
 ১ ঘণ্টার লেসন
 
 Intermediate to Advanced
 
-আজ আমরা একটি বাস্তব E-commerce Admin Dashboard তৈরি করার জন্য প্রয়োজনীয় UI শিখব। Day 25-এ Product Listing Page তৈরি করেছি। আজ সেই অভিজ্ঞতা কাজে লাগিয়ে Dashboard-এর Statistics Cards, Analytics Panel, Recent Orders Table এবং Responsive Layout তৈরি করব।
+আজ আমরা একটি বাস্তব E-commerce Application-এর জন্য Professional Form UI তৈরি করা শিখব। বিশেষ করে Product Form, Registration Form, Validation Error, Success State এবং Multi-step Form নিয়ে কাজ করব।
 
-![আধুনিক E-commerce Admin Dashboard UI-এর উদাহরণ](https://images.openai.com/static-rsc-4/QKgRu-kfXfTWwUBHKvW0DnURmjHtB8fLKzXhG_gvTBcjLnJ1vWU8-04ETrOWsEXRUI8XMosK4-Rk758EeUti4E9GzpPl9z1NKLN_-nJ74NAfiG4XTBDMJ99a9OFf0VhoWjOwFdA-4U0pfRbIRQJFEUskENxIWPQU76ORQlRdpkA?purpose=inline)
+![Professional product form UI](https://images.openai.com/static-rsc-4/1xRSG7s_JvKG-c2eqwhHwuFNKsFm2MEaCw4ljn7h3xMfgm2Yxv1lysz-JPDj7ootQhmcAX4plEAxY4WbIwfBmjL6y6Ks1MEn2-S9jOHtIy2lju7tSwguAq0fiNLpBFhDNsJ74_IDLAtWciFSCUwoRKjHRzW9ZNeBk9ZuXOBxNiU?purpose=inline)
 
-আজকের লক্ষ্য: এই ধরনের Dashboard-এর Layout ও UI তৈরি করা।
+আজকের লক্ষ্য: এই ধরনের professional form তৈরি করতে শেখা।
 
 ## 🎯 ১. আজকের Learning Objectives
 
 আজ আপনি শিখবেন:
 
-1. Advanced Dashboard Layout
+1. Advanced Form Layout
 
-2. Sidebar ও Header Design
+2. Input, Select, Textarea ও Checkbox Design
 
-3. Statistics Cards তৈরি
+3. Focus, Error ও Success States
 
-4. Analytics Panel-এর UI
+4. Form Validation UI
 
-5. Recent Orders Table
+5. Inline Error Messages
 
-6. Responsive Dashboard
+6. Disabled ও Loading Button
 
-7. Loading ও Empty State
+7. Multi-step Form UI
 
-8. Reusable Dashboard Components
+8. Responsive Form Design
 
-9. Dark Mode Integration
+9. Accessible Form Design
 
-10. Dashboard UI Architecture
+10. Reusable Form Components
 
+## ⏰ ২. এক ঘণ্টার Study Plan
 
+|
+সময়
 
-## ৩. Dashboard-এর Layout Architecture
+|
 
-প্রথমে Dashboard-এর কাঠামো বুঝে নিন।
+বিষয়
+
+|
+| --- | --- |
+|
+
+১০ মিনিট
+
+|
+
+Advanced Form Layout
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Input ও Select Design
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Validation States
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Error ও Success UI
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Multi-step Form
+
+|
+|
+
+১০ মিনিট
+
+|
+
+Mini Project ও Revision
+
+|
+
+## ৩. Advanced Form Layout
+
+প্রথমে একটি Product Form-এর কাঠামো বুঝে নিই।
 
 ```
-AdminDashboard
+Add New Product
 │
-├── Sidebar
-│   ├── Logo
-│   ├── Dashboard
-│   ├── Products
-│   ├── Orders
-│   ├── Customers
-│   └── Settings
+├── Basic Information
+│   ├── Product Name
+│   ├── Description
+│   └── Category
 │
-└── Main Content
-    │
-    ├── Header
-    │   ├── Search
-    │   ├── Notifications
-    │   └── Profile
-    │
-    └── Dashboard Content
-        │
-        ├── Page Heading
-        │
-        ├── Statistics
-        │   ├── Total Sales
-        │   ├── Total Orders
-        │   ├── Customers
-        │   └── Revenue
-        │
-        ├── Analytics
-        │   ├── Sales Chart
-        │   └── Traffic Summary
-        │
-        └── Recent Orders Table
+├── Pricing
+│   ├── Regular Price
+│   └── Discount Price
+│
+├── Inventory
+│   ├── SKU
+│   └── Stock Quantity
+│
+├── Product Images
+│
+└── Actions
+    ├── Cancel
+    └── Save Product
 ```
 
-এখানে দুটি প্রধান অংশ রয়েছে:
+Form-কে একাধিক logical section-এ ভাগ করলে ব্যবহারকারী সহজে তথ্য দিতে পারেন।
 
-* Sidebar: Dashboard-এর Navigation।
-
-* Main Content: Dashboard-এর মূল তথ্য ও বিভিন্ন UI।
-
-## ৪. Dashboard Main Layout
-
-প্রথমে একটি responsive layout তৈরি করুন।
+#### Form Container
 
 JavaScript
 
 ```
-function DashboardLayout({ children }) {
+function ProductForm() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <div className="grid min-h-screen lg:grid-cols-[260px_1fr]">
-        <aside className="hidden border-r border-gray-200 bg-white lg:block dark:border-gray-800 dark:bg-gray-900">
-          Sidebar
-        </aside>
+    <div className="mx-auto w-full max-w-4xl rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-8 dark:border-gray-800 dark:bg-gray-900">
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        Add New Product
+      </h1>
 
-        <main className="min-w-0">
-          <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/80 p-4 backdrop-blur dark:border-gray-800 dark:bg-gray-900/80">
-            Header
-          </header>
+      <p className="mt-2 text-sm text-gray-500">
+        Enter the product information below.
+      </p>
 
-          <div className="mx-auto w-full max-w-7xl p-4 sm:p-6 lg:p-8">
-            {children}
-          </div>
-        </main>
-      </div>
+      <form className="mt-8 space-y-8">
+        {/* Form sections */}
+      </form>
     </div>
   );
 }
 ```
 
-গুরুত্বপূর্ণ Tailwind utilities:
+এখানে:
+
+* `max-w-4xl` — Form-এর সর্বোচ্চ প্রস্থ।
+
+* `mx-auto` — Form-কে মাঝখানে রাখা।
+
+* `space-y-8` — Form section-গুলোর মধ্যে vertical spacing।
+
+* `sm:p-8` — বড় স্ক্রিনে বেশি padding।
+
+## ৪. Professional Input Design
+
+একটি ভালো Input-এর মধ্যে সাধারণত থাকে:
+
+* Label
+
+* Input Field
+
+* Placeholder
+
+* Helper Text
+
+* Validation Message
+
+#### Input Field Preview
+
+Product Name
+
+Enter product name
+
+Enter a descriptive product name.
+
+Price
+
+Enter price
+
+Price is required.
+
+Tailwind:
+
+JavaScript
+
+```
+<div className="space-y-2">
+  <label
+    htmlFor="productName"
+    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+  >
+    Product Name
+  </label>
+
+  <input
+    id="productName"
+    type="text"
+    placeholder="Enter product name"
+    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+  />
+
+  <p className="text-xs text-gray-500">
+    Enter a descriptive product name.
+  </p>
+</div>
+```
+
+###### গুরুত্বপূর্ণ Classes
 
 |
 Class
@@ -129,652 +235,500 @@ Class
 | --- | --- |
 |
 
-`min-h-screen`
+`w-full`
 
 |
 
-কমপক্ষে পুরো viewport-এর উচ্চতা
-
-|
-|
-
-`grid`
-
-|
-
-CSS Grid Layout
+সম্পূর্ণ প্রস্থ
 
 |
 |
 
-`lg:grid-cols-[260px_1fr]`
+`rounded-lg`
 
 |
 
-Sidebar 260px, বাকি অংশ Main Content
-
-|
-|
-
-`hidden lg:block`
-
-|
-
-বড় স্ক্রিনে Sidebar দেখানো
+গোলাকার কোণা
 
 |
 |
 
-`min-w-0`
+`border-gray-300`
 
 |
 
-Grid item-কে content অনুযায়ী প্রয়োজনমতো সংকুচিত হতে দেওয়া
-
-|
-|
-
-`sticky top-0`
-
-|
-
-Header-কে scroll করার সময় উপরে আটকে রাখা
+Border-এর রং
 
 |
 |
 
-`backdrop-blur`
+`focus:border-blue-500`
 
 |
 
-Header-এর পেছনের অংশে blur effect
+Focus হলে Border-এর রং
 
 |
 |
 
-`max-w-7xl`
+`focus:ring-2`
 
 |
 
-Content-এর সর্বোচ্চ প্রস্থ নির্ধারণ
+Focus ring
+
+|
+|
+
+`outline-none`
 
 |
 
-মনে রাখবেন: `1fr` হলো Grid-এর অবশিষ্ট উপলব্ধ জায়গা। তাই `260px_1fr` দিয়ে Sidebar ও Main Content-এর প্রস্থ নির্ধারণ করা যায়।
+Default outline সরানো
 
-## ৫. Sidebar তৈরি
+|
+|
 
-এবার একটি reusable Sidebar component তৈরি করুন।
+`transition`
+
+|
+
+Smooth visual transition
+
+|
+
+Accessibility: প্রতিটি Input-এর সঙ্গে `label`-এর `htmlFor` এবং Input-এর `id` মিলিয়ে দিন।
+
+## ৫. Error State Design
+
+ব্যবহারকারী ভুল তথ্য দিলে Error State দেখানো হয়।
+
+Product Name
+
+Enter product name
+
+Product name is required.
+
+Tailwind:
 
 JavaScript
 
 ```
-const menuItems = [
-  "Dashboard",
-  "Products",
-  "Orders",
-  "Customers",
-  "Analytics",
-  "Settings",
-];
+<div className="space-y-2">
+  <label htmlFor="name" className="block text-sm font-medium">
+    Product Name
+  </label>
 
-function Sidebar() {
-  return (
-    <aside className="h-screen overflow-y-auto p-5">
-      <h1 className="mb-8 text-2xl font-bold text-blue-600">
-        TechStore
-      </h1>
+  <input
+    id="name"
+    type="text"
+    aria-invalid="true"
+    aria-describedby="name-error"
+    className="w-full rounded-lg border border-red-500 px-4 py-3 outline-none focus:ring-2 focus:ring-red-500"
+  />
 
-      <nav className="space-y-2">
-        {menuItems.map((item) => (
-          <a
-            key={item}
-            href="##"
-            className={`block rounded-xl px-4 py-3 text-sm font-medium transition ${
-              item === "Dashboard"
-                ? "bg-blue-600 text-white"
-                : "text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
-            }`}
-          >
-            {item}
-          </a>
-        ))}
-      </nav>
-    </aside>
-  );
-}
+  <p id="name-error" className="text-sm text-red-600">
+    Product name is required.
+  </p>
+</div>
 ```
 
-###### এখানে যেসব utility ব্যবহার হয়েছে
+এখানে `aria-invalid` এবং `aria-describedby` ব্যবহার করলে screen reader ব্যবহারকারীরাও Error সম্পর্কে জানতে পারেন।
 
-* `h-screen`: viewport-এর সমান উচ্চতা।
+## ৬. Success State Design
 
-* `overflow-y-auto`: Sidebar-এর content বেশি হলে vertical scroll।
+তথ্য সঠিক হলে Success State দেখাতে পারেন।
 
-* `space-y-2`: Navigation item-এর মধ্যে vertical spacing।
+Email Address
 
-* `block`: প্রতিটি link-কে পুরো লাইনের জায়গা দেওয়া।
+[arif@example.com](mailto:arif@example.com)
 
-* `transition`: পরিবর্তনের সময় smooth effect।
+Email address is valid.
 
-বাস্তব application-এ `href="##"`-এর পরিবর্তে React Router-এর `Link` ব্যবহার করতে পারেন।
-
-## ৬. Dashboard Header
-
-একটি Dashboard Header-এ সাধারণত Search, Notification এবং Profile থাকে।
+Tailwind:
 
 JavaScript
 
 ```
-function DashboardHeader() {
-  return (
-    <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <input
-        type="search"
-        placeholder="Search..."
-        className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-500 sm:max-w-xs dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-      />
+<div className="space-y-2">
+  <label htmlFor="email" className="block text-sm font-medium">
+    Email Address
+  </label>
 
-      <div className="flex items-center justify-between gap-4 sm:justify-end">
-        <button
-          type="button"
-          aria-label="Notifications"
-          className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          🔔
-        </button>
+  <input
+    id="email"
+    type="email"
+    aria-invalid="false"
+    aria-describedby="email-success"
+    className="w-full rounded-lg border border-green-500 px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
+  />
 
-        <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-full bg-blue-100 font-bold text-blue-700">
-            A
-          </div>
-
-          <div>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white">
-              Admin
-            </p>
-            <p className="text-xs text-gray-500">
-              Administrator
-            </p>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-}
+  <p id="email-success" className="text-sm text-green-600">
+    Email address is valid.
+  </p>
+</div>
 ```
 
-`flex-col sm:flex-row` ব্যবহার করায় ছোট স্ক্রিনে Header-এর উপাদানগুলো উল্লম্বভাবে এবং বড় স্ক্রিনে পাশাপাশি থাকবে।
+মনে রাখবেন, শুধু সবুজ Border দিলেই Validation সম্পন্ন হয় না। React বা অন্য Validation Logic দিয়ে তথ্য যাচাই করতে হবে।
 
-## ৭. Statistics Cards
+## ৭. Select ও Textarea Design
 
-Dashboard-এর গুরুত্বপূর্ণ অংশ হলো Statistics Cards।
-
-উদাহরণ:
-
-Total Revenue
-
-## $24,500
-
-+12.5%
-
-Total Orders
-
-## 1,250
-
-+8.2%
-
-Customers
-
-## 3,450
-
-+5.4%
-
-Pending Orders
-
-## 85
-
-Pending
-
-এগুলো কেবল UI অনুশীলনের জন্য উদাহরণমূলক সংখ্যা।
-
-এখন Tailwind দিয়ে একটি reusable component তৈরি করুন।
+#### Select
 
 JavaScript
 
 ```
-function StatCard({ title, value, change }) {
-  return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-        {title}
-      </p>
+<div className="space-y-2">
+  <label htmlFor="category" className="block text-sm font-medium">
+    Category
+  </label>
 
-      <div className="mt-3 flex items-center justify-between gap-2">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-          {value}
-        </h2>
+  <select
+    id="category"
+    defaultValue=""
+    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+  >
+    <option value="" disabled>
+      Select a category
+    </option>
+    <option value="electronics">Electronics</option>
+    <option value="clothing">Clothing</option>
+    <option value="shoes">Shoes</option>
+  </select>
+</div>
+```
 
-        <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">
-          {change}
-        </span>
-      </div>
+#### Textarea
+
+JavaScript
+
+```
+<div className="space-y-2">
+  <label htmlFor="description" className="block text-sm font-medium">
+    Description
+  </label>
+
+  <textarea
+    id="description"
+    rows={4}
+    placeholder="Enter product description"
+    className="w-full resize-y rounded-lg border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+  />
+</div>
+```
+
+`resize-y` ব্যবহার করলে ব্যবহারকারী Textarea-কে শুধু vertical দিকে বড় বা ছোট করতে পারবেন।
+
+## ৮. Checkbox ও Radio Design
+
+Product Form-এ Active Status-এর মতো Checkbox ব্যবহার করতে পারেন।
+
+JavaScript
+
+```
+<label className="flex items-center gap-3">
+  <input
+    type="checkbox"
+    className="size-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
+  />
+  <span className="text-sm text-gray-700 dark:text-gray-300">
+    Publish this product
+  </span>
+</label>
+```
+
+একাধিক বিকল্প থেকে একটি বেছে নিতে Radio ব্যবহার করা যায়।
+
+JavaScript
+
+```
+<div className="space-y-3">
+  <p className="text-sm font-medium">Product Status</p>
+
+  <label className="flex items-center gap-3">
+    <input type="radio" name="status" value="active" />
+    <span>Active</span>
+  </label>
+
+  <label className="flex items-center gap-3">
+    <input type="radio" name="status" value="draft" />
+    <span>Draft</span>
+  </label>
+</div>
+```
+
+## ৯. Loading ও Disabled Button
+
+Form Submit করার সময় ব্যবহারকারী যেন বারবার Submit না করেন, সে জন্য Loading ও Disabled State ব্যবহার করা হয়।
+
+###### Button State Preview
+
+Save Product
+
+Saving...
+
+Disabled
+
+React উদাহরণ:
+
+JavaScript
+
+```
+<button
+  type="submit"
+  disabled={isSubmitting}
+  className="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+>
+  {isSubmitting ? "Saving..." : "Save Product"}
+</button>
+```
+
+এখানে `isSubmitting` একটি React state, যা Submit চলাকালে `true` হতে পারে।
+
+## ১০. Multi-step Form UI
+
+কিছু Form-এ অনেক তথ্য দিতে হয়। সব Input একসঙ্গে না দেখিয়ে কয়েকটি ধাপে ভাগ করা যায়।
+
+উদাহরণ: Product Creation Wizard।
+
+#### Product Creation Wizard
+
+1
+
+Basic
+
+2
+
+Pricing
+
+3
+
+Images
+
+###### Step 1: Basic Information
+
+Product Name
+
+CategorySelect category
+
+PreviousNext
+
+এটি কেবল ধাপ পরিবর্তনের UI ডেমো; এখানে প্রকৃত Form Validation বা ডেটা সংরক্ষণ নেই।
+
+###### Multi-step Form-এর Tailwind Layout
+
+JavaScript
+
+```
+<div className="mx-auto max-w-2xl rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-900">
+  <div className="mb-8 flex items-center gap-3">
+    <div className="flex size-9 items-center justify-center rounded-full bg-blue-600 text-white">
+      1
     </div>
-  );
-}
-```
-
-ব্যবহার:
-
-JavaScript
-
-```
-<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-  <StatCard title="Total Revenue" value="$24,500" change="+12.5%" />
-  <StatCard title="Total Orders" value="1,250" change="+8.2%" />
-  <StatCard title="Customers" value="3,450" change="+5.4%" />
-  <StatCard title="Pending Orders" value="85" change="Pending" />
-</div>
-```
-
-এখানে একটি component দিয়েই চারটি Statistics Card তৈরি হয়েছে।
-
-## ৮. Analytics Panel
-
-Dashboard-এ Sales Analytics বা Revenue Chart প্রায়ই থাকে।
-
-#### Monthly Sales
-
-উদাহরণমূলক ডেটা
-
-Share
-
-Chart options
-
-
-
-Chart-এর জন্য একটি আলাদা container তৈরি করুন।
-
-JavaScript
-
-```
-<div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
-  <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-    <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-      Sales Analytics
-    </h2>
-
-    <select className="rounded-lg border px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white">
-      <option>Last 7 days</option>
-      <option>Last 30 days</option>
-      <option>Last 12 months</option>
-    </select>
+    <div className="h-1 flex-1 rounded bg-gray-200" />
+    <div className="flex size-9 items-center justify-center rounded-full bg-gray-200">
+      2
+    </div>
+    <div className="h-1 flex-1 rounded bg-gray-200" />
+    <div className="flex size-9 items-center justify-center rounded-full bg-gray-200">
+      3
+    </div>
   </div>
 
-  <div className="flex h-64 items-center justify-center rounded-xl bg-gray-50 text-gray-500 dark:bg-gray-800">
-    Chart goes here
-  </div>
+  {/* Current step content */}
 </div>
 ```
 
-এখানে `Chart goes here`-এর জায়গায় Recharts বা অন্য কোনো chart library ব্যবহার করা যায়।
+এখানে Flexbox দিয়ে Step Indicator তৈরি করা হয়েছে। React State দিয়ে বর্তমান Step এবং কোন Form দেখানো হবে তা নিয়ন্ত্রণ করতে হবে।
 
-## ৯. Recent Orders Table
+## ১১. Reusable Form Component Architecture
 
-Admin Dashboard-এ Recent Orders দেখানোর জন্য Table খুবই প্রয়োজনীয়।
-
-#### Recent Orders
-
-উদাহরণমূলক ডেটা
-
-<table class="_6IUVGW_Table" data-d-column-sizing="auto" data-d-dividers="" style="table-layout: auto;"><tbody><tr data-d-component="table-row"><td data-d-component="table-cell" data-d-has-width="" data-d-valign="start" style="width: 30%;"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text"><span class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-default-strong="" data-d-inline="">Order ID</span></p></td><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text"><span class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-default-strong="" data-d-inline="">Customer</span></p></td><td data-d-align="end" data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text"><span class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-default-strong="" data-d-inline="">Amount</span></p></td><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text"><span class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-default-strong="" data-d-inline="">Status</span></p></td></tr><tr data-d-component="table-row"><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-weight="medium">##ORD-101</p></td><td data-d-component="table-cell" data-d-valign="start">Rahim</td><td data-d-align="end" data-d-component="table-cell" data-d-valign="start">$120</td><td data-d-component="table-cell" data-d-valign="start"><div class="ANObbW_Badge lKEGNW_Badge" data-color="success" data-size="sm" data-pill="" data-variant="soft" data-d-component="badge" data-d-weight="medium">Paid</div></td></tr><tr data-d-component="table-row"><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-weight="medium">##ORD-102</p></td><td data-d-component="table-cell" data-d-valign="start">Karim</td><td data-d-align="end" data-d-component="table-cell" data-d-valign="start">$250</td><td data-d-component="table-cell" data-d-valign="start"><div class="ANObbW_Badge lKEGNW_Badge" data-color="warning" data-size="sm" data-pill="" data-variant="soft" data-d-component="badge" data-d-weight="medium">Pending</div></td></tr><tr data-d-component="table-row"><td data-d-component="table-cell" data-d-valign="start"><p class="w6asjq_TextBase _85PZeG_Text" data-d-component="text" data-d-weight="medium">##ORD-103</p></td><td data-d-component="table-cell" data-d-valign="start">Sakib</td><td data-d-align="end" data-d-component="table-cell" data-d-valign="start">$85</td><td data-d-component="table-cell" data-d-valign="start"><div class="ANObbW_Badge lKEGNW_Badge" data-color="info" data-size="sm" data-pill="" data-variant="soft" data-d-component="badge" data-d-weight="medium">Shipped</div></td></tr></tbody></table>
-
-Tailwind দিয়ে তৈরি করার সময়:
-
-JavaScript
-
-```
-<div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-  <table className="w-full min-w-[650px] text-left text-sm">
-    <thead className="bg-gray-50 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
-      <tr>
-        <th className="px-5 py-4">Order ID</th>
-        <th className="px-5 py-4">Customer</th>
-        <th className="px-5 py-4">Amount</th>
-        <th className="px-5 py-4">Status</th>
-      </tr>
-    </thead>
-
-    <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-      <tr className="hover:bg-gray-50 dark:hover:bg-gray-800">
-        <td className="px-5 py-4">##ORD-101</td>
-        <td className="px-5 py-4">Rahim</td>
-        <td className="px-5 py-4">$120</td>
-        <td className="px-5 py-4">
-          <span className="rounded-full bg-green-100 px-3 py-1 text-xs text-green-700">
-            Paid
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-```
-
-গুরুত্বপূর্ণ utilities:
-
-* `overflow-x-auto`: ছোট স্ক্রিনে প্রয়োজন হলে horizontal scroll।
-
-* `min-w-[650px]`: টেবিলের সর্বনিম্ন প্রস্থ।
-
-* `divide-y`: প্রতিটি row-এর মধ্যে divider।
-
-* `hover:bg-gray-50`: Mouse hover করলে row-এর background পরিবর্তন।
-
-## ১০. Responsive Dashboard
-
-Dashboard অবশ্যই Mobile, Tablet এবং Desktop-এ ব্যবহারযোগ্য হতে হবে।
-
-|
-Screen
-
-|
-
-Sidebar
-
-|
-
-Statistics
-
-|
-| --- | --- | --- |
-|
-
-Mobile
-
-|
-
-Drawer বা hidden
-
-|
-
-১ কলাম
-
-|
-|
-
-Tablet
-
-|
-
-প্রয়োজন অনুযায়ী
-
-|
-
-২ কলাম
-
-|
-|
-
-Desktop
-
-|
-
-স্থায়ী Sidebar
-
-|
-
-৪ কলাম
-
-|
-
-Statistics-এর জন্য:
-
-JavaScript
-
-```
-<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-  {/* Stat Cards */}
-</div>
-```
-
-Analytics ও Orders-এর জন্য:
-
-JavaScript
-
-```
-<div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
-  <section className="xl:col-span-2">
-    Sales Analytics
-  </section>
-
-  <section>
-    Traffic Summary
-  </section>
-</div>
-```
-
-এখানে বড় স্ক্রিনে Analytics দুই-তৃতীয়াংশ এবং Traffic Summary এক-তৃতীয়াংশ জায়গা পাবে।
-
-## ১১. Dark Mode Integration
-
-Day 20-এ শেখা `dark:` variant ব্যবহার করুন।
-
-JavaScript
-
-```
-<div className="rounded-2xl border border-gray-200 bg-white p-6 text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
-  <h2 className="text-xl font-bold">
-    Dashboard Overview
-  </h2>
-
-  <p className="mt-2 text-gray-600 dark:text-gray-400">
-    Welcome to your admin dashboard.
-  </p>
-</div>
-```
-
-একটি consistent theme বজায় রাখতে নিচের mapping ব্যবহার করতে পারেন।
-
-|
-Element
-
-|
-
-Light
-
-|
-
-Dark
-
-|
-| --- | --- | --- |
-|
-
-Page
-
-|
-
-`bg-gray-50`
-
-|
-
-`dark:bg-gray-950`
-
-|
-|
-
-Card
-
-|
-
-`bg-white`
-
-|
-
-`dark:bg-gray-900`
-
-|
-|
-
-Primary text
-
-|
-
-`text-gray-900`
-
-|
-
-`dark:text-white`
-
-|
-|
-
-Secondary text
-
-|
-
-`text-gray-500`
-
-|
-
-`dark:text-gray-400`
-
-|
-|
-
-Border
-
-|
-
-`border-gray-200`
-
-|
-
-`dark:border-gray-800`
-
-|
-
-## ১২. Loading ও Empty State
-
-Dashboard-এ ডেটা লোড হওয়ার সময় Loading UI দেখাতে হবে।
-
-JavaScript
-
-```
-<div className="flex min-h-40 items-center justify-center">
-  <div className="size-10 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
-</div>
-```
-
-যদি কোনো Order না থাকে:
-
-JavaScript
-
-```
-<div className="rounded-2xl border border-dashed border-gray-300 p-10 text-center dark:border-gray-700">
-  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-    No orders found
-  </h3>
-
-  <p className="mt-2 text-sm text-gray-500">
-    New orders will appear here.
-  </p>
-</div>
-```
-
-এগুলো শুধু সুন্দর UI নয়, ব্যবহারকারীর কাছে application-এর বর্তমান অবস্থা পরিষ্কারভাবে প্রকাশ করে।
-
-## ১৩. আজকের Project Folder Structure
+বাস্তব প্রজেক্টে একই Input বারবার লিখলে কোড বড় হয়ে যায়। তাই reusable component ব্যবহার করুন।
 
 ```
 src/
 ├── components/
-│   ├── layout/
-│   │   ├── DashboardLayout.jsx
-│   │   ├── Sidebar.jsx
-│   │   └── DashboardHeader.jsx
-│   │
-│   ├── dashboard/
-│   │   ├── StatCard.jsx
-│   │   ├── SalesAnalytics.jsx
-│   │   ├── TrafficSummary.jsx
-│   │   └── RecentOrders.jsx
+│   ├── forms/
+│   │   ├── FormInput.jsx
+│   │   ├── FormSelect.jsx
+│   │   ├── FormTextarea.jsx
+│   │   ├── FormCheckbox.jsx
+│   │   ├── FormError.jsx
+│   │   └── FormStepper.jsx
 │   │
 │   └── ui/
-│       ├── Button.jsx
-│       ├── Select.jsx
-│       └── LoadingSpinner.jsx
+│       └── Button.jsx
 │
-├── pages/
-│   └── Dashboard.jsx
-│
-└── App.jsx
+└── pages/
+    └── CreateProduct.jsx
 ```
 
-প্রতিটি component-এর নির্দিষ্ট দায়িত্ব রাখুন। এতে ভবিষ্যতে API থেকে ডেটা যুক্ত করা এবং UI পরিবর্তন করা সহজ হবে।
+উদাহরণস্বরূপ, `FormInput`-এর Props হতে পারে:
 
-## 🧪 ১৪. Day 26 Mini Project
+|
+Prop
 
-আজকের Project
+|
 
-## TechStore Admin Dashboard
+কাজ
 
-![TechStore Admin Dashboard-এর ডিজাইন রেফারেন্স](https://images.openai.com/static-rsc-4/VRsQAfLacOa8W4LQWLGnZ1mR1VyBHz6fWy8mRWLQq_kNOuoT_UFpoLe73jv9PxYpNaZ3A-mkQq6P00IWwJXOEbj9AOtet31SeaG3fyIGZy8l_wjjUc0htzn5FkMoSoi2YbimzLwpKS60p2Yc9uy6_Sc1BHQXVKnHJkEkA7f1OI4?purpose=inline)
+|
+| --- | --- |
+|
 
-Project Requirements
+`label`
 
-আপনার অগ্রগতি
+|
 
-0/10
+Input-এর Label
 
-Responsive Sidebar
+|
+|
 
-Sticky Dashboard Header
+`name`
 
-চারটি Statistics Card
+|
 
-Sales Analytics Panel
+Form Field-এর নাম
 
-Traffic Summary Panel
+|
+|
 
-Recent Orders Table
+`type`
+
+|
+
+Input-এর ধরন
+
+|
+|
+
+`error`
+
+|
+
+Validation Error
+
+|
+|
+
+`value`
+
+|
+
+বর্তমান মান
+
+|
+|
+
+`onChange`
+
+|
+
+মান পরিবর্তনের Callback
+
+|
+|
+
+`placeholder`
+
+|
+
+Input-এর নির্দেশনা
+
+|
+
+এভাবে একই Input বিভিন্ন Form-এ ব্যবহার করা যাবে।
+
+## ১২. Validation-এর UI ও Logic আলাদা রাখুন
+
+এটি আজকের একটি গুরুত্বপূর্ণ Full-Stack Development Concept।
+
+###### Validation Workflow
+
+User Input
+
+React Form State
+
+Validation Logic
+
+Valid
+
+Submit / Success UI
+
+Invalid
+
+Error UI
+
+* React: Form-এর State ও Event নিয়ন্ত্রণ করে।
+
+* Validation Library বা নিজস্ব Logic: তথ্য যাচাই করে।
+
+* Tailwind: Validation-এর ফলাফল কীভাবে দেখাবে তা নির্ধারণ করে।
+
+* Backend: Client-side Validation-এর পাশাপাশি নিজেও তথ্য যাচাই করে।
+
+কোনো গুরুত্বপূর্ণ Validation শুধু Frontend-এ রেখে দেওয়া উচিত নয়।
+
+## 🧪 ১৩. Day 27 Mini Project
+
+আজকের প্রজেক্ট
+
+## TechStore — Create Product Form
+
+নিচের Task-গুলো সম্পন্ন করে নিজের অগ্রগতি যাচাই করুন।
+
+Project Progress
+
+0/11
+
+Product Name Input
+
+Description Textarea
+
+Category Select
+
+Regular Price Input
+
+Stock Quantity Input
+
+Product Image Upload UI
+
+Error ও Success State
+
+Loading ও Disabled Button
+
+Responsive Layout
 
 Dark Mode
 
-Loading State
+Multi-step Form UI
 
-Empty State
-
-Mobile Responsive Layout
-
-প্রথমে static UI তৈরি করুন। তারপর React state এবং API integration যোগ করুন। বাস্তব ডেটা না থাকলে mock data ব্যবহার করতে পারেন।
-
-## 🧠 ১৫. Day 26 Self-Test
+## 🧠 ১৪. Day 27 Self-Test
 
 নিজেকে নিচের প্রশ্নগুলোর উত্তর দেওয়ার চেষ্টা করুন।
 
-1. `grid-cols-[260px_1fr]` কীভাবে কাজ করে?
+1. `focus:ring-2` কীভাবে কাজ করে?
 
-2. Dashboard-এর Sidebar এবং Main Content আলাদা রাখার সুবিধা কী?
+2. `aria-invalid` কেন ব্যবহার করা হয়?
 
-3. `sticky top-0` ও `fixed top-0`-এর পার্থক্য কী?
+3. Helper Text ও Error Message-এর মধ্যে পার্থক্য কী?
 
-4. `min-w-0` কেন Grid layout-এ কাজে লাগে?
+4. Form-কে একাধিক Section-এ ভাগ করার সুবিধা কী?
 
-5. Statistics Card-কে reusable component বানালে কী সুবিধা হয়?
+5. Multi-step Form কখন ব্যবহার করা যায়?
 
-6. `overflow-x-auto` কখন ব্যবহার করবেন?
+6. Loading Button-এর ক্ষেত্রে `disabled` কেন প্রয়োজন?
 
-7. Responsive Statistics Grid কীভাবে তৈরি করবেন?
+7. Reusable Form Component কীভাবে তৈরি করবেন?
 
-8. Dark Mode-এর জন্য `dark:` কীভাবে ব্যবহার করবেন?
+8. Client-side এবং Server-side Validation-এর পার্থক্য কী?
 
-9. Loading ও Empty State-এর মধ্যে পার্থক্য কী?
+9. Responsive Form তৈরি করতে কোন কোন breakpoint ব্যবহার করা যায়?
 
-10. Dashboard UI এবং Backend Business Logic-এর দায়িত্ব কীভাবে আলাদা?
+10. Form-এর State এবং UI Styling-এর দায়িত্ব কীভাবে আলাদা?
 
-## 📋 ১৬. Day 26 Cheat Sheet
+## 📋 ১৫. Day 27 Cheat Sheet
 
 |
 কাজ
@@ -787,101 +741,101 @@ Tailwind Class
 | --- | --- |
 |
 
-Full-height layout
+Form Container
 
 |
 
-`min-h-screen`
-
-|
-|
-
-Sidebar + Content
-
-|
-
-`grid lg:grid-cols-[260px_1fr]`
+`mx-auto max-w-4xl`
 
 |
 |
 
-Sticky Header
+Vertical Spacing
 
 |
 
-`sticky top-0 z-40`
-
-|
-|
-
-Responsive Statistics
-
-|
-
-`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4`
+`space-y-6`
 
 |
 |
 
-Analytics Layout
+Input
 
 |
 
-`grid xl:grid-cols-3`
-
-|
-|
-
-Two-column Analytics
-
-|
-
-`xl:col-span-2`
+`w-full rounded-lg border px-4 py-3`
 
 |
 |
 
-Card
+Focus State
 
 |
 
-`rounded-2xl border bg-white p-5 shadow-sm`
-
-|
-|
-
-Table Scroll
-
-|
-
-`overflow-x-auto`
+`focus:ring-2 focus:ring-blue-500`
 
 |
 |
 
-Table Divider
+Error Border
 
 |
 
-`divide-y`
-
-|
-|
-
-Hover Row
-
-|
-
-`hover:bg-gray-50`
+`border-red-500`
 
 |
 |
 
-Loading Spinner
+Success Border
 
 |
 
-`animate-spin`
+`border-green-500`
+
+|
+|
+
+Helper Text
+
+|
+
+`text-xs text-gray-500`
+
+|
+|
+
+Error Message
+
+|
+
+`text-sm text-red-600`
+
+|
+|
+
+Disabled Button
+
+|
+
+`disabled:opacity-50`
+
+|
+|
+
+Disabled Cursor
+
+|
+
+`disabled:cursor-not-allowed`
+
+|
+|
+
+Responsive Form
+
+|
+
+`grid grid-cols-1 md:grid-cols-2`
 
 |
 |
@@ -895,29 +849,29 @@ Dark Mode
 |
 |
 
-Responsive Spacing
+Step Indicator
 
 |
 
-`p-4 sm:p-6 lg:p-8`
+`flex items-center gap-3`
+
+|
+|
+
+Transition
 
 |
 
-#### Day 26-এর মূল শিক্ষা
+`transition duration-200`
 
-একটি বাস্তব Dashboard তৈরি করতে শুধু Card ও Table বানালেই হয় না। Layout, component reusability, responsive design, theme এবং বিভিন্ন UI state—সবকিছু একসঙ্গে পরিকল্পনা করতে হয়।
+|
+
+#### Day 27-এর মূল শিক্ষা
+
+Professional Form তৈরি করার ক্ষেত্রে শুধু Input সুন্দর করলেই হবে না। Form-এর Structure, Validation Feedback, Accessibility, Loading State এবং Responsive Layout-ও বিবেচনা করতে হবে।
 
 আজকের Golden Rule:
 
-Requirement → Layout → Components → Responsive Design → UI States → API Integration
+Requirement → Form Structure → Input Components → Validation → UI States → Responsive Design
 
-পরবর্তী ধাপে Day 27-এ Advanced Form Design, Validation State এবং Multi-step Form UI নিয়ে কাজ করতে পারেন।
-
-
-month	sales
-Jan	1,200
-Feb	1,800
-Mar	1,500
-Apr	2,400
-May	2,100
-Jun	3,200
+পরবর্তী Day 28-এ Advanced E-commerce UI: Cart, Checkout ও Order Summary Design নিয়ে কাজ করলে আপনার Tailwind CSS-এর শেখা বিষয়গুলো বাস্তব একটি User Journey-তে প্রয়োগ করতে পারবেন।
