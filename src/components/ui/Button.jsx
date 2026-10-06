@@ -1,10 +1,9 @@
-import { useState } from "react"
 
-export default function(){
-    const [isSubmitting, setIsSubmitting] = useState(false)
+
+export default function({children, type="button"}){
     return(
-        <button type="submit" className="rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">
-            {isSubmitting ? "Saving...": "Save Product" }
+        <button type={type} className="rounded-lg bg-blue-600 px-6 py-3 cursor-pointer text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
+           {children}
         </button>
     )
 }

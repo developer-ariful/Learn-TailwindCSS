@@ -1,877 +1,807 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-## 🚀 Tailwind CSS — Day 27
+## Tailwind CSS শেখার রোডম্যাপ — Day 28
 
-#### Advanced Form Design, Validation States & Multi-step Forms
+Advanced E-commerce UI
 
-১ ঘণ্টার লেসন
 
-Intermediate to Advanced
 
-আজ আমরা একটি বাস্তব E-commerce Application-এর জন্য Professional Form UI তৈরি করা শিখব। বিশেষ করে Product Form, Registration Form, Validation Error, Success State এবং Multi-step Form নিয়ে কাজ করব।
+আজ আমরা Tailwind CSS ব্যবহার করে একটি আধুনিক E-commerce Shopping Cart, Checkout এবং Order Summary UI তৈরি করা শিখব।
 
-![Professional product form UI](https://images.openai.com/static-rsc-4/1xRSG7s_JvKG-c2eqwhHwuFNKsFm2MEaCw4ljn7h3xMfgm2Yxv1lysz-JPDj7ootQhmcAX4plEAxY4WbIwfBmjL6y6Ks1MEn2-S9jOHtIy2lju7tSwguAq0fiNLpBFhDNsJ74_IDLAtWciFSCUwoRKjHRzW9ZNeBk9ZuXOBxNiU?purpose=inline)
+এটি আপনার চলমান AI-Powered E-commerce Management System-এর Frontend তৈরিতেও কাজে লাগবে।
 
-আজকের লক্ষ্য: এই ধরনের professional form তৈরি করতে শেখা।
 
-## 🎯 ১. আজকের Learning Objectives
 
-আজ আপনি শিখবেন:
+## ১. Shopping Cart-এর UI Architecture
 
-1. Advanced Form Layout
+একটি E-commerce Shopping Cart-এ সাধারণত নিচের অংশগুলো থাকে।
 
-2. Input, Select, Textarea ও Checkbox Design
+![Tailwind CSS Shopping Cart | Pagedone](https://images.openai.com/static-rsc-4/kaEtTTp-TBMqkEPIDHrrR5QqPHRBXp6WjjzatRbWxaaOyI1yqDGbDJ9Phdc2x7WzELBl6JYpVDI9brEzNGPtIUiN8Z1M1xvISFg52v7P5acpvWA5ErnP5cr6_uk5H9tJki0zKP8ttDKcglLN0k3hgjkbLNZl1rTADbCNS8S4rDI?purpose=inline)
 
-3. Focus, Error ও Success States
+Shopping Cart
 
-4. Form Validation UI
+কার্টে থাকা পণ্যের ছবি, নাম, মূল্য, পরিমাণ এবং Remove Button।
 
-5. Inline Error Messages
+![Checkout | How-tos | Core API](https://images.openai.com/static-rsc-4/k52jGtJdAf5kEf7rtVb_tNfOiEIdDD3mVxkKS_k9G7PdkWlCs-aMnN68wX3K1oit4TWJeTRm8LRwIGsB58QegBzuSxbwuUhibWEy3KVdl7J_wB1mkjCgshDi72y4nVlt4E0YlfnoI95o3OY-KIRT4C-834NhJGsbEj5qaCq5zvU?purpose=inline)
 
-6. Disabled ও Loading Button
+Order Summary
 
-7. Multi-step Form UI
+Subtotal, Shipping, Discount, Tax এবং Total Price।
 
-8. Responsive Form Design
+![Checkout Flow by Dominik Sklyarov on Dribbble](https://images.openai.com/static-rsc-4/Q9mmnakyUwzYao83jlavfF2iIKOCAvzWXiT60C3pmA2Bb3c5P1jdsZMsmntVPQOjbn1KGbbZ8mAlb164OPfo52S8aMGCkADnzivGQUYK7qBorgYQEciqiG01QDYpc9JjLoYHESJdTPnWg5xu8QAYzx1y29hR-QGcOOo6l05pZ04?purpose=inline)
 
-9. Accessible Form Design
+Checkout Form
 
-10. Reusable Form Components
+Customer Information, Shipping Address এবং Delivery Method।
 
-## ⏰ ২. এক ঘণ্টার Study Plan
+![Getting Started with Stripe for Hong Kong](https://images.openai.com/static-rsc-4/ZmSsr_3vly218hDP11mPzjswf1E5_SaAJXHSMo6rvGsgffN3xWdGXdfw-iVsHkNJ9nEXoZKKrp1iuxQKpzfBNJILG48hF6pyK9959vjJfx-sMuw82ul05H5P6lJYLfvnR0fzoCsJSlWesoN5r1U5En8fGSFaAZChqCEowLXQdI8?purpose=inline)
 
-|
-সময়
+Payment Method
 
-|
+Card Payment, Mobile Payment অথবা Cash on Delivery-এর মতো অপশন।
 
-বিষয়
-
-|
-| --- | --- |
-|
-
-১০ মিনিট
-
-|
-
-Advanced Form Layout
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Input ও Select Design
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Validation States
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Error ও Success UI
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Multi-step Form
-
-|
-|
-
-১০ মিনিট
-
-|
-
-Mini Project ও Revision
-
-|
-
-## ৩. Advanced Form Layout
-
-প্রথমে একটি Product Form-এর কাঠামো বুঝে নিই।
+একটি সাধারণ Shopping Cart-এর Desktop Layout হবে:
 
 ```
-Add New Product
-│
-├── Basic Information
-│   ├── Product Name
-│   ├── Description
-│   └── Category
-│
-├── Pricing
-│   ├── Regular Price
-│   └── Discount Price
-│
-├── Inventory
-│   ├── SKU
-│   └── Stock Quantity
-│
-├── Product Images
-│
-└── Actions
-    ├── Cancel
-    └── Save Product
++-----------------------------------------------+
+|                 Shopping Cart                 |
++-----------------------------------------------+
+|                                               |
+|  Cart Items                Order Summary      |
+|  +-------------------+    +----------------+  |
+|  | Product 1         |    | Subtotal       |  |
+|  | Price | Quantity  |    | Shipping       |  |
+|  +-------------------+    | Discount       |  |
+|  | Product 2         |    | Tax            |  |
+|  | Price | Quantity  |    | Total          |  |
+|  +-------------------+    |                |  |
+|                           | Checkout       |  |
+|                           +----------------+  |
++-----------------------------------------------+
 ```
 
-Form-কে একাধিক logical section-এ ভাগ করলে ব্যবহারকারী সহজে তথ্য দিতে পারেন।
+## ২. Shopping Cart Layout তৈরি
 
-#### Form Container
+প্রথমে Cart Page-এর মূল Layout তৈরি করব।
 
 JavaScript
 
 ```
-function ProductForm() {
+function Cart() {
   return (
-    <div className="mx-auto w-full max-w-4xl rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-8 dark:border-gray-800 dark:bg-gray-900">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-        Add New Product
-      </h1>
+    <main className="min-h-screen bg-gray-50 px-4 py-10 dark:bg-gray-950">
+      <div className="mx-auto max-w-7xl">
+        <h1 className="mb-8 text-3xl font-bold text-gray-900 dark:text-white">
+          Shopping Cart
+        </h1>
 
-      <p className="mt-2 text-sm text-gray-500">
-        Enter the product information below.
-      </p>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
+          <section className="space-y-4">
+            {/* Cart Items */}
+          </section>
 
-      <form className="mt-8 space-y-8">
-        {/* Form sections */}
-      </form>
+          <aside className="h-fit rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            {/* Order Summary */}
+          </aside>
+        </div>
+      </div>
+    </main>
+  );
+}
+```
+
+###### গুরুত্বপূর্ণ Tailwind ক্লাস
+
+| ক্লাস                      | কাজ                           |
+| -------------------------- | ----------------------------- |
+| `min-h-screen`             | কমপক্ষে পুরো স্ক্রিনের উচ্চতা |
+| `max-w-7xl`                | Content-এর সর্বোচ্চ প্রস্থ    |
+| `mx-auto`                  | Horizontal Center Alignment   |
+| `grid-cols-1`              | একটি Column                   |
+| `lg:grid-cols-[1fr_360px]` | Desktop-এ দুটি Column         |
+| `h-fit`                    | Content অনুযায়ী Height        |
+| `rounded-2xl`              | বড় Rounded Corner             |
+| `shadow-sm`                | হালকা Shadow                  |
+
+গুরুত্বপূর্ণ: `lg:grid-cols-[1fr_360px]` ব্যবহার করে বাম পাশের অংশকে অবশিষ্ট জায়গা এবং ডান পাশের Order Summary-কে 360px দেওয়া হয়েছে।
+
+## ৩. Cart Item Component তৈরি
+
+প্রতিটি Cart Item-এর মধ্যে থাকবে:
+
+* Product Image
+
+* Product Name
+
+* Product Price
+
+* Quantity Control
+
+* Remove Button
+
+#### Cart Item-এর UI
+
+![White headphones isolated on white background](https://images.openai.com/static-rsc-4/d1cc3QkDW5sjEJwZqaVPZB20yZ20wo9WaoVSYE_V6J2yru9-QchRjxGa-IxV-mtDKFaDHmSs-W27Io-4etpgBdJxUfMz2tHl1MlphxeSKPgm_aQVk34pc5lFtCq_icZmTpZ-m5yJHB14y98PbybeJqsecvFvwdpj42RpsYS_wPzzc7Hu3FY9PEB4P4tG24Al?purpose=inline)
+
+Wireless Headphones
+
+SKU: WH-101
+
+৳2,500
+
+−
+
+2
+
+*
+
+এটি Cart Item-এর একটি নমুনা UI।
+
+###### CartItem.jsx
+
+JavaScript
+
+```
+function CartItem({ product, onRemove }) {
+  return (
+    <div className="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-gray-900">
+      <img
+        src={product.image}
+        alt={product.name}
+        className="h-24 w-24 rounded-lg object-cover"
+      />
+
+      <div className="min-w-0 flex-1">
+        <h3 className="font-semibold text-gray-900 dark:text-white">
+          {product.name}
+        </h3>
+
+        <p className="mt-1 text-lg font-bold text-indigo-600">
+          ৳{product.price.toLocaleString("en-US")}
+        </p>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <div className="flex items-center rounded-lg border border-gray-300 dark:border-gray-700">
+          <button
+            type="button"
+            aria-label="Decrease quantity"
+            className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            −
+          </button>
+
+          <span className="px-3 font-medium">
+            {product.quantity}
+          </span>
+
+          <button
+            type="button"
+            aria-label="Increase quantity"
+            className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            +
+          </button>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => onRemove(product.id)}
+          aria-label={`Remove ${product.name}`}
+          className="rounded-lg p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
+        >
+          Remove
+        </button>
+      </div>
     </div>
   );
 }
 ```
 
-এখানে:
+এখানে Quantity Button-এর UI তৈরি করা হয়েছে। বাস্তবে এগুলোকে React State বা Cart Management Logic-এর সঙ্গে সংযুক্ত করতে হবে।
 
-* `max-w-4xl` — Form-এর সর্বোচ্চ প্রস্থ।
+## ৪. Quantity Control-এর React Logic
 
-* `mx-auto` — Form-কে মাঝখানে রাখা।
-
-* `space-y-8` — Form section-গুলোর মধ্যে vertical spacing।
-
-* `sm:p-8` — বড় স্ক্রিনে বেশি padding।
-
-## ৪. Professional Input Design
-
-একটি ভালো Input-এর মধ্যে সাধারণত থাকে:
-
-* Label
-
-* Input Field
-
-* Placeholder
-
-* Helper Text
-
-* Validation Message
-
-#### Input Field Preview
-
-Product Name
-
-Enter product name
-
-Enter a descriptive product name.
-
-Price
-
-Enter price
-
-Price is required.
-
-Tailwind:
+এবার React ব্যবহার করে Quantity বাড়ানো ও কমানোর একটি উদাহরণ দেখি।
 
 JavaScript
 
 ```
-<div className="space-y-2">
-  <label
-    htmlFor="productName"
-    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-  >
-    Product Name
-  </label>
+import { useState } from "react";
 
-  <input
-    id="productName"
-    type="text"
-    placeholder="Enter product name"
-    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-  />
+function QuantityControl() {
+  const [quantity, setQuantity] = useState(1);
 
-  <p className="text-xs text-gray-500">
-    Enter a descriptive product name.
-  </p>
-</div>
+  const decrease = () => {
+    setQuantity((prev) => Math.max(1, prev - 1));
+  };
+
+  const increase = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  return (
+    <div className="flex items-center rounded-lg border border-gray-300 dark:border-gray-700">
+      <button
+        type="button"
+        onClick={decrease}
+        disabled={quantity <= 1}
+        className="px-3 py-2 disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        −
+      </button>
+
+      <span className="min-w-10 text-center font-medium">
+        {quantity}
+      </span>
+
+      <button
+        type="button"
+        onClick={increase}
+        className="px-3 py-2"
+      >
+        +
+      </button>
+    </div>
+  );
+}
 ```
 
-###### গুরুত্বপূর্ণ Classes
+###### আজকের নতুন Tailwind ক্লাস
 
-|
-Class
+| ক্লাস                         | কাজ                             |
+| ----------------------------- | ------------------------------- |
+| `disabled:opacity-40`         | Disabled অবস্থায় স্বচ্ছতা কমায়  |
+| `disabled:cursor-not-allowed` | Disabled অবস্থায় নিষিদ্ধ Cursor |
+| `min-w-10`                    | সর্বনিম্ন প্রস্থ                |
+| `text-center`                 | Text Center Alignment           |
+| `hover:bg-gray-100`           | Hover করলে Background পরিবর্তন  |
 
-|
+এখানে `Math.max(1, prev - 1)` নিশ্চিত করে যে Quantity কখনো ১-এর নিচে নামবে না।
 
-কাজ
+বাস্তব অ্যাপ্লিকেশনে সর্বোচ্চ Quantity-ও Inventory অনুযায়ী সীমাবদ্ধ করতে হবে।
 
-|
-| --- | --- |
-|
+## ৫. Order Summary তৈরি
 
-`w-full`
+Order Summary-তে সাধারণত নিচের তথ্য থাকে।
 
-|
+| বিষয়     | উদাহরণ |
+| -------- | ------ |
+| Subtotal | ৳5,000 |
+| Shipping | ৳100   |
+| Discount | −৳500  |
+| Tax      | ৳0     |
+| Total    | ৳4,600 |
 
-সম্পূর্ণ প্রস্থ
+এগুলো শুধু শেখার জন্য উদাহরণমূলক মূল্য।
 
-|
-|
-
-`rounded-lg`
-
-|
-
-গোলাকার কোণা
-
-|
-|
-
-`border-gray-300`
-
-|
-
-Border-এর রং
-
-|
-|
-
-`focus:border-blue-500`
-
-|
-
-Focus হলে Border-এর রং
-
-|
-|
-
-`focus:ring-2`
-
-|
-
-Focus ring
-
-|
-|
-
-`outline-none`
-
-|
-
-Default outline সরানো
-
-|
-|
-
-`transition`
-
-|
-
-Smooth visual transition
-
-|
-
-Accessibility: প্রতিটি Input-এর সঙ্গে `label`-এর `htmlFor` এবং Input-এর `id` মিলিয়ে দিন।
-
-## ৫. Error State Design
-
-ব্যবহারকারী ভুল তথ্য দিলে Error State দেখানো হয়।
-
-Product Name
-
-Enter product name
-
-Product name is required.
-
-Tailwind:
+###### CartSummary.jsx
 
 JavaScript
 
 ```
-<div className="space-y-2">
-  <label htmlFor="name" className="block text-sm font-medium">
-    Product Name
-  </label>
+function CartSummary() {
+  const subtotal = 5000;
+  const shipping = 100;
+  const discount = 500;
+  const tax = 0;
 
-  <input
-    id="name"
-    type="text"
-    aria-invalid="true"
-    aria-describedby="name-error"
-    className="w-full rounded-lg border border-red-500 px-4 py-3 outline-none focus:ring-2 focus:ring-red-500"
-  />
+  const total = subtotal + shipping - discount + tax;
 
-  <p id="name-error" className="text-sm text-red-600">
-    Product name is required.
-  </p>
-</div>
+  return (
+    <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+        Order Summary
+      </h2>
+
+      <div className="space-y-3 border-b border-gray-200 pb-4 text-sm dark:border-gray-800">
+        <div className="flex justify-between">
+          <span className="text-gray-500">Subtotal</span>
+          <span className="font-medium">৳5,000</span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className="text-gray-500">Shipping</span>
+          <span className="font-medium">৳100</span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className="text-gray-500">Discount</span>
+          <span className="font-medium text-green-600">
+            −৳500
+          </span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className="text-gray-500">Tax</span>
+          <span className="font-medium">৳0</span>
+        </div>
+      </div>
+
+      <div className="flex justify-between text-lg font-bold">
+        <span>Total</span>
+        <span>৳{total.toLocaleString("en-US")}</span>
+      </div>
+
+      <button
+        type="button"
+        className="w-full rounded-lg bg-indigo-600 px-4 py-3 font-semibold text-white transition hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      >
+        Proceed to Checkout
+      </button>
+    </div>
+  );
+}
 ```
 
-এখানে `aria-invalid` এবং `aria-describedby` ব্যবহার করলে screen reader ব্যবহারকারীরাও Error সম্পর্কে জানতে পারেন।
+###### গুরুত্বপূর্ণ Tailwind ক্লাস
 
-## ৬. Success State Design
+* `space-y-5`: প্রতিটি Child Element-এর মাঝে Vertical Space।
 
-তথ্য সঠিক হলে Success State দেখাতে পারেন।
+* `border-b`: নিচে Border।
+
+* `pb-4`: নিচে Padding।
+
+* `flex justify-between`: দুই পাশে Content সাজানো।
+
+* `focus-visible:outline-2`: Keyboard Focus-এর জন্য Outline।
+
+* `transition`: পরিবর্তনের সময় Transition Effect।
+
+Backend Architecture-এর জন্য গুরুত্বপূর্ণ
+
+Frontend-এ Order Summary দেখানো হলেও চূড়ান্ত মূল্য Backend থেকে পুনরায় হিসাব করতে হবে। Client-এর পাঠানো Total Price বিশ্বাস করে Order তৈরি করা নিরাপদ নয়।
+
+## ৬. Promo Code UI তৈরি
+
+অনেক E-commerce ওয়েবসাইটে Promo Code বা Coupon Code ব্যবহারের সুবিধা থাকে।
+
+JavaScript
+
+```
+function PromoCode() {
+  return (
+    <div className="space-y-3">
+      <label
+        htmlFor="coupon"
+        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+      >
+        Promo Code
+      </label>
+
+      <div className="flex gap-2">
+        <input
+          id="coupon"
+          type="text"
+          placeholder="Enter coupon code"
+          className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
+        />
+
+        <button
+          type="button"
+          className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-700 dark:bg-indigo-600 dark:hover:bg-indigo-500"
+        >
+          Apply
+        </button>
+      </div>
+
+      <p className="text-sm text-green-600">
+        Coupon applied successfully.
+      </p>
+    </div>
+  );
+}
+```
+
+বাস্তব অ্যাপ্লিকেশনে Coupon Code যাচাই করার জন্য Backend API প্রয়োজন হবে। সফল হলে Discount পুনরায় হিসাব করতে হবে। ভুল হলে Error Message দেখাতে হবে।
+
+## ৭. Checkout Form তৈরি
+
+Checkout Form-এ সাধারণত Customer-এর তথ্য ও Shipping Address নেওয়া হয়।
+
+#### Checkout Form-এর নমুনা
+
+First Name
+
+Ariful
+
+Last Name
+
+Islam
 
 Email Address
 
-[arif@example.com](mailto:arif@example.com)
+[example@email.com](mailto:example@email.com)
 
-Email address is valid.
+Street Address
 
-Tailwind:
+House, Road, Area
 
-JavaScript
+City
 
-```
-<div className="space-y-2">
-  <label htmlFor="email" className="block text-sm font-medium">
-    Email Address
-  </label>
+Dhaka
 
-  <input
-    id="email"
-    type="email"
-    aria-invalid="false"
-    aria-describedby="email-success"
-    className="w-full rounded-lg border border-green-500 px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
-  />
+Postal Code
 
-  <p id="email-success" className="text-sm text-green-600">
-    Email address is valid.
-  </p>
-</div>
-```
+1207
 
-মনে রাখবেন, শুধু সবুজ Border দিলেই Validation সম্পন্ন হয় না। React বা অন্য Validation Logic দিয়ে তথ্য যাচাই করতে হবে।
+এটি শুধু Form Layout-এর নমুনা।
 
-## ৭. Select ও Textarea Design
-
-#### Select
+###### ShippingForm.jsx
 
 JavaScript
 
 ```
-<div className="space-y-2">
-  <label htmlFor="category" className="block text-sm font-medium">
-    Category
-  </label>
+function ShippingForm() {
+  return (
+    <form className="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <div>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+          Shipping Information
+        </h2>
+        <p className="mt-1 text-sm text-gray-500">
+          Enter your delivery details.
+        </p>
+      </div>
 
-  <select
-    id="category"
-    defaultValue=""
-    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-  >
-    <option value="" disabled>
-      Select a category
-    </option>
-    <option value="electronics">Electronics</option>
-    <option value="clothing">Clothing</option>
-    <option value="shoes">Shoes</option>
-  </select>
-</div>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div>
+          <label htmlFor="firstName" className="mb-2 block text-sm font-medium">
+            First Name
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            required
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="lastName" className="mb-2 block text-sm font-medium">
+            Last Name
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            required
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
+            Email Address
+          </label>
+          <input
+            id="email"
+            type="email"
+            required
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <label htmlFor="address" className="mb-2 block text-sm font-medium">
+            Street Address
+          </label>
+          <textarea
+            id="address"
+            rows="3"
+            required
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="city" className="mb-2 block text-sm font-medium">
+            City
+          </label>
+          <input
+            id="city"
+            type="text"
+            required
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="postalCode" className="mb-2 block text-sm font-medium">
+            Postal Code
+          </label>
+          <input
+            id="postalCode"
+            type="text"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full rounded-lg bg-indigo-600 px-4 py-3 font-semibold text-white hover:bg-indigo-700 sm:w-auto"
+      >
+        Continue
+      </button>
+    </form>
+  );
+}
 ```
 
-#### Textarea
+###### Form-এর গুরুত্বপূর্ণ Responsive ক্লাস
+
+| ক্লাস            | কাজ                                      |
+| ---------------- | ---------------------------------------- |
+| `grid-cols-1`    | Mobile-এ একটি Column                     |
+| `md:grid-cols-2` | Medium Screen-এ দুটি Column              |
+| `md:col-span-2`  | Medium Screen-এ দুটি Column জুড়ে         |
+| `w-full`         | সম্পূর্ণ প্রস্থ                          |
+| `sm:w-auto`      | Small Screen থেকে প্রয়োজন অনুযায়ী প্রস্থ |
+
+মনে রাখবেন, Tailwind-এর `required` ক্লাস নয়; এটি HTML Attribute। এটি Browser-এর Native Validation সক্রিয় করে। জটিল Validation-এর জন্য আলাদা Logic প্রয়োজন।
+
+## ৮. Payment Method UI
+
+Checkout Page-এ বিভিন্ন Payment Method দেখানো যায়।
 
 JavaScript
 
 ```
-<div className="space-y-2">
-  <label htmlFor="description" className="block text-sm font-medium">
-    Description
-  </label>
+function PaymentMethod() {
+  return (
+    <div className="space-y-4 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <h2 className="text-xl font-bold">
+        Payment Method
+      </h2>
 
-  <textarea
-    id="description"
-    rows={4}
-    placeholder="Enter product description"
-    className="w-full resize-y rounded-lg border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-  />
-</div>
-```
+      <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-indigo-500 bg-indigo-50 p-4 dark:bg-indigo-950/30">
+        <input
+          type="radio"
+          name="payment"
+          value="card"
+          defaultChecked
+          className="accent-indigo-600"
+        />
+        <span className="font-medium">Credit / Debit Card</span>
+      </label>
 
-`resize-y` ব্যবহার করলে ব্যবহারকারী Textarea-কে শুধু vertical দিকে বড় বা ছোট করতে পারবেন।
+      <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 p-4 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">
+        <input
+          type="radio"
+          name="payment"
+          value="cod"
+          className="accent-indigo-600"
+        />
+        <span className="font-medium">Cash on Delivery</span>
+      </label>
 
-## ৮. Checkbox ও Radio Design
-
-Product Form-এ Active Status-এর মতো Checkbox ব্যবহার করতে পারেন।
-
-JavaScript
-
-```
-<label className="flex items-center gap-3">
-  <input
-    type="checkbox"
-    className="size-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
-  />
-  <span className="text-sm text-gray-700 dark:text-gray-300">
-    Publish this product
-  </span>
-</label>
-```
-
-একাধিক বিকল্প থেকে একটি বেছে নিতে Radio ব্যবহার করা যায়।
-
-JavaScript
-
-```
-<div className="space-y-3">
-  <p className="text-sm font-medium">Product Status</p>
-
-  <label className="flex items-center gap-3">
-    <input type="radio" name="status" value="active" />
-    <span>Active</span>
-  </label>
-
-  <label className="flex items-center gap-3">
-    <input type="radio" name="status" value="draft" />
-    <span>Draft</span>
-  </label>
-</div>
-```
-
-## ৯. Loading ও Disabled Button
-
-Form Submit করার সময় ব্যবহারকারী যেন বারবার Submit না করেন, সে জন্য Loading ও Disabled State ব্যবহার করা হয়।
-
-###### Button State Preview
-
-Save Product
-
-Saving...
-
-Disabled
-
-React উদাহরণ:
-
-JavaScript
-
-```
-<button
-  type="submit"
-  disabled={isSubmitting}
-  className="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
->
-  {isSubmitting ? "Saving..." : "Save Product"}
-</button>
-```
-
-এখানে `isSubmitting` একটি React state, যা Submit চলাকালে `true` হতে পারে।
-
-## ১০. Multi-step Form UI
-
-কিছু Form-এ অনেক তথ্য দিতে হয়। সব Input একসঙ্গে না দেখিয়ে কয়েকটি ধাপে ভাগ করা যায়।
-
-উদাহরণ: Product Creation Wizard।
-
-#### Product Creation Wizard
-
-1
-
-Basic
-
-2
-
-Pricing
-
-3
-
-Images
-
-###### Step 1: Basic Information
-
-Product Name
-
-CategorySelect category
-
-PreviousNext
-
-এটি কেবল ধাপ পরিবর্তনের UI ডেমো; এখানে প্রকৃত Form Validation বা ডেটা সংরক্ষণ নেই।
-
-###### Multi-step Form-এর Tailwind Layout
-
-JavaScript
-
-```
-<div className="mx-auto max-w-2xl rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-900">
-  <div className="mb-8 flex items-center gap-3">
-    <div className="flex size-9 items-center justify-center rounded-full bg-blue-600 text-white">
-      1
+      <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 p-4 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">
+        <input
+          type="radio"
+          name="payment"
+          value="mobile"
+          className="accent-indigo-600"
+        />
+        <span className="font-medium">Mobile Payment</span>
+      </label>
     </div>
-    <div className="h-1 flex-1 rounded bg-gray-200" />
-    <div className="flex size-9 items-center justify-center rounded-full bg-gray-200">
-      2
-    </div>
-    <div className="h-1 flex-1 rounded bg-gray-200" />
-    <div className="flex size-9 items-center justify-center rounded-full bg-gray-200">
-      3
-    </div>
+  );
+}
+```
+
+Payment Security
+
+বাস্তব অ্যাপ্লিকেশনে কার্ডের নম্বর, CVV বা অন্যান্য সংবেদনশীল তথ্য নিজের Backend-এ সরাসরি সংরক্ষণ করবেন না। Stripe Elements বা নিরাপদ Payment Provider-এর অনুমোদিত পদ্ধতি ব্যবহার করুন। Payment সফল হয়েছে কি না, তা Backend-এ যাচাই করতে হবে।
+
+## ৯. Responsive Design
+
+Shopping Cart ও Checkout Page Mobile, Tablet এবং Desktop—সব ডিভাইসে ব্যবহারযোগ্য হতে হবে।
+
+| Device  | Layout                             |
+| ------- | ---------------------------------- |
+| Mobile  | Cart এবং Summary একটির নিচে আরেকটি |
+| Tablet  | প্রয়োজন অনুযায়ী এক বা দুই Column   |
+| Desktop | Cart Items বামে, Summary ডানে      |
+
+কিছু গুরুত্বপূর্ণ Responsive Pattern:
+
+JavaScript
+
+```
+<div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
+  <div className="min-w-0">
+    Cart Items
   </div>
 
-  {/* Current step content */}
+  <aside className="h-fit lg:sticky lg:top-24">
+    Order Summary
+  </aside>
 </div>
 ```
 
-এখানে Flexbox দিয়ে Step Indicator তৈরি করা হয়েছে। React State দিয়ে বর্তমান Step এবং কোন Form দেখানো হবে তা নিয়ন্ত্রণ করতে হবে।
+এখানে `lg:sticky lg:top-24` ব্যবহার করলে Desktop-এ স্ক্রল করার সময় Order Summary নির্দিষ্ট অবস্থানে থাকতে পারে। তবে Sticky কাজ করার জন্য Parent-এর Overflow ও Layout-ও সঠিক হতে হবে।
 
-## ১১. Reusable Form Component Architecture
+## ১০. Component Architecture
 
-বাস্তব প্রজেক্টে একই Input বারবার লিখলে কোড বড় হয়ে যায়। তাই reusable component ব্যবহার করুন।
+একটি বাস্তব E-commerce Cart ও Checkout-এর জন্য নিচের মতো Component Structure ব্যবহার করতে পারেন।
 
 ```
 src/
 ├── components/
-│   ├── forms/
-│   │   ├── FormInput.jsx
-│   │   ├── FormSelect.jsx
-│   │   ├── FormTextarea.jsx
-│   │   ├── FormCheckbox.jsx
-│   │   ├── FormError.jsx
-│   │   └── FormStepper.jsx
+│   ├── cart/
+│   │   ├── CartItem.jsx
+│   │   ├── CartList.jsx
+│   │   └── CartSummary.jsx
+│   │
+│   ├── checkout/
+│   │   ├── ShippingForm.jsx
+│   │   ├── PaymentMethod.jsx
+│   │   └── OrderReview.jsx
 │   │
 │   └── ui/
-│       └── Button.jsx
+│       ├── Button.jsx
+│       └── FormInput.jsx
 │
-└── pages/
-    └── CreateProduct.jsx
+├── pages/
+│   ├── Cart.jsx
+│   └── Checkout.jsx
+│
+└── App.jsx
 ```
 
-উদাহরণস্বরূপ, `FormInput`-এর Props হতে পারে:
+প্রতিটি Component-এর দায়িত্ব আলাদা রাখুন।
 
-|
-Prop
+| Component       | দায়িত্ব                           |
+| --------------- | --------------------------------- |
+| `CartItem`      | একটি পণ্যের তথ্য ও Quantity UI    |
+| `CartList`      | সব Cart Item প্রদর্শন             |
+| `CartSummary`   | মূল্য ও Order Summary             |
+| `ShippingForm`  | Delivery Address                  |
+| `PaymentMethod` | Payment Option নির্বাচন           |
+| `OrderReview`   | অর্ডার দেওয়ার আগে তথ্য পর্যালোচনা |
+| `Cart`          | Cart Page-এর Layout               |
+| `Checkout`      | Checkout Page-এর Layout           |
 
-|
+বাস্তব প্রজেক্টে Cart State একাধিক Component-এ প্রয়োজন হলে Context, Zustand অথবা Redux-এর মতো State Management Solution ব্যবহার করা যেতে পারে।
 
-কাজ
+## ১১. আজকের এক ঘণ্টার Study Plan
 
-|
-| --- | --- |
-|
+#### Day 28 — Study Checklist
 
-`label`
+সম্পন্ন: 0 / 5
 
-|
+0%
 
-Input-এর Label
+Cart Layout (১০ মিনিট)
 
-|
-|
+Grid এবং Responsive Layout তৈরি করুন।
 
-`name`
+Cart Item (১৫ মিনিট)
 
-|
+Product Image, Price, Quantity ও Remove UI তৈরি করুন।
 
-Form Field-এর নাম
+Order Summary (১০ মিনিট)
 
-|
-|
+Subtotal, Shipping, Discount ও Total UI তৈরি করুন।
 
-`type`
+Checkout Form (১৫ মিনিট)
 
-|
+Shipping Address ও Payment Method তৈরি করুন।
 
-Input-এর ধরন
+Practice & Revision (১০ মিনিট)
 
-|
-|
+Responsive Design পরীক্ষা করুন এবং কোড রিভিশন দিন।
 
-`error`
+রিসেট
 
-|
-
-Validation Error
-
-|
-|
-
-`value`
-
-|
-
-বর্তমান মান
-
-|
-|
-
-`onChange`
-
-|
-
-মান পরিবর্তনের Callback
-
-|
-|
-
-`placeholder`
-
-|
-
-Input-এর নির্দেশনা
-
-|
-
-এভাবে একই Input বিভিন্ন Form-এ ব্যবহার করা যাবে।
-
-## ১২. Validation-এর UI ও Logic আলাদা রাখুন
-
-এটি আজকের একটি গুরুত্বপূর্ণ Full-Stack Development Concept।
-
-###### Validation Workflow
-
-User Input
-
-React Form State
-
-Validation Logic
-
-Valid
-
-Submit / Success UI
-
-Invalid
-
-Error UI
-
-* React: Form-এর State ও Event নিয়ন্ত্রণ করে।
-
-* Validation Library বা নিজস্ব Logic: তথ্য যাচাই করে।
-
-* Tailwind: Validation-এর ফলাফল কীভাবে দেখাবে তা নির্ধারণ করে।
-
-* Backend: Client-side Validation-এর পাশাপাশি নিজেও তথ্য যাচাই করে।
-
-কোনো গুরুত্বপূর্ণ Validation শুধু Frontend-এ রেখে দেওয়া উচিত নয়।
-
-## 🧪 ১৩. Day 27 Mini Project
+## ১২. Practical Assignment
 
 আজকের প্রজেক্ট
 
-## TechStore — Create Product Form
+## TechStore — Shopping Cart & Checkout
 
-নিচের Task-গুলো সম্পন্ন করে নিজের অগ্রগতি যাচাই করুন।
+Tailwind CSS + React
 
-Project Progress
+![8 Web Design Goals To Select from](https://images.openai.com/static-rsc-4/FMUfIsUuFRX6QPIJBA64-9pykms8I-NqI4M945l1F63n2XuClSnkRQQz35a_U6fNxu7dQzVsbYxQR_hyKN3hO6n31vIpEeYt912SU01s7yDIic7_nYVVQnwpliTtq9ZAsFDAm6tif8VW-i66G5RC_pn_8LsAwyVW141e_J6GtKE?purpose=inline)
 
-0/11
+[uxpilot](https://uxpilot.ai/blogs/web-design-goals)
 
-Product Name Input
+আপনার কাজ:
 
-Description Textarea
+1. একটি Responsive Shopping Cart Page তৈরি করুন।
 
-Category Select
+2. অন্তত তিনটি Product Cart-এ দেখান।
 
-Regular Price Input
+3. Quantity Increase ও Decrease-এর UI তৈরি করুন।
 
-Stock Quantity Input
+4. প্রতিটি Product-এর জন্য Remove Button রাখুন।
 
-Product Image Upload UI
+5. Order Summary-তে Subtotal, Shipping, Discount ও Total দেখান।
 
-Error ও Success State
+6. Promo Code Input যুক্ত করুন।
 
-Loading ও Disabled Button
+7. Shipping Information Form তৈরি করুন।
 
-Responsive Layout
+8. কমপক্ষে দুটি Payment Method দেখান।
 
-Dark Mode
+9. Mobile, Tablet এবং Desktop-এ UI পরীক্ষা করুন।
 
-Multi-step Form UI
+অ্যাসাইনমেন্টের অতিরিক্ত শর্ত: Cart-এর মূল্য React State থেকে হিসাব করার চেষ্টা করুন। তবে বাস্তব Order তৈরি করার সময় Backend-এ পণ্যের মূল্য, Inventory, Discount ও Total পুনরায় যাচাই করতে হবে।
 
-## 🧠 ১৪. Day 27 Self-Test
+## ১৩. আজকের গুরুত্বপূর্ণ Tailwind CSS Cheat Sheet
 
-নিজেকে নিচের প্রশ্নগুলোর উত্তর দেওয়ার চেষ্টা করুন।
+| Utility                    | ব্যবহার                                |
+| -------------------------- | -------------------------------------- |
+| `grid-cols-1`              | একটি Grid Column                       |
+| `lg:grid-cols-[1fr_360px]` | কাস্টম দুই Column Layout               |
+| `md:grid-cols-2`           | Medium Screen-এ দুই Column             |
+| `md:col-span-2`            | দুই Column জুড়ে Element                |
+| `min-w-0`                  | Flex/Grid Child-এর Minimum Width শূন্য |
+| `h-fit`                    | Content অনুযায়ী Height                 |
+| `lg:sticky`                | Large Screen-এ Sticky Position         |
+| `focus-visible:outline-2`  | Keyboard Focus Outline                 |
+| `disabled:opacity-40`      | Disabled অবস্থায় Opacity               |
+| `accent-indigo-600`        | Checkbox/Radio-এর Accent Color         |
+| `transition`               | Transition Effect                      |
+| `dark:bg-gray-900`         | Dark Mode Background                   |
 
-1. `focus:ring-2` কীভাবে কাজ করে?
+## ১৪. Self-Assessment
 
-2. `aria-invalid` কেন ব্যবহার করা হয়?
+#### নিজেকে যাচাই করুন
 
-3. Helper Text ও Error Message-এর মধ্যে পার্থক্য কী?
+1. Desktop-এ Cart ও Order Summary পাশাপাশি দেখানোর জন্য কোন Layout ব্যবহার করা যায়?
 
-4. Form-কে একাধিক Section-এ ভাগ করার সুবিধা কী?
+flex-col
 
-5. Multi-step Form কখন ব্যবহার করা যায়?
+grid-cols-1
 
-6. Loading Button-এর ক্ষেত্রে `disabled` কেন প্রয়োজন?
+lg:grid-cols-\(1fr\_360px\)
 
-7. Reusable Form Component কীভাবে তৈরি করবেন?
+hidden
 
-8. Client-side এবং Server-side Validation-এর পার্থক্য কী?
+2. Quantity যেন ১-এর নিচে না নামে, তার জন্য কোন Logic ব্যবহার করা যায়?
 
-9. Responsive Form তৈরি করতে কোন কোন breakpoint ব্যবহার করা যায়?
+Math.min(0, quantity - 1)
 
-10. Form-এর State এবং UI Styling-এর দায়িত্ব কীভাবে আলাদা?
+Math.max(1, quantity - 1)
 
-## 📋 ১৫. Day 27 Cheat Sheet
+quantity = 0
 
-|
-কাজ
+quantity--
 
-|
+3. Checkout Form-এ দুইটি Column দেখাতে কোন ক্লাস ব্যবহার করা যায়?
 
-Tailwind Class
+md:grid-cols-2
 
-|
-| --- | --- |
-|
+md:flex-col
 
-Form Container
+md:block
 
-|
+md:hidden
 
-`mx-auto max-w-4xl`
+4. বাস্তব E-commerce Order-এর চূড়ান্ত মূল্য কোথায় যাচাই করা উচিত?
 
-|
-|
+শুধু Browser-এ
 
-Vertical Spacing
+শুধু Tailwind CSS-এ
 
-|
+Backend-এ
 
-`space-y-6`
+শুধু HTML-এ
 
-|
-|
+উত্তর যাচাই করুন
 
-Input
+#### Day 28-এর মূল শিক্ষা
 
-|
+একটি বাস্তব E-commerce Cart ও Checkout তৈরি করতে শুধু সুন্দর UI হলেই হবে না। Responsive Layout, Component Reusability, React State, Form Validation এবং Backend-এর সঙ্গে সঠিক সমন্বয়ও প্রয়োজন।
 
-`w-full rounded-lg border px-4 py-3`
+মনে রাখবেন:
 
-|
-|
+* Tailwind CSS → UI Styling
 
-Focus State
+* React → State ও Interaction
 
-|
+* Backend → Price, Inventory, Order ও Payment Validation
 
-`focus:ring-2 focus:ring-blue-500`
-
-|
-|
-
-Error Border
-
-|
-
-`border-red-500`
-
-|
-|
-
-Success Border
-
-|
-
-`border-green-500`
-
-|
-|
-
-Helper Text
-
-|
-
-`text-xs text-gray-500`
-
-|
-|
-
-Error Message
-
-|
-
-`text-sm text-red-600`
-
-|
-|
-
-Disabled Button
-
-|
-
-`disabled:opacity-50`
-
-|
-|
-
-Disabled Cursor
-
-|
-
-`disabled:cursor-not-allowed`
-
-|
-|
-
-Responsive Form
-
-|
-
-`grid grid-cols-1 md:grid-cols-2`
-
-|
-|
-
-Dark Mode
-
-|
-
-`dark:bg-gray-900`
-
-|
-|
-
-Step Indicator
-
-|
-
-`flex items-center gap-3`
-
-|
-|
-
-Transition
-
-|
-
-`transition duration-200`
-
-|
-
-#### Day 27-এর মূল শিক্ষা
-
-Professional Form তৈরি করার ক্ষেত্রে শুধু Input সুন্দর করলেই হবে না। Form-এর Structure, Validation Feedback, Accessibility, Loading State এবং Responsive Layout-ও বিবেচনা করতে হবে।
-
-আজকের Golden Rule:
-
-Requirement → Form Structure → Input Components → Validation → UI States → Responsive Design
-
-পরবর্তী Day 28-এ Advanced E-commerce UI: Cart, Checkout ও Order Summary Design নিয়ে কাজ করলে আপনার Tailwind CSS-এর শেখা বিষয়গুলো বাস্তব একটি User Journey-তে প্রয়োগ করতে পারবেন।
+আগামী Day 29: Final E-commerce Project — Cart, Checkout ও Dashboard-সহ সম্পূর্ণ UI Integration এবং Project Review।

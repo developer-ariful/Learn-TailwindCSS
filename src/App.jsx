@@ -1,9 +1,11 @@
-import ProductForm from "./components/ProductForm";
+import Cart from "./pages/Cart";
+
+
 
 export default function () {
     return (
         <>
-          <ProductForm/>
+         <h2>Hello Word</h2>
         </>
     )
 }
