@@ -1,634 +1,82 @@
 # Learn Tailwind css
 **_Day By Day_**
 
-## Tailwind CSS শেখার রোডম্যাপ — Day 28
+## Tailwind CSS — Day 29
 
-Advanced E-commerce UI
+#### 🚀 Final E-commerce Project — Complete UI Integration
+
+আজকের Day 29 খুব গুরুত্বপূর্ণ। এতদিনে শেখা Tailwind CSS-এর প্রায় সব গুরুত্বপূর্ণ বিষয়কে একসাথে ব্যবহার করে আমরা একটি **সম্পূর্ণ E-commerce Frontend UI Architecture** তৈরি করব।
+
+আজকের মূল লক্ষ্য শুধু নতুন Tailwind class শেখা নয়—বরং **কীভাবে একজন Professional Frontend Developer একটি বড় UI-কে ছোট ছোট reusable component-এ ভাগ করে তৈরি করে**, সেটি শেখা।
+
+---
 
 
+## ১. সম্পূর্ণ E-commerce User Journey
 
-আজ আমরা Tailwind CSS ব্যবহার করে একটি আধুনিক E-commerce Shopping Cart, Checkout এবং Order Summary UI তৈরি করা শিখব।
+আমাদের পুরো application-এর User Journey হবে:
 
-এটি আপনার চলমান AI-Powered E-commerce Management System-এর Frontend তৈরিতেও কাজে লাগবে।
-
-
-
-## ১. Shopping Cart-এর UI Architecture
-
-একটি E-commerce Shopping Cart-এ সাধারণত নিচের অংশগুলো থাকে।
-
-![Tailwind CSS Shopping Cart | Pagedone](https://images.openai.com/static-rsc-4/kaEtTTp-TBMqkEPIDHrrR5QqPHRBXp6WjjzatRbWxaaOyI1yqDGbDJ9Phdc2x7WzELBl6JYpVDI9brEzNGPtIUiN8Z1M1xvISFg52v7P5acpvWA5ErnP5cr6_uk5H9tJki0zKP8ttDKcglLN0k3hgjkbLNZl1rTADbCNS8S4rDI?purpose=inline)
-
+```text
+Home
+  ↓
+Product Listing
+  ↓
+Product Details
+  ↓
+Add to Cart
+  ↓
 Shopping Cart
-
-কার্টে থাকা পণ্যের ছবি, নাম, মূল্য, পরিমাণ এবং Remove Button।
-
-![Checkout | How-tos | Core API](https://images.openai.com/static-rsc-4/k52jGtJdAf5kEf7rtVb_tNfOiEIdDD3mVxkKS_k9G7PdkWlCs-aMnN68wX3K1oit4TWJeTRm8LRwIGsB58QegBzuSxbwuUhibWEy3KVdl7J_wB1mkjCgshDi72y4nVlt4E0YlfnoI95o3OY-KIRT4C-834NhJGsbEj5qaCq5zvU?purpose=inline)
-
-Order Summary
-
-Subtotal, Shipping, Discount, Tax এবং Total Price।
-
-![Checkout Flow by Dominik Sklyarov on Dribbble](https://images.openai.com/static-rsc-4/Q9mmnakyUwzYao83jlavfF2iIKOCAvzWXiT60C3pmA2Bb3c5P1jdsZMsmntVPQOjbn1KGbbZ8mAlb164OPfo52S8aMGCkADnzivGQUYK7qBorgYQEciqiG01QDYpc9JjLoYHESJdTPnWg5xu8QAYzx1y29hR-QGcOOo6l05pZ04?purpose=inline)
-
-Checkout Form
-
-Customer Information, Shipping Address এবং Delivery Method।
-
-![Getting Started with Stripe for Hong Kong](https://images.openai.com/static-rsc-4/ZmSsr_3vly218hDP11mPzjswf1E5_SaAJXHSMo6rvGsgffN3xWdGXdfw-iVsHkNJ9nEXoZKKrp1iuxQKpzfBNJILG48hF6pyK9959vjJfx-sMuw82ul05H5P6lJYLfvnR0fzoCsJSlWesoN5r1U5En8fGSFaAZChqCEowLXQdI8?purpose=inline)
-
-Payment Method
-
-Card Payment, Mobile Payment অথবা Cash on Delivery-এর মতো অপশন।
-
-একটি সাধারণ Shopping Cart-এর Desktop Layout হবে:
-
-```
-+-----------------------------------------------+
-|                 Shopping Cart                 |
-+-----------------------------------------------+
-|                                               |
-|  Cart Items                Order Summary      |
-|  +-------------------+    +----------------+  |
-|  | Product 1         |    | Subtotal       |  |
-|  | Price | Quantity  |    | Shipping       |  |
-|  +-------------------+    | Discount       |  |
-|  | Product 2         |    | Tax            |  |
-|  | Price | Quantity  |    | Total          |  |
-|  +-------------------+    |                |  |
-|                           | Checkout       |  |
-|                           +----------------+  |
-+-----------------------------------------------+
+  ↓
+Checkout
+  ↓
+Payment
+  ↓
+Order Confirmation
 ```
 
-## ২. Shopping Cart Layout তৈরি
+Admin-এর জন্য:
 
-প্রথমে Cart Page-এর মূল Layout তৈরি করব।
-
-JavaScript
-
-```
-function Cart() {
-  return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10 dark:bg-gray-950">
-      <div className="mx-auto max-w-7xl">
-        <h1 className="mb-8 text-3xl font-bold text-gray-900 dark:text-white">
-          Shopping Cart
-        </h1>
-
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
-          <section className="space-y-4">
-            {/* Cart Items */}
-          </section>
-
-          <aside className="h-fit rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            {/* Order Summary */}
-          </aside>
-        </div>
-      </div>
-    </main>
-  );
-}
+```text
+Admin Login
+     ↓
+Dashboard
+     ↓
+Products
+     ↓
+Orders
+     ↓
+Customers
+     ↓
+Analytics
 ```
 
-###### গুরুত্বপূর্ণ Tailwind ক্লাস
+এখন লক্ষ্য হলো এই প্রতিটি UI-কে একটি consistent design system-এর মধ্যে রাখা।
 
-| ক্লাস                      | কাজ                           |
-| -------------------------- | ----------------------------- |
-| `min-h-screen`             | কমপক্ষে পুরো স্ক্রিনের উচ্চতা |
-| `max-w-7xl`                | Content-এর সর্বোচ্চ প্রস্থ    |
-| `mx-auto`                  | Horizontal Center Alignment   |
-| `grid-cols-1`              | একটি Column                   |
-| `lg:grid-cols-[1fr_360px]` | Desktop-এ দুটি Column         |
-| `h-fit`                    | Content অনুযায়ী Height        |
-| `rounded-2xl`              | বড় Rounded Corner             |
-| `shadow-sm`                | হালকা Shadow                  |
+---
 
-গুরুত্বপূর্ণ: `lg:grid-cols-[1fr_360px]` ব্যবহার করে বাম পাশের অংশকে অবশিষ্ট জায়গা এবং ডান পাশের Order Summary-কে 360px দেওয়া হয়েছে।
+## ২. Final Project Structure
 
-## ৩. Cart Item Component তৈরি
+আমাদের Frontend structure এমন হতে পারে:
 
-প্রতিটি Cart Item-এর মধ্যে থাকবে:
-
-* Product Image
-
-* Product Name
-
-* Product Price
-
-* Quantity Control
-
-* Remove Button
-
-#### Cart Item-এর UI
-
-![White headphones isolated on white background](https://images.openai.com/static-rsc-4/d1cc3QkDW5sjEJwZqaVPZB20yZ20wo9WaoVSYE_V6J2yru9-QchRjxGa-IxV-mtDKFaDHmSs-W27Io-4etpgBdJxUfMz2tHl1MlphxeSKPgm_aQVk34pc5lFtCq_icZmTpZ-m5yJHB14y98PbybeJqsecvFvwdpj42RpsYS_wPzzc7Hu3FY9PEB4P4tG24Al?purpose=inline)
-
-Wireless Headphones
-
-SKU: WH-101
-
-৳2,500
-
-−
-
-2
-
-*
-
-এটি Cart Item-এর একটি নমুনা UI।
-
-###### CartItem.jsx
-
-JavaScript
-
-```
-function CartItem({ product, onRemove }) {
-  return (
-    <div className="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-gray-900">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="h-24 w-24 rounded-lg object-cover"
-      />
-
-      <div className="min-w-0 flex-1">
-        <h3 className="font-semibold text-gray-900 dark:text-white">
-          {product.name}
-        </h3>
-
-        <p className="mt-1 text-lg font-bold text-indigo-600">
-          ৳{product.price.toLocaleString("en-US")}
-        </p>
-      </div>
-
-      <div className="flex items-center gap-3">
-        <div className="flex items-center rounded-lg border border-gray-300 dark:border-gray-700">
-          <button
-            type="button"
-            aria-label="Decrease quantity"
-            className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            −
-          </button>
-
-          <span className="px-3 font-medium">
-            {product.quantity}
-          </span>
-
-          <button
-            type="button"
-            aria-label="Increase quantity"
-            className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            +
-          </button>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => onRemove(product.id)}
-          aria-label={`Remove ${product.name}`}
-          className="rounded-lg p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
-        >
-          Remove
-        </button>
-      </div>
-    </div>
-  );
-}
-```
-
-এখানে Quantity Button-এর UI তৈরি করা হয়েছে। বাস্তবে এগুলোকে React State বা Cart Management Logic-এর সঙ্গে সংযুক্ত করতে হবে।
-
-## ৪. Quantity Control-এর React Logic
-
-এবার React ব্যবহার করে Quantity বাড়ানো ও কমানোর একটি উদাহরণ দেখি।
-
-JavaScript
-
-```
-import { useState } from "react";
-
-function QuantityControl() {
-  const [quantity, setQuantity] = useState(1);
-
-  const decrease = () => {
-    setQuantity((prev) => Math.max(1, prev - 1));
-  };
-
-  const increase = () => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  return (
-    <div className="flex items-center rounded-lg border border-gray-300 dark:border-gray-700">
-      <button
-        type="button"
-        onClick={decrease}
-        disabled={quantity <= 1}
-        className="px-3 py-2 disabled:cursor-not-allowed disabled:opacity-40"
-      >
-        −
-      </button>
-
-      <span className="min-w-10 text-center font-medium">
-        {quantity}
-      </span>
-
-      <button
-        type="button"
-        onClick={increase}
-        className="px-3 py-2"
-      >
-        +
-      </button>
-    </div>
-  );
-}
-```
-
-###### আজকের নতুন Tailwind ক্লাস
-
-| ক্লাস                         | কাজ                             |
-| ----------------------------- | ------------------------------- |
-| `disabled:opacity-40`         | Disabled অবস্থায় স্বচ্ছতা কমায়  |
-| `disabled:cursor-not-allowed` | Disabled অবস্থায় নিষিদ্ধ Cursor |
-| `min-w-10`                    | সর্বনিম্ন প্রস্থ                |
-| `text-center`                 | Text Center Alignment           |
-| `hover:bg-gray-100`           | Hover করলে Background পরিবর্তন  |
-
-এখানে `Math.max(1, prev - 1)` নিশ্চিত করে যে Quantity কখনো ১-এর নিচে নামবে না।
-
-বাস্তব অ্যাপ্লিকেশনে সর্বোচ্চ Quantity-ও Inventory অনুযায়ী সীমাবদ্ধ করতে হবে।
-
-## ৫. Order Summary তৈরি
-
-Order Summary-তে সাধারণত নিচের তথ্য থাকে।
-
-| বিষয়     | উদাহরণ |
-| -------- | ------ |
-| Subtotal | ৳5,000 |
-| Shipping | ৳100   |
-| Discount | −৳500  |
-| Tax      | ৳0     |
-| Total    | ৳4,600 |
-
-এগুলো শুধু শেখার জন্য উদাহরণমূলক মূল্য।
-
-###### CartSummary.jsx
-
-JavaScript
-
-```
-function CartSummary() {
-  const subtotal = 5000;
-  const shipping = 100;
-  const discount = 500;
-  const tax = 0;
-
-  const total = subtotal + shipping - discount + tax;
-
-  return (
-    <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-        Order Summary
-      </h2>
-
-      <div className="space-y-3 border-b border-gray-200 pb-4 text-sm dark:border-gray-800">
-        <div className="flex justify-between">
-          <span className="text-gray-500">Subtotal</span>
-          <span className="font-medium">৳5,000</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="text-gray-500">Shipping</span>
-          <span className="font-medium">৳100</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="text-gray-500">Discount</span>
-          <span className="font-medium text-green-600">
-            −৳500
-          </span>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="text-gray-500">Tax</span>
-          <span className="font-medium">৳0</span>
-        </div>
-      </div>
-
-      <div className="flex justify-between text-lg font-bold">
-        <span>Total</span>
-        <span>৳{total.toLocaleString("en-US")}</span>
-      </div>
-
-      <button
-        type="button"
-        className="w-full rounded-lg bg-indigo-600 px-4 py-3 font-semibold text-white transition hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      >
-        Proceed to Checkout
-      </button>
-    </div>
-  );
-}
-```
-
-###### গুরুত্বপূর্ণ Tailwind ক্লাস
-
-* `space-y-5`: প্রতিটি Child Element-এর মাঝে Vertical Space।
-
-* `border-b`: নিচে Border।
-
-* `pb-4`: নিচে Padding।
-
-* `flex justify-between`: দুই পাশে Content সাজানো।
-
-* `focus-visible:outline-2`: Keyboard Focus-এর জন্য Outline।
-
-* `transition`: পরিবর্তনের সময় Transition Effect।
-
-Backend Architecture-এর জন্য গুরুত্বপূর্ণ
-
-Frontend-এ Order Summary দেখানো হলেও চূড়ান্ত মূল্য Backend থেকে পুনরায় হিসাব করতে হবে। Client-এর পাঠানো Total Price বিশ্বাস করে Order তৈরি করা নিরাপদ নয়।
-
-## ৬. Promo Code UI তৈরি
-
-অনেক E-commerce ওয়েবসাইটে Promo Code বা Coupon Code ব্যবহারের সুবিধা থাকে।
-
-JavaScript
-
-```
-function PromoCode() {
-  return (
-    <div className="space-y-3">
-      <label
-        htmlFor="coupon"
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >
-        Promo Code
-      </label>
-
-      <div className="flex gap-2">
-        <input
-          id="coupon"
-          type="text"
-          placeholder="Enter coupon code"
-          className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
-        />
-
-        <button
-          type="button"
-          className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-700 dark:bg-indigo-600 dark:hover:bg-indigo-500"
-        >
-          Apply
-        </button>
-      </div>
-
-      <p className="text-sm text-green-600">
-        Coupon applied successfully.
-      </p>
-    </div>
-  );
-}
-```
-
-বাস্তব অ্যাপ্লিকেশনে Coupon Code যাচাই করার জন্য Backend API প্রয়োজন হবে। সফল হলে Discount পুনরায় হিসাব করতে হবে। ভুল হলে Error Message দেখাতে হবে।
-
-## ৭. Checkout Form তৈরি
-
-Checkout Form-এ সাধারণত Customer-এর তথ্য ও Shipping Address নেওয়া হয়।
-
-#### Checkout Form-এর নমুনা
-
-First Name
-
-Ariful
-
-Last Name
-
-Islam
-
-Email Address
-
-[example@email.com](mailto:example@email.com)
-
-Street Address
-
-House, Road, Area
-
-City
-
-Dhaka
-
-Postal Code
-
-1207
-
-এটি শুধু Form Layout-এর নমুনা।
-
-###### ShippingForm.jsx
-
-JavaScript
-
-```
-function ShippingForm() {
-  return (
-    <form className="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <div>
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-          Shipping Information
-        </h2>
-        <p className="mt-1 text-sm text-gray-500">
-          Enter your delivery details.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div>
-          <label htmlFor="firstName" className="mb-2 block text-sm font-medium">
-            First Name
-          </label>
-          <input
-            id="firstName"
-            type="text"
-            required
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="lastName" className="mb-2 block text-sm font-medium">
-            Last Name
-          </label>
-          <input
-            id="lastName"
-            type="text"
-            required
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
-          />
-        </div>
-
-        <div className="md:col-span-2">
-          <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            Email Address
-          </label>
-          <input
-            id="email"
-            type="email"
-            required
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
-          />
-        </div>
-
-        <div className="md:col-span-2">
-          <label htmlFor="address" className="mb-2 block text-sm font-medium">
-            Street Address
-          </label>
-          <textarea
-            id="address"
-            rows="3"
-            required
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="city" className="mb-2 block text-sm font-medium">
-            City
-          </label>
-          <input
-            id="city"
-            type="text"
-            required
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="postalCode" className="mb-2 block text-sm font-medium">
-            Postal Code
-          </label>
-          <input
-            id="postalCode"
-            type="text"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800"
-          />
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        className="w-full rounded-lg bg-indigo-600 px-4 py-3 font-semibold text-white hover:bg-indigo-700 sm:w-auto"
-      >
-        Continue
-      </button>
-    </form>
-  );
-}
-```
-
-###### Form-এর গুরুত্বপূর্ণ Responsive ক্লাস
-
-| ক্লাস            | কাজ                                      |
-| ---------------- | ---------------------------------------- |
-| `grid-cols-1`    | Mobile-এ একটি Column                     |
-| `md:grid-cols-2` | Medium Screen-এ দুটি Column              |
-| `md:col-span-2`  | Medium Screen-এ দুটি Column জুড়ে         |
-| `w-full`         | সম্পূর্ণ প্রস্থ                          |
-| `sm:w-auto`      | Small Screen থেকে প্রয়োজন অনুযায়ী প্রস্থ |
-
-মনে রাখবেন, Tailwind-এর `required` ক্লাস নয়; এটি HTML Attribute। এটি Browser-এর Native Validation সক্রিয় করে। জটিল Validation-এর জন্য আলাদা Logic প্রয়োজন।
-
-## ৮. Payment Method UI
-
-Checkout Page-এ বিভিন্ন Payment Method দেখানো যায়।
-
-JavaScript
-
-```
-function PaymentMethod() {
-  return (
-    <div className="space-y-4 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="text-xl font-bold">
-        Payment Method
-      </h2>
-
-      <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-indigo-500 bg-indigo-50 p-4 dark:bg-indigo-950/30">
-        <input
-          type="radio"
-          name="payment"
-          value="card"
-          defaultChecked
-          className="accent-indigo-600"
-        />
-        <span className="font-medium">Credit / Debit Card</span>
-      </label>
-
-      <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 p-4 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">
-        <input
-          type="radio"
-          name="payment"
-          value="cod"
-          className="accent-indigo-600"
-        />
-        <span className="font-medium">Cash on Delivery</span>
-      </label>
-
-      <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 p-4 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">
-        <input
-          type="radio"
-          name="payment"
-          value="mobile"
-          className="accent-indigo-600"
-        />
-        <span className="font-medium">Mobile Payment</span>
-      </label>
-    </div>
-  );
-}
-```
-
-Payment Security
-
-বাস্তব অ্যাপ্লিকেশনে কার্ডের নম্বর, CVV বা অন্যান্য সংবেদনশীল তথ্য নিজের Backend-এ সরাসরি সংরক্ষণ করবেন না। Stripe Elements বা নিরাপদ Payment Provider-এর অনুমোদিত পদ্ধতি ব্যবহার করুন। Payment সফল হয়েছে কি না, তা Backend-এ যাচাই করতে হবে।
-
-## ৯. Responsive Design
-
-Shopping Cart ও Checkout Page Mobile, Tablet এবং Desktop—সব ডিভাইসে ব্যবহারযোগ্য হতে হবে।
-
-| Device  | Layout                             |
-| ------- | ---------------------------------- |
-| Mobile  | Cart এবং Summary একটির নিচে আরেকটি |
-| Tablet  | প্রয়োজন অনুযায়ী এক বা দুই Column   |
-| Desktop | Cart Items বামে, Summary ডানে      |
-
-কিছু গুরুত্বপূর্ণ Responsive Pattern:
-
-JavaScript
-
-```
-<div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
-  <div className="min-w-0">
-    Cart Items
-  </div>
-
-  <aside className="h-fit lg:sticky lg:top-24">
-    Order Summary
-  </aside>
-</div>
-```
-
-এখানে `lg:sticky lg:top-24` ব্যবহার করলে Desktop-এ স্ক্রল করার সময় Order Summary নির্দিষ্ট অবস্থানে থাকতে পারে। তবে Sticky কাজ করার জন্য Parent-এর Overflow ও Layout-ও সঠিক হতে হবে।
-
-## ১০. Component Architecture
-
-একটি বাস্তব E-commerce Cart ও Checkout-এর জন্য নিচের মতো Component Structure ব্যবহার করতে পারেন।
-
-```
+```text
 src/
+│
 ├── components/
+│   │
+│   ├── layout/
+│   │   ├── Navbar.jsx
+│   │   ├── Footer.jsx
+│   │   ├── DashboardLayout.jsx
+│   │   ├── Sidebar.jsx
+│   │   └── DashboardHeader.jsx
+│   │
+│   ├── products/
+│   │   ├── ProductCard.jsx
+│   │   ├── ProductGrid.jsx
+│   │   ├── ProductFilters.jsx
+│   │   ├── ProductToolbar.jsx
+│   │   └── ProductPagination.jsx
+│   │
 │   ├── cart/
 │   │   ├── CartItem.jsx
 │   │   ├── CartList.jsx
@@ -639,169 +87,868 @@ src/
 │   │   ├── PaymentMethod.jsx
 │   │   └── OrderReview.jsx
 │   │
+│   ├── dashboard/
+│   │   ├── StatCard.jsx
+│   │   ├── SalesAnalytics.jsx
+│   │   └── RecentOrders.jsx
+│   │
 │   └── ui/
 │       ├── Button.jsx
-│       └── FormInput.jsx
+│       ├── Input.jsx
+│       ├── Select.jsx
+│       ├── Modal.jsx
+│       ├── LoadingSpinner.jsx
+│       └── EmptyState.jsx
 │
 ├── pages/
+│   ├── Home.jsx
+│   ├── Products.jsx
+│   ├── ProductDetails.jsx
 │   ├── Cart.jsx
-│   └── Checkout.jsx
+│   ├── Checkout.jsx
+│   ├── OrderSuccess.jsx
+│   └── Dashboard.jsx
 │
-└── App.jsx
+├── App.jsx
+└── main.jsx
 ```
 
-প্রতিটি Component-এর দায়িত্ব আলাদা রাখুন।
+###### কেন এই Architecture?
 
-| Component       | দায়িত্ব                           |
-| --------------- | --------------------------------- |
-| `CartItem`      | একটি পণ্যের তথ্য ও Quantity UI    |
-| `CartList`      | সব Cart Item প্রদর্শন             |
-| `CartSummary`   | মূল্য ও Order Summary             |
-| `ShippingForm`  | Delivery Address                  |
-| `PaymentMethod` | Payment Option নির্বাচন           |
-| `OrderReview`   | অর্ডার দেওয়ার আগে তথ্য পর্যালোচনা |
-| `Cart`          | Cart Page-এর Layout               |
-| `Checkout`      | Checkout Page-এর Layout           |
+কারণ আমরা চাই:
 
-বাস্তব প্রজেক্টে Cart State একাধিক Component-এ প্রয়োজন হলে Context, Zustand অথবা Redux-এর মতো State Management Solution ব্যবহার করা যেতে পারে।
+```text
+Reusable
+     ↓
+Maintainable
+     ↓
+Scalable
+     ↓
+Professional
+```
 
-## ১১. আজকের এক ঘণ্টার Study Plan
+একটি বড় application-এ সব JSX এক ফাইলে লিখলে project খুব দ্রুত difficult to maintain হয়ে যায়।
 
-#### Day 28 — Study Checklist
+---
 
-সম্পন্ন: 0 / 5
+## ৩. Global Page Layout
 
-0%
+প্রথমে প্রতিটি Page-এর জন্য একটি consistent container তৈরি করা ভালো।
 
-Cart Layout (১০ মিনিট)
+```jsx
+<main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+  <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    {/* Page Content */}
+  </div>
+</main>
+```
 
-Grid এবং Responsive Layout তৈরি করুন।
+এখানে:
 
-Cart Item (১৫ মিনিট)
+```text
+min-h-screen
+```
 
-Product Image, Price, Quantity ও Remove UI তৈরি করুন।
+→ কমপক্ষে পুরো screen height।
 
-Order Summary (১০ মিনিট)
+```text
+max-w-7xl
+```
 
-Subtotal, Shipping, Discount ও Total UI তৈরি করুন।
+→ Content অতিরিক্ত চওড়া হতে দেবে না।
 
-Checkout Form (১৫ মিনিট)
+```text
+mx-auto
+```
 
-Shipping Address ও Payment Method তৈরি করুন।
+→ Content center করবে।
 
-Practice & Revision (১০ মিনিট)
+```text
+px-4 sm:px-6 lg:px-8
+```
 
-Responsive Design পরীক্ষা করুন এবং কোড রিভিশন দিন।
+→ Responsive horizontal padding।
 
-রিসেট
+এটি একটি খুব গুরুত্বপূর্ণ **Professional Layout Pattern**।
 
-## ১২. Practical Assignment
+---
 
-আজকের প্রজেক্ট
+## ৪. Navbar Integration
 
-## TechStore — Shopping Cart & Checkout
+একটি E-commerce Navbar-এ সাধারণত থাকবে:
 
-Tailwind CSS + React
+```text
+Logo
+Products
+Categories
+Search
+Cart
+Login/Profile
+```
 
-![8 Web Design Goals To Select from](https://images.openai.com/static-rsc-4/FMUfIsUuFRX6QPIJBA64-9pykms8I-NqI4M945l1F63n2XuClSnkRQQz35a_U6fNxu7dQzVsbYxQR_hyKN3hO6n31vIpEeYt912SU01s7yDIic7_nYVVQnwpliTtq9ZAsFDAm6tif8VW-i66G5RC_pn_8LsAwyVW141e_J6GtKE?purpose=inline)
+একটি Responsive Navbar:
 
-[uxpilot](https://uxpilot.ai/blogs/web-design-goals)
+```jsx
+<nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur dark:border-gray-800 dark:bg-gray-900/90">
+  <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
-আপনার কাজ:
+    <a
+      href="/"
+      className="text-xl font-bold text-gray-900 dark:text-white"
+    >
+      TechStore
+    </a>
 
-1. একটি Responsive Shopping Cart Page তৈরি করুন।
+    <div className="hidden md:flex md:items-center md:gap-6">
+      <a href="/products" className="text-sm font-medium">
+        Products
+      </a>
 
-2. অন্তত তিনটি Product Cart-এ দেখান।
+      <a href="/categories" className="text-sm font-medium">
+        Categories
+      </a>
+    </div>
 
-3. Quantity Increase ও Decrease-এর UI তৈরি করুন।
+    <div className="flex items-center gap-3">
+      <button className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+        🛒
+      </button>
 
-4. প্রতিটি Product-এর জন্য Remove Button রাখুন।
+      <button className="hidden rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white sm:block">
+        Login
+      </button>
+    </div>
 
-5. Order Summary-তে Subtotal, Shipping, Discount ও Total দেখান।
+  </div>
+</nav>
+```
 
-6. Promo Code Input যুক্ত করুন।
+এখানে আপনি Day 1 থেকে শেখা:
 
-7. Shipping Information Form তৈরি করুন।
+* Flexbox
+* Spacing
+* Responsive Design
+* Border
+* Background
+* Hover
+* Dark Mode
+* Positioning
 
-8. কমপক্ষে দুটি Payment Method দেখান।
+সব একসাথে ব্যবহার করছেন।
 
-9. Mobile, Tablet এবং Desktop-এ UI পরীক্ষা করুন।
+---
 
-অ্যাসাইনমেন্টের অতিরিক্ত শর্ত: Cart-এর মূল্য React State থেকে হিসাব করার চেষ্টা করুন। তবে বাস্তব Order তৈরি করার সময় Backend-এ পণ্যের মূল্য, Inventory, Discount ও Total পুনরায় যাচাই করতে হবে।
+## ৫. Product Listing Integration
 
-## ১৩. আজকের গুরুত্বপূর্ণ Tailwind CSS Cheat Sheet
+Product Listing Page:
 
-| Utility                    | ব্যবহার                                |
-| -------------------------- | -------------------------------------- |
-| `grid-cols-1`              | একটি Grid Column                       |
-| `lg:grid-cols-[1fr_360px]` | কাস্টম দুই Column Layout               |
-| `md:grid-cols-2`           | Medium Screen-এ দুই Column             |
-| `md:col-span-2`            | দুই Column জুড়ে Element                |
-| `min-w-0`                  | Flex/Grid Child-এর Minimum Width শূন্য |
-| `h-fit`                    | Content অনুযায়ী Height                 |
-| `lg:sticky`                | Large Screen-এ Sticky Position         |
-| `focus-visible:outline-2`  | Keyboard Focus Outline                 |
-| `disabled:opacity-40`      | Disabled অবস্থায় Opacity               |
-| `accent-indigo-600`        | Checkbox/Radio-এর Accent Color         |
-| `transition`               | Transition Effect                      |
-| `dark:bg-gray-900`         | Dark Mode Background                   |
+```text
+Products
+────────────────────────────────
 
-## ১৪. Self-Assessment
+Search       Sort By
 
-#### নিজেকে যাচাই করুন
+Filters      Product Product Product
+             Product Product Product
+             Product Product Product
 
-1. Desktop-এ Cart ও Order Summary পাশাপাশি দেখানোর জন্য কোন Layout ব্যবহার করা যায়?
+             Pagination
+```
 
-flex-col
+Layout:
 
+```jsx
+<div className="grid grid-cols-1 gap-8 lg:grid-cols-[240px_1fr]">
+
+  <aside>
+    {/* Filters */}
+  </aside>
+
+  <section>
+    {/* Toolbar */}
+    {/* Product Grid */}
+    {/* Pagination */}
+  </section>
+
+</div>
+```
+
+Product Grid:
+
+```jsx
+<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+  <ProductCard />
+  <ProductCard />
+  <ProductCard />
+</div>
+```
+
+এখানে Responsive Breakpoint:
+
+```text
+Mobile
+1 column
+
+Tablet
+2 columns
+
+Large Desktop
+3 columns
+```
+
+---
+
+## ৬. Product Card
+
+একটি reusable Product Card:
+
+```jsx
+<article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900">
+
+  <div className="aspect-square overflow-hidden">
+    <img
+      src={product.image}
+      alt={product.name}
+      className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+    />
+  </div>
+
+  <div className="space-y-3 p-5">
+
+    <h3 className="font-semibold text-gray-900 dark:text-white">
+      {product.name}
+    </h3>
+
+    <p className="text-lg font-bold text-indigo-600">
+      ৳{product.price}
+    </p>
+
+    <button className="w-full rounded-lg bg-indigo-600 px-4 py-2.5 font-semibold text-white hover:bg-indigo-700">
+      Add to Cart
+    </button>
+
+  </div>
+</article>
+```
+
+এখানে বিশেষভাবে লক্ষ্য করুন:
+
+```text
+group
+group-hover:scale-105
+transition
+duration-300
+```
+
+এগুলো একসাথে ব্যবহার করে একটি সুন্দর Product Image Hover Effect তৈরি করা হয়েছে।
+
+---
+
+## ৭. Product Details Page
+
+Product Details Page:
+
+```text
++---------------------------------------------+
+|                                             |
+| Product Image     Product Information       |
+|                                             |
+|                   Product Name              |
+|                   Rating                    |
+|                   Price                     |
+|                   Description               |
+|                   Quantity                  |
+|                   Add to Cart               |
+|                                             |
++---------------------------------------------+
+```
+
+Tailwind Layout:
+
+```jsx
+<div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+
+  <div className="overflow-hidden rounded-2xl bg-gray-100">
+    <img
+      src={product.image}
+      alt={product.name}
+      className="aspect-square h-full w-full object-cover"
+    />
+  </div>
+
+  <div className="flex flex-col justify-center">
+    <p className="text-sm font-medium text-indigo-600">
+      Electronics
+    </p>
+
+    <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
+      Wireless Headphones
+    </h1>
+
+    <p className="mt-4 text-2xl font-bold">
+      ৳2,500
+    </p>
+
+    <p className="mt-6 leading-7 text-gray-600 dark:text-gray-400">
+      High quality wireless headphones with excellent
+      sound quality and long battery life.
+    </p>
+
+    <div className="mt-8 flex gap-4">
+      <button className="rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white">
+        Add to Cart
+      </button>
+
+      <button className="rounded-lg border border-gray-300 px-6 py-3 font-semibold">
+        Buy Now
+      </button>
+    </div>
+  </div>
+
+</div>
+```
+
+---
+
+## ৮. Cart → Checkout Integration
+
+User যখন:
+
+```text
+Add to Cart
+```
+
+করবে:
+
+```text
+Product
+   ↓
+Cart State
+   ↓
+Cart Page
+   ↓
+Checkout
+```
+
+Cart Page:
+
+```jsx
+<div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
+
+  <CartList />
+
+  <CartSummary />
+
+</div>
+```
+
+Checkout Page:
+
+```jsx
+<div className="grid grid-cols-1 gap-8 xl:grid-cols-[1fr_400px]">
+
+  <div className="space-y-6">
+    <ShippingForm />
+    <PaymentMethod />
+  </div>
+
+  <OrderReview />
+
+</div>
+```
+
+এখানে একটি গুরুত্বপূর্ণ বিষয়:
+
+**Cart এবং Checkout-এর UI আলাদা হলেও Cart Data একই State/Store থেকে আসা উচিত।**
+
+---
+
+## ৯. Order Review
+
+Checkout-এর শেষ অংশ:
+
+```text
+Order Review
+
+Wireless Headphones
+৳2,500 × 2
+
+Mechanical Keyboard
+৳3,500 × 1
+
+────────────────
+
+Subtotal       ৳8,500
+Shipping         ৳100
+Discount        -৳500
+
+Total          ৳8,100
+
+[ Place Order ]
+```
+
+Tailwind:
+
+```jsx
+<div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+
+  <h2 className="text-xl font-bold">
+    Order Review
+  </h2>
+
+  <div className="mt-6 divide-y divide-gray-200 dark:divide-gray-800">
+
+    <div className="flex justify-between py-4">
+      <span>Wireless Headphones × 2</span>
+      <span>৳5,000</span>
+    </div>
+
+    <div className="flex justify-between py-4">
+      <span>Keyboard × 1</span>
+      <span>৳3,500</span>
+    </div>
+
+  </div>
+
+  <div className="mt-4 flex justify-between border-t pt-4 text-lg font-bold">
+    <span>Total</span>
+    <span>৳8,100</span>
+  </div>
+
+  <button className="mt-6 w-full rounded-lg bg-indigo-600 px-4 py-3 font-semibold text-white hover:bg-indigo-700">
+    Place Order
+  </button>
+
+</div>
+```
+
+---
+
+## ১০. Admin Dashboard Integration
+
+এখন User side থেকে Admin side-এ যাই।
+
+Dashboard:
+
+```text
++------------------------------------------------+
+| Sidebar              Dashboard Header          |
+|                                                |
+|                       Revenue Cards             |
+|                                                |
+|                       Analytics                |
+|                                                |
+|                       Recent Orders            |
+|                                                |
++------------------------------------------------+
+```
+
+Main Layout:
+
+```jsx
+<div className="grid min-h-screen lg:grid-cols-[260px_1fr]">
+
+  <aside className="hidden lg:block">
+    <Sidebar />
+  </aside>
+
+  <main className="min-w-0">
+    <DashboardHeader />
+
+    <div className="p-4 sm:p-6 lg:p-8">
+      <Dashboard />
+    </div>
+  </main>
+
+</div>
+```
+
+---
+
+## ১১. Dashboard Stats
+
+```jsx
+<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+
+  <StatCard
+    title="Total Sales"
+    value="৳250,000"
+  />
+
+  <StatCard
+    title="Orders"
+    value="1,250"
+  />
+
+  <StatCard
+    title="Customers"
+    value="850"
+  />
+
+  <StatCard
+    title="Products"
+    value="320"
+  />
+
+</div>
+```
+
+এখানে আমরা Day 26-এর reusable `StatCard` ধারণা আবার ব্যবহার করছি।
+
+এটাই **Component Reusability**।
+
+---
+
+## ১২. Loading State
+
+বাস্তব application-এ API response আসতে সময় লাগবে।
+
+তাই Loading State প্রয়োজন।
+
+```jsx
+<div className="flex min-h-60 items-center justify-center">
+  <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-indigo-600" />
+</div>
+```
+
+এখানে:
+
+```text
+animate-spin
+```
+
+Tailwind-এর built-in animation utility।
+
+---
+
+## ১৩. Empty State
+
+ধরুন Cart-এ কোনো Product নেই।
+
+```jsx
+<div className="flex min-h-80 flex-col items-center justify-center text-center">
+
+  <div className="text-5xl">
+    🛒
+  </div>
+
+  <h2 className="mt-4 text-xl font-bold">
+    Your cart is empty
+  </h2>
+
+  <p className="mt-2 text-gray-500">
+    Add some products to continue shopping.
+  </p>
+
+  <button className="mt-6 rounded-lg bg-indigo-600 px-5 py-2.5 font-semibold text-white">
+    Continue Shopping
+  </button>
+
+</div>
+```
+
+---
+
+## ১৪. Error State
+
+API request ব্যর্থ হলে:
+
+```jsx
+<div className="rounded-xl border border-red-200 bg-red-50 p-6 dark:border-red-900 dark:bg-red-950/30">
+
+  <h2 className="font-semibold text-red-700 dark:text-red-400">
+    Something went wrong
+  </h2>
+
+  <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+    We couldn't load the products.
+  </p>
+
+  <button className="mt-4 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white">
+    Try Again
+  </button>
+
+</div>
+```
+
+এখন আপনার UI শুধু **Success State** নয়, বরং:
+
+```text
+Loading
+   ↓
+Success
+   ↓
+Empty
+   ↓
+Error
+```
+
+সব State handle করতে পারে।
+
+এটি Professional Frontend Development-এর গুরুত্বপূর্ণ অংশ।
+
+---
+
+## ১৫. Responsive Design-এর Final Strategy
+
+একটি বড় Project-এ প্রতিটি Element আলাদাভাবে Responsive করার বদলে Layout-এর hierarchy চিন্তা করুন।
+
+###### Mobile First
+
+```text
 grid-cols-1
+```
 
-lg:grid-cols-\(1fr\_360px\)
+###### Tablet
 
-hidden
-
-2. Quantity যেন ১-এর নিচে না নামে, তার জন্য কোন Logic ব্যবহার করা যায়?
-
-Math.min(0, quantity - 1)
-
-Math.max(1, quantity - 1)
-
-quantity = 0
-
-quantity--
-
-3. Checkout Form-এ দুইটি Column দেখাতে কোন ক্লাস ব্যবহার করা যায়?
-
+```text
 md:grid-cols-2
+```
 
-md:flex-col
+###### Desktop
 
-md:block
+```text
+lg:grid-cols-3
+```
 
-md:hidden
+###### Large Desktop
 
-4. বাস্তব E-commerce Order-এর চূড়ান্ত মূল্য কোথায় যাচাই করা উচিত?
+```text
+xl:grid-cols-4
+```
 
-শুধু Browser-এ
+অর্থাৎ:
 
-শুধু Tailwind CSS-এ
+```text
+Mobile
+   ↓
+Tablet
+   ↓
+Desktop
+   ↓
+Large Desktop
+```
 
-Backend-এ
+Tailwind-এর মূল Philosophy:
 
-শুধু HTML-এ
+> **Start with the smallest screen and progressively enhance the layout.**
 
-উত্তর যাচাই করুন
+---
 
-#### Day 28-এর মূল শিক্ষা
+## ১৬. Dark Mode Integration
 
-একটি বাস্তব E-commerce Cart ও Checkout তৈরি করতে শুধু সুন্দর UI হলেই হবে না। Responsive Layout, Component Reusability, React State, Form Validation এবং Backend-এর সঙ্গে সঠিক সমন্বয়ও প্রয়োজন।
+আপনার পুরো Project-এ Dark Mode consistent হওয়া উচিত।
 
-মনে রাখবেন:
+উদাহরণ:
 
-* Tailwind CSS → UI Styling
+```jsx
+<div className="bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
+```
 
-* React → State ও Interaction
+Card:
 
-* Backend → Price, Inventory, Order ও Payment Validation
+```jsx
+<div className="border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+```
 
-আগামী Day 29: Final E-commerce Project — Cart, Checkout ও Dashboard-সহ সম্পূর্ণ UI Integration এবং Project Review।
+Page:
+
+```jsx
+<main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+```
+
+এভাবে একটি **Design System** তৈরি হয়।
+
+---
+
+## ১৭. সবচেয়ে গুরুত্বপূর্ণ বিষয় — Tailwind Class মুখস্থ করা নয়
+
+Professional Developer হওয়ার জন্য আপনাকে হাজার হাজার Tailwind class মুখস্থ করতে হবে না।
+
+আপনার চিন্তার Process হওয়া উচিত:
+
+```text
+Requirement
+     ↓
+UI Structure
+     ↓
+Layout
+     ↓
+Component
+     ↓
+Responsive Behavior
+     ↓
+State
+     ↓
+Tailwind Styling
+```
+
+উদাহরণ:
+
+**Requirement:**
+
+> User যেন Mobile ও Desktop উভয় জায়গা থেকে Product দেখতে পারে।
+
+আপনার চিন্তা হবে:
+
+```text
+Product Listing
+      ↓
+Responsive Grid
+      ↓
+Mobile = 1 column
+Tablet = 2 columns
+Desktop = 3 columns
+      ↓
+grid-cols-1
+sm:grid-cols-2
+xl:grid-cols-3
+```
+
+এটাই Tailwind CSS-এর প্রকৃত ব্যবহার।
+
+---
+
+## ১৮. Final E-commerce Component Architecture
+
+পুরো Project এখন এমন দাঁড়াচ্ছে:
+
+```text
+                    App
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+      Customer              Admin
+          │                     │
+     ┌────┴────┐          ┌─────┴─────┐
+     │         │          │           │
+ Products    Cart     Dashboard    Products
+     │         │          │           │
+ Details   Checkout    Analytics     Orders
+               │
+          Order Review
+               │
+          Order Success
+```
+
+এটি শুধু Tailwind CSS Project নয়।
+
+এখানে আপনি শিখছেন:
+
+**UI Architecture + Component Architecture + Responsive Design + State Thinking**
+
+---
+
+## ১৯. আজকের Final Project Challenge 🏆
+
+এখন নিজে একটি সম্পূর্ণ **TechStore E-commerce UI** তৈরি করুন।
+
+###### Customer Side
+
+* [ ] Navbar
+* [ ] Home Page
+* [ ] Product Listing
+* [ ] Search UI
+* [ ] Category Filter
+* [ ] Sort UI
+* [ ] Product Card
+* [ ] Product Details
+* [ ] Add to Cart
+* [ ] Cart
+* [ ] Quantity Control
+* [ ] Remove Product
+* [ ] Order Summary
+* [ ] Checkout
+* [ ] Shipping Form
+* [ ] Payment Method
+* [ ] Order Review
+* [ ] Order Success
+
+###### Admin Side
+
+* [ ] Sidebar
+* [ ] Dashboard Header
+* [ ] Statistics Cards
+* [ ] Analytics Section
+* [ ] Recent Orders
+* [ ] Product Table
+* [ ] Add Product Form
+
+###### UI States
+
+* [ ] Loading
+* [ ] Empty
+* [ ] Error
+* [ ] Success
+* [ ] Disabled
+* [ ] Validation Error
+
+###### Responsive
+
+* [ ] Mobile
+* [ ] Tablet
+* [ ] Desktop
+* [ ] Large Desktop
+
+###### Theme
+
+* [ ] Light Mode
+* [ ] Dark Mode
+
+---
+
+## ২০. Day 29 Cheat Sheet
+
+| Concept               | Tailwind                                    |
+| --------------------- | ------------------------------------------- |
+| Center container      | `mx-auto max-w-7xl`                         |
+| Responsive Grid       | `grid-cols-1 md:grid-cols-2 xl:grid-cols-3` |
+| Full height           | `min-h-screen`                              |
+| Sticky Navbar         | `sticky top-0 z-50`                         |
+| Sticky Sidebar        | `lg:sticky lg:top-24`                       |
+| Image crop            | `object-cover`                              |
+| Image ratio           | `aspect-square`                             |
+| Hover scale           | `group-hover:scale-105`                     |
+| Animation             | `transition duration-300`                   |
+| Loading               | `animate-spin`                              |
+| Dark mode             | `dark:`                                     |
+| Disabled              | `disabled:`                                 |
+| Focus                 | `focus:` / `focus-visible:`                 |
+| Divide items          | `divide-y`                                  |
+| Responsive visibility | `hidden md:block`                           |
+
+---
+
+## 🧠 আজকের সবচেয়ে গুরুত্বপূর্ণ শিক্ষা
+
+Day 1-এ আপনি শিখেছিলেন:
+
+```text
+Tailwind CSS কী?
+```
+
+Day 10-এর দিকে শিখেছেন:
+
+```text
+Responsive UI কীভাবে তৈরি করতে হয়?
+```
+
+Day 20-এর দিকে:
+
+```text
+Reusable Component কীভাবে তৈরি করতে হয়?
+```
+
+আজ Day 29-এ এসে আপনাকে ভাবতে হবে:
+
+```text
+আমি কীভাবে একটি সম্পূর্ণ Application-এর UI Architecture তৈরি করব?
+```
+
+এটাই আপনার **Tailwind CSS শেখার পরবর্তী Level**।
+
+###### Golden Rule
+
+> **Tailwind CSS শুধু class লেখার বিষয় নয়। একজন Professional Developer-এর মতো UI-কে চিন্তা করে Component, Layout, Responsive Behavior এবং State অনুযায়ী Design করতে পারাই আসল দক্ষতা।**
+
+**Day 30 হবে আপনার Tailwind CSS Roadmap-এর Final Day — Full Revision + Final E-commerce Project Review + Professional Tailwind CSS Checklist।**

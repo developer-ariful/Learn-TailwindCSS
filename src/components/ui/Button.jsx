@@ -1,9 +1,15 @@
 
 
-export default function({children, type="button"}){
-    return(
-        <button type={type} className="rounded-lg bg-blue-600 px-6 py-3 cursor-pointer text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
-           {children}
+export default function ({ children, variant = "primary", ...props }) {
+    const base = "rounded-lg px-4 py-2.5 font-medium transition";
+    const variants = {
+        primary: "bg-black text-white hover:bg-gray-800",
+        secondary: "border border-gray-300 bg-white text-gray-900 hover:bg-gray-50",
+        danger: "bg-red-600 text-white hover:bg-red-700"
+    }
+    return (
+        <button className={`${base} ${variants[variant]}`} {...props}>
+            {children}
         </button>
     )
 }

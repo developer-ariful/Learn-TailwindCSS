@@ -1,5 +1,6 @@
+import Input from "../forms/Input";
 import Button from "../ui/Button";
-import FormInput from "../ui/FormInput";
+
 
 export default function () {
     return (
@@ -11,12 +12,12 @@ export default function () {
                 </p>
             </div>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-               <FormInput id={"firstName"} label={"First Name"} required={true} />
-                <FormInput id={"lastName"} label={"Last Name"} required={true}/>
-                <FormInput id={"email"} label={"Email"} type="email" required={true} md={"md:col-span-2"}/>
-                <FormInput id={"address"} label={"Street Address"} type="textarea" required={true} md={"md:col-span-2"}/>
-                <FormInput id={"city"} label={"City"} required={true}/>
-                <FormInput id={"postCode"} label={"Postal Code"} required={true} />
+               <Input id={"firstName"} label={"First Name"} required={true} />
+                <Input id={"lastName"} label={"Last Name"} required={true}/>
+                <Input id={"email"} label={"Email"} type="email" required={true} md={"md:col-span-2"}/>
+                <Input id={"address"} label={"Street Address"} type="textarea" required={true} md={"md:col-span-2"}/>
+                <Input id={"city"} label={"City"} required={true}/>
+                <Input id={"postCode"} label={"Postal Code"} required={true} />
                 
             </div>
             <Button type="submit">Continue</Button>
